@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import Button from "../components/Button/Button";
 import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [active, setActive] = useState(false);
   const handleActiveMenu = () => {
@@ -10,61 +11,61 @@ const Navbar = () => {
   return (
     <nav className="bg-secondary-color fixed top-0 w-full">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative  h-16  flex items-center justify-center">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* <!-- Mobile menu button--> */}
             {!active && (
               <Button handler={handleActiveMenu}>
-                <HiBars3BottomLeft></HiBars3BottomLeft>
+                <HiBars3BottomLeft className="text-xl"></HiBars3BottomLeft>
               </Button>
             )}
             {active && (
               <Button handler={handleActiveMenu}>
-                <HiOutlineXMark></HiOutlineXMark>
+                <HiOutlineXMark className="text-xl"></HiOutlineXMark>
               </Button>
             )}
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
-              <img
-                className="block h-8 w-auto lg:hidden"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
-              <img
-                className="hidden h-8 w-auto lg:block"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
+          <div className="flex lg:flex-1">
+            <img
+              className="block h-8 w-auto lg:hidden"
+              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              alt="Your Company"
+            />
+            <img
+              className="hidden h-8 w-auto lg:block"
+              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              alt="Your Company"
+            />
+          </div>
+          <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="hidden sm:ml-6 sm:block ">
               <div className="flex space-x-4">
                 {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                 {/* //! add active navlink */}
-                <a
-                  href="#"
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                <Link
+                  to={"/"}
+                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
                 >
                   Home
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                </Link>
+                <Link
+                  to={"/products"}
+                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
                 >
                   Products
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                </Link>
+                <Link
+                  to={"/contact"}
+                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
                 >
                   Contact
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                </Link>
+                <Link
+                  to={"/dashboard"}
+                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
                 >
                   Dashboard
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -74,7 +75,7 @@ const Navbar = () => {
             <Menu>
               <Menu.Button>
                 <img
-                  className="h-8 w-8 rounded-full"
+                  className="h-12 w-12 rounded-full"
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt=""
                 />
@@ -88,16 +89,14 @@ const Navbar = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-44 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 mt-56 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 ">
                   <div className="px-1 py-1">
                     <Menu.Item>
                       {({ active }) => (
                         <button
                           className={`${
-                            active
-                              ? "bg-violet-500 text-white"
-                              : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            active ? "shadow-nm" : "text-gray-500"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mb-2 border border-zinc-300 transition-all`}
                         >
                           Profile
                         </button>
@@ -109,10 +108,8 @@ const Navbar = () => {
                       {({ active }) => (
                         <button
                           className={`${
-                            active
-                              ? "bg-violet-500 text-white"
-                              : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            active ? "shadow-nm" : "text-gray-500"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mt-1 border border-zinc-300 transition-all`}
                         >
                           Login
                         </button>
@@ -122,10 +119,9 @@ const Navbar = () => {
                       {({ active }) => (
                         <button
                           className={`${
-                            active
-                              ? "bg-violet-500 text-white"
-                              : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            active ? "shadow-nm" : "text-gray-500"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
+                          mt-1 border border-zinc-300 transition-all`}
                         >
                           Register
                         </button>
@@ -218,8 +214,8 @@ const Navbar = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         {active && (
-          <div className="sm:hidden">
-            <div className="space-y-1 px-2 pt-2 pb-3">
+          <div className="sm:hidden ">
+            <div className="space-y-1 px-2 pt-2 pb-3 ">
               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
               <a
                 href="#"
