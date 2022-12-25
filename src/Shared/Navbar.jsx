@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import Button from "../components/Button/Button";
 import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   const [active, setActive] = useState(false);
   const handleActiveMenu = () => {
@@ -42,30 +42,47 @@ const Navbar = () => {
               <div className="flex space-x-4">
                 {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                 {/* //! add active navlink */}
-                <Link
+                <NavLink
                   to={"/"}
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  className={({ isActive }) =>
+                    isActive
+                      ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  }
+                  //   className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
                 >
                   Home
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to={"/products"}
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  className={({ isActive }) =>
+                    isActive
+                      ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  }
                 >
                   Products
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to={"/contact"}
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  className={({ isActive }) =>
+                    isActive
+                      ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  }
                 >
                   Contact
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to={"/dashboard"}
-                  className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  className={({ isActive }) =>
+                    isActive
+                      ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
+                  }
                 >
                   Dashboard
-                </Link>
+                </NavLink>
               </div>
             </div>
           </div>
@@ -89,7 +106,7 @@ const Navbar = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-56 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 ">
+                <Menu.Items className="absolute right-0 mt-56 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 z-50">
                   <div className="px-1 py-1">
                     <Menu.Item>
                       {({ active }) => (
@@ -217,30 +234,46 @@ const Navbar = () => {
           <div className="sm:hidden ">
             <div className="space-y-1 px-2 pt-2 pb-3 ">
               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-              <a
-                href="#"
-                className="text-gray-500  block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              <NavLink
+                to={"/"}
+                className={({ isActive }) =>
+                  isActive
+                    ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                }
               >
                 Home
-              </a>
-              <a
-                href="#"
-                className="text-gray-500 block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              </NavLink>
+              <NavLink
+                to={"/products"}
+                className={({ isActive }) =>
+                  isActive
+                    ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                }
               >
                 Products
-              </a>
-              <a
-                href="#"
-                className="text-gray-500 block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              </NavLink>
+              <NavLink
+                to={"/contact"}
+                className={({ isActive }) =>
+                  isActive
+                    ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                }
               >
                 Contact
-              </a>
-              <a
-                href="#"
-                className="text-gray-500 block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              </NavLink>
+              <NavLink
+                to={"/dashboard"}
+                className={({ isActive }) =>
+                isActive
+                  ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                  : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+              }
               >
                 Dashboard
-              </a>
+              </NavLink>
             </div>
           </div>
         )}
