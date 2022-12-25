@@ -12,10 +12,8 @@ function App() {
       <div class="">
         <div className="w-10 h-10 rounded-full bg-[#eae6ee] shadow-nm hover:shadow-nm-inset mx-auto mb-8 transition-all"></div>
       </div>
-      <div className="w-64 h-56 rounded-lg bg-secondary-color shadow-nm hover:shadow-nm-inset mx-auto mb-8 transition-all flex justify-center items-end">
-        <Button
-        classes="rounded-full"
-        >Sign Up</Button>
+      <div className="w-64 h-56 rounded-lg bg-secondary-color shadow-nm hover:shadow-nm-inset mx-auto mb-8  transition-all flex justify-center items-end">
+        <Button classes="rounded-full text-lg font-medium">Sign Up</Button>
       </div>
     </div>
   );

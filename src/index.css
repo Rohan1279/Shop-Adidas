@@ -1,17 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
   /* neumorphism shadows */
-  --nm: 3px 3px 8px 0 rgba(0, 0, 0, 0.2), -4px -4px 8px 0 rgba(255, 255, 255, 0.8);
+  --nm: 3px 3px 8px 0 rgba(0, 0, 0, 0.2),
+    -4px -4px 8px 0 rgba(255, 255, 255, 0.8);
 
   --nm-inset: inset 2px 2px 6px 0 rgba(0, 0, 0, 0.2),
     inset -5px -5px 8px 0 rgba(255, 255, 255, 0.8);
   /* neumorphism background color */
   --primary-color: #e6e7ee;
   --secondary-color: #e0e5ec;
+  font-family: "Poppins", sans-serif;
 }
-
+* {
+}
 /*
 a {
   font-weight: 500;
