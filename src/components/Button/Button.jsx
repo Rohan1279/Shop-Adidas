@@ -3,8 +3,7 @@ import "./Button.css"
 const Button = ({classes, children}) => {
   return (
     <button id="button" 
-    className={`p-2 m-4 shadow-nm hover:shadow-nm-inset transition-all ${classes}`}
-    
+    className={`p-2 bg-inherit shadow-nm hover:shadow-nm-inset transition-all ${classes}`}
     >
       {children}
     </button>
