@@ -1,9 +1,11 @@
 import React from "react";
-import "./Button.css"
-const Button = ({classes, children}) => {
+import "./Button.css";
+const Button = ({ classes, children, handler }) => {
   return (
-    <button id="button" 
-    className={`p-2 bg-inherit shadow-nm hover:shadow-nm-inset transition-all ${classes}`}
+    <button
+      onClick={handler}
+      id="button"
+      className={`p-2 border border-zinc-300 bg-inherit shadow-nm hover:shadow-nm-inset transition-all ${classes}`}
     >
       {children}
     </button>

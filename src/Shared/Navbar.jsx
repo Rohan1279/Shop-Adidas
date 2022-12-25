@@ -1,9 +1,12 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
-
+import Button from "../components/Button/Button";
+import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
 const Navbar = () => {
   const [active, setActive] = useState(false);
-
+  const handleActiveMenu = () => {
+    setActive(!active);
+  };
   return (
     <nav className="bg-secondary-color fixed top-0 w-full">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -11,40 +14,14 @@ const Navbar = () => {
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* <!-- Mobile menu button--> */}
             {!active && (
-              <svg
-                onClick={() => setActive((active) => !active)}
-                class="block h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
+              <Button handler={handleActiveMenu}>
+                <HiBars3BottomLeft></HiBars3BottomLeft>
+              </Button>
             )}
             {active && (
-              <svg
-                onClick={() => setActive((active) => !active)}
-                class="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <Button handler={handleActiveMenu}>
+                <HiOutlineXMark></HiOutlineXMark>
+              </Button>
             )}
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
