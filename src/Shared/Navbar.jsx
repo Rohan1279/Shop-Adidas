@@ -1,65 +1,51 @@
 import { Menu, Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 const Navbar = () => {
+  const [active, setActive] = useState(false);
+
   return (
     <nav className="bg-secondary-color fixed top-0 w-full">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* <!-- Mobile menu button--> */}
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Open main menu</span>
-              {/* <!--
-                  Icon when menu is closed.
-      
-                  Heroicon name: outline/bars-3
-      
-                  Menu open: "hidden", Menu closed: "block"
-                --> */}
+            {!active && (
               <svg
-                className="block h-6 w-6"
+                onClick={() => setActive((active) => !active)}
+                class="block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
                 aria-hidden="true"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
-              {/* <!--
-                  Icon when menu is open.
-      
-                  Heroicon name: outline/x-mark
-      
-                  Menu open: "block", Menu closed: "hidden"
-                --> */}
+            )}
+            {active && (
               <svg
-                className="hidden h-6 w-6"
+                onClick={() => setActive((active) => !active)}
+                class="h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
                 aria-hidden="true"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </button>
+            )}
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
@@ -116,33 +102,6 @@ const Navbar = () => {
                   alt=""
                 />
               </Menu.Button>
-              {/* <Menu.Items>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      className={`${active && "bg-blue-500"}`}
-                      href="/account-settings"
-                    >
-                      Account settings
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      className={`${active && "bg-blue-500"}`}
-                      href="/account-settings"
-                    >
-                      Documentation
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item disabled >
-                  <span className="opacity-75">
-                    Invite a friend (coming soon!)
-                  </span>
-                </Menu.Item>
-              </Menu.Items> */}
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
@@ -271,39 +230,48 @@ const Navbar = () => {
       </div>
 
       {/* <!-- Mobile menu, show/hide based on menu state. --> */}
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="space-y-1 px-2 pt-2 pb-3">
-          {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-          <a
-            href="#"
-            className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-            aria-current="page"
-          >
-            Dashboard
-          </a>
 
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Team
-          </a>
-
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Projects
-          </a>
-
-          <a
-            href="#"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Calendar
-          </a>
-        </div>
-      </div>
+      <Transition
+        show={active}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        {active && (
+          <div className="sm:hidden">
+            <div className="space-y-1 px-2 pt-2 pb-3">
+              {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
+              <a
+                href="#"
+                className="text-gray-500  block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Home
+              </a>
+              <a
+                href="#"
+                className="text-gray-500 block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Products
+              </a>
+              <a
+                href="#"
+                className="text-gray-500 block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Contact
+              </a>
+              <a
+                href="#"
+                className="text-gray-500 block hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Dashboard
+              </a>
+            </div>
+          </div>
+        )}
+      </Transition>
     </nav>
   );
 };

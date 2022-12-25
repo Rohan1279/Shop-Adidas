@@ -8,7 +8,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="App bg-secondary-color relative pt-24 px-16">
+    <div className="App bg-secondary-color relative pt-24">
       <Navbar />
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius alias id
