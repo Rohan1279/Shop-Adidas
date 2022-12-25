@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        nm: "var(--nm)",
+        "nm": "var(--nm)",
         "nm-inset": "var(--nm-inset)",
       },
       backgroundColor: {
