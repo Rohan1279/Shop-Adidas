@@ -1,7 +1,11 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import Button from "../components/Button/Button";
-import { HiBars3BottomLeft, HiOutlineXMark } from "react-icons/hi2";
+import {
+  HiBars3BottomLeft,
+  HiOutlineXMark,
+  HiShoppingCart,
+} from "react-icons/hi2";
 import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   const [active, setActive] = useState(false);
@@ -9,9 +13,9 @@ const Navbar = () => {
     setActive(!active);
   };
   return (
-    <nav className="bg-secondary-color fixed top-0 w-full">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative  h-16  flex items-center justify-center">
+    <nav className="bg-secondary-color fixed top-0 w-full z-10">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8  relative z-30">
+        <div className="relative h-16  flex items-center justify-center ">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* <!-- Mobile menu button--> */}
             {!active && (
@@ -39,7 +43,7 @@ const Navbar = () => {
           </div>
           <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block ">
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 justify-center items-center">
                 {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                 {/* //! add active navlink */}
                 <NavLink
@@ -83,12 +87,15 @@ const Navbar = () => {
                 >
                   Dashboard
                 </NavLink>
+                {/* //! add cart icon here */}
+                <Button classes={"flex space-x-2 rounded-md"}>
+                  <HiShoppingCart className="text-xl"></HiShoppingCart>
+                  <span className="text-sm">Cart</span>
+                </Button>
               </div>
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {/* //! add cart icon here */}
-
             <Menu>
               <Menu.Button>
                 <img
@@ -223,23 +230,23 @@ const Navbar = () => {
 
       <Transition
         show={active}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
+        enter="transition ease-out duration-500"
+        enterFrom="transform opacity-0 -translate-y-24"
+        enterTo="transform opacity-100 translate-y-0"
         leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
+        leaveFrom="transform opacity-100 scale-100 translate-y-0"
+        leaveTo="transform opacity-0 scale-95 -translate-y-24"
       >
-        {active && (
-          <div className="sm:hidden ">
+        {active ? (
+          <div className="sm:hidden bg-secondary-color h-48 z-10">
             <div className="space-y-1 px-2 pt-2 pb-3 ">
               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
               <NavLink
                 to={"/"}
                 className={({ isActive }) =>
                   isActive
-                    ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                    : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                 }
               >
                 Home
@@ -248,8 +255,8 @@ const Navbar = () => {
                 to={"/products"}
                 className={({ isActive }) =>
                   isActive
-                    ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                    : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                 }
               >
                 Products
@@ -258,8 +265,8 @@ const Navbar = () => {
                 to={"/contact"}
                 className={({ isActive }) =>
                   isActive
-                    ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                    : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                 }
               >
                 Contact
@@ -267,15 +274,17 @@ const Navbar = () => {
               <NavLink
                 to={"/dashboard"}
                 className={({ isActive }) =>
-                isActive
-                  ? `text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                  : "text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
-              }
+                  isActive
+                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                }
               >
                 Dashboard
               </NavLink>
             </div>
           </div>
+        ) : (
+          ""
         )}
       </Transition>
     </nav>
