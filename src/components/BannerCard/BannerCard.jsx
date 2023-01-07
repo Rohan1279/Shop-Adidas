@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Button from "../Button/Button";
 
-const BannerCard = ({ cardImage, cardTitle, cardDescription }) => {
+const BannerCard = ({ cardImage, cardTitle, cardDescription, classes }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
       onMouseEnter={() => setIsHovered(!isHovered)}
       onMouseLeave={() => setIsHovered(!isHovered)}
-      className="bg-[url('')] overflow-hidden w-fit h-fit relative "
+      className={`bg-[url('')] overflow-hidden w-fit h-fit relative mx-auto ${classes}`}
     >
       <img
         className={`md:w-72 ${
@@ -26,12 +26,12 @@ const BannerCard = ({ cardImage, cardTitle, cardDescription }) => {
         {/* <div className={`bg-red-500 ${isHovered}`}> */}
         <h2
           className={`${
-            isHovered && "text-4xl mt-[35%]"
-          } text-2xl transition-all duration-700 text-black`}
+            isHovered && "text- mt-[35%]"
+          } text- transition-all duration-700 text-black `}
         >
           {cardTitle}
         </h2>
-        <p className="text-black ">{cardDescription}</p>
+        <p className="text-black text-lg">{cardDescription}</p>
         {/* ${isHovered ? "-translate-y-[100%]" : "translate-y-20" }transition-all duration-500 */}
         <Button
           classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${

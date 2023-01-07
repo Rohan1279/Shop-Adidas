@@ -32,6 +32,7 @@ const Banner = () => {
       {/* translate-y-3/4 hover:translate-y-12 transition-all duration-500 */}
       <div className="sm:grid grid-cols-2 gap-6">
         <BannerCard
+          classes={"text-2xl"}
           cardImage={
             "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fbaf991a78bc4896a3e9ad7800abcec6_9366/Ultraboost_22_Shoes_Black_GZ0127_01_standard.jpg"
           }
@@ -39,6 +40,7 @@ const Banner = () => {
           cardDescription={"150 products"}
         />
         <BannerCard
+          classes={"text-2xl"}
           cardImage={
             "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/9c7058d8677742ac8519ac3f009cdcf4_9366/Tiro_21_Track_Pants_Black_GH7305_21_model.jpg"
           }
@@ -46,6 +48,7 @@ const Banner = () => {
           cardDescription={"150 products"}
         />
         <BannerCard
+          classes={"text-2xl"}
           cardImage={
             "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/a520df1b51384c00af9caca100489f04_9366/Trefoil_Backpack_Black_EX6752_01_standard.jpg"
           }
@@ -53,6 +56,7 @@ const Banner = () => {
           cardDescription={"150 products"}
         />
         <BannerCard
+          classes={"text-2xl"}
           cardImage={
             "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/12cf12ac1c8e484ea487ad6400ee3444_9366/Terrex_Free_Hiker_Gore-Tex_Hiking_Shoes_Black_GZ0355_01_standard.jpg"
           }
