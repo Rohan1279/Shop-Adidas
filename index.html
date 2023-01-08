@@ -12,7 +12,7 @@
         height: 100%;
       }
 
-      .loader-wrapper {
+      /* .loader-wrapper {
         width: 100%;
         height: 100%;
         position: fixed;
@@ -30,8 +30,43 @@
         width: 140px;
         height: 140px;
         animation: spin .5s linear infinite;
+      } */
+      /* nm loader */
+      .loader-wrapper {
+        width: 100%;
+        height: 100vh;
+        display: grid;
+        place-items: center;
       }
-
+      #root {
+        background: #e0e5ec;
+      }
+      .outer,
+      .inner {
+        border-radius: 50%;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+      .outer {
+        display: inline-block;
+        box-shadow: 3px 3px 8px 0 rgba(0, 0, 0, 0.2),
+          -4px -4px 8px 0 rgba(255, 255, 255, 0.8);
+        animation: spin 2s cubic-bezier(0.85, 0, 0.15, 1) infinite;
+      }
+      .outer:hover {
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      }
+      .inner {
+        width: 150px;
+        height: 150px;
+        background: #e0e5ec;
+        box-shadow: inset 0 0 0 rgba(0, 0, 0, 0);
+        position: relative;
+      }
+      .inner:hover {
+        box-shadow: inset 2px 2px 6px 0 rgba(0, 0, 0, 0.2),
+          inset -5px -5px 8px 0 rgba(255, 255, 255, 0.8);
+      }
       @keyframes spin {
         0% {
           transform: rotate(0deg);
@@ -46,7 +81,9 @@
   <body>
     <div id="root">
       <div class="loader-wrapper">
-        <div class="loader"></div>
+        <div class="outer">
+          <div class="inner"></div>
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>
