@@ -5,10 +5,11 @@ import BannerCard from "../components/BannerCard/BannerCard";
 //! add pagination feature
 const Products = () => {
   const products = useLoaderData();
-  console.log(products);
+  // console.log(products);
   return (
     <div>
-      <div className="grid grid-cols-4 gap-5">
+      <h1 className="text-center text-5xl my-10">All Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {products.map((product) => (
           <BannerCard
            key={product._id}
