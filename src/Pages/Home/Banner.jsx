@@ -22,7 +22,7 @@ const Banner = () => {
           </p>
           <Button
             classes={
-              "w-40 mt-4 bg-white/100 text-zinc-600 sm:text-lg rounded-md"
+              "w-40 mt-4 bg-white/95 text-zinc-600 sm:text-lg rounded-md"
             }
           >
             Purchase Now!
