@@ -16,6 +16,19 @@
 }
 * {
 }
+/* Hide scrollbar for Chrome, Safari and Opera */
+/* display: none; */
+/* *::-webkit-scrollbar {
+  width: 1vw;
+}
+*::-webkit-scrollbar-track {
+  box-shadow: var(--nm-inset);
+}
+*::-webkit-scrollbar-thumb {
+  box-shadow: 3px 3px 8px  rgba(0, 0, 0, 0.2) ,
+    -4px -4px 8px rgba(255, 255, 255, 0.8) ;
+  background: #e6e7ee;
+} */
 /*
 a {
   font-weight: 500;

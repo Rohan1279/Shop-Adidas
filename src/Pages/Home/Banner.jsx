@@ -5,36 +5,19 @@ import Button from "../../components/Button/Button";
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
   const bannerImageRef = useRef();
-
   const [bannerImageInitialHeight, setBannerImageInitialHeight] = useState();
-  const [bannerImageHeight, setBannerImageHeight] = useState(
-    bannerImageInitialHeight
-  );
-
   useEffect(() => {
     window.addEventListener("resize", () => {
       setBannerImageInitialHeight(bannerImageRef?.current?.clientHeight);
     });
   }, [bannerImageRef?.current?.clientHeight]);
-
-  const handleGetImageHeight = (e) => {
-    console.log(e.target.clientHeight);
-    setBannerImageInitialHeight(e.target.clientHeight);
-  };
-
   return (
-    <div className="md:flex justify-center items-center w-auto gap-x-6 transition-all ">
+    <div className="md:flex justify-center items-center w-auto gap-x-1 transition-all ">
       <div className="w-auto mb-10 md:mb-0 relative bg-gradient-to-br from-white to-zinc-500">
         <img
-          // onResize={() => console.log(`Here`)}
-          onLoad={
-            handleGetImageHeight
-            // console.log(setBannerImageInitialHeight(e.target.clientHeight));
-            // setBannerImageInitialHeight(e.target.clientHeight);
-          }
+          onLoad={(e) => setBannerImageInitialHeight(e.target.clientHeight)}
           id="banner-image"
           ref={bannerImageRef}
-          // onResize={() => console.log(bannerImageRef?.current?.clientHeigh)}
           src="https://i.ibb.co/34Xkt24/adidas-Fall-Sale-2021-1000x600.jpg"
           alt=""
           className="relative opacity-50"
@@ -56,11 +39,12 @@ const Banner = () => {
         </div>
       </div>
       {/* translate-y-3/4 hover:translate-y-12 transition-all duration-500 */}
+
       <div
         style={{
           height: `${bannerImageInitialHeight}px`,
         }}
-        className={`sm:grid grid-cols-2 h-[44rem] gap-y-[50%] gap-x-2 overflow-scroll overflow-x-auto`}
+        className={`sm:grid grid-cols-2 h-[44rem] gap-y-[50%] gap-x-2 overflow-scroll overflow-x-auto px-2`}
       >
         <BannerCard
           classes={"text-2xl"}
