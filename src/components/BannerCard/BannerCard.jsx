@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Button from "../Button/Button";
 
-const BannerCard = ({ cardImage, cardTitle, cardDescription, classes }) => {
+const BannerCard = ({ classes, data }) => {
   const [isHovered, setIsHovered] = useState(false);
-
+  
   return (
     <div
       onMouseEnter={() => setIsHovered(!isHovered)}
@@ -14,7 +14,7 @@ const BannerCard = ({ cardImage, cardTitle, cardDescription, classes }) => {
         className={`md:w-72 ${
           isHovered && "blur-md"
         }  transition-all duration-700`}
-        src={cardImage}
+        src={data.img}
         alt=""
       />
       {/* translate-y-[68%] hover:translate-y-1/2 transition-all duration-500 */}
@@ -29,9 +29,9 @@ const BannerCard = ({ cardImage, cardTitle, cardDescription, classes }) => {
             isHovered && "text- mt-[35%]"
           } text- transition-all duration-700 text-black `}
         >
-          {cardTitle}
+          {data.name}
         </h2>
-        <p className="text-black text-lg">{cardDescription}</p>
+        {/* <p className="text-black text-lg">{cardDescription}</p> */}
         {/* ${isHovered ? "-translate-y-[100%]" : "translate-y-20" }transition-all duration-500 */}
         <Button
           classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${

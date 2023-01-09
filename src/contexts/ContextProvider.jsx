@@ -13,10 +13,24 @@ const ContextProvider = ({ children }) => {
       return res.data;
     },
   });
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/categories`
+      );
+      return res.data;
+    },
+  });
+  console.log(products);
   if (isLoading) {
     return <h2 className="text-4xl text-center">Loading</h2>;
   }
 
-  return <Context.Provider value={products}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{products, categories}}>
+      {children}
+    </Context.Provider>
+  );
 };
 export default ContextProvider;

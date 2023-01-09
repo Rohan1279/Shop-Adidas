@@ -8,14 +8,14 @@ import { Context } from "../contexts/ContextProvider";
 //! add pagination feature
 const Products = () => {
   // const products = useLoaderData();
-  const allProdcuts = useContext(Context);
-  // console.log(allProdcuts);
+  const { products } = useContext(Context);
+  console.log(products);
 
   return (
     <div>
       <h1 className="text-center text-5xl my-10">All Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
-        {allProdcuts?.map((product) => (
+        {products?.map((product) => (
           <BannerCard
             key={product._id}
             cardImage={product.img}
