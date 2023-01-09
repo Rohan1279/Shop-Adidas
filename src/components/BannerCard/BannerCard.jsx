@@ -35,7 +35,7 @@ const BannerCard = ({ cardImage, cardTitle, cardDescription, classes }) => {
         {/* ${isHovered ? "-translate-y-[100%]" : "translate-y-20" }transition-all duration-500 */}
         <Button
           classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${
-            isHovered && "opacity-100 "
+            isHovered && "opacity-100"
           } delay-200 duration-500`}
         >
           Discover more

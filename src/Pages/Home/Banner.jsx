@@ -1,14 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BannerCard from "../../components/BannerCard/BannerCard";
 import Button from "../../components/Button/Button";
 
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
-  // console.log(isHovered)
+  const bannerImageRef = useRef();
+
+  const [bannerImageInitialHeight, setBannerImageInitialHeight] = useState();
+  const [bannerImageHeight, setBannerImageHeight] = useState(
+    bannerImageInitialHeight
+  );
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setBannerImageInitialHeight(bannerImageRef?.current?.clientHeight);
+    });
+  }, [bannerImageRef?.current?.clientHeight]);
+
+  const handleGetImageHeight = (e) => {
+    console.log(e.target.clientHeight);
+    setBannerImageInitialHeight(e.target.clientHeight);
+  };
+
   return (
-    <div className="md:flex justify-center items-center w-auto gap-x-6 transition-all max">
+    <div className="md:flex justify-center items-center w-auto gap-x-6 transition-all ">
       <div className="w-auto mb-10 md:mb-0 relative bg-gradient-to-br from-white to-zinc-500">
         <img
+          // onResize={() => console.log(`Here`)}
+          onLoad={
+            handleGetImageHeight
+            // console.log(setBannerImageInitialHeight(e.target.clientHeight));
+            // setBannerImageInitialHeight(e.target.clientHeight);
+          }
+          id="banner-image"
+          ref={bannerImageRef}
+          // onResize={() => console.log(bannerImageRef?.current?.clientHeigh)}
           src="https://i.ibb.co/34Xkt24/adidas-Fall-Sale-2021-1000x600.jpg"
           alt=""
           className="relative opacity-50"
@@ -30,7 +56,12 @@ const Banner = () => {
         </div>
       </div>
       {/* translate-y-3/4 hover:translate-y-12 transition-all duration-500 */}
-      <div className="sm:grid grid-cols-2 gap-6">
+      <div
+        style={{
+          height: `${bannerImageInitialHeight}px`,
+        }}
+        className={`sm:grid grid-cols-2 h-[44rem] gap-y-[50%] gap-x-2 overflow-scroll overflow-x-auto`}
+      >
         <BannerCard
           classes={"text-2xl"}
           cardImage={
@@ -53,6 +84,22 @@ const Banner = () => {
             "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/a520df1b51384c00af9caca100489f04_9366/Trefoil_Backpack_Black_EX6752_01_standard.jpg"
           }
           cardTitle={"Bag"}
+          cardDescription={"150 products"}
+        />
+        <BannerCard
+          classes={"text-2xl"}
+          cardImage={
+            "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/12cf12ac1c8e484ea487ad6400ee3444_9366/Terrex_Free_Hiker_Gore-Tex_Hiking_Shoes_Black_GZ0355_01_standard.jpg"
+          }
+          cardTitle={"Men's Boot"}
+          cardDescription={"150 products"}
+        />
+        <BannerCard
+          classes={"text-2xl"}
+          cardImage={
+            "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/12cf12ac1c8e484ea487ad6400ee3444_9366/Terrex_Free_Hiker_Gore-Tex_Hiking_Shoes_Black_GZ0355_01_standard.jpg"
+          }
+          cardTitle={"Men's Boot"}
           cardDescription={"150 products"}
         />
         <BannerCard
