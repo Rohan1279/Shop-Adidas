@@ -1,15 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import BannerCard from "../components/BannerCard/BannerCard";
-import { Context } from "../contexts/ContextProvider";
-import Button from "../components/Button/Button";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import BannerCard from "../../components/BannerCard/BannerCard";
+import { Context } from "../../contexts/ContextProvider";
+import Button from "../../components/Button/Button";
 
 //! add pagination feature
 const Products = () => {
   const { products, categories } = useContext(Context);
-  const [categoryProducts, setCategoryProducts] = useState([]);
+  const [categoryProducts, setCategoryProducts] = useState(products);
+  const navigate = useNavigate();
   const handleFilterProducts = (id) => {
     const filteredProducts = products.filter((product) =>
       product.category_id.includes(id)
@@ -17,7 +18,9 @@ const Products = () => {
     setCategoryProducts(filteredProducts);
   };
   const handleBrowseProduct = (id) => {
-    console.log(id);
+    const selectedProduct = products.find((product) => product.id === id);
+    console.log(selectedProduct);
+    navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (
     <div>
