@@ -1,18 +1,26 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BannerCard from "../../../components/BannerCard/BannerCard";
 import Button from "../../../components/Button/Button";
 import { Context } from "../../../contexts/ContextProvider";
 import "./Banner.css";
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const { categories } = useContext(Context);
+  const { categories, products } = useContext(Context);
   const bannerImageRef = useRef();
+  const navigate = useNavigate();
   const [bannerImageInitialHeight, setBannerImageInitialHeight] = useState();
   useEffect(() => {
     window.addEventListener("resize", () => {
       setBannerImageInitialHeight(bannerImageRef?.current?.clientHeight);
     });
   }, [bannerImageRef?.current?.clientHeight]);
+  const handleBrowseCategory = (id) => {
+    const categoryProducts = products.filter((product) =>
+      product.category_id.includes(id)
+    );
+    navigate(`/categories/${id}`, { state: categoryProducts });
+  };
   return (
     <div className="md:flex justify-center items-center w-auto gap-x-1 transition-all ">
       <div className="w-auto mb-10 md:mb-0 relative bg-gradient-to-br from-white to-zinc-500">
@@ -47,10 +55,15 @@ const Banner = () => {
           height: `${bannerImageInitialHeight}px`,
         }}
         id="category-section"
-        className={`sm:grid grid-cols-2 sm:h-fit sm:gap-y-[80%] md:gap-y-[48%] lg:gap-y-[48%] gap-x-2 overflow-scroll overflow-x-auto px-2`}
+        className={`sm:grid grid-cols-2 sm:gap-y-[80%] md:gap-y-[48%] lg:gap-y-[48%] gap-x-2 overflow-scroll overflow-x-auto px-2`}
       >
-        {categories.map((category) => (
-          <BannerCard key={category.id} classes={""} data={category} />
+        {categories?.map((category) => (
+          <BannerCard
+            key={category.id}
+            classes={""}
+            data={category}
+            handler={handleBrowseCategory}
+          />
         ))}
       </div>
     </div>

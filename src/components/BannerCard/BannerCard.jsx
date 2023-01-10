@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Button from "../Button/Button";
 
-const BannerCard = ({ classes, data }) => {
+const BannerCard = ({ classes, data, handler }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   return (
     <div
       onMouseEnter={() => setIsHovered(!isHovered)}
@@ -34,6 +34,8 @@ const BannerCard = ({ classes, data }) => {
         {/* <p className="text-black text-lg">{cardDescription}</p> */}
         {/* ${isHovered ? "-translate-y-[100%]" : "translate-y-20" }transition-all duration-500 */}
         <Button
+          handler={handler}
+          data={data}
           classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${
             isHovered && "opacity-100"
           } delay-200 duration-500`}

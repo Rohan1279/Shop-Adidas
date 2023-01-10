@@ -22,13 +22,12 @@ const ContextProvider = ({ children }) => {
       return res.data;
     },
   });
-  console.log(products);
   if (isLoading) {
     return <h2 className="text-4xl text-center">Loading</h2>;
   }
 
   return (
-    <Context.Provider value={{products, categories}}>
+    <Context.Provider value={{ products, categories }}>
       {children}
     </Context.Provider>
   );
