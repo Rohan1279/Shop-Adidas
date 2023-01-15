@@ -3,7 +3,7 @@ import "./Button.css";
 const Button = ({ classes, children, handler, data }) => {
   return (
     <button
-      onClick={() => handler(data.id)}
+      onClick={() => handler(data._id)}
       id="button"
       className={`p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all ${classes}`}
     >

@@ -16,9 +16,11 @@ const Banner = () => {
     });
   }, [bannerImageRef?.current?.clientHeight]);
   const handleBrowseCategory = (id) => {
+    console.log(id);
     const categoryProducts = products.filter((product) =>
       product.category_id.includes(id)
     );
+    console.log(categoryProducts);
     navigate(`/categories/${id}`, { state: categoryProducts });
   };
   return (

@@ -4,7 +4,8 @@ import Navbar from "../Shared/Navbar";
 
 const Main = () => {
   return (
-    <div className="bg-secondary-color relative pt-24 h-screen ">
+    <div className="bg-secondary-color relative pt-24 h-fit"> 
+    {/* fit  */}
       <Navbar />
       <Outlet />
     </div>
