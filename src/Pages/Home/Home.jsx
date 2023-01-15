@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <div className="px-5">
       <Banner />
+     
     </div>
   );
 };
