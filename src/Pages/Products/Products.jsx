@@ -12,14 +12,19 @@ const Products = () => {
   const [categoryProducts, setCategoryProducts] = useState(products);
   const navigate = useNavigate();
   const handleFilterProducts = (id) => {
-    const filteredProducts = products.filter((product) =>
-      product.category_id.includes(id)
-    );
-    setCategoryProducts(filteredProducts);
+    let categoryProducts = [];
+
+    if (id !== "63c3afa0bdcbcbf3434dcc74") {
+      categoryProducts = products.filter((product) =>
+        product.category_id.includes(id)
+      );
+    } else categoryProducts = products;
+    setCategoryProducts(categoryProducts);
   };
   const handleBrowseProduct = (id) => {
-    const selectedProduct = products.find((product) => product.id === id);
+    const selectedProduct = products.find((product) => product._id === id);
     console.log(selectedProduct);
+
     navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (

@@ -7,6 +7,8 @@ import "./Banner.css";
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
   const { categories, products } = useContext(Context);
+  console.log(categories);
+
   const bannerImageRef = useRef();
   const navigate = useNavigate();
   const [bannerImageInitialHeight, setBannerImageInitialHeight] = useState();
@@ -17,10 +19,13 @@ const Banner = () => {
   }, [bannerImageRef?.current?.clientHeight]);
   const handleBrowseCategory = (id) => {
     console.log(id);
-    const categoryProducts = products.filter((product) =>
-      product.category_id.includes(id)
-    );
-    console.log(categoryProducts);
+    let categoryProducts = [];
+    if (id !== "63c3afa0bdcbcbf3434dcc74") {
+      categoryProducts = products.filter((product) =>
+        product.category_id.includes(id)
+      );
+    } else categoryProducts = products;
+
     navigate(`/categories/${id}`, { state: categoryProducts });
   };
   return (

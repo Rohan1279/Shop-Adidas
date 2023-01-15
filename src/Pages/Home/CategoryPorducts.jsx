@@ -4,15 +4,12 @@ import BannerCard from "../../components/BannerCard/BannerCard";
 
 const CategoryPorducts = () => {
   const { state } = useLocation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleBrowseProduct = (id) => {
-    const selectedProduct = state.find(
-      (product) => product._id === `ObjectId('${id}')`  
-    );
+    const selectedProduct = state.find((product) => product._id === id);
     console.log(selectedProduct);
-    console.log(id);
-    // navigate(`/products/product/${id}`, { state: selectedProduct });
+    navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (
     <div>
