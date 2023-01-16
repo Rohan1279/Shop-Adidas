@@ -30,19 +30,19 @@ const Products = () => {
   return (
     <div>
       <h1 className="text-center text-5xl my-10">All Products</h1>
-      <div className="flex justify-center items-center my-8 ">
+      <div className="flex-wrap justify-between items-center my-8 ">
         {categories.map((category) => (
           <Button
             key={category.id}
             data={category}
             handler={handleFilterProducts}
-            classes={"w-36  border-slate-300  mx-5"}
+            classes={"w-44  border-slate-300  mx-auto"}
           >
             {category.name}
           </Button>
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
         {categoryProducts?.map((product) => (
           // <h1>{product.name}</h1>
           <BannerCard

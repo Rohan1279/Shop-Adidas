@@ -11,8 +11,11 @@ const ProductDetail = () => {
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   return (
     // ! use carousal for all products of the category
-    <div className="px-5 h-screen overflow-auto py-10">
-      <BackButton></BackButton>
+    <div className="px-5 h-screen overflow-auto py-10 ">
+      <div className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer">
+        <BackButton classes={"text-lg"}></BackButton>
+        <p>Back</p>
+      </div>
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
       <div className="grid grid-cols-5 gap-x-">
         <div className="col-span-3 ">

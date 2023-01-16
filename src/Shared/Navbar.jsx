@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="relative h-16 flex items-center justify-between">
           {/* <!-- Mobile menu button--> */}
           {/* <!-- Mobile menu, show/hide based on menu state. --> */}
-          <div className="h-5 overflow-hidden sm:hidden">
+          <div className="h-6 overflow-hidden sm:hidden">
             <Popover className="">
               {({ open }) => (
                 <>
@@ -35,7 +35,7 @@ const Navbar = () => {
                     >
                       <HiBars3BottomLeft
                         onClick={() => setActive((active) => !active)}
-                        className="text-xl hover:text-opacity-100 active:scale-90 transition-all"
+                        className="text-2xl hover:text-opacity-100 active:scale-90 transition-all"
                       ></HiBars3BottomLeft>
                     </Transition>
 
@@ -50,7 +50,7 @@ const Navbar = () => {
                     >
                       <HiOutlineXMark
                         onClick={() => setActive((active) => !active)}
-                        className="text-xl hover:text-opacity-100 active:scale-90 transition-all"
+                        className="text-2xl hover:text-opacity-100 active:scale-90 transition-all"
                       ></HiOutlineXMark>
                     </Transition>
                   </Popover.Button>
@@ -120,7 +120,7 @@ const Navbar = () => {
             </Popover>
           </div>
           <div className="flex lg:flex-1">
-            {/* <img
+            <img
               className="block h-8 w-auto lg:hidden"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
               alt="Your Company"
@@ -129,7 +129,7 @@ const Navbar = () => {
               className="hidden h-8 w-auto lg:block"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
               alt="Your Company"
-            /> */}
+            />
           </div>
           <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block ">
