@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import BannerCard from "../../components/BannerCard/BannerCard";
-import { HiArrowDown, HiStar } from "react-icons/hi2";
+import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
+import Button from "../../components/Button/Button";
+import BackButton from "../../components/BackButton/BackButton";
 const ProductDetail = () => {
   const { state } = useLocation();
-  console.log(state);
+  const [open, setOpen] = useState(false);
+  const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   return (
     <div className="px-5 h-screen overflow-auto py-10">
+      <BackButton></BackButton>
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
       <div className="grid grid-cols-5 gap-x-">
         <div className="col-span-3 ">
@@ -40,19 +44,22 @@ const ProductDetail = () => {
             <p className="font-bold mb-2">${state?.price}</p>
             <Disclosure>
               <hr className="border border-gray-300 mb-2" />
+
               <Disclosure.Button
+                onClick={() => setOpen(!open)}
                 className={
                   "w-full flex justify-between items-center gap-x-2 font-semibold"
                 }
               >
                 <span>Description</span>
-                <HiArrowDown></HiArrowDown>
+                <HiChevronDown
+                  className={`${open ? "" : "rotate-180 transform"} h-5 w-5 `}
+                ></HiChevronDown>
               </Disclosure.Button>
-
               <Transition
                 enter="transition duration-100 ease-out"
-                enterFrom="transform opacity-0"
-                enterTo="transform  opacity-100"
+                enterFrom="transform opacity-0 "
+                enterTo="transform  opacity-100 "
                 leave="transition duration-75 ease-out"
                 leaveFrom="transform  opacity-100"
                 leaveTo="transform opacity-0"
@@ -62,7 +69,15 @@ const ProductDetail = () => {
                 </Disclosure.Panel>
               </Transition>
             </Disclosure>
-            <hr className="border border-gray-300 mt-2" />
+            <hr className="border border-gray-300 mt-2 " />
+            <p className="my-3 font-semibold">Sizes</p>
+            <div className="w-full flex justify-between">
+              {sizes.map((size, idx) => (
+                <Button key={idx} classes={"w-20 "}>
+                  {size}
+                </Button>
+              ))}
+            </div>
           </section>
         </div>
       </div>
