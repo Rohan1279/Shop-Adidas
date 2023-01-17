@@ -12,11 +12,12 @@ const Products = () => {
   const [categoryProducts, setCategoryProducts] = useState(products);
   const navigate = useNavigate();
   const handleFilterProducts = (id) => {
+    console.log(id);
     let categoryProducts = [];
 
     if (id !== "63c3afa0bdcbcbf3434dcc74") {
-      categoryProducts = products.filter((product) =>
-        product.category_id.includes(id)
+      categoryProducts = products?.filter(
+        (product) => product?.category_id === id
       );
     } else categoryProducts = products;
     setCategoryProducts(categoryProducts);

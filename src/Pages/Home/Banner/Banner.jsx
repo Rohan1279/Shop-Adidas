@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BannerCard from "../../../components/BannerCard/BannerCard";
 import Button from "../../../components/Button/Button";
 import { Context } from "../../../contexts/ContextProvider";
@@ -21,8 +21,8 @@ const Banner = () => {
     console.log(id);
     let categoryProducts = [];
     if (id !== "63c3afa0bdcbcbf3434dcc74") {
-      categoryProducts = products.filter((product) =>
-        product.category_id.includes(id)
+      categoryProducts = products.filter(
+        (product) => product.category_id === id 
       );
     } else categoryProducts = products;
 
@@ -46,13 +46,15 @@ const Banner = () => {
           <p className="text-black">
             Lorem, ipsum dolor sit amet consectetur adipisicing.
           </p>
-          <Button
-            classes={
-              "w-40 mt-4 bg-white/95 text-zinc-600 sm:text-lg rounded-md"
-            }
-          >
-            Purchase Now!
-          </Button>
+          <Link to={"/products"}>
+            <Button
+              classes={
+                "w-40 mt-4 bg-white/95 text-zinc-600 sm:text-lg rounded-md"
+              }
+            >
+              Purchase Now!
+            </Button>
+          </Link>
         </div>
       </div>
       {/* translate-y-3/4 hover:translate-y-12 transition-all duration-500 */}

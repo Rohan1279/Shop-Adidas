@@ -53,6 +53,9 @@ const ProductDetail = () => {
             </div>
             <h2 className="text-4xl font-extrabold mb-5">{state?.name}</h2>
             <p className="font-bold mb-2">${state?.price}</p>
+            <p className="mb-3">
+              {state.color ? state.color : "No colors available"}
+            </p>
             <Disclosure>
               <hr className="border border-gray-300 mb-2" />
 
@@ -81,13 +84,28 @@ const ProductDetail = () => {
               </Transition>
             </Disclosure>
             <hr className="border border-gray-300 mt-2 " />
+            <div
+              className={
+                "w-full my-3 mx-auto block bg-primary-color text-green-500 font-bold  transition-all py-2 rounded- text-sm  border border-zinc-300 text-center"
+              }
+            >
+              In stock
+            </div>
             <p className="my-3 font-semibold">Sizes</p>
             <div className="w-full flex  justify-between">
               {sizes.map((size, idx) => (
-                <BorderButton key={idx} classes={"w-16"}>{size}</BorderButton>
+                <BorderButton key={idx} classes={"w-16"}>
+                  {size}
+                </BorderButton>
               ))}
             </div>
-            <BorderButton classes={"w-32"}>Add to cart</BorderButton>
+
+            <BorderButton classes={"w-full my-3 mx-auto block"}>
+              Add to cart
+            </BorderButton>
+            <BorderButton classes={"w-full my-3 block"}>
+              Add to wishlist
+            </BorderButton>
           </section>
         </div>
       </div>
