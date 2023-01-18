@@ -11,7 +11,7 @@ const ProductCard = ({ classes, data, handler }) => {
       className={`bg-[url('')] overflow-hidden w-fit h-fit relative mx-auto ${classes}`}
     >
       <img
-        className={`md:w-72 ${
+        className={`md:w- ${
           isHovered && "blur-md"
         }  transition-all duration-700`}
         src={data.img}
@@ -27,7 +27,7 @@ const ProductCard = ({ classes, data, handler }) => {
         <h2
           className={`${
             isHovered && "text- mt-[35%]"
-          } text- transition-all duration-700 text-black `}
+          } text- transition-all duration-700 text-black px-10`}
         >
           {data.name}
         </h2>

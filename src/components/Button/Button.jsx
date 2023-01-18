@@ -5,7 +5,7 @@ const Button = ({ classes, children, handler, data }) => {
     <button
       onClick={() => handler(data._id)}
       id="button"
-      className={`p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all ${classes}`}
+      className={` p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all ${classes}`}
     >
       {children}
     </button>
