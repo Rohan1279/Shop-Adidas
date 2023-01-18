@@ -10,9 +10,12 @@ const ProductDetail = () => {
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-  console.log(isActive);
+  const [currentSize, setCurrentSize] = useState("");
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+  const handleCurrentSize = (e) => {
+    setCurrentSize(e.target.innerText);
+  };
+  console.log(currentSize);
   return (
     // ! use carousal for all products of the category
     <div className="px-5 h-screen overflow-auto py-10 ">
@@ -27,7 +30,7 @@ const ProductDetail = () => {
       <div className="grid grid-cols-5 gap-x-">
         <div className="col-span-3 ">
           <img
-            src={state.img}
+            src={state?.img}
             alt=""
             className="w-1/2 mx-auto shadow-nm rounded-xl"
           />
@@ -92,13 +95,18 @@ const ProductDetail = () => {
               In stock
             </div>
             <p className="my-3 font-semibold">Sizes</p>
-            <div className="w-full flex  justify-between">
-              {sizes.map((size, idx) => (
-                <BorderButton key={idx} classes={"w-16"}>
+
+            {sizes.map((size, idx) => (
+              <>
+                <BorderButton
+                  key={idx}
+                  classes={"w-16"}
+                  handler={handleCurrentSize}
+                >
                   {size}
                 </BorderButton>
-              ))}
-            </div>
+              </>
+            ))}
 
             <BorderButton classes={"w-full my-3 mx-auto block"}>
               Add to cart
