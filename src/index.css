@@ -21,14 +21,22 @@
   display: none;
   /* width: 1vw; */
 }
-/*
-*::-webkit-scrollbar-track {
+
+/* *::-webkit-scrollbar-track {
   box-shadow: var(--nm-inset);
-}
-*::-webkit-scrollbar-thumb {
+} */
+/* *::-webkit-scrollbar-track {
+  background: rgb(208, 255, 0);
+  border-radius: 10px;
+} */
+/* *::-webkit-scrollbar-thumb {
   box-shadow: 3px 3px 8px  rgba(0, 0, 0, 0.2) ,
     -4px -4px 8px rgba(255, 255, 255, 0.8) ;
   background: #e6e7ee;
+} */
+/* *::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
 } */
 
 /*

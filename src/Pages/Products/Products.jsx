@@ -5,6 +5,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import BannerCard from "../../components/BannerCard/BannerCard";
 import { Context } from "../../contexts/ContextProvider";
 import Button from "../../components/Button/Button";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 //! add pagination feature
 const Products = () => {
@@ -46,12 +47,12 @@ const Products = () => {
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
         {categoryProducts?.map((product) => (
           // <h1>{product.name}</h1>
-          <BannerCard
+          <ProductCard
             handler={handleBrowseProduct}
             key={product._id}
             data={product}
             classes={"text-lg"}
-          ></BannerCard>
+          ></ProductCard>
         ))}
       </div>
     </div>
