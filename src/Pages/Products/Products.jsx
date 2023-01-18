@@ -34,17 +34,17 @@ const Products = () => {
     <Transition
       appear={true}
       show={true}
-      enter="transition-opacity duration-[400ms]"
+      enter="transition-all duration-[400ms]"
       enterFrom="opacity-0"
-      enterTo="opacity-100"
-      leave="transition-opacity duration-[400ms]"
+      enterTo="opacity-100 "
+      leave="transition-all duration-[400ms]"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
     <div>
       <h1 className="text-center text-5xl my-10">All Products</h1>
-      <div className="flex justify-between items-center my-8 w-full">
+      <div className="flex justify-between items-center my-8 w-full ">
         {categories.map((category) => (
           <Button
             key={category.id}
