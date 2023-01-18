@@ -1,3 +1,4 @@
+import { Transition } from "@headlessui/react";
 import React from "react";
 import Button from "../../components/Button/Button";
 import Banner from "./Banner/Banner";
@@ -5,10 +6,21 @@ import Banner from "./Banner/Banner";
 // https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fbaf991a78bc4896a3e9ad7800abcec6_9366/Ultraboost_22_Shoes_Black_GZ0127_01_standard.jpg
 const Home = () => {
   return (
-    <div className="px-5">
-      <Banner />
-     
-    </div>
+    <Transition
+      appear={true}
+      show={true}
+      enter="transition-opacity duration-[400ms]"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity duration-[400ms]"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      {/* Your content goes here*/}
+      <div className="px-5">
+        <Banner />
+      </div>
+    </Transition>
   );
 };
 

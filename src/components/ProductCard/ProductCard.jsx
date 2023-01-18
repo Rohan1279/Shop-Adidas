@@ -5,6 +5,7 @@ const ProductCard = ({ classes, data, handler }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
+    
     <div
       onMouseEnter={() => setIsHovered(!isHovered)}
       onMouseLeave={() => setIsHovered(!isHovered)}
@@ -36,7 +37,7 @@ const ProductCard = ({ classes, data, handler }) => {
         <Button
           handler={handler}
           data={data}
-          classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${
+          classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded- opacity-0 ${
             isHovered && "opacity-100"
           } delay-200 duration-500`}
         >

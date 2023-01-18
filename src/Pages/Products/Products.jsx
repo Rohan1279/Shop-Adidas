@@ -6,6 +6,7 @@ import BannerCard from "../../components/BannerCard/BannerCard";
 import { Context } from "../../contexts/ContextProvider";
 import Button from "../../components/Button/Button";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { Transition } from "@headlessui/react";
 
 //! add pagination feature
 const Products = () => {
@@ -30,6 +31,17 @@ const Products = () => {
     navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (
+    <Transition
+      appear={true}
+      show={true}
+      enter="transition-opacity duration-[400ms]"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity duration-[400ms]"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      {/* Your content goes here*/}
     <div>
       <h1 className="text-center text-5xl my-10">All Products</h1>
       <div className="flex justify-between items-center my-8 w-full">
@@ -56,6 +68,7 @@ const Products = () => {
         ))}
       </div>
     </div>
+    </Transition>
   );
 };
 
