@@ -1,6 +1,8 @@
 import { Transition } from "@headlessui/react";
 import React, { useState } from "react";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import Button from "../Button/Button";
+import MyComponent from "../MyComponent";
 
 const ProductCard = ({ classes, data, handler }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -17,9 +19,7 @@ const ProductCard = ({ classes, data, handler }) => {
       leaveTo="opacity-0"
     >
       <div
-        onMouseEnter={() => setIsHovered(!isHovered)}
-        onMouseLeave={() => setIsHovered(!isHovered)}
-        className={` bg-[url('')] overflow-hidden w-fit h-fit relative mx-auto ${classes}`}
+        className={`bg-[url('')] overflow-hidden w-fit h-fit relative mx-auto ${classes}`}
       >
         <img
           className={`md:w- ${
@@ -30,6 +30,8 @@ const ProductCard = ({ classes, data, handler }) => {
         />
         {/* translate-y-[68%] hover:translate-y-1/2 transition-all duration-500 */}
         <div
+          onMouseEnter={() => setIsHovered(!isHovered)}
+          onMouseLeave={() => setIsHovered(!isHovered)}
           className={`absolute inset-y-0 inset-x-0 mx-auto font-extrabold text-white w-full h-full bg-[#e6e7ee]/75 backdrop-blur-md translate-y-[75%] transition-all duration-500 ${
             isHovered && "translate-y-[%] pt-0"
           } text-center pt-[7%] `}
@@ -38,23 +40,16 @@ const ProductCard = ({ classes, data, handler }) => {
           <h2
             className={`${
               isHovered && "text- mt-[35%]"
-            } text- transition-all duration-700 text-black px-10`}
+            } text- transition-all duration-700 text-black `}
           >
             {data.name}
-          </h2>
-          <h2
-            className={`opacity-0 ${
-              isHovered && "opacity-100"
-            } transition-all duration-500`}
-          >
-            {data.color}
           </h2>
           {/* <p className="text-black text-lg">{cardDescription}</p> */}
           {/* ${isHovered ? "-translate-y-[100%]" : "translate-y-20" }transition-all duration-500 */}
           <Button
             handler={handler}
             data={data}
-            classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded- opacity-0 ${
+            classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${
               isHovered && "opacity-100"
             } delay-200 duration-500`}
           >

@@ -7,6 +7,7 @@ import { Context } from "../../contexts/ContextProvider";
 import Button from "../../components/Button/Button";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { Transition } from "@headlessui/react";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 //! add pagination feature
 const Products = () => {
@@ -42,32 +43,32 @@ const Products = () => {
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
-    <div>
-      <h1 className="text-center text-5xl my-10">All Products</h1>
-      <div className="flex justify-between items-center my-8 w-full ">
-        {categories.map((category) => (
-          <Button
-            key={category.id}
-            data={category}
-            handler={handleFilterProducts}
-            classes={"w-44 border-slate-300 mx-auto"}
-          >
-            {category.name}
-          </Button>
-        ))}
+      <div>
+        <h1 className="text-center text-5xl my-10">All Products</h1>
+
+        <div className="flex justify-between items-center my-8 w-full ">
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              data={category}
+              handler={handleFilterProducts}
+              classes={"w-44 border-slate-300 mx-auto"}
+            >
+              {category.name}
+            </Button>
+          ))}
+        </div>
+        <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
+          {categoryProducts?.map((product) => (
+            <ProductCard
+              handler={handleBrowseProduct}
+              key={product._id}
+              data={product}
+              classes={"text-lg"}
+            ></ProductCard>
+          ))}
+        </div>
       </div>
-      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
-        {categoryProducts?.map((product) => (
-          // <h1>{product.name}</h1>
-          <ProductCard
-            handler={handleBrowseProduct}
-            key={product._id}
-            data={product}
-            classes={"text-lg"}
-          ></ProductCard>
-        ))}
-      </div>
-    </div>
     </Transition>
   );
 };
