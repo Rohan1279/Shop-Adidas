@@ -19,27 +19,27 @@ const ProductCard = ({ classes, data, handler }) => {
       leaveTo="opacity-0"
     >
       <div
-        className={`bg-[url('')] overflow-hidden w-fit h-fit relative mx-auto ${classes}`}
+        className={`bg-[url('')] border border-red-400 overflow-hidden w-fit max-h-96 min-h-max relative mx-auto ${classes} `}
       >
         <img
-          className={`md:w- ${
-            isHovered && "blur-md"
-          }  transition-all duration-700`}
+          className={`w-full ${isHovered && ""}  transition-all duration-700`}
           src={data.img}
           alt=""
+          loading="lazy"
         />
         {/* translate-y-[68%] hover:translate-y-1/2 transition-all duration-500 */}
+        {/* bg-[#e6e7ee]/75 */}
         <div
           onMouseEnter={() => setIsHovered(!isHovered)}
           onMouseLeave={() => setIsHovered(!isHovered)}
-          className={`absolute inset-y-0 inset-x-0 mx-auto font-extrabold text-white w-full h-full bg-[#e6e7ee]/75 backdrop-blur-md translate-y-[75%] transition-all duration-500 ${
-            isHovered && "translate-y-[%] pt-0"
-          } text-center pt-[7%] `}
+          className={` transition-all duration-500  font-extrabold text-white bg-red-100  backdrop-blur-md  ${
+            isHovered && "-translate-y-[50%]"
+          } text-center h-60`}
         >
           {/* <div className={`bg-red-500 ${isHovered}`}> */}
           <h2
             className={`${
-              isHovered && "text- mt-[35%]"
+              isHovered && "text-"
             } text- transition-all duration-700 text-black `}
           >
             {data.name}

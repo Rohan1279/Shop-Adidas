@@ -43,7 +43,7 @@ const Products = () => {
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
-      <div>
+      <div className="px-1">
         <h1 className="text-center text-5xl my-10">All Products</h1>
 
         <div className="flex justify-between items-center my-8 w-full ">
@@ -58,7 +58,7 @@ const Products = () => {
             </Button>
           ))}
         </div>
-        <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
+        <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">
           {categoryProducts?.map((product) => (
             <ProductCard
               handler={handleBrowseProduct}

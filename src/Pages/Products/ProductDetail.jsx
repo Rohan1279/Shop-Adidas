@@ -36,7 +36,7 @@ const ProductDetail = () => {
             className=" w-full shadow-nm rounded-xl"
           />
         </div>
-        <div className="shadow-nm rounded-md p-10 max-w-2xl  min-" >
+        <div className="shadow-nm rounded-md p-10 max-w-2xl  min-">
           <section className=" sticky top-0">
             <div className="flex justify-between ">
               <p className="">{state?.category}</p>
@@ -106,12 +106,20 @@ const ProductDetail = () => {
               </>
             ))}
 
-            <BorderButton classes={"w-full my-3 mx-auto block"}>
+            <button
+              className={
+                "w-full my-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded- text-sm font-medium border border-zinc-300  active:shadow-nm-inset"
+              }
+            >
               Add to cart
-            </BorderButton>
-            <BorderButton classes={"w-full my-3 block"}>
-              Add to wishlist
-            </BorderButton>
+            </button>
+            <button
+              className={
+                "w-full my-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded- text-sm font-medium border border-zinc-300  active:shadow-nm-inset"
+              }
+            >
+              Add to cart
+            </button>
           </section>
         </div>
       </div>
