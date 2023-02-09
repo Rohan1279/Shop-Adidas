@@ -19,7 +19,7 @@ const ProductDetail = () => {
   return (
     // ! use carousal for all products of the category
 
-    <div className="px-5 h-screen overflow-auto py-10 ">
+    <div className="px-5 h-screen overflow-auto py-10  ">
       <div
         onClick={() => navigate(-1)}
         className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer "
@@ -28,16 +28,14 @@ const ProductDetail = () => {
         <p>Back</p>
       </div>
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
-      <div className="flex justify-evenly items-center w-full">
-        <div className="max-w-2xl min-w-max">
+      <div className="md:grid grid-cols-2 justify-center items-center ">
           <img
             src={state?.img}
             alt=""
-            className=" w-full shadow-nm rounded-xl"
+            className="sm:w-full my-10 md:w-[75%] shadow-nm rounded-xl mx-auto"
             loading="lazy"
           />
-        </div>
-        <div className="shadow-nm rounded-md p-10 max-w-2xl  min-">
+        <div className="shadow-nm rounded-md p-10 ">
           <section className=" sticky top-0">
             <div className="flex justify-between ">
               <p className="">{state?.category}</p>
