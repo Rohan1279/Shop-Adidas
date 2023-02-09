@@ -1,5 +1,6 @@
 import { Transition } from "@headlessui/react";
 import React from "react";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 import Button from "../../components/Button/Button";
 import Banner from "./Banner/Banner";
 //  https://i.ibb.co/34Xkt24/adidas-Fall-Sale-2021-1000x600.jpg
@@ -18,7 +19,7 @@ const Home = () => {
     >
       {/* Your content goes here*/}
       <div className="px-5">
-        <Banner />
+          <Banner />
       </div>
     </Transition>
   );

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useNavigate } from "react-router-dom";
 import BannerCard from "../../../components/BannerCard/BannerCard";
 import Button from "../../../components/Button/Button";
@@ -22,7 +23,7 @@ const Banner = () => {
     let categoryProducts = [];
     if (id !== "63c3afa0bdcbcbf3434dcc74") {
       categoryProducts = products.filter(
-        (product) => product.category_id === id 
+        (product) => product.category_id === id
       );
     } else categoryProducts = products;
 

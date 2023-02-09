@@ -22,7 +22,7 @@ const ProductDetail = () => {
     <div className="px-5 h-screen overflow-auto py-10 ">
       <div
         onClick={() => navigate(-1)}
-        className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer"
+        className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer "
       >
         <BackButton classes={"text-lg"}></BackButton>
         <p>Back</p>
@@ -34,6 +34,7 @@ const ProductDetail = () => {
             src={state?.img}
             alt=""
             className=" w-full shadow-nm rounded-xl"
+            loading="lazy"
           />
         </div>
         <div className="shadow-nm rounded-md p-10 max-w-2xl  min-">

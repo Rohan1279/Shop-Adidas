@@ -3,63 +3,61 @@ import React, { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import Button from "../Button/Button";
 import MyComponent from "../MyComponent";
+import {
+  LazyLoadComponent,
+  LazyLoadImage,
+} from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import "react-lazy-load-image-component/src/effects/black-and-white.css";
+import "react-lazy-load-image-component/src/effects/opacity.css";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ classes, data, handler }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Transition
-      appear={true}
-      show={true}
-      enter="transition-all duration-[400ms] "
-      enterFrom="opacity-0 translate-x-10 scale-95 "
-      enterTo="opacity-100 translate-x-0 scale-100 "
-      leave="transition-all duration-[400ms] "
-      leaveFrom="opacity-100 "
-      leaveTo="opacity-0"
-    >
-      <div
-        className={`bg-[url('')] border border-red-400 overflow-hidden w-fit max-h-96 min-h-max relative mx-auto ${classes} `}
+    <LazyLoadComponent>
+      <a
+        onClick={() => handler(data._id)}
+        class="group relative block bg-black cursor-pointer"
       >
-        <img
-          className={`w-full ${isHovered && ""}  transition-all duration-700`}
+        <LazyLoadImage
+          effect="opacity"
           src={data.img}
-          alt=""
-          loading="lazy"
-        />
-        {/* translate-y-[68%] hover:translate-y-1/2 transition-all duration-500 */}
-        {/* bg-[#e6e7ee]/75 */}
-        <div
-          onMouseEnter={() => setIsHovered(!isHovered)}
-          onMouseLeave={() => setIsHovered(!isHovered)}
-          className={` transition-all duration-500  font-extrabold text-white bg-red-100  backdrop-blur-md  ${
-            isHovered && "-translate-y-[50%]"
-          } text-center h-60`}
-        >
-          {/* <div className={`bg-red-500 ${isHovered}`}> */}
-          <h2
-            className={`${
-              isHovered && "text-"
-            } text- transition-all duration-700 text-black `}
-          >
-            {data.name}
-          </h2>
-          {/* <p className="text-black text-lg">{cardDescription}</p> */}
-          {/* ${isHovered ? "-translate-y-[100%]" : "translate-y-20" }transition-all duration-500 */}
-          <Button
-            handler={handler}
-            data={data}
-            classes={`bg-white/100 text-zinc-600 mt-2 w- mx-auto inset-x-0 rounded-md opacity-0 ${
-              isHovered && "opacity-100"
-            } delay-200 duration-500`}
-          >
-            Discover more
-          </Button>
-          {/* </div> */}
+          className="absolute inset-0 h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-75"
+        ></LazyLoadImage>
+        {/* <img
+          alt="product image"
+          src={data.img}
+          class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
+        /> */}
+
+        <div class="relative p-8">
+          <p class="text-2xl font-bold text-white">{data.name}</p>
+          <p class="text-sm font-medium uppercase tracking-widest text-pink-500">
+            {data.color}
+          </p>
+
+          <div class="mt-64">
+            <div class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"></div>
+          </div>
         </div>
-      </div>
-    </Transition>
+      </a>
+    </LazyLoadComponent>
   );
 };
 
 export default ProductCard;
+
+{
+  /* <Transition
+        appear={true}
+        show={true}
+        enter="transition-all "
+        enterFrom="opacity-0  "
+        enterTo="opacity-100  "
+        leave="transition-all "
+        leaveFrom="opacity-100 "
+        leaveTo="opacity-0"
+      ></Transition> */
+}
