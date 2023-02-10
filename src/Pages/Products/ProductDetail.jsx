@@ -35,7 +35,7 @@ const ProductDetail = () => {
             className="sm:w-full my-10 md:w-[75%] shadow-nm rounded-xl mx-auto"
             loading="lazy"
           />
-        <div className="shadow-nm rounded-md p-10 ">
+        <div className="shadow-nm rounded-md p-10 h-fit transition-all duration-700">
           <section className=" sticky top-0">
             <div className="flex justify-between ">
               <p className="">{state?.category}</p>
@@ -72,8 +72,8 @@ const ProductDetail = () => {
               </Disclosure.Button>
               <Transition
                 enter="transition duration-100 ease-out"
-                enterFrom="transform opacity-0 "
-                enterTo="transform  opacity-100 "
+                enterFrom="transform opacity-0"
+                enterTo="transform  opacity-100"
                 leave="transition duration-75 ease-out"
                 leaveFrom="transform  opacity-100"
                 leaveTo="transform opacity-0"
@@ -83,7 +83,7 @@ const ProductDetail = () => {
                 </Disclosure.Panel>
               </Transition>
             </Disclosure>
-            <hr className="border border-gray-300 mt-2 " />
+            <hr className="border border-gray-300 mt-2" />
             <div
               className={
                 "w-full my-3 mx-auto block bg-primary-color text-green-500 font-extrabold  transition-all py-2 rounded- text-sm  border border-zinc-300 text-center"

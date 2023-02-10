@@ -18,13 +18,17 @@ const ProductCard = ({ classes, data, handler }) => {
   return (
     <LazyLoadComponent>
       <a
+        onMouseEnter={() => setIsHovered(!isHovered)}
+        onMouseLeave={() => setIsHovered(!isHovered)}
         onClick={() => handler(data._id)}
-        class="group relative block bg-black cursor-pointer"
+        class="group relative block bg-black cursor-pointer overflow-hidden "
       >
         <LazyLoadImage
           effect="opacity"
           src={data.img}
-          className="absolute inset-0 h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-75"
+          className={`absolute inset-0 h-full w-full object-cover opacity-90  group-hover:opacity-75 ${
+            isHovered && "scale-110 "
+          } transition-all duration-700`}
         ></LazyLoadImage>
         {/* <img
           alt="product image"
