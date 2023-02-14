@@ -6,6 +6,7 @@ import { Disclosure, Transition } from "@headlessui/react";
 import Button from "../../components/Button/Button";
 import BackButton from "../../components/BackButton/BackButton";
 import BorderButton from "../../components/BorderButton/BorderButton";
+import Modal from "../../components/Modal";
 const ProductDetail = () => {
   const { state } = useLocation();
   let navigate = useNavigate();
@@ -29,13 +30,13 @@ const ProductDetail = () => {
       </div>
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
       <div className="md:grid grid-cols-2 justify-center items-center ">
-          <img
-            src={state?.img}
-            alt=""
-            className="sm:w-full my-10 md:w-[75%] shadow-nm rounded-xl mx-auto"
-            loading="lazy"
-          />
-        <div className="shadow-nm rounded-md p-10 h-fit transition-all duration-700">
+        <img
+          src={state?.img}
+          alt=""
+          className="sm:w-full my-10 md:w-[75%] shadow-nm rounded-xl mx-auto"
+          loading="lazy"
+        />
+        <div className="shadow-nm rounded-md p-7 h-fit transition-all duration-700">
           <section className=" sticky top-0">
             <div className="flex justify-between ">
               <p className="">{state?.category}</p>
@@ -86,7 +87,7 @@ const ProductDetail = () => {
             <hr className="border border-gray-300 mt-2" />
             <div
               className={
-                "w-full my-3 mx-auto block bg-primary-color text-green-500 font-extrabold  transition-all py-2 rounded- text-sm  border border-zinc-300 text-center"
+                "w-full my-3 mx-auto block bg-primary-color text-green-500 font-extrabold  transition-all py-2 rounded-md text-sm  border border-zinc-300 text-center"
               }
             >
               In stock
@@ -107,18 +108,12 @@ const ProductDetail = () => {
 
             <button
               className={
-                "w-full my-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded- text-sm font-medium border border-zinc-300  active:shadow-nm-inset"
+                "w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset "
               }
             >
               Add to cart
             </button>
-            <button
-              className={
-                "w-full my-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded- text-sm font-medium border border-zinc-300  active:shadow-nm-inset"
-              }
-            >
-              Add to cart
-            </button>
+            <Modal></Modal>
           </section>
         </div>
       </div>
