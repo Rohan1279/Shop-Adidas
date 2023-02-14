@@ -1,17 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-export default function Modal({}) {
+export default function Modal({ modalButtonText, data }) {
   let [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <div className=" flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          className="w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset"
         >
-          Open dialog
+          {modalButtonText}
         </button>
       </div>
 
@@ -49,20 +49,17 @@ export default function Modal({}) {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Payment successful
+                    SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
+                    <p className="text-sm text-gray-500">{data.name}</p>
                   </div>
 
                   <div className="mt-4">
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
+                      onClick={() => setIsOpen(!isOpen)}
                     >
                       Got it, thanks!
                     </button>

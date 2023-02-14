@@ -19,7 +19,6 @@ const ProductDetail = () => {
   console.log(currentSize);
   return (
     // ! use carousal for all products of the category
-
     <div className="px-5 h-screen overflow-auto py-10  ">
       <div
         onClick={() => navigate(-1)}
@@ -105,15 +104,7 @@ const ProductDetail = () => {
                 </BorderButton>
               </>
             ))}
-
-            <button
-              className={
-                "w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset "
-              }
-            >
-              Add to cart
-            </button>
-            <Modal></Modal>
+            <Modal modalButtonText={"Add to cart"} data={state}></Modal>
           </section>
         </div>
       </div>
