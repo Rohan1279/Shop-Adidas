@@ -45,19 +45,43 @@ export default function Modal({ modalButtonText, data, currentSize }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-fit transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>
-                  <div className="mt-2 flex justify-between gap-x-5">
-                    <img src={data.img} alt="" className="w-[40%]" />
-                    <div>
-                      <p className="font-bold">{data.name}</p>
-                      <p className="font-bold">Size: {currentSize}</p>
-                      <p className="font-bold">Price: ${data.price}</p>
+                  <div className="mt-2 md:flex justify-between  gap-x-4">
+                    <div className="flex border border-gray-400">
+                      <img src={data.img} alt="" className="w-28" />
+                      <div className="p-2">
+                        <p className="font-bold text-sm">{data.name}</p>
+                        <p className=" text-sm">Size: {currentSize}</p>
+                        <p className="font-bold text-sm">
+                          Price: ${data.price}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="leading-relaxed">
+                      <div className="flex justify-between ">
+                        <p>Your Cart: </p>
+                        <p className="ml-4">7 items</p>
+                      </div>
+                      <div className="flex justify-between ">
+                        <p>Total Product Cost: </p>
+                        <p className="ml-4">$123</p>
+                      </div>
+                      <div className="flex justify-between ">
+                        <p>Total Delivery Cost: </p>
+                        <p className="ml-4">$435</p>
+                      </div>
+
+                      <hr className="my-2"/>
+                      <div className="flex justify-between">
+                        <p>Total: </p>
+                        <p>$432</p>
+                      </div>
                     </div>
                   </div>
 
