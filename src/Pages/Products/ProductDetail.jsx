@@ -104,7 +104,11 @@ const ProductDetail = () => {
                 </BorderButton>
               </>
             ))}
-            <Modal modalButtonText={"Add to cart"} data={state}></Modal>
+            <Modal
+              modalButtonText={"Add to cart"}
+              data={state}
+              currentSize={currentSize}
+            ></Modal>
           </section>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-export default function Modal({ modalButtonText, data }) {
+export default function Modal({ modalButtonText, data, currentSize }) {
   let [isOpen, setIsOpen] = useState(false);
+  console.log(data);
   return (
     <>
       <div className="flex items-center justify-center">
@@ -44,15 +45,20 @@ export default function Modal({ modalButtonText, data }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">{data.name}</p>
+                  <div className="mt-2 flex justify-between gap-x-5">
+                    <img src={data.img} alt="" className="w-[40%]" />
+                    <div>
+                      <p className="font-bold">{data.name}</p>
+                      <p className="font-bold">Size: {currentSize}</p>
+                      <p className="font-bold">Price: ${data.price}</p>
+                    </div>
                   </div>
 
                   <div className="mt-4">
