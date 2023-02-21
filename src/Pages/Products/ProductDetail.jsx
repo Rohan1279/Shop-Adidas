@@ -11,12 +11,18 @@ const ProductDetail = () => {
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [currentSize, setCurrentSize] = useState("");
+  const [currentSize, setCurrentSize] = useState(null);
+  const [prevSize, setPrevSize] = useState("");
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleCurrentSize = (e) => {
-    setCurrentSize(e.target.innerText);
+    e.target.style.background = "red";
+    if (currentSize !== null) {
+      currentSize.style.background = "none";
+    }
+    // console.log(currentSize);
+    setCurrentSize(e.target);
   };
-  console.log(currentSize);
+  console.log(currentSize?.innerText);
   return (
     // ! use carousal for all products of the category
     <div className="px-5 h-screen overflow-auto py-10  ">
@@ -28,11 +34,11 @@ const ProductDetail = () => {
         <p>Back</p>
       </div>
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
-      <div className="md:grid grid-cols-2 justify-center items-center ">
+      <div className="md:grid grid-cols-2 justify-center items-start ">
         <img
           src={state?.img}
           alt=""
-          className="sm:w-full my-10 md:w-[75%] shadow-nm rounded-xl mx-auto"
+          className="sm:w-full  md:w-[75%] shadow-nm rounded-xl mx-auto"
           loading="lazy"
         />
         <div className="shadow-nm rounded-md p-7 h-fit transition-all duration-700">
@@ -95,19 +101,24 @@ const ProductDetail = () => {
 
             {sizes.map((size, idx) => (
               <>
-                <BorderButton
+                <button
                   key={idx}
-                  classes={"w-16"}
-                  handler={handleCurrentSize}
+                  className={`w-16 text-gray-500 transition-all hover:text-gray-800 py-2 rounded- text-sm font-medium border border-zinc-300 `}
+                  onClick={(e) => {
+                    handleCurrentSize(e);
+                  }}
+
+                  // handler={handleCurrentSize}
                 >
                   {size}
-                </BorderButton>
+                </button>
               </>
             ))}
+
             <Modal
               modalButtonText={"Add to cart"}
               data={state}
-              currentSize={currentSize}
+              currentSize={currentSize?.innerText}
             ></Modal>
           </section>
         </div>

@@ -3,14 +3,16 @@ import { Fragment, useState } from "react";
 
 export default function Modal({ modalButtonText, data, currentSize }) {
   let [isOpen, setIsOpen] = useState(false);
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <div className="flex items-center justify-center">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset"
+          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset ${
+            currentSize ? "" : "bg-gray-500"
+          }`}
         >
           {modalButtonText}
         </button>
@@ -48,16 +50,16 @@ export default function Modal({ modalButtonText, data, currentSize }) {
                 <Dialog.Panel className="w-fit transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg font-medium leading-6 text-gray-900 font-extrabold"
                   >
                     SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>
-                  <div className="mt-2 md:flex justify-between  gap-x-4">
+                  <div className="mt-2 md:flex justify-between  gap-x-4 text-sm">
                     <div className="flex border border-gray-400">
                       <img src={data.img} alt="" className="w-28" />
                       <div className="p-2">
                         <p className="font-bold text-sm">{data.name}</p>
-                        <p className=" text-sm">Size: {currentSize}</p>
+                        <p className=" ">Size: {currentSize}</p>
                         <p className="font-bold text-sm">
                           Price: ${data.price}
                         </p>
@@ -66,21 +68,21 @@ export default function Modal({ modalButtonText, data, currentSize }) {
                     <div className="leading-relaxed">
                       <div className="flex justify-between ">
                         <p>Your Cart: </p>
-                        <p className="ml-4">7 items</p>
+                        <p className="ml-4 font-semibold">7 items</p>
                       </div>
                       <div className="flex justify-between ">
                         <p>Total Product Cost: </p>
-                        <p className="ml-4">$123</p>
+                        <p className="ml-4 font-semibold">$123</p>
                       </div>
                       <div className="flex justify-between ">
                         <p>Total Delivery Cost: </p>
-                        <p className="ml-4">$435</p>
+                        <p className="ml-4 font-semibold">$435</p>
                       </div>
 
-                      <hr className="my-2"/>
+                      <hr className="my-2" />
                       <div className="flex justify-between">
                         <p>Total: </p>
-                        <p>$432</p>
+                        <p className="font-semibold">$432</p>
                       </div>
                     </div>
                   </div>
