@@ -1,18 +1,26 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-export default function Modal({ modalButtonText, data, currentSize }) {
+export default function Modal({
+  modalButtonText,
+  data,
+  currentSize,
+  sizeError,
+  setSizeError,
+}) {
   let [isOpen, setIsOpen] = useState(false);
   // console.log(data);
+
   return (
     <>
       <div className="flex items-center justify-center">
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset ${
-            currentSize ? "" : "bg-gray-500"
-          }`}
+          onClick={() => {
+            !currentSize && setSizeError(true);
+            currentSize && setIsOpen(!isOpen);
+          }}
+          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
         >
           {modalButtonText}
         </button>

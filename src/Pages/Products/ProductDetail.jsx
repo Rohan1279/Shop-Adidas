@@ -12,15 +12,16 @@ const ProductDetail = () => {
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [currentSize, setCurrentSize] = useState(null);
-  const [prevSize, setPrevSize] = useState("");
+  const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleCurrentSize = (e) => {
-    e.target.style.background = "red";
+    console.log(e.target.classList);
+    e.target?.classList?.add("shadow-nm-inset");
     if (currentSize !== null) {
-      currentSize.style.background = "none";
+      currentSize.classList.remove("shadow-nm-inset");
     }
-    // console.log(currentSize);
     setCurrentSize(e.target);
+    setSizeError(false);
   };
   console.log(currentSize?.innerText);
   return (
@@ -99,10 +100,10 @@ const ProductDetail = () => {
             </div>
             <p className="my-3 font-semibold">Sizes</p>
 
-            {sizes.map((size, idx) => (
+            {sizes.map((size) => (
               <>
                 <button
-                  key={idx}
+                  key={size}
                   className={`w-16 text-gray-500 transition-all hover:text-gray-800 py-2 rounded- text-sm font-medium border border-zinc-300 `}
                   onClick={(e) => {
                     handleCurrentSize(e);
@@ -114,11 +115,17 @@ const ProductDetail = () => {
                 </button>
               </>
             ))}
-
+            {sizeError === true ? (
+              <p className="text-sm text-red-500">Please select a size.</p>
+            ) : (
+              ""
+            )}
             <Modal
               modalButtonText={"Add to cart"}
               data={state}
               currentSize={currentSize?.innerText}
+              sizeError={sizeError}
+              setSizeError={setSizeError}
             ></Modal>
           </section>
         </div>
