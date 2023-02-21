@@ -99,7 +99,7 @@ const ProductDetail = () => {
               In stock
             </div>
             <p className="my-3 font-semibold">Sizes</p>
-            <div className={`${sizeError && "animate-bounce"}  duration-100  flex`}>
+            <div className={`${sizeError && "animate-shake"} duration-100  flex`}>
               {sizes.map((size) => (
                 <>
                   <button
