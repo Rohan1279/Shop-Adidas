@@ -99,22 +99,23 @@ const ProductDetail = () => {
               In stock
             </div>
             <p className="my-3 font-semibold">Sizes</p>
+            <div className={`${sizeError && "animate-bounce"}  duration-100  flex`}>
+              {sizes.map((size) => (
+                <>
+                  <button
+                    key={size}
+                    className={`w-16 text-gray-500 transition-all hover:text-gray-800 py-2 rounded- text-sm font-medium border border-zinc-300 `}
+                    onClick={(e) => {
+                      handleCurrentSize(e);
+                    }}
 
-            {sizes.map((size) => (
-              <>
-                <button
-                  key={size}
-                  className={`w-16 text-gray-500 transition-all hover:text-gray-800 py-2 rounded- text-sm font-medium border border-zinc-300 `}
-                  onClick={(e) => {
-                    handleCurrentSize(e);
-                  }}
-
-                  // handler={handleCurrentSize}
-                >
-                  {size}
-                </button>
-              </>
-            ))}
+                    // handler={handleCurrentSize}
+                  >
+                    {size}
+                  </button>
+                </>
+              ))}
+            </div>
             {sizeError === true ? (
               <p className="text-sm text-red-500">Please select a size.</p>
             ) : (
