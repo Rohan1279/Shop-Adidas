@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import BannerCard from "../../components/BannerCard/BannerCard";
 import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
@@ -7,7 +7,10 @@ import Button from "../../components/Button/Button";
 import BackButton from "../../components/BackButton/BackButton";
 import BorderButton from "../../components/BorderButton/BorderButton";
 import Modal from "../../components/Modal";
+import { Context } from "../../contexts/ContextProvider";
 const ProductDetail = () => {
+  const { cart, setCart } = useContext(Context);
+  console.log(cart);
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -26,7 +29,7 @@ const ProductDetail = () => {
     setPrevSize(e.target);
     setSizeError(false);
   };
-  console.log(prevSize?.innerText);
+  // console.log(prevSize?.innerText);
   return (
     // ! use carousal for all products of the category
     <div className="px-5 h-screen overflow-auto py-10  ">
@@ -106,9 +109,8 @@ const ProductDetail = () => {
               className={`${sizeError && "animate-shake"} duration-100  flex`}
             >
               {sizes.map((size) => (
-                <>
+                <div key={size}>
                   <button
-                    key={size}
                     className={`w-16 text-gray-500 transition-all py-2 rounded- text-sm font-medium border border-zinc-300 hover:shadow-nm-inset`}
                     onClick={(e) => {
                       handleCurrentSize(e);
@@ -118,7 +120,7 @@ const ProductDetail = () => {
                   >
                     {size}
                   </button>
-                </>
+                </div>
               ))}
             </div>
             {sizeError === true ? (
