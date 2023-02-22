@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 export default function Modal({
   modalButtonText,
   data,
-  currentSize,
+  prevSize,
   sizeError,
   setSizeError,
 }) {
@@ -17,8 +17,7 @@ export default function Modal({
         <button
           type="button"
           onClick={() => {
-            !currentSize && setSizeError(true);
-            currentSize && setIsOpen(!isOpen);
+            !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
           }}
           className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
         >
@@ -67,7 +66,7 @@ export default function Modal({
                       <img src={data.img} alt="" className="w-28" />
                       <div className="p-2">
                         <p className="font-bold text-sm">{data.name}</p>
-                        <p className=" ">Size: {currentSize}</p>
+                        <p className=" ">Size: {prevSize}</p>
                         <p className="font-bold text-sm">
                           Price: ${data.price}
                         </p>

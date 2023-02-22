@@ -11,19 +11,22 @@ const ProductDetail = () => {
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [currentSize, setCurrentSize] = useState(null);
+  const [prevSize, setPrevSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleCurrentSize = (e) => {
-    console.log(e.target.classList);
+    // console.log(e.target.classList[e.target.classList.length - 1]);
+    // console.log(prevSize?.innerText);
+    // console.log(e.target?.innerText);
     e.target?.classList?.add("shadow-nm-inset");
-    if (currentSize !== null) {
-      currentSize.classList.remove("shadow-nm-inset");
+
+    if (prevSize && e.target !== prevSize) {
+      prevSize.classList.remove("shadow-nm-inset");
     }
-    setCurrentSize(e.target);
+    setPrevSize(e.target);
     setSizeError(false);
   };
-  console.log(currentSize?.innerText);
+  console.log(prevSize?.innerText);
   return (
     // ! use carousal for all products of the category
     <div className="px-5 h-screen overflow-auto py-10  ">
@@ -99,7 +102,9 @@ const ProductDetail = () => {
               In stock
             </div>
             <p className="my-3 font-semibold">Sizes</p>
-            <div className={`${sizeError && "animate-shake"} duration-100  flex`}>
+            <div
+              className={`${sizeError && "animate-shake"} duration-100  flex`}
+            >
               {sizes.map((size) => (
                 <>
                   <button
@@ -124,7 +129,7 @@ const ProductDetail = () => {
             <Modal
               modalButtonText={"Add to cart"}
               data={state}
-              currentSize={currentSize?.innerText}
+              prevSize={prevSize?.innerText}
               sizeError={sizeError}
               setSizeError={setSizeError}
             ></Modal>
