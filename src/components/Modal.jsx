@@ -57,7 +57,7 @@ export default function Modal({
                 <Dialog.Panel className="w-fit transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 font-extrabold"
+                    className="text-lg leading-6 text-gray-900 font-extrabold"
                   >
                     SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>

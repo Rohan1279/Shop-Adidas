@@ -22,6 +22,7 @@ const ContextProvider = ({ children }) => {
       return res.data;
     },
   });
+  
   if (isLoading) {
     return <h2 className="text-4xl text-center">Loading</h2>;
   }

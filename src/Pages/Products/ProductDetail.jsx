@@ -109,7 +109,7 @@ const ProductDetail = () => {
                 <>
                   <button
                     key={size}
-                    className={`w-16 text-gray-500 transition-all hover:text-gray-800 py-2 rounded- text-sm font-medium border border-zinc-300 `}
+                    className={`w-16 text-gray-500 transition-all py-2 rounded- text-sm font-medium border border-zinc-300 hover:shadow-nm-inset`}
                     onClick={(e) => {
                       handleCurrentSize(e);
                     }}
