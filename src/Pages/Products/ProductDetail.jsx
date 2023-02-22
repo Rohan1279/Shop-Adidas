@@ -8,28 +8,42 @@ import BackButton from "../../components/BackButton/BackButton";
 import BorderButton from "../../components/BorderButton/BorderButton";
 import Modal from "../../components/Modal";
 import { Context } from "../../contexts/ContextProvider";
+import { addToDb } from "../../utils/fakeDB";
 const ProductDetail = () => {
   const { cart, setCart } = useContext(Context);
-  console.log(cart);
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [prevSize, setPrevSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+  const handleAddToCart = (selectedProduct) => {
+    console.log(selectedProduct);
+    let newCart = [];
+    const exists = cart.find(
+      (existingPrduct) => existingPrduct._id === selectedProduct._id
+    );
+    if (exists) {
+      exists.quantity += 1;
+      const rest = cart.filter(
+        (existingPrduct) => existingPrduct._id !== selectedProduct._id
+      );
+      newCart = [...rest, exists];
+    } else {
+      selectedProduct.quantity = 1;
+      newCart = [...cart, selectedProduct];
+    }
+    setCart(newCart);
+    addToDb(selectedProduct._id);
+  };
   const handleCurrentSize = (e) => {
-    // console.log(e.target.classList[e.target.classList.length - 1]);
-    // console.log(prevSize?.innerText);
-    // console.log(e.target?.innerText);
     e.target?.classList?.add("shadow-nm-inset");
-
     if (prevSize && e.target !== prevSize) {
       prevSize.classList.remove("shadow-nm-inset");
     }
     setPrevSize(e.target);
     setSizeError(false);
   };
-  // console.log(prevSize?.innerText);
   return (
     // ! use carousal for all products of the category
     <div className="px-5 h-screen overflow-auto py-10  ">
@@ -134,6 +148,7 @@ const ProductDetail = () => {
               prevSize={prevSize?.innerText}
               sizeError={sizeError}
               setSizeError={setSizeError}
+              handleAddToCart={handleAddToCart}
             ></Modal>
           </section>
         </div>

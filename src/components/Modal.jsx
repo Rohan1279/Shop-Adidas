@@ -7,6 +7,7 @@ export default function Modal({
   prevSize,
   sizeError,
   setSizeError,
+  handleAddToCart,
 }) {
   let [isOpen, setIsOpen] = useState(false);
   // console.log(data);
@@ -17,6 +18,7 @@ export default function Modal({
         <button
           type="button"
           onClick={() => {
+            prevSize && handleAddToCart(data);
             !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
           }}
           className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
