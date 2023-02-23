@@ -5,7 +5,7 @@ const Cart = () => {
   const { cart, setCart } = useContext(Context);
   console.log(cart);
   return (
-    <div>
+    <div className="h-screen"> 
       {cart.map((product) => (
         <div
           key={product._id}

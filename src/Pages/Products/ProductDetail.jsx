@@ -119,7 +119,7 @@ const ProductDetail = () => {
             </div>
             <p className="my-3 font-semibold">Sizes</p>
             <div
-              className={`${sizeError && "animate-shake"} duration-100  flex`}
+              className={`${sizeError && "animate-shake"} duration-100  flex flex-wrap`}
             >
               {sizes.map((size) => (
                 <div key={size}>
