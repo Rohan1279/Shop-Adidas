@@ -18,7 +18,6 @@ const ProductDetail = () => {
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleAddToCart = (selectedProduct) => {
-    console.log(selectedProduct);
     let newCart = [];
     const exists = cart.find(
       (existingPrduct) => existingPrduct._id === selectedProduct._id

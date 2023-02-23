@@ -15,7 +15,7 @@ const Products = () => {
   const [categoryProducts, setCategoryProducts] = useState(products);
   const navigate = useNavigate();
   const handleFilterProducts = (id) => {
-    console.log(id);
+    // console.log(id);
     let categoryProducts = [];
 
     if (id !== "63c3afa0bdcbcbf3434dcc74") {
@@ -27,8 +27,7 @@ const Products = () => {
   };
   const handleBrowseProduct = (id) => {
     const selectedProduct = products.find((product) => product._id === id);
-    console.log(selectedProduct);
-
+    // console.log(selectedProduct);
     navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (

@@ -177,11 +177,22 @@ const Navbar = () => {
                 >
                   Dashboard
                 </NavLink>
+                <NavLink
+                  to={"/cart"}
+                  className={({ isActive }) =>
+                    isActive
+                      ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
+                  }
+                >
+                  <div className="flex space-x-2 rounded-md">
+                    <HiShoppingCart className="text-xl"></HiShoppingCart>
+                    <span className="text-sm">Cart</span>
+                  </div>
+                </NavLink>
                 {/* //! add cart icon here */}
-                <Button classes={"flex space-x-2 rounded-md"}>
-                  <HiShoppingCart className="text-xl"></HiShoppingCart>
-                  <span className="text-sm">Cart</span>
-                </Button>
+                {/* <Button classes={"flex space-x-2 rounded-md"}>
+                </Button> */}
               </div>
             </div>
           </div>

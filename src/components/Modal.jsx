@@ -59,21 +59,22 @@ export default function Modal({
                 <Dialog.Panel className="w-fit transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg leading-6 text-gray-900 font-extrabold"
+                    className="text-xl leading-6 text-gray-900 font-extrabold"
                   >
                     SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>
-                  <div className="mt-2 md:flex justify-between  gap-x-4 text-sm">
-                    <div className="flex border border-gray-400">
-                      <img src={data.img} alt="" className="w-28" />
+                  <div className="mt-2 md:flex justify-between  gap-x-4 ">
+                    <div className="flex border border-gray-400 ">
+                      <img src={data.img} alt="" className="w-40" />
                       <div className="p-2">
-                        <p className="font-bold text-sm">{data.name}</p>
+                        <p className="font-bold text-base ">{data.name}</p>
                         <p className=" ">Size: {prevSize}</p>
-                        <p className="font-bold text-sm">
+                        <p className="font-bold text-base">
                           Price: ${data.price}
                         </p>
                       </div>
                     </div>
+                    {/* <hr className="border border-red-400 w" /> */}
                     <div className="leading-relaxed">
                       <div className="flex justify-between ">
                         <p>Your Cart: </p>

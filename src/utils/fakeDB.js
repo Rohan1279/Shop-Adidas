@@ -7,7 +7,6 @@ const addToDb = (_id) => {
   if (storedCart) {
     shoppingCart = JSON.parse(storedCart);
   }
-
   // add quantity
   const quantity = shoppingCart[_id];
   if (quantity) {
