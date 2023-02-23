@@ -44,20 +44,19 @@ const Products = () => {
       {/* Your content goes here*/}
       <div className="px-1">
         <h1 className="text-center text-5xl my-10">All Products</h1>
-
-        <div className="flex justify-between items-center my-8 w-full ">
+        <div className="flex flex-wrap justify-between items-center my-8 w-full ">
           {categories.map((category) => (
             <Button
               key={category.id}
               data={category}
               handler={handleFilterProducts}
-              classes={"w-44 border-slate-300 mx-auto"}
+              classes={"w-44 border-slate-300 mx-auto my-1"}
             >
               {category.name}
             </Button>
           ))}
         </div>
-        <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">
+        <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">
           {categoryProducts?.map((product) => (
             <ProductCard
               handler={handleBrowseProduct}

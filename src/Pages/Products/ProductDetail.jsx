@@ -58,7 +58,7 @@ const ProductDetail = () => {
         <img
           src={state?.img}
           alt=""
-          className="sm:w-full  md:w-[75%] shadow-nm rounded-xl mx-auto"
+          className="sm:w-full md:w-[75%] mb-5 shadow-nm rounded-xl mx-auto"
           loading="lazy"
         />
         <div className="shadow-nm rounded-md p-7 h-fit transition-all duration-700">
