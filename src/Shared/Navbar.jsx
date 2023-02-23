@@ -66,7 +66,7 @@ const Navbar = () => {
                     <Popover.Panel className="absolute left-0 z-10 top-16 w-screen max-w-sm  sm:px-0 lg:max-w-3xl">
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
                         <div className="relative grid gap-8 bg-white lg:grid-cols-2 ">
-                          <div className="sm:hidden bg-secondary-color h-48 z-10">
+                          <div className="sm:hidden bg-secondary-color h-fit z-10">
                             <div className="space-y-1 px-2 pt-2 pb-3 ">
                               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                               <NavLink
@@ -109,6 +109,20 @@ const Navbar = () => {
                               >
                                 Dashboard
                               </NavLink>
+                              <NavLink
+                                to={"/cart"}
+                                className={({ isActive }) =>
+                                  isActive
+                                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                                }
+                              >
+                                 <div className="flex space-x-2 rounded-md">
+                                  <HiShoppingCart className="text-xl"></HiShoppingCart>
+                                  <span className="text-sm">Cart</span>
+                                </div>
+                              </NavLink>
+                            
                             </div>
                           </div>
                         </div>
@@ -190,9 +204,6 @@ const Navbar = () => {
                     <span className="text-sm">Cart</span>
                   </div>
                 </NavLink>
-                {/* //! add cart icon here */}
-                {/* <Button classes={"flex space-x-2 rounded-md"}>
-                </Button> */}
               </div>
             </div>
           </div>
