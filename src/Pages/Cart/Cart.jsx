@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { Context } from "../../contexts/ContextProvider";
 
 const Cart = () => {
-  const { cart, setCart } = useContext(Context);
-  console.log(cart);
+  const { cart, setCart, initialCart } = useContext(Context);
+  console.log(initialCart);
   return (
     <div className="h-screen"> 
-      {cart.map((product) => (
+      {cart?.map((product) => (
         <div
           key={product._id}
           className="flex justify-between items-center border border-white w-96 p-4 my-5 mx-auto"

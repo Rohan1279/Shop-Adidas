@@ -7,7 +7,7 @@ import router from "./Routes/routes";
 
 function App() {
   const queryClient = new QueryClient();
-
+  
   return (
     <div>
       <React.StrictMode>
