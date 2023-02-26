@@ -34,7 +34,7 @@ const Banner = () => {
     navigate(`/categories/${id}`, { state: categoryProducts });
   };
   return (
-    <LazyLoadComponent >
+    <LazyLoadComponent>
       <div className="md:flex justify-center items-center w-auto gap-x-1 transition-all ">
         <div className="w-auto mb-10 md:mb-0 relative bg-gradient-to-br from-white to-zinc-500">
           <img
