@@ -26,7 +26,7 @@ const Products = () => {
     setCategoryProducts(categoryProducts);
   };
   const handleBrowseProduct = (id) => {
-    const selectedProduct = products.find((product) => product._id === id);
+    const selectedProduct = products?.find((product) => product._id === id);
     // console.log(selectedProduct);
     navigate(`/products/product/${id}`, { state: selectedProduct });
   };
@@ -45,7 +45,7 @@ const Products = () => {
       <div className="px-1">
         <h1 className="text-center text-5xl my-10">All Products</h1>
         <div className="flex flex-wrap justify-between items-center my-8 w-full ">
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <Button
               key={category.id}
               data={category}

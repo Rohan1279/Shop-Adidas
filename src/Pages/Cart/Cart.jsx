@@ -2,13 +2,23 @@ import React, { useContext } from "react";
 import { Context } from "../../contexts/ContextProvider";
 
 const Cart = () => {
-  const { cart, setCart, initialCart } = useContext(Context);
+  const { products, cart, setCart } = useContext(Context);
+  console.log(cart);
+  // if (!isLoading) {
+  const initialCart = [];
+  for (const _id in cart) {
+    const foundProduct = products?.find((product) => product._id === _id);
+    if (foundProduct) {
+      foundProduct.quantity = cart[_id];
+      initialCart.push(foundProduct);
+    }
+  }
   console.log(initialCart);
   return (
-    <div className="h-screen"> 
-      {cart?.map((product) => (
+    <div className="h-screen">
+      {initialCart?.map((product, idx) => (
         <div
-          key={product._id}
+          key={idx}
           className="flex justify-between items-center border border-white w-96 p-4 my-5 mx-auto"
         >
           <img src={product.img} alt="" className="w-1/4" />
