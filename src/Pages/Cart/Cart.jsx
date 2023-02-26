@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Context } from "../../contexts/ContextProvider";
 
 const Cart = () => {
@@ -14,7 +15,12 @@ const Cart = () => {
           key={idx}
           className="flex justify-between items-center border border-white w-96 p-4 my-5 mx-auto"
         >
-          <img src={product.img} alt="" className="w-1/4" />
+          <LazyLoadImage
+            effect="opacity"
+            src={product.img}
+            className="w-1/4"
+          ></LazyLoadImage>
+          {/* <img src={product.img} alt="" className="w-1/4" /> */}
           <h2>{product.name}</h2>
           <h2>{product.quantity}</h2>
         </div>
