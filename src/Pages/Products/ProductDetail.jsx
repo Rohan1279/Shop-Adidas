@@ -18,23 +18,43 @@ const ProductDetail = () => {
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleAddToCart = (selectedProduct) => {
-    let newCart = [];
-    const exists = cart.find(
-      (existingPrduct) => existingPrduct._id === selectedProduct._id
+    const productId = selectedProduct.id;
+    const existingCartItemIndex = cart.find(
+      (item) => item.productId === productId
     );
-    if (exists) {
-      exists.quantity += 1;
-      const rest = cart.filter(
-        (existingPrduct) => existingPrduct._id !== selectedProduct._id
-      );
-      newCart = [...rest, exists];
+    if (existingCartItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingCartItemIndex] = {
+        productId,
+        quantity: updatedCart[existingCartItemIndex]?.quantity + 1,
+      };
+      setCart(updatedCart);
+      addToDb(selectedProduct._id);
     } else {
-      selectedProduct.quantity = 1;
-      newCart = [...cart, selectedProduct];
+      const updatedCart = [...cart, { productId, quantity: 1 }];
+      setCart(updatedCart);
+      addToDb(selectedProduct._id);
     }
-    setCart(newCart);
-    addToDb(selectedProduct._id);
+
+    // let newCart = [];
+    // const exists = cart.find(
+    //   (existingPrduct) => existingPrduct._id === selectedProduct._id
+    // );
+    // if (exists) {
+    //   exists.quantity += 1;
+    //   const rest = cart.filter(
+    //     (existingPrduct) => existingPrduct._id !== selectedProduct._id
+    //   );
+    //   newCart = [...rest, exists];
+    // } else {
+    //   selectedProduct.quantity = 1;
+    //   newCart = [...cart, selectedProduct];
+    // }
+    // setCart(newCart);
+    // addToDb(selectedProduct._id);
   };
+
+  // console.log(cart);
   const handleCurrentSize = (e) => {
     e.target?.classList?.add("shadow-nm-inset");
     if (prevSize && e.target !== prevSize) {
@@ -119,7 +139,9 @@ const ProductDetail = () => {
             </div>
             <p className="my-3 font-semibold">Sizes</p>
             <div
-              className={`${sizeError && "animate-shake"} duration-100  flex flex-wrap`}
+              className={`${
+                sizeError && "animate-shake"
+              } duration-100  flex flex-wrap`}
             >
               {sizes.map((size) => (
                 <div key={size}>

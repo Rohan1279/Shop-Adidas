@@ -28,7 +28,7 @@ export const dataLoader = async () => {
 
   // const storedProducts = getStoredCart(); //! products with id
   // const initialCart = [];
-  // // if (!isLoading) {
+
   //   for (const _id in storedProducts) {
   //     //! write conditions here
   //     const foundProduct = products?.find((product) => product._id === _id);
@@ -37,7 +37,7 @@ export const dataLoader = async () => {
   //       initialCart.push(foundProduct);
   //     }
   //   }
-  // }
+
 
   // console.log("products", products);
   // if (!isLoading) {
@@ -45,9 +45,9 @@ export const dataLoader = async () => {
   console.log(categories);
   // }
   // let a = 20
-  if (!isLoading ) {
+  // if (!isLoading ) {
     return { products, categories, isLoading };
-  }
+  // }
   // if (products.length || categories.length) {
   // console.log(isLoading);
   // }

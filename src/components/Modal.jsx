@@ -64,7 +64,7 @@ export default function Modal({
                     SUCCESSFULLY ADDED TO CART!
                   </Dialog.Title>
                   <div className="mt-2 md:flex justify-between  gap-x-4 ">
-                    <div className="flex border border-gray-400 ">
+                    <div className="flex border border-r-gray-400 ">
                       <img src={data.img} alt="" className="w-40" />
                       <div className="p-2">
                         <p className="font-bold text-base ">{data.name}</p>

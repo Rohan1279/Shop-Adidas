@@ -2,18 +2,11 @@ import React, { useContext } from "react";
 import { Context } from "../../contexts/ContextProvider";
 
 const Cart = () => {
-  const { products, cart, setCart } = useContext(Context);
-  console.log(cart);
-  // if (!isLoading) {
-  const initialCart = [];
-  for (const _id in cart) {
-    const foundProduct = products?.find((product) => product._id === _id);
-    if (foundProduct) {
-      foundProduct.quantity = cart[_id];
-      initialCart.push(foundProduct);
-    }
-  }
+  const { products, cart, setCart, initialCart } = useContext(Context);
   console.log(initialCart);
+  // if (!isLoading) {
+
+  // console.log(initialCart);
   return (
     <div className="h-screen">
       {initialCart?.map((product, idx) => (

@@ -28,14 +28,29 @@ const ContextProvider = ({ children }) => {
   });
 
   const storedProducts = getStoredCart(); //! products with id
-  const [cart, setCart] = useState(storedProducts);
+  const initialCart = [];
+  for (const _id in storedProducts) {
+    const foundProduct = products?.find((product) => product._id === _id);
+    if (foundProduct) {
+      foundProduct.quantity = storedProducts[_id];
+      initialCart.push(foundProduct);
+    }
+  }
+  const [cart, setCart] = useState(initialCart);
 
   // if (isLoading) {
   //   return <h2 className="text-4xl text-center">Loading</h2>;
   // }
   return (
     <Context.Provider
-      value={{ products, categories, cart, setCart, isLoading, storedProducts }}
+      value={{
+        products,
+        categories,
+        cart,
+        setCart,
+        storedProducts,
+        initialCart,
+      }}
     >
       {children}
     </Context.Provider>
