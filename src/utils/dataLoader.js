@@ -5,7 +5,6 @@ import { Context } from "../contexts/ContextProvider";
 import { getStoredCart } from "./fakeDB";
 
 export const dataLoader = async () => {
-  // const { products } = useContext(Context);
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -38,7 +37,6 @@ export const dataLoader = async () => {
   //     }
   //   }
 
-
   // console.log("products", products);
   // if (!isLoading) {
 
@@ -46,7 +44,7 @@ export const dataLoader = async () => {
   // }
   // let a = 20
   // if (!isLoading ) {
-    return { products, categories, isLoading };
+  return { products, categories, isLoading };
   // }
   // if (products.length || categories.length) {
   // console.log(isLoading);

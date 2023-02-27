@@ -83,8 +83,8 @@ const ProductDetail = () => {
         />
         <div className="shadow-nm rounded-md p-7 h-fit transition-all duration-700">
           <section className=" sticky top-0">
-            <div className="flex justify-between ">
-              <p className="">{state?.category}</p>
+            <div className="flex justify-between mb-14">
+              <p className="text-lg">{state?.category}</p>
               <div className="flex items-center justify-center gap-x-2 mb-5">
                 <div className="flex">
                   <HiStar></HiStar>
@@ -92,7 +92,7 @@ const ProductDetail = () => {
                   <HiStar></HiStar>
                   <HiStar></HiStar>
                 </div>
-                <p className="font-semibold hover:underline cursor-pointer">
+                <p className="font-semibold hover:underline cursor-pointer text-lg">
                   {state?.reviewsCount} Reviews
                 </p>
               </div>

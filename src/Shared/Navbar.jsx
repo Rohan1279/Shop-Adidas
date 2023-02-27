@@ -11,7 +11,7 @@ const Navbar = () => {
   const [active, setActive] = useState(false);
 
   return (
-    <nav className="bg-secondary-color fixed top-0 w-full z-10">
+    <nav className="bg-secondary-color fixed top-0 w-full z-10 ">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8  relative z-30">
         <div className="relative h-16 flex items-center justify-between">
           {/* <!-- Mobile menu button--> */}
@@ -117,12 +117,11 @@ const Navbar = () => {
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
-                                 <div className="flex space-x-2 rounded-md">
+                                <div className="flex space-x-2 rounded-md">
                                   <HiShoppingCart className="text-xl"></HiShoppingCart>
                                   <span className="text-sm">Cart</span>
                                 </div>
                               </NavLink>
-                            
                             </div>
                           </div>
                         </div>
