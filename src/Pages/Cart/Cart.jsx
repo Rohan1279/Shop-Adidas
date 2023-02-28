@@ -5,13 +5,13 @@ import { Context } from "../../contexts/ContextProvider";
 const Cart = () => {
   const { products, cart, setCart, initialCart } = useContext(Context);
   return (
-    <div className="h-screen md:flex justify-evenly">
+    <div className="h-fit md:flex justify-evenly">
       <div className="">
         <h2 className="text-3xl font-extrabold">Your Cart</h2>
         {initialCart?.map((product, idx) => (
           <div
             key={idx}
-            className="flex text-lg border border-white min-w-fit  p- my-5 mx-auto"
+            className="flex text-lg border border-white max-w-4xl min-w-fit  p- my-5 mx-auto"
           >
             {/* <LazyLoadImage
             effect="blur"
