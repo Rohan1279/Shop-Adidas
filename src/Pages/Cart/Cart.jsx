@@ -4,6 +4,7 @@ import { Context } from "../../contexts/ContextProvider";
 
 const Cart = () => {
   const { products, cart, setCart, initialCart } = useContext(Context);
+  console.log(cart);
   return (
     <div className="h-fit md:flex justify-evenly">
       <div className="">
@@ -22,6 +23,7 @@ const Cart = () => {
             <div className="p-4">
               <h2>{product.name}</h2>
               <h2>{product.quantity}</h2>
+              <h2>Size: {product?.size}</h2>
               <h2>${product.price}</h2>
             </div>
           </div>

@@ -1,16 +1,14 @@
 import React, { useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import BannerCard from "../../components/BannerCard/BannerCard";
 import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
-import Button from "../../components/Button/Button";
 import BackButton from "../../components/BackButton/BackButton";
-import BorderButton from "../../components/BorderButton/BorderButton";
 import Modal from "../../components/Modal";
 import { Context } from "../../contexts/ContextProvider";
 import { addToDb } from "../../utils/fakeDB";
 const ProductDetail = () => {
-  const { cart, setCart } = useContext(Context);
+  const { cart, setCart, initialCart } = useContext(Context);
+
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -18,40 +16,46 @@ const ProductDetail = () => {
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleAddToCart = (selectedProduct) => {
-    const productId = selectedProduct.id;
-    const existingCartItemIndex = cart.find(
-      (item) => item.productId === productId
-    );
-    if (existingCartItemIndex !== -1) {
-      const updatedCart = [...cart];
-      updatedCart[existingCartItemIndex] = {
-        productId,
-        quantity: updatedCart[existingCartItemIndex]?.quantity + 1,
-      };
-      setCart(updatedCart);
-      addToDb(selectedProduct._id);
-    } else {
-      const updatedCart = [...cart, { productId, quantity: 1 }];
-      setCart(updatedCart);
-      addToDb(selectedProduct._id);
-    }
-
-    // let newCart = [];
-    // const exists = cart.find(
-    //   (existingPrduct) => existingPrduct._id === selectedProduct._id
+    console.log(selectedProduct);
+    // const productId = selectedProduct.id;
+    // const existingCartItemIndex = cart.find(
+    //   (item) => item.productId === productId
     // );
-    // if (exists) {
-    //   exists.quantity += 1;
-    //   const rest = cart.filter(
-    //     (existingPrduct) => existingPrduct._id !== selectedProduct._id
-    //   );
-    //   newCart = [...rest, exists];
+    // if (existingCartItemIndex !== -1) {
+    //   const updatedCart = [...cart];
+    //   updatedCart[existingCartItemIndex] = {
+    //     productId,
+    //     quantity: updatedCart[existingCartItemIndex]?.quantity + 1,
+    //     size: prevSize?.innerText,
+    //   };
+    //   setCart(updatedCart);
+    //   addToDb(selectedProduct._id);
     // } else {
-    //   selectedProduct.quantity = 1;
-    //   newCart = [...cart, selectedProduct];
+    //   const updatedCart = [
+    //     ...cart,
+    //     { productId, quantity: 1, size: prevSize?.innerText },
+    //   ];
+    //   setCart(updatedCart);
+    //   addToDb(selectedProduct._id);
     // }
-    // setCart(newCart);
-    // addToDb(selectedProduct._id);
+
+    let newCart = [];
+    const exists = cart.find(
+      (existingPrduct) => existingPrduct._id === selectedProduct._id
+    );
+    if (exists) {
+      exists.quantity += 1;
+      const rest = cart.filter(
+        (existingPrduct) => existingPrduct._id !== selectedProduct._id
+      );
+      newCart = [...rest, exists];
+    } else {
+      selectedProduct.quantity = 1;
+      selectedProduct.size = prevSize?.innerText;
+      newCart = [...cart, selectedProduct];
+    }
+    setCart(newCart);
+    addToDb(selectedProduct._id);
   };
 
   // console.log(cart);
@@ -83,7 +87,7 @@ const ProductDetail = () => {
         />
         <div className="shadow-nm rounded-md p-7 h-fit transition-all duration-700">
           <section className=" sticky top-0">
-            <div className="flex justify-between mb-14">
+            <div className="flex justify-between mb-2">
               <p className="text-lg">{state?.category}</p>
               <div className="flex items-center justify-center gap-x-2 mb-5">
                 <div className="flex">
@@ -96,6 +100,13 @@ const ProductDetail = () => {
                   {state?.reviewsCount} Reviews
                 </p>
               </div>
+            </div>
+            <div
+              className={
+                "w-full my-3 mx-auto block bg-primary-color text-green-500 font-extrabold  transition-all py-2 rounded-md text-sm  border border-zinc-300 text-center"
+              }
+            >
+              In stock
             </div>
             <h2 className="text-4xl font-extrabold mb-5">{state?.name}</h2>
             <p className="font-bold mb-2">${state?.price}</p>
@@ -130,13 +141,7 @@ const ProductDetail = () => {
               </Transition>
             </Disclosure>
             <hr className="border border-gray-300 mt-2" />
-            <div
-              className={
-                "w-full my-3 mx-auto block bg-primary-color text-green-500 font-extrabold  transition-all py-2 rounded-md text-sm  border border-zinc-300 text-center"
-              }
-            >
-              In stock
-            </div>
+
             <p className="my-3 font-semibold">Sizes</p>
             <div
               className={`${

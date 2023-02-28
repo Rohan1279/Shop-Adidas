@@ -57,8 +57,8 @@ export default function Modal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-fit transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <div className="flex justify-between mb-7">
+                <Dialog.Panel className="w-fit transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all pb-7">
+                  <div className="flex justify-between  ">
                     <Dialog.Title
                       as="h3"
                       className="text-xl leading-6 text-gray-900 font-extrabold"
@@ -68,7 +68,7 @@ export default function Modal({
                     <div className="mt-0">
                       <button
                         type="button"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="text-3xl "
                         onClick={() => setIsOpen(!isOpen)}
                       >
                         <HiOutlineXMark></HiOutlineXMark>
