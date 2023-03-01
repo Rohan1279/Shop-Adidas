@@ -14,15 +14,19 @@ const Products = () => {
   const { products, categories } = useContext(Context);
   const [categoryProducts, setCategoryProducts] = useState(products);
   const navigate = useNavigate();
-  const handleFilterProducts = (id) => {
-    // console.log(id);
-    let categoryProducts = [];
+  const handleFilterProducts = (e, id) => {
+    console.log(e);
+    e.target?.classList?.add("shadow-nm-inset");
 
+    let categoryProducts = [];
     if (id !== "63c3afa0bdcbcbf3434dcc74") {
       categoryProducts = products?.filter(
         (product) => product?.category_id === id
       );
     } else categoryProducts = products;
+    // if (condition) {
+      
+    // }
     setCategoryProducts(categoryProducts);
   };
   const handleBrowseProduct = (id) => {
@@ -46,14 +50,25 @@ const Products = () => {
         <h1 className="text-center text-5xl my-10">All Products</h1>
         <div className="flex flex-wrap justify-between items-center my-8 w-full ">
           {categories?.map((category) => (
-            <Button
-              key={category.id}
-              data={category}
-              handler={handleFilterProducts}
-              classes={"w-44 border-slate-300 mx-auto my-1"}
+            <button
+              key={category._id}
+              className={`w-44 border-slate-300 mx-auto my-1 p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all`}
+              onClick={(e) => {
+                handleFilterProducts(e, category._id);
+              }}
+
+              // handler={handleCurrentSize}
             >
               {category.name}
-            </Button>
+            </button>
+            //    <Button
+            //    key={category.id}
+            //    data={category}
+            //    handler={handleFilterProducts}
+            //    classes={"w-44 border-slate-300 mx-auto my-1"}
+            //  >
+            //    {category.name}
+            //  </Button>
           ))}
         </div>
         <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">

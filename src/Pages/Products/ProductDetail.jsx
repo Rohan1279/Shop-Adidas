@@ -6,9 +6,10 @@ import BackButton from "../../components/BackButton/BackButton";
 import Modal from "../../components/Modal";
 import { Context } from "../../contexts/ContextProvider";
 import { addToDb } from "../../utils/fakeDB";
+import { CartContext } from "../../Layout/Main";
 const ProductDetail = () => {
-  const { cart, setCart, initialCart } = useContext(Context);
-
+  const [cart, setCart] = useContext(CartContext);
+  console.log(cart);
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -51,7 +52,7 @@ const ProductDetail = () => {
       newCart = [...rest, exists];
     } else {
       selectedProduct.quantity = 1;
-      selectedProduct.size = prevSize?.innerText;
+      // selectedProduct.size = prevSize?.innerText;
       newCart = [...cart, selectedProduct];
     }
     setCart(newCart);
@@ -151,7 +152,7 @@ const ProductDetail = () => {
               {sizes.map((size) => (
                 <div key={size}>
                   <button
-                    className={`w-16 text-gray-500 transition-all py-2 rounded- text-sm font-medium border border-zinc-300 hover:shadow-nm-inset`}
+                    className={`w-16 text-gray-500 transition-all py-2 rounded- text-sm font-medium border border-zinc-300 `}
                     onClick={(e) => {
                       handleCurrentSize(e);
                     }}

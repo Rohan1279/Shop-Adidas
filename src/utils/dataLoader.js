@@ -4,8 +4,12 @@ import { useContext } from "react";
 import { Context } from "../contexts/ContextProvider";
 import { getStoredCart } from "./fakeDB";
 
-export const dataLoader = async () => {
-  const { data: products = [], isLoading } = useQuery({
+export const dataLoader = () => {
+  const {
+    data: products = [],
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const res = await axios.get(
@@ -40,11 +44,13 @@ export const dataLoader = async () => {
   // console.log("products", products);
   // if (!isLoading) {
 
-  console.log(categories);
+  // console.log(categories);
   // }
   // let a = 20
   // if (!isLoading ) {
-  return { products, categories, isLoading };
+  console.log(isSuccess);
+  if (isSuccess) return { products, categories, isLoading };
+  else return { isLoading };
   // }
   // if (products.length || categories.length) {
   // console.log(isLoading);

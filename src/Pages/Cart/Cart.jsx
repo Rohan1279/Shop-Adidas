@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Context } from "../../contexts/ContextProvider";
+import { CartContext } from "../../Layout/Main";
 
 const Cart = () => {
-  const { products, cart, setCart, initialCart } = useContext(Context);
-  console.log(cart);
+  const [cart, setCart, initialCart] = useContext(CartContext);
+  // console.log(initialCart);
   return (
     <div className="h-fit md:flex justify-evenly">
       <div className="">
         <h2 className="text-3xl font-extrabold">Your Cart</h2>
-        {initialCart?.map((product, idx) => (
+        {cart?.map((product, idx) => (
           <div
             key={idx}
             className="flex text-lg border border-white max-w-4xl min-w-fit  p- my-5 mx-auto"
