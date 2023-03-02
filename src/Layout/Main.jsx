@@ -8,7 +8,7 @@ import { getStoredCart } from "../utils/fakeDB";
 export const CartContext = createContext();
 const Main = () => {
   const { products } = dataLoader();
-  console.log(products);
+  // console.log(products);
   const storedProducts = getStoredCart(); //! products with id
   const initialCart = [];
   for (const _id in storedProducts) {
@@ -23,7 +23,6 @@ const Main = () => {
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
       <div className="bg-secondary-color relative pt-24 h-fit">
-        {/* fit  */}
         <Navbar />
         <Outlet />
       </div>

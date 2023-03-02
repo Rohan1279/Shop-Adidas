@@ -9,7 +9,7 @@ import { addToDb } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 const ProductDetail = () => {
   const [cart, setCart] = useContext(CartContext);
-  console.log(cart);
+  // console.log(cart);
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -17,7 +17,7 @@ const ProductDetail = () => {
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   const handleAddToCart = (selectedProduct) => {
-    console.log(selectedProduct);
+    // console.log(selectedProduct);
     // const productId = selectedProduct.id;
     // const existingCartItemIndex = cart.find(
     //   (item) => item.productId === productId
@@ -52,11 +52,11 @@ const ProductDetail = () => {
       newCart = [...rest, exists];
     } else {
       selectedProduct.quantity = 1;
-      // selectedProduct.size = prevSize?.innerText;
+      selectedProduct.size = prevSize?.innerText;
       newCart = [...cart, selectedProduct];
     }
     setCart(newCart);
-    addToDb(selectedProduct._id);
+    addToDb(selectedProduct._id, prevSize?.innerText);
   };
 
   // console.log(cart);

@@ -4,8 +4,8 @@ import { Context } from "../../contexts/ContextProvider";
 import { CartContext } from "../../Layout/Main";
 
 const Cart = () => {
-  const [cart, setCart, initialCart] = useContext(CartContext);
-  // console.log(initialCart);
+  const [cart, setCart] = useContext(CartContext);
+  console.log(cart);
   return (
     <div className="h-fit md:flex justify-evenly">
       <div className="">

@@ -48,7 +48,7 @@ export const dataLoader = () => {
   // }
   // let a = 20
   // if (!isLoading ) {
-  console.log(isSuccess);
+  // console.log(isSuccess);
   if (isSuccess) return { products, categories, isLoading };
   else return { isLoading };
   // }
