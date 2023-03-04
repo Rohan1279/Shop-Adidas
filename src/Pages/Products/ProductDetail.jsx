@@ -16,8 +16,9 @@ const ProductDetail = () => {
   const [prevSize, setPrevSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+  // console.log(cart);
+  // console.log(prevSize?.innerText);
   const handleAddToCart = (selectedProduct) => {
-    // console.log(selectedProduct);
     // const productId = selectedProduct.id;
     // const existingCartItemIndex = cart.find(
     //   (item) => item.productId === productId
@@ -39,12 +40,22 @@ const ProductDetail = () => {
     //   setCart(updatedCart);
     //   addToDb(selectedProduct._id);
     // }
-
     let newCart = [];
-    const exists = cart.find(
-      (existingPrduct) => existingPrduct._id === selectedProduct._id
+    // console.log("cart", cart);
+    // console.log("selectedProduct.size", selectedProduct.size);
+    // console.log(cart?.find((product) => product._id === selectedProduct._id));
+
+    const exists = cart?.find(
+      (existingProduct) =>
+        existingProduct._id === selectedProduct._id &&
+        existingProduct.size === prevSize?.innerText
+      // console.log(existingPrduct);
+      // existingPrduct.size === selectedProduct.size;
     );
+    // cart.map((product) => console.log(product));
+
     if (exists) {
+      // console.log("exists", exists);
       exists.quantity += 1;
       const rest = cart.filter(
         (existingPrduct) => existingPrduct._id !== selectedProduct._id
@@ -53,9 +64,12 @@ const ProductDetail = () => {
     } else {
       selectedProduct.quantity = 1;
       selectedProduct.size = prevSize?.innerText;
+      // console.log(`new product size: ${prevSize?.innerText}`);
       newCart = [...cart, selectedProduct];
     }
+    // console.log("newCart", newCart);
     setCart(newCart);
+    // ! check in addToDb if product of same size exist
     addToDb(selectedProduct._id, prevSize?.innerText);
   };
 
@@ -68,6 +82,7 @@ const ProductDetail = () => {
     setPrevSize(e.target);
     setSizeError(false);
   };
+
   return (
     // ! use carousal for all products of the category
     <div className="px-5 h-screen overflow-auto py-10  ">

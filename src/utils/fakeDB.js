@@ -10,12 +10,13 @@ const addToDb = (_id, prevSize) => {
   const product = shoppingCart[_id];
   // const quantity = product[0];
   // const size = product[1];
-  if (product) {
+  if (product&& product[1] === prevSize) {
+    console.log("exist");
     const newQuantity = product[0] + 1;
     shoppingCart[_id][0] = newQuantity;
   } else {
     shoppingCart[_id] = [1, prevSize];
-    console.log(shoppingCart);
+    // console.log(shoppingCart);
   }
   localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
 };

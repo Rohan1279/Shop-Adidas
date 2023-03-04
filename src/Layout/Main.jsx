@@ -10,14 +10,17 @@ const Main = () => {
   const { products } = dataLoader();
   // console.log(products);
   const storedProducts = getStoredCart(); //! products with id
+  // console.log(storedProducts);
   const initialCart = [];
   for (const _id in storedProducts) {
     const foundProduct = products?.find((product) => product._id === _id);
     if (foundProduct) {
-      foundProduct.quantity = storedProducts[_id];
+      foundProduct.quantity = storedProducts[_id][0];
+      foundProduct.size = storedProducts[_id][1];
       initialCart.push(foundProduct);
     }
   }
+  // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);
 
   return (
