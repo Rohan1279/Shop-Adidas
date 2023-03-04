@@ -6,16 +6,18 @@ const addToDb = (_id, prevSize) => {
   if (storedCart) {
     shoppingCart = JSON.parse(storedCart);
   }
+  // console.log(shoppingCart);
   // add quantity
   const product = shoppingCart[_id];
   // const quantity = product[0];
   // const size = product[1];
-  if (product&& product[1] === prevSize) {
-    console.log("exist");
+  if (product && shoppingCart[_id][1] === prevSize) {
+    console.log(product);
     const newQuantity = product[0] + 1;
     shoppingCart[_id][0] = newQuantity;
   } else {
-    shoppingCart[_id] = [1, prevSize];
+    const newProductId = _id;
+    shoppingCart[newProductId] = [1, prevSize];
     // console.log(shoppingCart);
   }
   localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
