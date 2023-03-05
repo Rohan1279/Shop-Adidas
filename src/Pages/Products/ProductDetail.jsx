@@ -41,28 +41,27 @@ const ProductDetail = () => {
     // addToDb(selectedProduct._id, prevSize?.innerText);
 
     // }
-    // let newCart = [];
-    // const exists = cart?.find(
-    //   (existingProduct) =>
-    //     existingProduct._id === selectedProduct._id &&
-    //     existingProduct.size === prevSize?.innerText
-    // );
-    // if (exists) {
-    //   exists.quantity += 1;
-    //   const rest = cart.filter(
-    //     (existingPrduct) => existingPrduct._id !== selectedProduct._id
-    //   );
-    //   newCart = [...rest, exists];
-    // } else {
-    //   selectedProduct.quantity = 1;
-    //   selectedProduct.size = prevSize?.innerText;
-    //   newCart = [...cart, selectedProduct];
-    // }
-    // console.log(newCart);
-    // setCart(newCart);
-    // // ! check in addToDb if product of same
-    // addToDb(selectedProduct._id, prevSize?.innerText);
-    
+    let newCart = [];
+    const exists = cart?.find(
+      (existingProduct) =>
+        existingProduct._id === selectedProduct._id &&
+        existingProduct.size === prevSize?.innerText
+    );
+    if (exists) {
+      exists.quantity += 1;
+      const rest = cart.filter(
+        (existingPrduct) => existingPrduct._id !== selectedProduct._id
+      );
+      newCart = [...rest, exists];
+    } else {
+      selectedProduct.quantity = 1;
+      selectedProduct.size = prevSize?.innerText;
+      newCart = [...cart, selectedProduct];
+    }
+    console.log(newCart);
+    setCart(newCart);
+    // ! check in addToDb if product of same
+    addToDb(selectedProduct._id, prevSize?.innerText);
   };
 
   // console.log(cart);

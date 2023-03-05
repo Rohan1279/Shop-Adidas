@@ -13,21 +13,28 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 const Products = () => {
   const { products, categories } = useContext(Context);
   const [categoryProducts, setCategoryProducts] = useState(products);
+  const [prevCategory, setPrevCategory] = useState(null);
   const navigate = useNavigate();
-  const handleFilterProducts = (e, id) => {
-    console.log(e);
-    e.target?.classList?.add("shadow-nm-inset");
 
-    let categoryProducts = [];
+  console.log();
+
+  const handleFilterProducts = (e, id) => {
+    setPrevCategory(e);
+    e.target?.classList?.add("shadow-nm-inset");
+    // let categoryProducts = [];
     if (id !== "63c3afa0bdcbcbf3434dcc74") {
-      categoryProducts = products?.filter(
-        (product) => product?.category_id === id
+      prevCategory?.target?.classList?.remove("shadow-nm-inset");
+      setCategoryProducts(
+        products?.filter((product) => product?.category_id === id)
       );
-    } else categoryProducts = products;
+    } else {
+      setCategoryProducts(products);
+    }
+
     // if (condition) {
 
     // }
-    setCategoryProducts(categoryProducts);
+    // setCategoryProducts(categoryProducts);
   };
   const handleBrowseProduct = (id) => {
     const selectedProduct = products?.find((product) => product._id === id);

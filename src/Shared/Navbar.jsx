@@ -44,7 +44,7 @@ const Navbar = () => {
                       enter="transform transition duration-[400ms] "
                       enterFrom="opacity-0 scale-50 rotate-0"
                       enterTo="opacity-100  scale-100 rotate-90"
-                      leave="transform duration-[400ms] transition ease-in-out"
+                      leave="transform duration-[400ms] transition"
                       leaveFrom="opacity-100 scale-100 "
                       leaveTo="opacity-0 scale-95 rotate-90"
                     >
