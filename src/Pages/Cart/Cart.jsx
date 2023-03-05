@@ -16,7 +16,7 @@ const Cart = () => {
     .reduce((a, b) => a + b, 0);
   const handleRemoveItem = (_id) => {
     const remaining = cart?.filter((product) => product._id !== _id);
-    // setCart(remaining);
+    setCart(remaining);
     removeFromDb(_id);
     // toast.warning("Product removed", { autoClose: 500 });
   };
@@ -36,9 +36,9 @@ const Cart = () => {
           ></CartItem>
         ))}
         {cart?.length === 0 && (
-          <div>
-            <BsCartX className="text-4xl"></BsCartX>
-            <p>Looks like your cart is empty. Add something in your cart</p>
+          <div className="text-center space-y-2">
+            <BsCartX className="text-4xl mx-auto lg:ml-0"></BsCartX>
+            <p>Looks like your cart is empty. Add something in your cart.</p>
           </div>
         )}
       </div>

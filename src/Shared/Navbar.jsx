@@ -42,15 +42,15 @@ const Navbar = () => {
                     <Transition
                       show={active}
                       enter="transform transition duration-[400ms] "
-                      enterFrom="opacity-0 scale-50"
-                      enterTo="opacity-100  scale-100"
+                      enterFrom="opacity-0 scale-50 "
+                      enterTo="opacity-100  scale-100 "
                       leave="transform duration-[400ms] transition ease-in-out"
-                      leaveFrom="opacity-100  scale-100"
-                      leaveTo="opacity-0 scale-95"
+                      leaveFrom="opacity-100 scale-100 "
+                      leaveTo="opacity-0 scale-95 rotate-90"
                     >
                       <HiOutlineXMark
                         onClick={() => setActive((active) => !active)}
-                        className="text-2xl hover:text-opacity-100 active:scale-90 transition-all"
+                        className="text-2xl hover:text-opacity-100  active:scale-90 transition-all"
                       ></HiOutlineXMark>
                     </Transition>
                   </Popover.Button>
