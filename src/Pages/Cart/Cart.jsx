@@ -18,8 +18,8 @@ const Cart = () => {
   };
   return (
     <div className="h-screen md:flex justify-center gap-x-36">
-      <div className="overflow-scroll">
-        <h2 className="text-3xl font-extrabold">Your Cart</h2>
+      <div className="overflow-scroll ">
+        <h2 className="text-3xl font-extrabold text-center lg:text-left">Your Cart</h2>
         {cart?.map((product, idx) => (
           <div
             key={idx}
@@ -30,7 +30,7 @@ const Cart = () => {
               src={product.img}
               width={150}
             ></LazyLoadImage> */}
-            <img src={product.img} alt="" className="w-1/4" />
+            <img src={product.img} alt="" className="w-52" />
 
             <div className="p-4">
               <h2>{product.name}</h2>
@@ -64,11 +64,11 @@ const Cart = () => {
           <p>Looks like your cart is empty. Add something in your cart</p>
         )}
       </div>
-      <div className=" w-96">
-        <h2 className="text-3xl font-extrabold mb-5 text-black">
+      <div className=" lg:w-96 mx-2">
+        <h2 className="text-3xl font-extrabold mb-5 text-black text-center lg:text-left">
           Order Summary
         </h2>
-        <div className="leading-7">
+        <div className="leading-7 ">
           <p className="flex justify-between">
             Total Products:{" "}
             <span className="text-gray-500">{cart?.length}</span>{" "}
