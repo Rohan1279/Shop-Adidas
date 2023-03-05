@@ -6,6 +6,9 @@ import { CartContext } from "../../Layout/Main";
 const Cart = () => {
   const [cart, setCart] = useContext(CartContext);
   console.log(cart);
+  let totalPrice = cart
+    .map((product) => product?.price * product?.quantity)
+    .reduce((a, b) => a + b, 0);
   return (
     <div className="h-fit md:flex justify-evenly">
       <div className="">
@@ -37,8 +40,8 @@ const Cart = () => {
           Order Summary
         </h2>
         <div className="leading-7">
-          <p>Total Products: </p>
-          <p>Subtotal: </p>
+          <p>Total Products: {cart?.length}</p>
+          <p>Subtotal: {totalPrice}</p>
           <p>Delivary: </p>
           <hr className="border border-gray-400 my-3" />
           <p className="">Total: </p>
