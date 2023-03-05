@@ -55,7 +55,7 @@ const ProductDetail = () => {
     // cart.map((product) => console.log(product));
 
     if (exists) {
-      console.log("exists", exists);
+      // console.log("exists", exists);
       exists.quantity += 1;
       const rest = cart.filter(
         (existingPrduct) => existingPrduct._id !== selectedProduct._id
@@ -64,7 +64,7 @@ const ProductDetail = () => {
     } else {
       selectedProduct.quantity = 1;
       selectedProduct.size = prevSize?.innerText;
-      console.log(`new product size: ${prevSize?.innerText}`);
+      // console.log(`new product size: ${prevSize?.innerText}`);
       newCart = [...cart, selectedProduct];
     }
     // console.log("newCart", newCart);
@@ -127,7 +127,7 @@ const ProductDetail = () => {
             <h2 className="text-4xl font-extrabold mb-5">{state?.name}</h2>
             <p className="font-bold mb-2">${state?.price}</p>
             <p className="mb-3">
-              {state.color ? state.color : "No colors available"}
+              {state?.color ? state.color : "No colors available"}
             </p>
             <Disclosure>
               <hr className="border border-gray-300 mb-2" />

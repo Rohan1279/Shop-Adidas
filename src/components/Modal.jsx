@@ -23,7 +23,7 @@ export default function Modal({
             prevSize && handleAddToCart(data);
             !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
           }}
-          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800 hover:shadow-nm py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
+          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
         >
           {modalButtonText}
         </button>
@@ -77,7 +77,7 @@ export default function Modal({
                     </div>
                   </div>
                   <div className="mt-2 md:flex justify-between  gap-x-4 ">
-                    <div className="flex border-r border-zinc-500 items-center">
+                    <div className="flex border-r border-zinc-500 items-ce">
                       <LazyLoadImage src={data.img} width={130} effect={"opacity"}></LazyLoadImage>
                       {/* <img src={data.img} alt="" className="w-40" /> */}
                       <div className="px-2 leading-7  w-56">

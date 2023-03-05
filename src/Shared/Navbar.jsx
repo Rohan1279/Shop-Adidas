@@ -113,7 +113,7 @@ const Navbar = () => {
                                 to={"/cart"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
@@ -194,7 +194,7 @@ const Navbar = () => {
                   to={"/cart"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      ? ` shadow-nm-inset transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
                       : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
                   }
                 >

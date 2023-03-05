@@ -13,7 +13,7 @@ const Cart = () => {
         {cart?.map((product, idx) => (
           <div
             key={idx}
-            className="flex text-lg border border-white max-w-4xl min-w-fit  p- my-5 mx-auto"
+            className="flex text-lg border border-gray-300 max-w-2xl min-w-fit  p- my-5 mx-auto"
           >
             {/* <LazyLoadImage
             effect="blur"
@@ -23,15 +23,27 @@ const Cart = () => {
             <img src={product.img} alt="" className="w-1/4" />
             <div className="p-4">
               <h2>{product.name}</h2>
-              <h2>{product.quantity}</h2>
-              <h2>Size: {product?.size}</h2>
-              <h2>${product.price}</h2>
+              <h2 className="text-gray-500">{product.quantity}</h2>
+              <h2 className="text-gray-500">Size: {product?.size}</h2>
+              <h2 className="text-gray-500">
+                Total: ${(product.price * product.quantity).toFixed(2)}
+              </h2>
             </div>
           </div>
         ))}
       </div>
-      <div>
-        <h2 className="text-3xl font-extrabold">Order Summary</h2>
+      <div className="text-gray-500 ">
+        <h2 className="text-3xl font-extrabold mb-5 text-black">
+          Order Summary
+        </h2>
+        <div className="leading-7">
+          <p>Total Products: </p>
+          <p>Subtotal: </p>
+          <p>Delivary: </p>
+          <hr className="border border-gray-400 my-3" />
+          <p className="">Total: </p>
+          <hr className="border border-gray-400 my-3" />
+        </div>
       </div>
     </div>
   );
