@@ -9,7 +9,7 @@ import { BsCartX } from "react-icons/bs";
 const Cart = () => {
   const [cart, setCart] = useContext(CartContext);
   const { products, categories } = useContext(Context);
-
+  // const [remainingCart, setRemainingCart] = useState(cart);
   console.log(cart);
   let totalPrice = cart
     .map((product) => product?.price * product?.quantity)
@@ -17,6 +17,7 @@ const Cart = () => {
   const handleRemoveItem = (_id) => {
     const remaining = cart?.filter((product) => product._id !== _id);
     setCart(remaining);
+    // setRemainingCart(remaining);
     removeFromDb(_id);
     // toast.warning("Product removed", { autoClose: 500 });
   };
@@ -26,21 +27,32 @@ const Cart = () => {
         <h2 className="text-3xl font-extrabold text-center lg:text-left">
           Your Cart
         </h2>
-        {cart?.map((product, idx) => (
-          <CartItem
-            key={product._id}
-            product={product}
-            handleRemoveItem={handleRemoveItem}
-            cart={cart}
-            // isShowing={isShowing}
-          ></CartItem>
-        ))}
-        {cart?.length === 0 && (
-          <div className="text-center space-y-2">
-            <BsCartX className="text-4xl mx-auto lg:ml-0"></BsCartX>
-            <p>Looks like your cart is empty. Add something in your cart.</p>
-          </div>
-        )}
+        <Transition
+          appear={true}
+          show={true}
+          enter="transition-all duration-[400ms]"
+          enterFrom="opacity-0 "
+          enterTo="opacity-100 "
+          leave="transition-all duration-[400ms]"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          {cart?.map((product) => (
+            <CartItem
+              key={product._id}
+              product={product}
+              handleRemoveItem={handleRemoveItem}
+              cart={cart}
+              // isShowing={isShowing}
+            ></CartItem>
+          ))}
+          {cart?.length === 0 && (
+            <div className="text-center space-y-2 ">
+              <BsCartX className="text-4xl mx-auto lg:ml-0"></BsCartX>
+              <p>Looks like your cart is empty. Add something in your cart.</p>
+            </div>
+          )}
+        </Transition>
       </div>
       <div className=" lg:w-96 mx-2">
         <h2 className="text-3xl font-extrabold mb-5 text-black text-center lg:text-left">

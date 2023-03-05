@@ -8,7 +8,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
   //   setIsShowing();
   return (
     <div>
-      <Transition
+      {/* <Transition
         show={isShowing}
         enter="transition-all duration-150"
         enterFrom="opacity-0"
@@ -16,7 +16,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
         leave="transition-all duration-150"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
-      >
+      > */}
         {/* <div>
           I will fade in and out
           <button
@@ -54,7 +54,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
             </h2>
             <button
               type="button"
-              className="flex items-center px-2 py-1 pl-0 space-x-1 ml-auto mr-0"
+              className="flex items-center  px-2 py-1 pl-0 space-x-1 ml-auto mr-0"
               onClick={() => {
                 setIsShowing(!isShowing);
                 handleRemoveItem(_id);
@@ -75,7 +75,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
             </button>
           </div>
         </div>
-      </Transition>
+      {/* </Transition> */}
     </div>
   );
 };

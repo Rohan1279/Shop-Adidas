@@ -38,39 +38,31 @@ const ProductDetail = () => {
     //     { productId, quantity: 1, size: prevSize?.innerText },
     //   ];
     //   setCart(updatedCart);
-    //   addToDb(selectedProduct._id);
+    // addToDb(selectedProduct._id, prevSize?.innerText);
+
     // }
-    let newCart = [];
-    // console.log("cart", cart);
-    // console.log("selectedProduct.size", selectedProduct.size);
-    // console.log(cart?.find((product) => product._id === selectedProduct._id));
-
-    const exists = cart?.find(
-      (existingProduct) =>
-        existingProduct._id === selectedProduct._id &&
-        existingProduct.size === prevSize?.innerText
-      // console.log(existingPrduct);
-      // existingPrduct.size === selectedProduct.size;
-    );
-    // cart.map((product) => console.log(product));
-
-    if (exists) {
-      // console.log("exists", exists);
-      exists.quantity += 1;
-      const rest = cart.filter(
-        (existingPrduct) => existingPrduct._id !== selectedProduct._id
-      );
-      newCart = [...rest, exists];
-    } else {
-      selectedProduct.quantity = 1;
-      selectedProduct.size = prevSize?.innerText;
-      // console.log(`new product size: ${prevSize?.innerText}`);
-      newCart = [...cart, selectedProduct];
-    }
-    // console.log("newCart", newCart);
-    setCart(newCart);
-    // ! check in addToDb if product of same
-    addToDb(selectedProduct._id, prevSize?.innerText);
+    // let newCart = [];
+    // const exists = cart?.find(
+    //   (existingProduct) =>
+    //     existingProduct._id === selectedProduct._id &&
+    //     existingProduct.size === prevSize?.innerText
+    // );
+    // if (exists) {
+    //   exists.quantity += 1;
+    //   const rest = cart.filter(
+    //     (existingPrduct) => existingPrduct._id !== selectedProduct._id
+    //   );
+    //   newCart = [...rest, exists];
+    // } else {
+    //   selectedProduct.quantity = 1;
+    //   selectedProduct.size = prevSize?.innerText;
+    //   newCart = [...cart, selectedProduct];
+    // }
+    // console.log(newCart);
+    // setCart(newCart);
+    // // ! check in addToDb if product of same
+    // addToDb(selectedProduct._id, prevSize?.innerText);
+    
   };
 
   // console.log(cart);

@@ -34,7 +34,7 @@ const Navbar = () => {
                       leaveTo="opacity-0 scale-95"
                     >
                       <HiBars3BottomLeft
-                        onClick={() => setActive((active) => !active)}
+                        onClick={() => setActive(!active)}
                         className="text-2xl hover:text-opacity-100 active:scale-90 transition-all"
                       ></HiBars3BottomLeft>
                     </Transition>
@@ -42,19 +42,20 @@ const Navbar = () => {
                     <Transition
                       show={active}
                       enter="transform transition duration-[400ms] "
-                      enterFrom="opacity-0 scale-50 "
-                      enterTo="opacity-100  scale-100 "
+                      enterFrom="opacity-0 scale-50 rotate-0"
+                      enterTo="opacity-100  scale-100 rotate-90"
                       leave="transform duration-[400ms] transition ease-in-out"
                       leaveFrom="opacity-100 scale-100 "
                       leaveTo="opacity-0 scale-95 rotate-90"
                     >
                       <HiOutlineXMark
-                        onClick={() => setActive((active) => !active)}
+                        onClick={() => setActive(!active)}
                         className="text-2xl hover:text-opacity-100  active:scale-90 transition-all"
                       ></HiOutlineXMark>
                     </Transition>
                   </Popover.Button>
                   <Transition
+                    show={active}
                     as={Fragment}
                     enter="transition ease-out duration-200"
                     enterFrom="opacity-0 translate-y-1"
@@ -70,6 +71,7 @@ const Navbar = () => {
                             <div className="space-y-1 px-2 pt-2 pb-3 ">
                               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                               <NavLink
+                                onClick={() => setActive(!active)}
                                 to={"/"}
                                 className={({ isActive }) =>
                                   isActive
@@ -80,6 +82,7 @@ const Navbar = () => {
                                 Home
                               </NavLink>
                               <NavLink
+                                onClick={() => setActive(!active)}
                                 to={"/products"}
                                 className={({ isActive }) =>
                                   isActive
@@ -90,6 +93,7 @@ const Navbar = () => {
                                 Products
                               </NavLink>
                               <NavLink
+                                onClick={() => setActive(!active)}
                                 to={"/contact"}
                                 className={({ isActive }) =>
                                   isActive
@@ -100,6 +104,7 @@ const Navbar = () => {
                                 Contact
                               </NavLink>
                               <NavLink
+                                onClick={() => setActive(!active)}
                                 to={"/dashboard"}
                                 className={({ isActive }) =>
                                   isActive
@@ -110,6 +115,7 @@ const Navbar = () => {
                                 Dashboard
                               </NavLink>
                               <NavLink
+                                onClick={() => setActive(!active)}
                                 to={"/cart"}
                                 className={({ isActive }) =>
                                   isActive

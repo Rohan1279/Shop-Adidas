@@ -25,7 +25,7 @@ const Products = () => {
       );
     } else categoryProducts = products;
     // if (condition) {
-      
+
     // }
     setCategoryProducts(categoryProducts);
   };
@@ -39,7 +39,7 @@ const Products = () => {
       appear={true}
       show={true}
       enter="transition-all duration-[400ms]"
-      enterFrom="opacity-0"
+      enterFrom="opacity-0 "
       enterTo="opacity-100 "
       leave="transition-all duration-[400ms]"
       leaveFrom="opacity-100"

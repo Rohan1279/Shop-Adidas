@@ -16,7 +16,7 @@
 //     }
 //   }
 
-//   return 
+//   return
 //   <Context.Provider value=[cart, setCart]></Context.Provider>
 // };
 
