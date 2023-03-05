@@ -10,7 +10,7 @@ const Cart = () => {
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
   return (
-    <div className="h-fit md:flex justify-evenly">
+    <div className="h-fit md:flex justify-center gap-x-36">
       <div className="">
         <h2 className="text-3xl font-extrabold">Your Cart</h2>
         {cart?.map((product, idx) => (
@@ -35,16 +35,25 @@ const Cart = () => {
           </div>
         ))}
       </div>
-      <div className="text-gray-500 ">
+      <div className=" w-96">
         <h2 className="text-3xl font-extrabold mb-5 text-black">
           Order Summary
         </h2>
         <div className="leading-7">
-          <p>Total Products: {cart?.length}</p>
-          <p>Subtotal: {totalPrice}</p>
-          <p>Delivary: </p>
+          <p className="flex justify-between">
+            Total Products:{" "}
+            <span className="text-gray-500">{cart?.length}</span>{" "}
+          </p>
+          <p className="flex justify-between">
+            Subtotal: <span className="text-gray-500">${totalPrice}</span>
+          </p>
+          <p className="flex justify-between">
+            Delivary: <span className="text-gray-500">$0</span>
+          </p>
           <hr className="border border-gray-400 my-3" />
-          <p className="">Total: </p>
+          <p className="flex justify-between">
+            Total: <span className="text-gray-500">${totalPrice}</span>
+          </p>
           <hr className="border border-gray-400 my-3" />
         </div>
       </div>

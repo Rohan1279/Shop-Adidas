@@ -69,7 +69,7 @@ export default function Modal({
                     <div className="mt-0 ">
                       <button
                         type="button"
-                        className="text-2xl "
+                        className="text-2xl"
                         onClick={() => setIsOpen(!isOpen)}
                       >
                         <HiOutlineXMark></HiOutlineXMark>
@@ -78,7 +78,11 @@ export default function Modal({
                   </div>
                   <div className="mt-2 md:flex justify-between  gap-x-4 ">
                     <div className="flex border-r border-zinc-500 items-ce">
-                      <LazyLoadImage src={data.img} width={130} effect={"opacity"}></LazyLoadImage>
+                      <LazyLoadImage
+                        src={data.img}
+                        width={130}
+                        effect={"opacity"}
+                      ></LazyLoadImage>
                       {/* <img src={data.img} alt="" className="w-40" /> */}
                       <div className="px-2 leading-7  w-56">
                         <p className="font-bold text-base ">{data.name}</p>
@@ -86,9 +90,7 @@ export default function Modal({
                         <p className="font-bold text-base">
                           Price: ${data.price}
                         </p>
-                        <p className="text-base">
-                          Quantity: 1
-                        </p>
+                        <p className="text-base">Quantity: 1</p>
                       </div>
                     </div>
                     {/* <hr className="border border-red-400 w" /> */}
