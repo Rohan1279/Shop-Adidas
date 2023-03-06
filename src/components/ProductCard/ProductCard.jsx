@@ -16,38 +16,36 @@ const ProductCard = ({ classes, data, handler }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <LazyLoadComponent>
-      <a
-        onMouseEnter={() => setIsHovered(!isHovered)}
-        onMouseLeave={() => setIsHovered(!isHovered)}
-        onClick={() => handler(data._id)}
-        className="group relative block bg-black cursor-pointer overflow-hidden "
-      >
-        <LazyLoadImage
-          effect="opacity"
-          src={data.img}
-          className={`absolute inset-0 h-full w-full object-cover opacity-90  group-hover:opacity-75 ${
-            isHovered && "scale-110 "
-          } transition-all duration-700`}
-        ></LazyLoadImage>
-        {/* <img
+    <a
+      onMouseEnter={() => setIsHovered(!isHovered)}
+      onMouseLeave={() => setIsHovered(!isHovered)}
+      onClick={() => handler(data._id)}
+      className="group relative block bg-black cursor-pointer overflow-hidden "
+    >
+      <LazyLoadImage
+        effect="opacity"
+        src={data.img}
+        className={`absolute inset-0 h-full w-full object-cover opacity-90  group-hover:opacity-75 ${
+          isHovered && "scale-110 "
+        } transition-all duration-700`}
+      ></LazyLoadImage>
+      {/* <img
           alt="product image"
           src={data.img}
           class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
         /> */}
 
-        <div className="relative p-8">
-          <p className="text-2xl font-bold text-white">{data.name}</p>
-          <p className="text-sm font-medium uppercase tracking-widest text-pink-500">
-            {data.color}
-          </p>
+      <div className="relative p-8">
+        <p className="text-2xl font-bold text-white">{data.name}</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-pink-500">
+          {data.color}
+        </p>
 
-          <div className="mt-64">
-            <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"></div>
-          </div>
+        <div className="mt-64">
+          <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"></div>
         </div>
-      </a>
-    </LazyLoadComponent>
+      </div>
+    </a>
   );
 };
 
