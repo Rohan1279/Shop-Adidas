@@ -258,18 +258,20 @@ const Navbar = () => {
                         )}
                       </Menu.Item>
                     </Link>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active ? "" : "text-gray-500"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
+                    <Link to={"/register"}>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active ? "" : "text-gray-500"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
                           mt-1 border border-zinc-300 transition-all`}
-                        >
-                          Register
-                        </button>
-                      )}
-                    </Menu.Item>
+                          >
+                            Register
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </Link>
                   </div>
                 </Menu.Items>
               </Transition>
