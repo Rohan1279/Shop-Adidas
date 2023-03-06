@@ -6,7 +6,7 @@ import {
   HiOutlineXMark,
   HiShoppingCart,
 } from "react-icons/hi2";
-import { Link, NavLink } from "react-router-dom";
+import { Link, Navigate, NavLink } from "react-router-dom";
 const Navbar = () => {
   const [active, setActive] = useState(false);
 
@@ -236,7 +236,7 @@ const Navbar = () => {
                       {({ active }) => (
                         <button
                           className={`${
-                            active ? "shadow-nm" : "text-gray-500"
+                            active ? "" : "text-gray-500"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mb-2 border border-zinc-300 transition-all`}
                         >
                           Profile
@@ -245,22 +245,24 @@ const Navbar = () => {
                     </Menu.Item>
                   </div>
                   <div className="px-1 py-1">
+                    <Link to={"/login"}>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={`${
+                              active ? "" : "text-gray-500"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mt-1 border border-zinc-300 transition-all`}
+                          >
+                            Login
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </Link>
                     <Menu.Item>
                       {({ active }) => (
                         <button
                           className={`${
-                            active ? "shadow-nm" : "text-gray-500"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mt-1 border border-zinc-300 transition-all`}
-                        >
-                          Login
-                        </button>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active ? "shadow-nm" : "text-gray-500"
+                            active ? "" : "text-gray-500"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
                           mt-1 border border-zinc-300 transition-all`}
                         >
