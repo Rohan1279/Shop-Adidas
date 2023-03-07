@@ -15,22 +15,27 @@ const Register = () => {
   const { authInfo } = useContext(Context);
   const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
     authInfo;
-  const [userRole, setUserRole] = useState("Buyer");
+  const [userRole, setUserRole] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [roleError, setRoleError] = useState(false);
   const buyerRef = useRef();
   const sellerRef = useRef();
-  console.log(userRole);
+  console.log("userRole", userRole);
   const handleAuthenticate = (provider) => {
-    authenticateWithProvider(provider)
-      .then((result) => {
-        console.log(result.user);
-        console.log(userRole);
-        // saveUser(result?.user.displayName, result?.user.email, userRole);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (userRole) {
+      authenticateWithProvider(provider)
+        .then((result) => {
+          console.log(result.user);
+          console.log(userRole);
+          // saveUser(result?.user.displayName, result?.user.email, userRole);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setRoleError(!roleError);
+      return;
+    }
   };
   const handleRegister = (e) => {
     e.preventDefault();
@@ -41,23 +46,28 @@ const Register = () => {
     const password = form.password.value;
     console.log(name, email, password);
 
-    createUser(email, password)
-      .then((result) => {
-        console.log(result);
-        const user = result.user;
-        const userInfo = { displayName: name };
-        // updateUserProfile(userInfo)
-        //   .then(() => {
-        //     // saveUser(name, email, userRole);
-        //   })
-        //   .catch((err) => console.log(err));
-        // console.log(user);
-      })
-      .catch((err) => {
-        console.log(err);
-        // toast.error(err.message);
-        setIsLoading(false);
-      });
+    if (userRole) {
+      createUser(email, password)
+        .then((result) => {
+          console.log(result);
+          const user = result.user;
+          const userInfo = { displayName: name };
+          // updateUserProfile(userInfo)
+          //   .then(() => {
+          //     // saveUser(name, email, userRole);
+          //   })
+          //   .catch((err) => console.log(err));
+          // console.log(user);
+        })
+        .catch((err) => {
+          console.log(err);
+          // toast.error(err.message);
+          setIsLoading(false);
+        });
+    } else {
+      setRoleError(!roleError);
+      return;
+    }
   };
   return (
     <div className="h-screen">
@@ -76,7 +86,7 @@ const Register = () => {
             <div className="flex  items-center border border-gray-300 rounded-md">
               {/* <FaVoicemail className=""></FaVoicemail> */}
               <img
-                src="https://cdn2.iconfinder.com/data/icons/3d-basic/512/email_mail_message_envelope_communication.png"
+                src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
                 alt=""
                 className="w-10 p-1"
               />
@@ -117,7 +127,7 @@ const Register = () => {
               <div className="flex  items-center border border-gray-300 rounded-md">
                 {/* <FaVoicemail className=""></FaVoicemail> */}
                 <img
-                  src="https://cdn4.iconfinder.com/data/icons/mix-3d-elements/256/7_lock_secure_security_padlock_protection_locker_password.png"
+                  src="https://cdn0.iconfinder.com/data/icons/keys-and-locks-16/256/Key_Car_1_Front.png"
                   alt=""
                   className="w-10 p-1"
                 />
@@ -134,7 +144,12 @@ const Register = () => {
         </div>
         {/* user role */}
         <h2 className="text-center my-3">Choose your role</h2>
-        <div className="w-full mx-auto flex items-center space-x-2 mb-6">
+
+        <div
+          className={`w-full mx-auto flex items-center space-x-2 ${
+            roleError && "animate-shake"
+          }`}
+        >
           <div className="w-1/2">
             {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
 
@@ -169,7 +184,7 @@ const Register = () => {
                 e.preventDefault();
                 setUserRole(sellerRef.current.innerText);
               }}
-              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md focus:bg-blue-400 transition-all duration-300 w-full"
+              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md focus:bg-blue-400  transition-all duration-300 w-full"
             >
               <img
                 src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
@@ -183,11 +198,16 @@ const Register = () => {
             {/* </label> */}
           </div>
         </div>
+        {roleError && (
+          <p className="text-center text-sm text-red-500">
+            Please choose a role
+          </p>
+        )}
         <div>
           <input
             type="submit"
             value="Register"
-            className="mx-auto bg-secondary-color border border-gray-300 p-2 text-xl active:shadow-nm-inset w-full rounded-md"
+            className="mx-auto bg-secondary-color border border-gray-300 p-2 text-xl active:shadow-nm-inset w-full rounded-md mt-6"
           />
           {/* <button
             onClick={handleRegister}
@@ -196,6 +216,7 @@ const Register = () => {
             Register
           </button> */}
         </div>
+
         <hr className=" border-gray-300 my-3" />
         <div className="flex justify-center space-x-3  mb-3">
           {/* <FaGoogle
