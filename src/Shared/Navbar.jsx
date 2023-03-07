@@ -200,12 +200,17 @@ const Navbar = () => {
                   to={"/cart"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm-inset transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
-                      : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
+                      ? ` shadow-nm-inset transition-all text-gray-800 px-2 py-1 rounded-md text-sm font-medium border border-zinc-300`
+                      : "shadow-nm text-gray-500  transition-all  px-2 py-1 hover:text-gray-800 rounded-md  text-sm font-medium border border-zinc-300"
                   }
                 >
-                  <div className="flex space-x-2 rounded-md">
-                    <HiShoppingCart className="text-xl"></HiShoppingCart>
+                  <div className="flex space-x-2 justify-center items-center">
+                    {/* <HiShoppingCart className="text-xl"></HiShoppingCart> */}
+                    <img
+                      src="https://cdn4.iconfinder.com/data/icons/smooth-3d-for-online-stores/512/shopping-basket.png"
+                      alt=""
+                      className="w-7"
+                    />
                     <span className="text-sm">Cart</span>
                   </div>
                 </NavLink>
