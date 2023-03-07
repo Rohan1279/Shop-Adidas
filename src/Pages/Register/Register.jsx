@@ -1,6 +1,12 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useRef, useState } from "react";
-import { FaAppStore, FaGithub, FaGoogle, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaAppStore,
+  FaGithub,
+  FaGoogle,
+  FaSignOutAlt,
+  FaVoicemail,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
 const googleProvider = new GoogleAuthProvider();
@@ -58,42 +64,66 @@ const Register = () => {
         onClick={() => logOut()}
         className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"
       ></FaSignOutAlt>
-      <form onSubmit={handleRegister} className="card-body w-full">
+      <form onSubmit={handleRegister} className="card-body w-1/3 mx-auto">
         <div className="form-control">
-          <label className="input-group ">
-            <span>Name</span>
-            <input
-              type="text"
-              placeholder="your name"
-              name="name"
-              className="input input-bordered w-full"
-              // required
-            />
-          </label>
-        </div>
-        <div className="">
-          <div className="form-control pb-2 ">
-            <label className="input-group rounded-none">
-              <span className="label-text ">Email</span>
-              <input
-                type="text"
-                placeholder="email"
-                name="email"
-                className="input input-bordered w-full"
-                required
-              />
+          <div className="form-control ">
+            <label className="input-group  rounded-none">
+              <span className="label-text ">Your email</span>
+              <div className="flex  items-center border border-gray-300 rounded-md">
+                {/* <FaVoicemail className=""></FaVoicemail> */}
+                <img
+                  src="https://cdn2.iconfinder.com/data/icons/3d-basic/512/email_mail_message_envelope_communication.png"
+                  alt=""
+                  className="w-10 p-1"
+                />
+                <input
+                  type="text"
+                  placeholder="example@gmail.com"
+                  name="email"
+                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset p-3"
+                  required
+                />
+              </div>
             </label>
           </div>
+        </div>
+        <div className="">
           <div className="form-control">
-            <label className="input-group">
+            <label className="input-group  ">
+              <span>Your name</span>
+              <div className="flex  items-center border border-gray-300 rounded-md">
+                {/* <FaVoicemail className=""></FaVoicemail> */}
+                <img
+                  src="https://cdn3.iconfinder.com/data/icons/school-and-education-113/256/name_card.png"
+                  alt=""
+                  className="w-10 p-1"
+                />
+                <input
+                  type="text"
+                  placeholder="your name"
+                  name="name"
+                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset p-3"
+                  // required
+                />
+              </div>
+            </label>
+            <label className="input-group ">
               <span className="label-text">Password</span>
-              <input
-                type="text"
-                name="password"
-                placeholder="password"
-                className="input input-bordered w-full"
-                required
-              />
+              <div className="flex  items-center border border-gray-300 rounded-md">
+                {/* <FaVoicemail className=""></FaVoicemail> */}
+                <img
+                  src="https://cdn3.iconfinder.com/data/icons/3d-basic/256/password_padlock_lock_privacy_lock.png"
+                  alt=""
+                  className="w-10 p-1"
+                />
+                <input
+                  type="text"
+                  name="password"
+                  placeholder="password"
+                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset p-3"
+                  required
+                />
+              </div>
             </label>
           </div>
         </div>
