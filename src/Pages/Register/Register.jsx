@@ -80,7 +80,7 @@ const Register = () => {
                   type="text"
                   placeholder="example@gmail.com"
                   name="email"
-                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset p-3"
+                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset px-3 py-2"
                   required
                 />
               </div>
@@ -102,7 +102,7 @@ const Register = () => {
                   type="text"
                   placeholder="your name"
                   name="name"
-                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset p-3"
+                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset px-3 py-2"
                   // required
                 />
               </div>
@@ -120,7 +120,7 @@ const Register = () => {
                   type="text"
                   name="password"
                   placeholder="password"
-                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset p-3"
+                  className="input input-bordered w-full bg-secondary-color shadow-nm-inset px-3 py-2"
                   required
                 />
               </div>
@@ -130,7 +130,12 @@ const Register = () => {
         {/* user role */}
         <div className="flex w-full justify-evenly items-center my-3">
           <div className="form-control">
-            <label className="label cursor-pointer">
+            <label className="label cursor-pointer  flex items-center border border-gray-300 px-3 py-2 rounded-md " >
+                <img
+                  src="https://cdn0.iconfinder.com/data/icons/investing-navy-volume-2/64/Investor-256.png"
+                  alt=""
+                  className="w-8 h-8"
+                />
               <span className="label-text mx-3 text-xl" ref={buyerRef}>
                 Buyer
               </span>
@@ -139,10 +144,13 @@ const Register = () => {
                 // onChange={() => setUserRole(buyerRef.current.innerText)}
                 type="radio"
                 name="radio-10"
-                className="radio checked:bg-yellow-500"
+                className="checked:bg-yellow-500"
                 // checked
                 defaultChecked
-              />
+              >
+
+                
+              </input>
             </label>
           </div>
           <div className="form-control">
