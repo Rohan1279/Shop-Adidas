@@ -70,10 +70,13 @@ const Register = () => {
     }
   };
   const handleUserRole = (e, role) => {
-    console.log("role", role);
+    setUserRole(role?.current.innerText);
+    console.log("role", role?.current.innerText);
     console.log("userRole", userRole);
-    e.target?.classList?.add("bg-blue-400");
-    if (role === userRole) {
+    if (role && role !== userRole) {
+      e.target?.classList?.add("bg-blue-400");
+      // e.target?.classList?.remove("bg-blue-400");
+    } else {
       e.target?.classList?.remove("bg-blue-400");
     }
     setRoleError(false);
@@ -167,12 +170,12 @@ const Register = () => {
               onClick={(e) => {
                 e.preventDefault();
                 // e.target?.classList?.add("bg-blue-400");
-                handleUserRole(e, buyerRef.current.innerText);
-                setUserRole(buyerRef.current.innerText);
+                handleUserRole(e, buyerRef);
+                // setUserRole(buyerRef);
               }}
               type="radio"
               name="radio-10"
-              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md focus:bg-blue-400 transition-all duration-300 w-full"
+              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 w-full"
               // checked
               // defaultChecked
             >
@@ -193,10 +196,10 @@ const Register = () => {
               // onChange={handleUserRole}
               onClick={(e) => {
                 e.preventDefault();
-                handleUserRole(e, sellerRef.current.innerText);
-                setUserRole(sellerRef.current.innerText);
+                handleUserRole(e, sellerRef);
+                // setUserRole(sellerRef.current.innerText);
               }}
-              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md   transition-all duration-300 w-full"
+              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 w-full"
             >
               <img
                 src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
@@ -219,7 +222,7 @@ const Register = () => {
           <input
             type="submit"
             value="Register"
-            className="mx-auto bg-secondary-color border border-gray-300 p-2 text-xl active:shadow-nm-inset w-full rounded-md mt-6"
+            className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md mt-6 "
           />
           {/* <button
             onClick={handleRegister}
