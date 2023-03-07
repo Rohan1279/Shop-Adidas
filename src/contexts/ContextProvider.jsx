@@ -20,6 +20,7 @@ const ContextProvider = ({ children }) => {
   const { products, categories, isLoading } = dataLoader();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  console.log(user);
   const createUser = (email, passoword) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, passoword);
