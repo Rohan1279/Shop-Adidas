@@ -7,6 +7,7 @@ import { getStoredCart } from "../utils/fakeDB";
 export const Context = createContext();
 const ContextProvider = ({ children }) => {
   const { products, categories, isLoading } = dataLoader();
+  
   // const storedProducts = getStoredCart(); //! products with id
   // const initialCart = [];
   // for (const _id in storedProducts) {
