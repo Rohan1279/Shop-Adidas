@@ -128,14 +128,14 @@ const Register = () => {
           </div>
         </div>
         {/* user role */}
-        <div className="flex w-full justify-evenly items-center my-3">
+        <div className="space-y-3 md:flex w-full justify-evenly items-center my-3">
           <div className="form-control">
-            <label className="label cursor-pointer  flex items-center border border-gray-300 px-3 py-2 rounded-md " >
-                <img
-                  src="https://cdn0.iconfinder.com/data/icons/investing-navy-volume-2/64/Investor-256.png"
-                  alt=""
-                  className="w-8 h-8"
-                />
+            <label className="label cursor-pointer  flex items-center border border-gray-300 px-3 py-2 rounded-md ">
+              <img
+                src="https://cdn1.iconfinder.com/data/icons/3d-isometric-color/256/bag-iso-color.png"
+                alt=""
+                className="w-10 h-10"
+              />
               <span className="label-text mx-3 text-xl" ref={buyerRef}>
                 Buyer
               </span>
@@ -147,14 +147,16 @@ const Register = () => {
                 className="checked:bg-yellow-500"
                 // checked
                 defaultChecked
-              >
-
-                
-              </input>
+              ></input>
             </label>
           </div>
           <div className="form-control">
-            <label className="label cursor-pointer">
+            <label className="label cursor-pointer  flex items-center border border-gray-300 px-3 py-2 rounded-md ">
+              <img
+                src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
+                alt=""
+                className="w-10 h-10"
+              />
               <span className="label-text mx-3 text-xl" ref={sellerRef}>
                 Seller
               </span>
