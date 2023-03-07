@@ -139,10 +139,16 @@ const Register = () => {
         <div className="divider ">OR</div>
         <hr className=" border-gray-400" />
         <div className="flex  mx-auto gap-x-10">
-          <FaGoogle
+          {/* <FaGoogle
             onClick={() => handleAuthenticate(googleProvider)}
             className="text-6xl bg-secondary-color shadow-nm p-2 rounded-full mx-auto active:shadow-nm-inset"
-          ></FaGoogle>
+          ></FaGoogle> */}
+          <img
+            onClick={() => handleAuthenticate(googleProvider)}
+            src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media_search___google_logo_engine_software.png"
+            alt=""
+            className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full mx-auto active:shadow-nm-inset"
+          />
         </div>
         <div className="form-control mt-6 ">
           {/* <button className="btn btn-primary">
