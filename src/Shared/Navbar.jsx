@@ -221,8 +221,8 @@ const Navbar = () => {
             <Menu>
               <Menu.Button>
                 <img
-                  className="h-12 w-12 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  className="h-12 w-12 rounded-full border border-gray-300"
+                  src="https://cdn2.iconfinder.com/data/icons/male-avatars/256/avatars_accounts___man_male_people_person_hat_cap_baseball_cap_necklace_shirtless.png"
                   alt=""
                 />
               </Menu.Button>
