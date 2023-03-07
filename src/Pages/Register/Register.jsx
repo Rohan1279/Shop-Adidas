@@ -10,14 +10,16 @@ const Register = () => {
   const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
     authInfo;
   const [userRole, setUserRole] = useState("Buyer");
+  const [isLoading, setIsLoading] = useState(false);
+
   const buyerRef = useRef();
   const sellerRef = useRef();
-  console.log(userRole);
+  // console.log(userRole);
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
       .then((result) => {
         console.log(result.user);
-        saveUser(result?.user.displayName, result?.user.email, userRole);
+        // saveUser(result?.user.displayName, result?.user.email, userRole);
       })
       .catch((err) => {
         console.log(err);
@@ -25,36 +27,30 @@ const Register = () => {
   };
   const handleRegister = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
+    console.log(name, email, password);
 
-    // const image = e.target.image.files[0];
-    // const formData = new FormData();
-    // formData.append("image", image);
-    // console.log(image);
-
-    getImageUrl(imgFile).then((imgData) => {
-      console.log(imgData);
-      createUser(email, password)
-        .then((result) => {
-          console.log(result);
-          const user = result.user;
-          const userInfo = { displayName: name, photoURL: imgData };
-          updateUserProfile(userInfo)
-            .then(() => {
-              saveUser(name, email, userRole);
-            })
-            .catch((err) => console.log(err));
-          // console.log(user);
-        })
-        .catch((err) => {
-          toast.error(err.message);
-          setIsLoading(false);
-        });
-    });
+    createUser(email, password)
+      .then((result) => {
+        console.log(result);
+        const user = result.user;
+        const userInfo = { displayName: name };
+        // updateUserProfile(userInfo)
+        //   .then(() => {
+        //     // saveUser(name, email, userRole);
+        //   })
+        //   .catch((err) => console.log(err));
+        // console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+        // toast.error(err.message);
+        setIsLoading(false);
+      });
   };
   return (
     <div className="h-screen">
@@ -134,8 +130,14 @@ const Register = () => {
             </label>
           </div>
         </div>
+        <button
+          // onClick={handleRegister}
+          className="mx-auto bg-secondary-color shadow-nm p-2 text-3xl active:shadow-nm-inset"
+        >
+          Register
+        </button>
         <div className="divider ">OR</div>
-        <hr className=" border-gray-400"/>
+        <hr className=" border-gray-400" />
         <div className="flex  mx-auto gap-x-10">
           <FaGoogle
             onClick={() => handleAuthenticate(googleProvider)}
