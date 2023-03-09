@@ -5,6 +5,7 @@ import {
   FaGithub,
   FaGoogle,
   FaSignOutAlt,
+  FaUsersSlash,
   FaVoicemail,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -16,11 +17,12 @@ const Register = () => {
   const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
     authInfo;
   const [userRole, setUserRole] = useState(null);
+  const [prevRole, setprevRole] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [roleError, setRoleError] = useState(false);
   const buyerRef = useRef();
   const sellerRef = useRef();
-  // console.log("userRole", userRole);
+  console.log("userRole", userRole);
   const handleAuthenticate = (provider) => {
     if (userRole) {
       authenticateWithProvider(provider)
@@ -70,32 +72,36 @@ const Register = () => {
     }
   };
   const handleUserRole = (e, role) => {
-    setUserRole(role?.current.innerText);
-    console.log("role", role?.current.innerText);
-    console.log("userRole", userRole);
-    if (role && role !== userRole) {
-      e.target?.classList?.add("bg-blue-400");
-      // e.target?.classList?.remove("bg-blue-400");
-    } else {
-      e.target?.classList?.remove("bg-blue-400");
+    // console.log("role", role?.current.innerText);
+    // console.log("userRole", userRole);
+
+    e.target?.classList?.add("bg-blue-400");
+    setprevRole(e);
+
+    if (e !== prevRole) {
+      prevRole?.target?.classList?.remove("bg-blue-400");
+      setUserRole(role?.current.innerText);
     }
+    //  else {
+    //   e.target?.classList?.remove("bg-blue-400");
+    // }
     setRoleError(false);
   };
   return (
-    <div className="h-screen">
+    <div className="h-fit">
       <FaSignOutAlt
         onClick={() => logOut()}
         className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"
       ></FaSignOutAlt>
       <form
         onSubmit={handleRegister}
-        className="w-[28rem] mx-auto p-8 rounded-xl shadow-nm"
+        className="w-[26rem] mx-auto p-8 rounded-xl shadow-nm"
       >
         <h1 className="text-center text-3xl font-extrabold">Create account</h1>
         <div className="my-6">
           <label className="input-group  rounded-none">
             <span className="label-text ">Your email</span>
-            <div className="flex  items-center border border-gray-300 rounded-full px-2 overflow-hidden">
+            <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
               {/* <FaVoicemail className=""></FaVoicemail> */}
               <img
                 src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
@@ -106,7 +112,7 @@ const Register = () => {
                 type="text"
                 placeholder="example@gmail.com"
                 name="email"
-                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color  p-2 roundr"
+                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
                 required
               />
             </div>
@@ -116,7 +122,7 @@ const Register = () => {
           <div className="mb-6">
             <label className=" ">
               <span>Your name</span>
-              <div className="flex  items-center border border-gray-300 rounded-full px-2 overflow-hidden">
+              <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
                 {/* <FaVoicemail className=""></FaVoicemail> */}
                 <img
                   src="https://cdn3.iconfinder.com/data/icons/school-and-education-113/256/name_card.png"
@@ -127,7 +133,7 @@ const Register = () => {
                   type="text"
                   placeholder="your name"
                   name="name"
-                  className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color  p-2 roundr"
+                  className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
                   // required
                 />
               </div>
@@ -136,7 +142,7 @@ const Register = () => {
           <div className="mb-6">
             <label className=" ">
               <span className="label-text">Password</span>
-              <div className="flex  items-center border border-gray-300 rounded-full px-2 overflow-hidden">
+              <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
                 {/* <FaVoicemail className=""></FaVoicemail> */}
                 <img
                   src="https://cdn0.iconfinder.com/data/icons/keys-and-locks-16/256/Key_Car_1_Front.png"
@@ -147,7 +153,7 @@ const Register = () => {
                   type="password"
                   name="password"
                   placeholder="password"
-                  className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color  p-2 roundr"
+                  className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
                   required
                 />
               </div>
@@ -170,12 +176,10 @@ const Register = () => {
               onClick={(e) => {
                 e.preventDefault();
                 // e.target?.classList?.add("bg-blue-400");
+                // setUserRole(buyerRef.current.innerText);
                 handleUserRole(e, buyerRef);
-                // setUserRole(buyerRef);
               }}
-              type="radio"
-              name="radio-10"
-              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 w-full"
+              className="cursor-pointer flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 w-full"
               // checked
               // defaultChecked
             >
@@ -196,8 +200,8 @@ const Register = () => {
               // onChange={handleUserRole}
               onClick={(e) => {
                 e.preventDefault();
-                handleUserRole(e, sellerRef);
                 // setUserRole(sellerRef.current.innerText);
+                handleUserRole(e, sellerRef);
               }}
               className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 w-full"
             >
