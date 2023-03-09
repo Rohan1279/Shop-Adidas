@@ -88,20 +88,20 @@ const Register = () => {
     setRoleError(false);
   };
   return (
-    <div className="h-fit">
+    <div className="h-fit ">
       <FaSignOutAlt
         onClick={() => logOut()}
         className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"
       ></FaSignOutAlt>
       <form
         onSubmit={handleRegister}
-        className="w-[26rem] mx-auto p-8 rounded-xl shadow-nm"
+        className="w-fit mx-auto p-8 rounded-xl shadow-nm "
       >
         <h1 className="text-center text-3xl font-extrabold">Create account</h1>
         <div className="my-6">
-          <label className="input-group  rounded-none">
-            <span className="label-text ">Your email</span>
-            <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
+          <label className=" rounded-none">
+            {/* <span className="">Your email</span> */}
+            <div className="flex items-center border border-gray-300 rounded-full pl-2  overflow-hidden ">
               {/* <FaVoicemail className=""></FaVoicemail> */}
               <img
                 src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
@@ -112,7 +112,7 @@ const Register = () => {
                 type="text"
                 placeholder="example@gmail.com"
                 name="email"
-                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
+                className="border-l border-l-gray-300 focus:outline-none w-72 min-w-fit bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
                 required
               />
             </div>
@@ -121,7 +121,7 @@ const Register = () => {
         <div>
           <div className="mb-6">
             <label className=" ">
-              <span>Your name</span>
+              {/* <span>Your name</span> */}
               <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
                 {/* <FaVoicemail className=""></FaVoicemail> */}
                 <img
@@ -141,7 +141,7 @@ const Register = () => {
           </div>
           <div className="mb-6">
             <label className=" ">
-              <span className="label-text">Password</span>
+              {/* <span className="">Password</span> */}
               <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
                 {/* <FaVoicemail className=""></FaVoicemail> */}
                 <img
