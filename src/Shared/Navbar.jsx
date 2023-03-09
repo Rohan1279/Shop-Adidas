@@ -1,15 +1,26 @@
 import { Menu, Popover, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import Button from "../components/Button/Button";
 import {
   HiBars3BottomLeft,
   HiOutlineXMark,
   HiShoppingCart,
 } from "react-icons/hi2";
+import {
+  FaAppStore,
+  FaGithub,
+  FaGoogle,
+  FaSignOutAlt,
+  FaUsersSlash,
+  FaVoicemail,
+} from "react-icons/fa";
+import { Context } from "../contexts/ContextProvider";
 import { Link, Navigate, NavLink } from "react-router-dom";
-const Navbar = () => {
-  const [active, setActive] = useState(false);
 
+const Navbar = () => {
+  const { authInfo } = useContext(Context);
+  const { logOut, user } = authInfo;
+  const [active, setActive] = useState(false);
   return (
     <nav className="bg-secondary-color fixed top-0 w-full z-10 ">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8  relative z-30">
@@ -123,8 +134,17 @@ const Navbar = () => {
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
-                                <div className="flex space-x-2 rounded-md">
+                                {/* <div className="flex space-x-2 rounded-md">
                                   <HiShoppingCart className="text-xl"></HiShoppingCart>
+                                  <span className="text-sm">Cart</span>
+                                </div> */}
+                                <div className="flex space-x-2 justify- items-center">
+                                  {/* <HiShoppingCart className="text-xl"></HiShoppingCart> */}
+                                  <img
+                                    src="https://cdn4.iconfinder.com/data/icons/smooth-3d-for-online-stores/512/shopping-basket.png"
+                                    alt=""
+                                    className="w-7"
+                                  />
                                   <span className="text-sm">Cart</span>
                                 </div>
                               </NavLink>
@@ -277,6 +297,25 @@ const Navbar = () => {
                         )}
                       </Menu.Item>
                     </Link>
+                    {/* <FaSignOutAlt
+                      onClick={() => logOut()}
+                      className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"
+                    /> */}
+                    {user && (
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => logOut()}
+                            className={`${
+                              active ? "" : "text-gray-500"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
+                        mt-1 border border-zinc-300 transition-all`}
+                          >
+                            Logout
+                          </button>
+                        )}
+                      </Menu.Item>
+                    )}
                   </div>
                 </Menu.Items>
               </Transition>

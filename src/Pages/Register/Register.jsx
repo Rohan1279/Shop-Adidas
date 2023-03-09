@@ -1,13 +1,13 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useRef, useState } from "react";
-import {
-  FaAppStore,
-  FaGithub,
-  FaGoogle,
-  FaSignOutAlt,
-  FaUsersSlash,
-  FaVoicemail,
-} from "react-icons/fa";
+// import {
+//   FaAppStore,
+//   FaGithub,
+//   FaGoogle,
+//   FaSignOutAlt,
+//   FaUsersSlash,
+//   FaVoicemail,
+// } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
 const googleProvider = new GoogleAuthProvider();
@@ -89,10 +89,8 @@ const Register = () => {
   };
   return (
     <div className="h-fit ">
-      <FaSignOutAlt
-        onClick={() => logOut()}
-        className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"
-      ></FaSignOutAlt>
+      {/* <FaS
+       */}
       <form
         onSubmit={handleRegister}
         className="w-fit mx-auto p-8 rounded-xl shadow-nm "
