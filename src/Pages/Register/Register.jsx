@@ -16,7 +16,7 @@ const Register = () => {
   const { authInfo } = useContext(Context);
   const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
     authInfo;
-  const [userRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState("Buyer");
   const [prevRole, setprevRole] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [roleError, setRoleError] = useState(false);
@@ -89,36 +89,32 @@ const Register = () => {
   };
   return (
     <div className="h-fit ">
-      {/* <FaS
-       */}
       <form
         onSubmit={handleRegister}
-        className="w-fit mx-auto p-8 rounded-xl shadow-nm "
+        className="max-w-md min-w-fit mx-auto p-8 rounded-xl shadow-nm "
       >
-        <h1 className="text-center text-3xl font-extrabold">Create account</h1>
-        <div className="my-6">
-          <label className=" rounded-none">
-            {/* <span className="">Your email</span> */}
-            <div className="flex items-center border border-gray-300 rounded-full pl-2  overflow-hidden ">
-              {/* <FaVoicemail className=""></FaVoicemail> */}
-              <img
-                src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
-                alt=""
-                className="w-10 p-1"
-              />
-              <input
-                type="text"
-                placeholder="example@gmail.com"
-                name="email"
-                className="border-l border-l-gray-300 focus:outline-none w-72 min-w-fit bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
-                required
-              />
-            </div>
-          </label>
+        <h1 className="text-center text-3xl font-extrabold ">Create account</h1>
+        {/* //! EMAIL // */}
+        {/* <span className="">Your email</span> */}
+        <div className="flex items-center border border-gray-300 rounded-full pl-2  overflow-hidden my-6">
+          {/* <FaVoicemail className=""></FaVoicemail> */}
+          <img
+            src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
+            alt=""
+            className="w-10 p-1"
+          />
+          <input
+            type="email"
+            placeholder="example@gmail.com"
+            name="email"
+            className="border-l border-l-gray-300 focus:outline-none w-72 bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset text-gray-600 "
+            required
+          />
         </div>
         <div>
+          {/* //! NAME // */}
           <div className="mb-6">
-            <label className=" ">
+            <label className="">
               {/* <span>Your name</span> */}
               <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
                 {/* <FaVoicemail className=""></FaVoicemail> */}
@@ -137,6 +133,7 @@ const Register = () => {
               </div>
             </label>
           </div>
+          {/* //! PASSWORD // */}
           <div className="mb-6">
             <label className=" ">
               {/* <span className="">Password</span> */}
