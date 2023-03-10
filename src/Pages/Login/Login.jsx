@@ -19,10 +19,10 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+    });
   };
   return (
-    <div className="h-fit ">
+    <div className="h-screen ">
       <form
         // onSubmit={handleRegister}
         className="max-w-sm min-w-fit mx-auto rounded-xl shadow-nm relative my-20"
@@ -91,9 +91,9 @@ const Login = () => {
       </button> */}
 
           <div className="flex justify-center items-center space-x-5 my-3">
-            <hr className=" border-gray-300 w-16" />
+            <hr className=" border-gray-400 w-20" />
             <p>OR</p>
-            <hr className=" border-gray-300 w-16" />
+            <hr className=" border-gray-400 w-20" />
           </div>
           <div className="flex justify-center space-x-3  mb-3">
             {/* <FaGoogle

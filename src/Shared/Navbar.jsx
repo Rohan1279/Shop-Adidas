@@ -256,7 +256,9 @@ const Navbar = () => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute right-0 mt-56 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 z-50">
-                  <div className="px-1 py-1">
+             
+                  
+                  <div className="px-1 py-1 ">
                     <Menu.Item>
                       {({ active }) => (
                         <button
@@ -269,8 +271,9 @@ const Navbar = () => {
                       )}
                     </Menu.Item>
                   </div>
-                  <div className="px-1 py-1">
-                    {user ? (
+                  <div className="px-1 py-1 ">
+               {user ? <>
+               
                       <Menu.Item>
                         {({ active }) => (
                           <button
@@ -284,7 +287,11 @@ const Navbar = () => {
                           </button>
                         )}
                       </Menu.Item>
-                    ) : (
+               
+               
+               </> : <>
+               
+               
                       <>
                         <Link to={"/login"}>
                           <Menu.Item>
@@ -299,7 +306,12 @@ const Navbar = () => {
                             )}
                           </Menu.Item>
                         </Link>
-                        <Link to={"/register"}>
+                      </>
+               </>}
+                  
+                   
+                    
+                        <Link to={"/"}>
                           <Menu.Item>
                             {({ active }) => (
                               <button
@@ -308,13 +320,11 @@ const Navbar = () => {
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
                           mt-1 border border-zinc-300 transition-all`}
                               >
-                                Register
+                                Wishlist
                               </button>
                             )}
                           </Menu.Item>
                         </Link>
-                      </>
-                    )}
                     {/* <FaSignOutAlt
                       onClick={() => logOut()}
                       className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"

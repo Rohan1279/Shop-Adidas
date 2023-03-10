@@ -241,9 +241,9 @@ const Register = () => {
         </div>
 
         <div className="flex justify-center items-center space-x-5 my-3">
-          <hr className=" border-gray-300 w-16" />
+          <hr className=" border-gray-400 w-20" />
           <p>OR</p>
-          <hr className=" border-gray-300 w-16" />
+          <hr className=" border-gray-400 w-20" />
         </div>
         <div className="flex justify-center space-x-3  mb-3">
           {/* <FaGoogle
