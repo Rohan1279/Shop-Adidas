@@ -240,7 +240,11 @@ const Register = () => {
           </button> */}
         </div>
 
-        <hr className=" border-gray-300 my-3" />
+        <div className="flex justify-center items-center space-x-5 my-3">
+          <hr className=" border-gray-300 w-16" />
+          <p>OR</p>
+          <hr className=" border-gray-300 w-16" />
+        </div>
         <div className="flex justify-center space-x-3  mb-3">
           {/* <FaGoogle
             onClick={() => handleAuthenticate(googleProvider)}
