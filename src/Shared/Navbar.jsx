@@ -278,7 +278,7 @@ const Navbar = () => {
                         <button
                           className={`${
                             active ? "" : "text-gray-500"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mb-2 border border-zinc-300 transition-all`}
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mb-1 border border-zinc-300 transition-all`}
                         >
                           Wishlist
                         </button>

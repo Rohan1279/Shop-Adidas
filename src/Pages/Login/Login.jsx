@@ -1,5 +1,5 @@
 import { GoogleAuthProvider } from "firebase/auth";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
@@ -8,8 +8,49 @@ const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
   const { authInfo } = useContext(Context);
-  const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
-    authInfo;
+  const {
+    createUser,
+    authenticateWithProvider,
+    updateUserProfile,
+    login,
+    logOut,
+  } = authInfo;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    // check if user exist in database
+    // fetch(`${process.env.REACT_APP_URL}/users?email=${email}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     // console.log(data.user);
+    //     const user = data.user;
+    //     if (user) {
+    //       login(email, password)
+    //         .then((result) => {
+    //           const user = result.user;
+    //           const currentUser = {
+    //             email: user.email,
+    //           };
+    //           setUserEmail(user?.email);
+    //           // console.log("after login", token);
+    //           toast.success("Login successfull");
+    //         })
+    //         .catch((err) => {
+    //           toast.error(err.message);
+    //           setIsLoading(false);
+    //         });
+    //     } else {
+    //       toast.error("Please create an account first");
+    //       setIsLoading(false);
+    //     }
+    //   });
+  };
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
       .then((result) => {
@@ -19,12 +60,12 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-    });
+      });
   };
   return (
     <div className="h-screen ">
       <form
-        // onSubmit={handleRegister}
+        onSubmit={handleLogin}
         className="max-w-sm min-w-fit mx-auto rounded-xl shadow-nm relative my-20"
       >
         <LazyLoadImage
@@ -68,7 +109,7 @@ const Login = () => {
               required
             />
           </div>
-          <div className="mt-3 mb-6 flex justify-between">
+          <div className="mt-3 mb-6 flex justify-between text-sm text-zinc-600">
             <span className="flex justify-center items-center space-x-1">
               {" "}
               <input type="checkbox" name="" id="" />{" "}
@@ -81,7 +122,7 @@ const Login = () => {
           <input
             type="submit"
             value="Login"
-            className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md  "
+            className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md "
           />
           {/* <button
         onClick={handleRegister}
@@ -90,7 +131,7 @@ const Login = () => {
         Register
       </button> */}
 
-          <div className="flex justify-center items-center space-x-5 my-3">
+          <div className="flex justify-center items-center space-x-5 my-3 text-sm text-zinc-600">
             <hr className=" border-gray-400 w-20" />
             <p>OR</p>
             <hr className=" border-gray-400 w-20" />
@@ -121,9 +162,12 @@ const Login = () => {
         )}
       </button>
     </div> */}
-          <p className=" text-center">
+          <p className="text-center text-sm text-zinc-600">
             Don't have an account?{" "}
-            <Link to={"/register"} className="text-orange-600 font-bold">
+            <Link
+              to={"/register"}
+              className="text-zinc-900 font-bold hover:underline"
+            >
               Register
             </Link>
           </p>

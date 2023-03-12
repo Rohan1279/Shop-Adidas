@@ -10,12 +10,20 @@ import React, { useContext, useRef, useState } from "react";
 // } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
+import { useToken } from "../../hooks/useToken";
 const googleProvider = new GoogleAuthProvider();
 // const githubProvider = new GithubAuthProvider();
 const Register = () => {
   const { authInfo } = useContext(Context);
   const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
     authInfo;
+  const [createUserEmail, setCreatedUserEmail] = useState("");
+  //! jwt verification
+  // const [token] = useToken(createUserEmail);
+  // if (token) {
+  //   console.log(token);
+  //   navigate("/");
+  // }
   const [userRole, setUserRole] = useState("Buyer");
   const [prevRole, setprevRole] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +64,7 @@ const Register = () => {
           const userInfo = { displayName: name };
           // updateUserProfile(userInfo)
           //   .then(() => {
-          //     // saveUser(name, email, userRole);
+          saveUser(name, email, userRole);
           //   })
           //   .catch((err) => console.log(err));
           // console.log(user);
@@ -70,6 +78,26 @@ const Register = () => {
       setRoleError(true);
       return;
     }
+  };
+  const saveUser = (name, email, userRole) => {
+    const user = { name, email, userRole };
+    fetch(`${process.env.VITE_SERVER_URL}/users`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // ! jwt verification
+        // setCreatedUserEmail(email);
+        if (data.acknowledged) {
+          // toast.success("Account created successfully");
+          setIsLoading(false);
+        }
+        console.log(data);
+      });
   };
   const handleUserRole = (e, role) => {
     // console.log("role", role?.current.innerText);
@@ -93,7 +121,7 @@ const Register = () => {
     setRoleError(false);
   };
   return (
-    <div className="h-fit ">
+    <div className="h-fit">
       <form
         onSubmit={handleRegister}
         className="max-w-sm min-w-fit mx-auto p-8 rounded-xl shadow-nm "
@@ -151,7 +179,7 @@ const Register = () => {
           />
         </div>
         {/* user role */}
-        <h2 className="text-center my-3">Choose your role</h2>
+        <h2 className="text-center my-3 ">Choose your role</h2>
         <div
           className={`w-full mx-auto flex items-center space-x-2 ${
             roleError && "animate-shake"
@@ -240,7 +268,7 @@ const Register = () => {
           </button> */}
         </div>
 
-        <div className="flex justify-center items-center space-x-5 my-3">
+        <div className="flex justify-center items-center space-x-5 my-3 text-zinc-600 text-sm">
           <hr className=" border-gray-400 w-20" />
           <p>OR</p>
           <hr className=" border-gray-400 w-20" />
@@ -271,9 +299,12 @@ const Register = () => {
             )}
           </button>
         </div> */}
-        <p className=" text-center">
+        <p className=" text-center text-zinc-600 text-sm">
           Already a user?{" "}
-          <Link to={"/login"} className="text-orange-600 font-bold">
+          <Link
+            to={"/login"}
+            className="text-zinc-900 font-bold hover:underline"
+          >
             Login
           </Link>
         </p>
