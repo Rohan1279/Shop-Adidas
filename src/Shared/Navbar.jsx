@@ -256,9 +256,23 @@ const Navbar = () => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute right-0 mt-56 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 z-50">
-             
-                  
-                  <div className="px-1 py-1 ">
+                  <div className="px-1 py-1">
+                    {user && (
+                      <Link to={"/"}>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={`${
+                                active ? "" : "text-gray-500"
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
+                          mt-1 border border-zinc-300 transition-all mb-1`}
+                            >
+                              Profile
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </Link>
+                    )}
                     <Menu.Item>
                       {({ active }) => (
                         <button
@@ -266,65 +280,48 @@ const Navbar = () => {
                             active ? "" : "text-gray-500"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mb-2 border border-zinc-300 transition-all`}
                         >
-                          Profile
+                          Wishlist
                         </button>
                       )}
                     </Menu.Item>
                   </div>
                   <div className="px-1 py-1 ">
-               {user ? <>
-               
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            onClick={() => logOut()}
-                            className={`${
-                              active ? "" : "text-gray-500"
-                            } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
-                        mt-1 border border-zinc-300 transition-all`}
-                          >
-                            Logout
-                          </button>
-                        )}
-                      </Menu.Item>
-               
-               
-               </> : <>
-               
-               
+                    {user ? (
                       <>
-                        <Link to={"/login"}>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                className={`${
-                                  active ? "" : "text-gray-500"
-                                } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mt-1 border border-zinc-300 transition-all`}
-                              >
-                                Login
-                              </button>
-                            )}
-                          </Menu.Item>
-                        </Link>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() => logOut()}
+                              className={`${
+                                active ? "" : "text-gray-500"
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
+                        mt-1 border border-zinc-300 transition-all`}
+                            >
+                              Logout
+                            </button>
+                          )}
+                        </Menu.Item>
                       </>
-               </>}
-                  
-                   
-                    
-                        <Link to={"/"}>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                className={`${
-                                  active ? "" : "text-gray-500"
-                                } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
-                          mt-1 border border-zinc-300 transition-all`}
-                              >
-                                Wishlist
-                              </button>
-                            )}
-                          </Menu.Item>
-                        </Link>
+                    ) : (
+                      <>
+                        <>
+                          <Link to={"/login"}>
+                            <Menu.Item>
+                              {({ active }) => (
+                                <button
+                                  className={`${
+                                    active ? "" : "text-gray-500"
+                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mt-1 border border-zinc-300 transition-all`}
+                                >
+                                  Login
+                                </button>
+                              )}
+                            </Menu.Item>
+                          </Link>
+                        </>
+                      </>
+                    )}
+
                     {/* <FaSignOutAlt
                       onClick={() => logOut()}
                       className="text-2xl bg-secondary-color shadow-nm active:shadow-nm-inset"
