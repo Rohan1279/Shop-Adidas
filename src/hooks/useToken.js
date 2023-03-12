@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { Authcontext } from "../contexts/AuthProvider";
 import { Context } from "../contexts/ContextProvider";
 
 export const useToken = (email) => {
-  const { logOut } = useContext(Context);
+  const { authInfo } = useContext(Context);
+  const {} = authInfo;
   const [token, setToken] = useState("");
   // console.log("user email", email);
   useEffect(() => {

@@ -10,6 +10,7 @@ import React, { useContext, useRef, useState } from "react";
 // } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
+import { setAuthToken } from "../../hooks/setAuthToken";
 import { useToken } from "../../hooks/useToken";
 const googleProvider = new GoogleAuthProvider();
 // const githubProvider = new GithubAuthProvider();
@@ -30,14 +31,15 @@ const Register = () => {
   const [roleError, setRoleError] = useState(false);
   const buyerRef = useRef();
   const sellerRef = useRef();
-  console.log("userRole", userRole);
+  // console.log("userRole", userRole);
   const handleAuthenticate = (provider) => {
     if (userRole) {
       authenticateWithProvider(provider)
         .then((result) => {
-          console.log(result.user);
-          console.log(userRole);
+          // console.log(result.user);
+          // console.log(userRole);
           // saveUser(result?.user.displayName, result?.user.email, userRole);
+          setAuthToken(result?.user, userRole);
         })
         .catch((err) => {
           console.log(err);
@@ -64,7 +66,9 @@ const Register = () => {
           const userInfo = { displayName: name };
           // updateUserProfile(userInfo)
           //   .then(() => {
-          saveUser(name, email, userRole);
+          // saveUser(name, email, userRole);
+          setAuthToken(user, userRole);
+
           //   })
           //   .catch((err) => console.log(err));
           // console.log(user);
@@ -79,26 +83,27 @@ const Register = () => {
       return;
     }
   };
-  const saveUser = (name, email, userRole) => {
-    const user = { name, email, userRole };
-    fetch(`${process.env.VITE_SERVER_URL}/users`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // ! jwt verification
-        // setCreatedUserEmail(email);
-        if (data.acknowledged) {
-          // toast.success("Account created successfully");
-          setIsLoading(false);
-        }
-        console.log(data);
-      });
-  };
+  // const saveUser = (name, email, userRole) => {
+  //   const user = { name, email, userRole };
+  //   fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
+  //     method: "POST",
+  //     headers: {
+  //       "content-type": "application/json",
+  //     },
+  //     body: JSON.stringify(user),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       // ! jwt verification
+  //       // setCreatedUserEmail(email);
+  //       if (data.acknowledged) {
+  //         // toast.success("Account created successfully");
+  //         console.log(data.acknowledged);
+  //         setIsLoading(false);
+  //       }
+  //       console.log(data);
+  //     });
+  // };
   const handleUserRole = (e, role) => {
     // console.log("role", role?.current.innerText);
     // console.log("userRole", userRole);
