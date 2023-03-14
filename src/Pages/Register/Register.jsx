@@ -39,10 +39,12 @@ const Register = () => {
           // console.log(result.user);
           // console.log(userRole);
           // saveUser(result?.user.displayName, result?.user.email, userRole);
-          setAuthToken(result?.user, userRole);
+          const user = { ...result?.user, userRole };
+          setAuthToken(user, logOut);
         })
         .catch((err) => {
           console.log(err);
+          // logOut();
         });
     } else {
       setRoleError(true);
@@ -62,12 +64,12 @@ const Register = () => {
       createUser(email, password)
         .then((result) => {
           console.log(result);
-          const user = result.user;
+          const user = { ...result?.user, userRole };
           const userInfo = { displayName: name };
           // updateUserProfile(userInfo)
           //   .then(() => {
           // saveUser(name, email, userRole);
-          setAuthToken(user, userRole);
+          setAuthToken(user);
 
           //   })
           //   .catch((err) => console.log(err));

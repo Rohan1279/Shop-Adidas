@@ -39,7 +39,7 @@ const ContextProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   };
   const logOut = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("shop-adidas-token");
     return signOut(auth);
   };
   useEffect(() => {
