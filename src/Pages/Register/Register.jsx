@@ -1,5 +1,6 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useRef, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 // import {
 //   FaAppStore,
 //   FaGithub,
@@ -128,82 +129,89 @@ const Register = () => {
     setRoleError(false);
   };
   return (
-    <div className="h-fit">
+    <div className="h-fit lg:h-screen">
       <form
         onSubmit={handleRegister}
-        className="max-w-sm min-w-fit mx-auto p-8 rounded-xl shadow-nm "
+        className="max-w-sm min-w-fit mx-auto my-20 p-8 rounded-xl shadow-nm relative"
       >
-        <h1 className="text-center text-3xl font-extrabold ">Create account</h1>
-        {/* //! EMAIL // */}
-        {/* <span className="">Your email</span> */}
-        <div className="flex items-center border border-gray-300 rounded-full pl-2  overflow-hidden my-6">
-          {/* <FaVoicemail className=""></FaVoicemail> */}
-          <img
-            src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
-            alt=""
-            className="w-10 p-1"
-          />
-          <input
-            type="email"
-            placeholder="example@gmail.com"
-            name="email"
-            className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset text-gray-600 "
-            required
-          />
-        </div>
-        {/* //! NAME // */}
-        {/* <span>Your name</span> */}
-        <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden mb-6">
-          {/* <FaVoicemail className=""></FaVoicemail> */}
-          <img
-            src="https://cdn3.iconfinder.com/data/icons/school-and-education-113/256/name_card.png"
-            alt=""
-            className="w-10 p-1"
-          />
-          <input
-            type="text"
-            placeholder="your name"
-            name="name"
-            className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
-            // required
-          />
-        </div>
-        {/* //! PASSWORD // */}
-        {/* <span className="">Password</span> */}
-        <div className="flex mb-6 items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
-          {/* <FaVoicemail className=""></FaVoicemail> */}
-          <img
-            src="https://cdn0.iconfinder.com/data/icons/keys-and-locks-16/256/Key_Car_1_Front.png"
-            alt=""
-            className="w-10 p-1"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
-            required
-          />
-        </div>
-        {/* user role */}
-        <h2 className="text-center my-3 ">Choose your role</h2>
-        <div
-          className={`w-full mx-auto flex items-center space-x-2 ${
-            roleError && "animate-shake"
-          }`}
-        >
+        <LazyLoadImage
+          src="https://cdn1.iconfinder.com/data/icons/3d-front-color/256/boy-front-color.png"
+          className="absolute -top-20 left-0 right-0  bg-secondary-color shadow-nm mx-auto w-40 rounded-full"
+        ></LazyLoadImage>
+        <div className="pt-16">
+          <h1 className="text-center text-3xl font-extrabold ">
+            Create account
+          </h1>
+          {/* //! EMAIL // */}
+          {/* <span className="">Your email</span> */}
+          <div className="flex items-center border border-gray-300 rounded-full pl-2  overflow-hidden my-6">
+            {/* <FaVoicemail className=""></FaVoicemail> */}
+            <img
+              src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
+              alt=""
+              className="w-10 p-1"
+            />
+            <input
+              type="email"
+              placeholder="example@gmail.com"
+              name="email"
+              className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset text-gray-600 "
+              required
+            />
+          </div>
+          {/* //! NAME // */}
+          {/* <span>Your name</span> */}
+          <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden mb-6">
+            {/* <FaVoicemail className=""></FaVoicemail> */}
+            <img
+              src="https://cdn3.iconfinder.com/data/icons/school-and-education-113/256/name_card.png"
+              alt=""
+              className="w-10 p-1"
+            />
+            <input
+              type="text"
+              placeholder="your name"
+              name="name"
+              className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
+              // required
+            />
+          </div>
+          {/* //! PASSWORD // */}
+          {/* <span className="">Password</span> */}
+          <div className="flex mb-6 items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
+            {/* <FaVoicemail className=""></FaVoicemail> */}
+            <img
+              src="https://cdn0.iconfinder.com/data/icons/keys-and-locks-16/256/Key_Car_1_Front.png"
+              alt=""
+              className="w-10 p-1"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
+              required
+            />
+          </div>
+          {/* user role */}
+          <h2 className="text-center my-3 ">Choose your role</h2>
           <div
-            onClick={(e) => {
-              // e.preventDefault();
-              // e.target?.classList?.add("bg-blue-400");
-              // setUserRole(buyerRef.current.innerText);
-              handleUserRole(e, buyerRef);
-            }}
-            className="w-1/2 cursor-pointer flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 "
+            className={`w-full mx-auto flex items-center space-x-2 ${
+              roleError && "animate-shake"
+            }`}
           >
-            {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
+            <div
+              onClick={(e) => {
+                // e.preventDefault();
+                // e.target?.classList?.add("bg-blue-400");
+                // setUserRole(buyerRef.current.innerText);
+                handleUserRole(e, buyerRef);
+              }}
+              className="w-1/2 cursor-pointer flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 "
+            >
+              {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
 
-            {/* <button
+              {/* <button
               // onChange={handleUserRole}
               onClick={(e) => {
                 e.preventDefault();
@@ -215,27 +223,27 @@ const Register = () => {
               // checked
               // defaultChecked
             > */}
-            <img
-              src="https://cdn3.iconfinder.com/data/icons/webina-seo-development-and-marketing/128/seo_web_3-68-256.png"
-              alt=""
-              className="w-10 h-10"
-            />
-            <span className="label-text mx-3 text-xl tccc" ref={buyerRef}>
-              Buyer
-            </span>
-            {/* </button> */}
-            {/* </label> */}
-          </div>
-          <div
-            onClick={(e) => {
-              // e.preventDefault();
-              // setUserRole(sellerRef.current.innerText);
-              handleUserRole(e, sellerRef);
-            }}
-            className="w-1/2 cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 "
-          >
-            {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
-            {/* <button
+              <img
+                src="https://cdn3.iconfinder.com/data/icons/webina-seo-development-and-marketing/128/seo_web_3-68-256.png"
+                alt=""
+                className="w-10 h-10"
+              />
+              <span className="label-text mx-3 text-xl tccc" ref={buyerRef}>
+                Buyer
+              </span>
+              {/* </button> */}
+              {/* </label> */}
+            </div>
+            <div
+              onClick={(e) => {
+                // e.preventDefault();
+                // setUserRole(sellerRef.current.innerText);
+                handleUserRole(e, sellerRef);
+              }}
+              className="w-1/2 cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 "
+            >
+              {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
+              {/* <button
               // onChange={handleUserRole}
               onClick={(e) => {
                 // e.preventDefault();
@@ -244,60 +252,60 @@ const Register = () => {
               }}
               className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 "
             > */}
-            <img
-              src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
-              alt=""
-              className="w-10 h-10"
-            />
-            <span className="label-text mx-3 text-xl" ref={sellerRef}>
-              Seller
-            </span>
-            {/* </button> */}
-            {/* </label> */}
+              <img
+                src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
+                alt=""
+                className="w-10 h-10"
+              />
+              <span className="label-text mx-3 text-xl" ref={sellerRef}>
+                Seller
+              </span>
+              {/* </button> */}
+              {/* </label> */}
+            </div>
           </div>
-        </div>
-        {roleError && (
-          <p className="text-center text-sm text-red-500">
-            Please choose a role
-          </p>
-        )}
-        <div>
-          <input
-            type="submit"
-            value="Register"
-            className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md mt-6 "
-          />
-          {/* <button
+          {roleError && (
+            <p className="text-center text-sm text-red-500">
+              Please choose a role
+            </p>
+          )}
+          <div>
+            <input
+              type="submit"
+              value="Register"
+              className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md mt-6 "
+            />
+            {/* <button
             onClick={handleRegister}
             className="mx-auto bg-secondary-color border border-gray-300 p-2 text-xl active:shadow-nm-inset w-full rounded-md"
           >
             Register
           </button> */}
-        </div>
+          </div>
 
-        <div className="flex justify-center items-center space-x-5 my-3 text-zinc-600 text-sm">
-          <hr className=" border-gray-400 w-20" />
-          <p>OR</p>
-          <hr className=" border-gray-400 w-20" />
-        </div>
-        <div className="flex justify-center space-x-3  mb-3">
-          {/* <FaGoogle
+          <div className="flex justify-center items-center space-x-5 my-3 text-zinc-600 text-sm">
+            <hr className=" border-gray-400 w-20" />
+            <p>OR</p>
+            <hr className=" border-gray-400 w-20" />
+          </div>
+          <div className="flex justify-center space-x-3  mb-3">
+            {/* <FaGoogle
             onClick={() => handleAuthenticate(googleProvider)}
             className="text-6xl bg-secondary-color shadow-nm p-2 rounded-full mx-auto active:shadow-nm-inset"
           ></FaGoogle> */}
-          <img
-            onClick={() => handleAuthenticate(googleProvider)}
-            src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media_search___google_logo_engine_software.png"
-            alt=""
-            className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full active:shadow-nm-inset"
-          />
-          <img
-            src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media___facebook_logo_social_network_media_online.png"
-            alt=""
-            className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full active:shadow-nm-inset"
-          />
-        </div>
-        {/* <div className=" mt-6 ">
+            <img
+              onClick={() => handleAuthenticate(googleProvider)}
+              src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media_search___google_logo_engine_software.png"
+              alt=""
+              className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full active:shadow-nm-inset"
+            />
+            <img
+              src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media___facebook_logo_social_network_media_online.png"
+              alt=""
+              className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full active:shadow-nm-inset"
+            />
+          </div>
+          {/* <div className=" mt-6 ">
           <button className="btn btn-primary">
             {isLoading ? (
               <SmallLoader />
@@ -306,15 +314,16 @@ const Register = () => {
             )}
           </button>
         </div> */}
-        <p className=" text-center text-zinc-600 text-sm">
-          Already a user?{" "}
-          <Link
-            to={"/login"}
-            className="text-zinc-900 font-bold hover:underline"
-          >
-            Login
-          </Link>
-        </p>
+          <p className=" text-center text-zinc-600 text-sm">
+            Already a user?{" "}
+            <Link
+              to={"/login"}
+              className="text-zinc-900 font-bold hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

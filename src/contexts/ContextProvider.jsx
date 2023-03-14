@@ -20,6 +20,9 @@ const ContextProvider = ({ children }) => {
   const { products, categories, isLoading } = dataLoader();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isBuyer, isSeller, isBuyerLoading, isSellerLoading] = useRole(
+    user?.email
+  );
   console.log("user", user);
   const createUser = (email, passoword) => {
     setLoading(true);
@@ -57,6 +60,10 @@ const ContextProvider = ({ children }) => {
     login,
     authenticateWithProvider,
     logOut,
+    isBuyer,
+    isSeller,
+    isBuyerLoading,
+    isSellerLoading,
   };
 
   // const storedProducts = getStoredCart(); //! products with id

@@ -7,14 +7,10 @@ import { Context } from "../../contexts/ContextProvider";
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
-  const { authInfo } = useContext(Context);
-  const {
-    createUser,
-    authenticateWithProvider,
-    updateUserProfile,
-    login,
-    logOut,
-  } = authInfo;
+  const { authInfo, isBuyer, isSeller, isBuyerLoading, isSellerLoading } =
+    useContext(Context);
+  const { authenticateWithProvider, login, logOut, user } = authInfo;
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e) => {
@@ -30,33 +26,31 @@ const Login = () => {
     //   .then((data) => {
     //     // console.log(data.user);
     //     const user = data.user;
-    //     if (user) {
-    //       login(email, password)
-    //         .then((result) => {
-    //           const user = result.user;
-    //           const currentUser = {
-    //             email: user.email,
-    //           };
-    //           setUserEmail(user?.email);
-    //           // console.log("after login", token);
-    //           toast.success("Login successfull");
-    //         })
-    //         .catch((err) => {
-    //           toast.error(err.message);
-    //           setIsLoading(false);
-    //         });
-    //     } else {
-    //       toast.error("Please create an account first");
-    //       setIsLoading(false);
-    //     }
+    login(email, password)
+      .then((result) => {
+        const user = result.user;
+        const currentUser = {
+          email: user.email,
+        };
+        console.log(isBuyer, isSeller);
+        // console.log("after login", token);
+        // toast.success("Login successfull");
+      })
+      .catch((err) => {
+        console.log(err);
+        // toast.error(err.message);
+        // setIsLoading(false);
+      });
+
     //   });
   };
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
       .then((result) => {
-        console.log(result.user);
-        console.log(userRole);
+        // console.log(result.user);
+        // console.log(userRole);
         // saveUser(result?.user.displayName, result?.user.email, userRole);
+        console.log(isBuyer, isSeller);
       })
       .catch((err) => {
         console.log(err);
@@ -75,7 +69,7 @@ const Login = () => {
 
         <div className="px-8 pt-28 pb-8">
           <h1 className="text-center text-3xl font-extrabold ">Welcome back</h1>
-          {/* //! NAME // */}
+          {/* //! EMAIL // */}
           {/* <span>Your name</span> */}
           <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden my-6">
             {/* <FaVoicemail className=""></FaVoicemail> */}
@@ -85,9 +79,9 @@ const Login = () => {
               className="w-10 p-1"
             />
             <input
-              type="text"
-              placeholder="your name"
-              name="name"
+              type="email"
+              placeholder="your email"
+              name="email"
               className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
               // required
             />
