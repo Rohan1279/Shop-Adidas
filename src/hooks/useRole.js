@@ -11,14 +11,15 @@ const useRole = (email) => {
       fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
         .then((res) => res.json())
         .then((data) => {
+          // console.log(data);
           setIsBuyer(data.isBuyer);
-          setIsSeller(data.isBuyer);
+          setIsSeller(data.isSeller);
           setIsBuyerLoading(false);
           setIsSellerLoading(false);
         });
     }
   }, [email]);
-
+  // console.log(isBuyer, isSeller);
   return [isBuyer, isSeller, isBuyerLoading, isSellerLoading];
 };
 

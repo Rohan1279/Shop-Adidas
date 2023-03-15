@@ -19,7 +19,7 @@ import { Link, Navigate, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { authInfo } = useContext(Context);
-  const { logOut, user } = authInfo;
+  const { logOut, user, isBuyer, isSeller } = authInfo;
   const [active, setActive] = useState(false);
   return (
     <nav className="bg-secondary-color fixed top-0 w-full z-10 ">
@@ -114,17 +114,19 @@ const Navbar = () => {
                               >
                                 Contact
                               </NavLink>
-                              <NavLink
-                                onClick={() => setActive(!active)}
-                                to={"/dashboard"}
-                                className={({ isActive }) =>
-                                  isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
-                                }
-                              >
-                                Dashboard
-                              </NavLink>
+                              {isSeller && user?.email && (
+                                <NavLink
+                                  onClick={() => setActive(!active)}
+                                  to={"/dashboard"}
+                                  className={({ isActive }) =>
+                                    isActive
+                                      ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                      : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                                  }
+                                >
+                                  Dashboard
+                                </NavLink>
+                              )}
                               <NavLink
                                 onClick={() => setActive(!active)}
                                 to={"/cart"}
@@ -206,16 +208,18 @@ const Navbar = () => {
                 >
                   Contact
                 </NavLink>
-                <NavLink
-                  to={"/dashboard"}
-                  className={({ isActive }) =>
-                    isActive
-                      ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
-                      : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
-                  }
-                >
-                  Dashboard
-                </NavLink>
+                {isSeller && user?.email && (
+                  <NavLink
+                    to={"/dashboard"}
+                    className={({ isActive }) =>
+                      isActive
+                        ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                        : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                )}
                 <NavLink
                   to={"/cart"}
                   className={({ isActive }) =>

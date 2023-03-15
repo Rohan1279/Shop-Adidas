@@ -3,16 +3,17 @@ import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
+import useRole from "../../hooks/useRole";
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
-  const { authInfo, isBuyer, isSeller, isBuyerLoading, isSellerLoading } =
-    useContext(Context);
+  const { authInfo } = useContext(Context);
   const { authenticateWithProvider, login, logOut, user } = authInfo;
-
+  const [userEmail, setUserEmail] = useState("");
+  const [isBuyer, isSeller] = useRole(userEmail);
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log(userEmail);
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -21,28 +22,36 @@ const Login = () => {
     const password = form.password.value;
 
     // check if user exist in database
-    // fetch(`${process.env.REACT_APP_URL}/users?email=${email}`)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     // console.log(data.user);
-    //     const user = data.user;
-    login(email, password)
-      .then((result) => {
-        const user = result.user;
-        const currentUser = {
-          email: user.email,
-        };
-        console.log(isBuyer, isSeller);
-        // console.log("after login", token);
-        // toast.success("Login successfull");
-      })
-      .catch((err) => {
-        console.log(err);
-        // toast.error(err.message);
-        // setIsLoading(false);
+    fetch(`${import.meta.env.VITE_SERVER_URL}/users?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data.user);
+        const user = data.user;
+        if (user) {
+          login(email, password)
+            .then((result) => {
+              const user = result.user;
+              setUserEmail(user?.email);
+              // console.log(isBuyer, isSeller);
+              console.log(
+                "%cLogin successfull!",
+                "color: green; font-size: 24px;"
+              );
+              // toast.success("Login successfull");
+            })
+            .catch((err) => {
+              console.log(err);
+              // toast.error(err.message);
+              // setIsLoading(false);
+            });
+        } else {
+          console.log(
+            "%cPlease create an account first!",
+            "color: red; font-size: 24px;"
+          );
+          setIsLoading(false);
+        }
       });
-
-    //   });
   };
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
@@ -79,6 +88,7 @@ const Login = () => {
               className="w-10 p-1"
             />
             <input
+              // onBlur={(e) => setUserEmail(e?.target?.value)}
               type="email"
               placeholder="your email"
               name="email"

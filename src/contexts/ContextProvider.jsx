@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import { dataLoader } from "../utils/dataLoader";
 import { getStoredCart } from "../utils/fakeDB";
+import useRole from "../hooks/useRole";
 
 export const Context = createContext();
 const auth = getAuth(app);
@@ -23,7 +24,8 @@ const ContextProvider = ({ children }) => {
   const [isBuyer, isSeller, isBuyerLoading, isSellerLoading] = useRole(
     user?.email
   );
-  console.log("user", user);
+  // console.log("user", user);
+  console.log(isBuyer, isSeller);
   const createUser = (email, passoword) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, passoword);
