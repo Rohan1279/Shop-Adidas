@@ -1,15 +1,8 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useRef, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-// import {
-//   FaAppStore,
-//   FaGithub,
-//   FaGoogle,
-//   FaSignOutAlt,
-//   FaUsersSlash,
-//   FaVoicemail,
-// } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import RadioButton from "../../components/RadioButton/RadioButton";
 import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
 import { useToken } from "../../hooks/useToken";
@@ -26,31 +19,28 @@ const Register = () => {
   //   console.log(token);
   //   navigate("/");
   // }
-  const [userRole, setUserRole] = useState("Buyer");
-  const [prevRole, setprevRole] = useState(null);
+  // const [userRole, setUserRole] = useState("Buyer");
+  // const [prevRole, setprevRole] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [roleError, setRoleError] = useState(false);
+  const roles = ["Buyer", "Seller"];
+  const [userRole, setUserRole] = useState(roles[0]);
+
   const buyerRef = useRef();
   const sellerRef = useRef();
   // console.log("userRole", userRole);
   const handleAuthenticate = (provider) => {
-    if (userRole) {
-      authenticateWithProvider(provider)
-        .then((result) => {
-          // console.log(result.user);
-          // console.log(userRole);
-          // saveUser(result?.user.displayName, result?.user.email, userRole);
-          const user = { ...result?.user, userRole };
-          setAuthToken(user, logOut);
-        })
-        .catch((err) => {
-          console.log(err);
-          // logOut();
-        });
-    } else {
-      setRoleError(true);
-      return;
-    }
+    authenticateWithProvider(provider)
+      .then((result) => {
+        // console.log(result.user);
+        // console.log(userRole);
+        // saveUser(result?.user.displayName, result?.user.email, userRole);
+        const user = { ...result?.user, userRole };
+        setAuthToken(user, logOut);
+      })
+      .catch((err) => {
+        console.log(err);
+        // logOut();
+      });
   };
   const handleRegister = (e) => {
     e.preventDefault();
@@ -61,30 +51,25 @@ const Register = () => {
     const password = form.password.value;
     console.log(name, email, password);
 
-    if (userRole) {
-      createUser(email, password)
-        .then((result) => {
-          console.log(result);
-          const user = { ...result?.user, userRole };
-          const userInfo = { displayName: name };
-          // updateUserProfile(userInfo)
-          //   .then(() => {
-          // saveUser(name, email, userRole);
-          setAuthToken(user);
+    createUser(email, password)
+      .then((result) => {
+        console.log(result);
+        const user = { ...result?.user, userRole };
+        const userInfo = { displayName: name };
+        // updateUserProfile(userInfo)
+        //   .then(() => {
+        // saveUser(name, email, userRole);
+        setAuthToken(user);
 
-          //   })
-          //   .catch((err) => console.log(err));
-          // console.log(user);
-        })
-        .catch((err) => {
-          console.log(err);
-          // toast.error(err.message);
-          setIsLoading(false);
-        });
-    } else {
-      setRoleError(true);
-      return;
-    }
+        //   })
+        //   .catch((err) => console.log(err));
+        // console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+        // toast.error(err.message);
+        setIsLoading(false);
+      });
   };
   // const saveUser = (name, email, userRole) => {
   //   const user = { name, email, userRole };
@@ -126,7 +111,6 @@ const Register = () => {
     setprevRole(e);
     setUserRole(role?.current.innerText);
 
-    setRoleError(false);
   };
   return (
     <div className="h-fit lg:h-screen">
@@ -193,36 +177,32 @@ const Register = () => {
               required
             />
           </div>
-          {/* user role */}
+          {/* //! ROLE // */}
           <h2 className="text-center my-3 ">Choose your role</h2>
-          <div
+          <RadioButton
+            roles={roles}
+            userRole={userRole}
+            setUserRole={setUserRole}
+            buyerImg={
+              "https://cdn3.iconfinder.com/data/icons/webina-seo-development-and-marketing/128/seo_web_3-68-256.png"
+            }
+            sellerImg={
+              "https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
+            }
+          ></RadioButton>
+          {/* <div
             className={`w-full mx-auto flex items-center space-x-2 ${
               roleError && "animate-shake"
             }`}
           >
             <div
               onClick={(e) => {
-                // e.preventDefault();
-                // e.target?.classList?.add("bg-blue-400");
-                // setUserRole(buyerRef.current.innerText);
+                
                 handleUserRole(e, buyerRef);
               }}
               className="w-1/2 cursor-pointer flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 "
             >
-              {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
-
-              {/* <button
-              // onChange={handleUserRole}
-              onClick={(e) => {
-                e.preventDefault();
-                // e.target?.classList?.add("bg-blue-400");
-                // setUserRole(buyerRef.current.innerText);
-                handleUserRole(e, buyerRef);
-              }}
-              className="cursor-pointer flex items-center justify-center border border-gray-300 p-1 rounded-md transition-all duration-300 w-full"
-              // checked
-              // defaultChecked
-            > */}
+             
               <img
                 src="https://cdn3.iconfinder.com/data/icons/webina-seo-development-and-marketing/128/seo_web_3-68-256.png"
                 alt=""
@@ -231,27 +211,16 @@ const Register = () => {
               <span className="label-text mx-3 text-xl tccc" ref={buyerRef}>
                 Buyer
               </span>
-              {/* </button> */}
-              {/* </label> */}
+           
             </div>
             <div
               onClick={(e) => {
-                // e.preventDefault();
-                // setUserRole(sellerRef.current.innerText);
+                
                 handleUserRole(e, sellerRef);
               }}
               className="w-1/2 cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 "
             >
-              {/* <label className="label cursor-pointer  flex items-center border border-gray-300 p-1 rounded-md focus:bg-blue-400"> */}
-              {/* <button
-              // onChange={handleUserRole}
-              onClick={(e) => {
-                // e.preventDefault();
-                // setUserRole(sellerRef.current.innerText);
-                handleUserRole(e, sellerRef);
-              }}
-              className="cursor-pointer  flex items-center justify-center border border-gray-300 p-1 rounded-md  transition-all duration-300 "
-            > */}
+            
               <img
                 src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
                 alt=""
@@ -260,15 +229,11 @@ const Register = () => {
               <span className="label-text mx-3 text-xl" ref={sellerRef}>
                 Seller
               </span>
-              {/* </button> */}
-              {/* </label> */}
+              
             </div>
-          </div>
-          {roleError && (
-            <p className="text-center text-sm text-red-500">
-              Please choose a role
-            </p>
-          )}
+          </div> */}
+          
+          {/* //!  REGISTER BUTTON */}
           <div>
             <input
               type="submit"
