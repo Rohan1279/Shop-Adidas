@@ -22,12 +22,13 @@ const Login = () => {
     const password = form.password.value;
 
     // check if user exist in database
-    fetch(`${import.meta.env.VITE_SERVER_URL}/users?email=${email}`)
+    fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data.user);
         const user = data.user;
-        if (user) {
+
+        if (data?.isBuyer || data?.isSeller) {
           login(email, password)
             .then((result) => {
               const user = result.user;
@@ -56,10 +57,7 @@ const Login = () => {
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
       .then((result) => {
-        // console.log(result.user);
-        // console.log(userRole);
-        // saveUser(result?.user.displayName, result?.user.email, userRole);
-        console.log(isBuyer, isSeller);
+        setUserEmail(result?.user?.email);
       })
       .catch((err) => {
         console.log(err);
