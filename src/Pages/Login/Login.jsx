@@ -66,7 +66,17 @@ const Login = () => {
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
       .then((result) => {
-        setUserEmail(result?.user?.email);
+        fetch(`${import.meta.env.VITE_SERVER_URL}/user/${result?.user?.email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const userRole = data?.userRole;
+            setUserEmail(result?.user?.email);
+            const user = {
+              ...result?.user,
+              userRole,
+            };
+            setAuthToken(user, logOut);
+          });
       })
       .catch((err) => {
         console.log(err);
