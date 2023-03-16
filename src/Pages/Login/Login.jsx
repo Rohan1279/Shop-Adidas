@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
+import { setAuthToken } from "../../hooks/setAuthToken";
 import useRole from "../../hooks/useRole";
 
 const googleProvider = new GoogleAuthProvider();
@@ -13,31 +14,39 @@ const Login = () => {
   const [userEmail, setUserEmail] = useState("");
   const [isBuyer, isSeller] = useRole(userEmail);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(userEmail);
+  // console.log(userEmail);
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
+    setUserEmail(email);
 
     // check if user exist in database
     fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data.user);
-        const user = data.user;
+        const userRole = data?.userRole;
 
-        if (data?.isBuyer || data?.isSeller) {
+        if (userRole) {
           login(email, password)
             .then((result) => {
-              const user = result.user;
+              console.log(result);
+              const user = {
+                ...result?.user,
+                userRole: data?.userRole,
+              };
+              console.log(user);
               setUserEmail(user?.email);
+              setAuthToken(user, logOut);
               // console.log(isBuyer, isSeller);
               console.log(
                 "%cLogin successfull!",
                 "color: green; font-size: 24px;"
               );
+              console.log(isBuyer, isSeller);
               // toast.success("Login successfull");
             })
             .catch((err) => {
@@ -86,7 +95,7 @@ const Login = () => {
               className="w-10 p-1"
             />
             <input
-              // onBlur={(e) => setUserEmail(e?.target?.value)}
+              onBlur={(e) => setUserEmail(e?.target?.value)}
               type="email"
               placeholder="your email"
               name="email"

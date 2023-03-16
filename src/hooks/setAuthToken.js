@@ -21,7 +21,7 @@ export const setAuthToken = (user, logOut) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      // console.log(data);
+      console.log(data);
       // save token in localstorage
       if (data?.token) {
         localStorage.setItem("shop-adidas-token", data?.token);

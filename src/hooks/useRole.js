@@ -12,8 +12,8 @@ const useRole = (email) => {
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);
-          setIsBuyer(data.isBuyer);
-          setIsSeller(data.isSeller);
+          setIsBuyer(data?.userRole === "Buyer");
+          setIsSeller(data?.userRole === "Seller");
           setIsBuyerLoading(false);
           setIsSellerLoading(false);
         });

@@ -92,26 +92,6 @@ const Register = () => {
   //       console.log(data);
   //     });
   // };
-  const handleUserRole = (e, role) => {
-    // console.log("role", role?.current.innerText);
-    // console.log("userRole", userRole);
-    // console.log(e.target.classList);
-    e.target?.classList?.add("bg-blue-400");
-
-    // if (e !== prevRole) {
-    //   prevRole?.target?.classList?.remove("bg-blue-400");
-    //   setUserRole(role?.current.innerText);
-    // }
-    //  else {
-    //   e.target?.classList?.remove("bg-blue-400");
-    // }
-    if (e.target !== prevRole) {
-      prevRole?.target?.classList?.remove("bg-blue-400");
-    }
-    setprevRole(e);
-    setUserRole(role?.current.innerText);
-
-  };
   return (
     <div className="h-fit lg:h-screen">
       <form
