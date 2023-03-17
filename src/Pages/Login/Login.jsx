@@ -12,7 +12,7 @@ const Login = () => {
   const { authInfo } = useContext(Context);
   const { authenticateWithProvider, login, logOut, user } = authInfo;
   const [userEmail, setUserEmail] = useState("");
-  const [isBuyer, isSeller] = useRole(userEmail);
+  // const [isBuyer, isSeller] = useRole(userEmail);
   const [isLoading, setIsLoading] = useState(false);
   // console.log(userEmail);
   const handleLogin = (e) => {
@@ -21,7 +21,7 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    setUserEmail(email);
+    // setUserEmail(email);
 
     // check if user exist in database
     fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
@@ -33,20 +33,22 @@ const Login = () => {
         if (userRole) {
           login(email, password)
             .then((result) => {
-              console.log(result);
+              // console.log(result);
               const user = {
                 ...result?.user,
                 userRole: data?.userRole,
               };
-              console.log(user);
-              setUserEmail(user?.email);
+              // console.log(user);
               setAuthToken(user, logOut);
+              // setUserEmail(user?.email);
+              // useRole(user?.email);
               // console.log(isBuyer, isSeller);
               console.log(
                 "%cLogin successfull!",
                 "color: green; font-size: 24px;"
               );
-              console.log(isBuyer, isSeller);
+              form.reset()
+              // console.log(isBuyer, isSeller);
               // toast.success("Login successfull");
             })
             .catch((err) => {
@@ -70,7 +72,7 @@ const Login = () => {
           .then((res) => res.json())
           .then((data) => {
             const userRole = data?.userRole;
-            setUserEmail(result?.user?.email);
+            // setUserEmail(result?.user?.email);
             const user = {
               ...result?.user,
               userRole,
@@ -105,7 +107,7 @@ const Login = () => {
               className="w-10 p-1"
             />
             <input
-              onBlur={(e) => setUserEmail(e?.target?.value)}
+              // onBlur={(e) => setUserEmail(e?.target?.value)}
               type="email"
               placeholder="your email"
               name="email"

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import useRole from "./useRole";
+
 export const setAuthToken = (user, logOut) => {
   let currentUser = {
     email: user?.email,
@@ -21,10 +23,11 @@ export const setAuthToken = (user, logOut) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       // save token in localstorage
       if (data?.token) {
         localStorage.setItem("shop-adidas-token", data?.token);
+        // useRole(user?.email);
       } else {
         console.log(data?.message);
         logOut();

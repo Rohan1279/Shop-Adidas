@@ -13,7 +13,8 @@ function RadioButton({ roles, userRole, setUserRole, buyerImg, sellerImg }) {
         /* Use the `checked` state to conditionally style the checked option. */
         <RadioGroup.Option key={userRole} value={userRole} as={Fragment}>
           {({ active, checked }) => (
-            <div
+            <button
+            type="button"
               className={`${
                 checked
                   ? "bg-blue-400 text-white"
@@ -28,7 +29,7 @@ function RadioButton({ roles, userRole, setUserRole, buyerImg, sellerImg }) {
                 className="w-10 h-10 "
               />
               <p className="text-lg ">{userRole}</p>
-            </div>
+            </button>
           )}
         </RadioGroup.Option>
       ))}
