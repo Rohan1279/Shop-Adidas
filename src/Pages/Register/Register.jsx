@@ -60,7 +60,7 @@ const Register = () => {
         //   .then(() => {
         // saveUser(name, email, userRole);
         setAuthToken(user);
-
+        form.reset();
         //   })
         //   .catch((err) => console.log(err));
         // console.log(user);
@@ -212,7 +212,7 @@ const Register = () => {
               
             </div>
           </div> */}
-          
+
           {/* //!  REGISTER BUTTON */}
           <div>
             <input
