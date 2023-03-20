@@ -17,10 +17,13 @@ const Register = () => {
     updateUserProfile,
     logOut,
     user,
-    setIsSeller,
+    roles,
+    userRole,
+    setUserRole,
   } = authInfo;
   const navigate = useNavigate();
   const [createdUserEmail, setCreatedUserEmail] = useState("");
+  console.log(userRole);
   // const [isBuyer, isSeller] = useRole(createdUserEmail);
   //! jwt verification
   // const [token] = useToken(createUserEmail);
@@ -29,9 +32,8 @@ const Register = () => {
   //   navigate("/");
   // }
   const [isLoading, setIsLoading] = useState(false);
-  const roles = ["Buyer", "Seller"];
-  const [userRole, setUserRole] = useState(roles[0]);
-  setIsSeller(userRole === "Seller");
+
+  // setIsSeller(userRole === "Seller");
   const buyerRef = useRef();
   const sellerRef = useRef();
   // console.log("userRole", userRole);

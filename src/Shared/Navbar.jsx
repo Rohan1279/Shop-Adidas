@@ -19,7 +19,7 @@ import { Link, Navigate, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { authInfo } = useContext(Context);
-  const { logOut, user, isBuyer, isSeller } = authInfo;
+  const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
   console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
 
   const [active, setActive] = useState(false);
@@ -116,7 +116,8 @@ const Navbar = () => {
                               >
                                 Contact
                               </NavLink>
-                              {isSeller && user?.email ? (
+                              {(userRole === "Seller" && user?.email) ||
+                              isSeller ? (
                                 <NavLink
                                   onClick={() => setActive(!active)}
                                   to={"/dashboard"}
@@ -212,7 +213,7 @@ const Navbar = () => {
                 >
                   Contact
                 </NavLink>
-                {isSeller && user?.email ? (
+                {(userRole === "Seller" && user?.email) || isSeller ? (
                   <NavLink
                     to={"/dashboard"}
                     className={({ isActive }) =>

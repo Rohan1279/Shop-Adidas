@@ -25,6 +25,8 @@ const ContextProvider = ({ children }) => {
 
   const [isBuyer, isSeller, setIsSeller, isBuyerLoading, isSellerLoading] =
     useRole(user?.email);
+  const roles = ["Buyer", "Seller"];
+  const [userRole, setUserRole] = useState(roles[0]);
   console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
 
   // console.log("user", user);
@@ -71,6 +73,9 @@ const ContextProvider = ({ children }) => {
     setIsSeller,
     isBuyerLoading,
     isSellerLoading,
+    roles,
+    userRole,
+    setUserRole,
   };
 
   // const storedProducts = getStoredCart(); //! products with id

@@ -5,7 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 // const roles = ["Buyer", "Seller"];
 function RadioButton({ roles, userRole, setUserRole, buyerImg, sellerImg }) {
   //   const [role, setUserRole] = useState(roles[0]);
-  // console.log(userRole);
+  console.log(userRole);
   return (
     <RadioGroup value={userRole} onChange={setUserRole}>
       {roles.map((userRole) => (
@@ -14,7 +14,7 @@ function RadioButton({ roles, userRole, setUserRole, buyerImg, sellerImg }) {
         <RadioGroup.Option key={userRole} value={userRole} as={Fragment}>
           {({ active, checked }) => (
             <button
-            type="button"
+              type="button"
               className={`${
                 checked
                   ? "bg-blue-400 text-white"
