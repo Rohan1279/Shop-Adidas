@@ -21,12 +21,16 @@ const ContextProvider = ({ children }) => {
   const { products, categories, isLoading } = dataLoader();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const [isBuyer, isSeller, isBuyerLoading, isSellerLoading] = useRole(
-    user?.email
-  );
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
+
+  const [isBuyer, isSeller, setIsSeller, isBuyerLoading, isSellerLoading] =
+    useRole(user?.email);
+  console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
+
   // console.log("user", user);
-  console.log(isBuyer, isSeller);
+  // console.log(isBuyer, isSeller);
   const createUser = (email, passoword) => {
+    setCreatedUserEmail(email);
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, passoword);
   };
@@ -64,6 +68,7 @@ const ContextProvider = ({ children }) => {
     logOut,
     isBuyer,
     isSeller,
+    setIsSeller,
     isBuyerLoading,
     isSellerLoading,
   };

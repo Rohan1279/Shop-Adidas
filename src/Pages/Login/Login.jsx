@@ -29,10 +29,18 @@ const Login = () => {
       .then((data) => {
         // console.log(data.user);
         const userRole = data?.userRole;
-
+        //! record the start time
+        const startTime = new Date();
         if (userRole) {
           login(email, password)
             .then((result) => {
+              //! record the end time
+              const endTime = new Date();
+              const responseTime = endTime - startTime; // calculate the response time
+              console.log(
+                `%cResponse time: ${responseTime}ms`,
+                "color: yellow; font-size: 24px;"
+              );
               // console.log(result);
               const user = {
                 ...result?.user,
@@ -47,7 +55,7 @@ const Login = () => {
                 "%cLogin successfull!",
                 "color: green; font-size: 24px;"
               );
-              form.reset()
+              form.reset();
               // console.log(isBuyer, isSeller);
               // toast.success("Login successfull");
             })

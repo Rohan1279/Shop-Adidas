@@ -20,6 +20,8 @@ import { Link, Navigate, NavLink } from "react-router-dom";
 const Navbar = () => {
   const { authInfo } = useContext(Context);
   const { logOut, user, isBuyer, isSeller } = authInfo;
+  console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
+
   const [active, setActive] = useState(false);
   return (
     <nav className="bg-secondary-color fixed top-0 w-full z-10 ">
@@ -114,7 +116,7 @@ const Navbar = () => {
                               >
                                 Contact
                               </NavLink>
-                              {isSeller && user?.email && (
+                              {isSeller && user?.email ? (
                                 <NavLink
                                   onClick={() => setActive(!active)}
                                   to={"/dashboard"}
@@ -126,6 +128,8 @@ const Navbar = () => {
                                 >
                                   Dashboard
                                 </NavLink>
+                              ) : (
+                                ""
                               )}
                               <NavLink
                                 onClick={() => setActive(!active)}
@@ -208,7 +212,7 @@ const Navbar = () => {
                 >
                   Contact
                 </NavLink>
-                {isSeller && user?.email && (
+                {isSeller && user?.email ? (
                   <NavLink
                     to={"/dashboard"}
                     className={({ isActive }) =>
@@ -219,6 +223,8 @@ const Navbar = () => {
                   >
                     Dashboard
                   </NavLink>
+                ) : (
+                  ""
                 )}
                 <NavLink
                   to={"/cart"}

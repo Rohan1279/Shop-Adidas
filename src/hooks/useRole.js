@@ -11,14 +11,14 @@ const useRole = (email) => {
   const [isSellerLoading, setIsSellerLoading] = useState(true);
   useEffect(() => {
     if (email) {
-      console.log(localStorage.getItem("shop-adidas-token"));
+      // console.log(localStorage.getItem("shop-adidas-token"));
 
       fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`, {
         method: "GET",
-        headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-        },
+        // headers: {
+        //   "content-type": "application/json",
+        //   authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+        // },
         // body: JSON.stringify(email),
       })
         .then((res) => res.json())
@@ -32,7 +32,7 @@ const useRole = (email) => {
     }
   }, [email]);
   // console.log(isBuyer, isSeller);
-  return [isBuyer, isSeller, isBuyerLoading, isSellerLoading];
+  return [isBuyer, isSeller,setIsSeller, isBuyerLoading, isSellerLoading];
 };
 
 export default useRole;

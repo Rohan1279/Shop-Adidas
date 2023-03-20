@@ -1,30 +1,37 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useRef, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RadioButton from "../../components/RadioButton/RadioButton";
 import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
+import useRole from "../../hooks/useRole";
 import { useToken } from "../../hooks/useToken";
 const googleProvider = new GoogleAuthProvider();
 // const githubProvider = new GithubAuthProvider();
 const Register = () => {
   const { authInfo } = useContext(Context);
-  const { createUser, authenticateWithProvider, updateUserProfile, logOut } =
-    authInfo;
-  const [createUserEmail, setCreatedUserEmail] = useState("");
+  const {
+    createUser,
+    authenticateWithProvider,
+    updateUserProfile,
+    logOut,
+    user,
+    setIsSeller,
+  } = authInfo;
+  const navigate = useNavigate();
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
+  // const [isBuyer, isSeller] = useRole(createdUserEmail);
   //! jwt verification
   // const [token] = useToken(createUserEmail);
   // if (token) {
   //   console.log(token);
   //   navigate("/");
   // }
-  // const [userRole, setUserRole] = useState("Buyer");
-  // const [prevRole, setprevRole] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const roles = ["Buyer", "Seller"];
   const [userRole, setUserRole] = useState(roles[0]);
-
+  setIsSeller(userRole === "Seller");
   const buyerRef = useRef();
   const sellerRef = useRef();
   // console.log("userRole", userRole);
@@ -36,6 +43,7 @@ const Register = () => {
         // saveUser(result?.user.displayName, result?.user.email, userRole);
         const user = { ...result?.user, userRole };
         setAuthToken(user, logOut);
+        // setCreatedUserEmail(user?.email);
       })
       .catch((err) => {
         console.log(err);
@@ -49,18 +57,30 @@ const Register = () => {
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name, email, password);
 
+    // console.log(name, email, password);
+    //! record the start time
+    const startTime = new Date();
     createUser(email, password)
       .then((result) => {
-        console.log(result);
+        //! record the end time
+        const endTime = new Date();
+        const responseTime = endTime - startTime; // calculate the response time
+        console.log(
+          `%cResponse time: ${responseTime}ms`,
+          "color: yellow; font-size: 24px;"
+        );
+        // console.log(result);
+
         const user = { ...result?.user, userRole };
-        const userInfo = { displayName: name };
         // updateUserProfile(userInfo)
         //   .then(() => {
         // saveUser(name, email, userRole);
+
         setAuthToken(user);
-        form.reset();
+
+        // setCreatedUserEmail(user?.email);
+
         //   })
         //   .catch((err) => console.log(err));
         // console.log(user);
@@ -116,6 +136,7 @@ const Register = () => {
               className="w-10 p-1"
             />
             <input
+              // onBlur={(e) => setCreatedUserEmail(e?.target?.value)}
               type="email"
               placeholder="example@gmail.com"
               name="email"
