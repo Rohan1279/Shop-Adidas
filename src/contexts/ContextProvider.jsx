@@ -28,11 +28,11 @@ const ContextProvider = ({ children }) => {
   const roles = ["Buyer", "Seller"];
   const [userRole, setUserRole] = useState(roles[0]);
   console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
-
+  //! handleUseRole / useEffect
   // console.log("user", user);
   // console.log(isBuyer, isSeller);
   const createUser = (email, passoword) => {
-    setCreatedUserEmail(email);
+    // setCreatedUserEmail(email);
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, passoword);
   };

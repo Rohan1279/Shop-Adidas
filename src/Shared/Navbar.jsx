@@ -116,8 +116,8 @@ const Navbar = () => {
                               >
                                 Contact
                               </NavLink>
-                              {(userRole === "Seller" && user?.email) ||
-                              isSeller ? (
+                              {(userRole === "Seller" || isSeller) &&
+                              user?.email ? (
                                 <NavLink
                                   onClick={() => setActive(!active)}
                                   to={"/dashboard"}
@@ -213,7 +213,7 @@ const Navbar = () => {
                 >
                   Contact
                 </NavLink>
-                {(userRole === "Seller" && user?.email) || isSeller ? (
+                {(userRole === "Seller" || isSeller) && user?.email ? (
                   <NavLink
                     to={"/dashboard"}
                     className={({ isActive }) =>
