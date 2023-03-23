@@ -1,7 +1,7 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useRef, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import RadioButton from "../../components/RadioButton/RadioButton";
 import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
@@ -22,6 +22,8 @@ const Register = () => {
     setUserRole,
   } = authInfo;
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const [createdUserEmail, setCreatedUserEmail] = useState("");
   console.log(userRole);
   // const [isBuyer, isSeller] = useRole(createdUserEmail);
@@ -86,7 +88,7 @@ const Register = () => {
         //   })
         //   .catch((err) => console.log(err));
         // console.log(user);
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -145,7 +147,7 @@ const Register = () => {
                 type="email"
                 placeholder="example@gmail.com"
                 name="email"
-                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset text-gray-600 "
+                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
                 required
               />
             </div>

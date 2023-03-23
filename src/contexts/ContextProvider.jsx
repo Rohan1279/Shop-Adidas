@@ -27,7 +27,7 @@ const ContextProvider = ({ children }) => {
     useRole(user?.email);
   const roles = ["Buyer", "Seller"];
   const [userRole, setUserRole] = useState(roles[0]);
-  console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
+  // console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
   //! handleUseRole / useEffect
   // console.log("user", user);
   // console.log(isBuyer, isSeller);
@@ -89,19 +89,24 @@ const ContextProvider = ({ children }) => {
   // }
   // const [cart, setCart] = useState(initialCart);
 
-  if (isLoading) {
-    return <h2 className="text-4xl text-center">Loading</h2>;
-  } else
-    return (
-      <Context.Provider
-        value={{
-          products,
-          categories,
-          authInfo,
-        }}
-      >
-        {children}
-      </Context.Provider>
-    );
+ 
+    
+    if (isLoading) {
+      return <h2 className="text-4xl text-center rotating-dots">Loading</h2>;
+    }
+    else
+      return (
+        <Context.Provider
+          value={{
+            products,
+            categories,
+            authInfo,
+          }}
+        >
+          {children}
+        </Context.Provider>
+      );
+  
+
 };
 export default ContextProvider;

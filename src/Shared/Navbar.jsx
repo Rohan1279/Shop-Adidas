@@ -20,7 +20,7 @@ import { Link, Navigate, NavLink } from "react-router-dom";
 const Navbar = () => {
   const { authInfo } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
-  console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
+  // console.log("%cisSeller -->  ", "color: green; font-size: 24px;", isSeller);
 
   const [active, setActive] = useState(false);
   return (
@@ -35,7 +35,7 @@ const Navbar = () => {
                 <>
                   <Popover.Button
                     className={`
-                ${open ? "" : "text-opacity-90"} `}
+                ${open ? "" : "text-opacity-90"}`}
                   >
                     <Transition
                       show={!active}

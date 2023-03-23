@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const useRole = (email) => {
   if (email) {
-    console.log("From use role", email);
+    // console.log("From use role", email);
   }
   const [isBuyer, setIsBuyer] = useState(false);
   const [isSeller, setIsSeller] = useState(false);

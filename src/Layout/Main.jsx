@@ -4,7 +4,6 @@ import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
 import { dataLoader } from "../utils/dataLoader";
 import { getStoredCart } from "../utils/fakeDB";
-
 export const CartContext = createContext();
 const Main = () => {
   const { products } = dataLoader();
