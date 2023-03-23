@@ -15,6 +15,7 @@ const Register = () => {
     createUser,
     authenticateWithProvider,
     updateUserProfile,
+    verifyEmail,
     logOut,
     user,
     roles,
@@ -82,13 +83,17 @@ const Register = () => {
         // saveUser(name, email, userRole);
 
         setAuthToken(user);
-
+        verifyEmail().then(() => {
+          console.log(
+            "%cPlease email for verification",
+            "color: yellow; font-size: 24px;"
+          );
+          navigate(from, { replace: true });
+        });
         // setCreatedUserEmail(user?.email);
-
         //   })
         //   .catch((err) => console.log(err));
         // console.log(user);
-        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err);
