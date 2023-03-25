@@ -9,13 +9,12 @@ const DashboardLayout = () => {
   return (
     <div className="h-screen">
       <Navbar />
-      <div className="mt-16">
+      <div className="mt-16 flex h-screen">
         {isSeller && (
-          <>
+          <div className="bg-red-500 w-1/6">
             <p>
               <Link to={"/dashboard"}>Dashboard</Link>
             </p>
-
             <p>
               <Link to={"/dashboard/addproduct"}>Add Product</Link>
             </p>
@@ -25,9 +24,11 @@ const DashboardLayout = () => {
             <p>
               <Link to={"/dashboard/mybuyers"}>My Buyers</Link>
             </p>
-          </>
+          </div>
         )}
-        <Outlet />
+        <div className="bg-blue-200 w-5/6">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
