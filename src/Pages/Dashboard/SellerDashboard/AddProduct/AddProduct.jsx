@@ -1,10 +1,13 @@
-import React, { useContext, useState } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import React, { Fragment, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Loader from "../../../../components/Loader/Loader";
 import { Context } from "../../../../contexts/ContextProvider";
+import { FaArrowDown, FaCheckCircle } from "react-icons/fa";
+import { HiCheck } from "react-icons/hi";
 
 const AddProduct = () => {
-  const { authInfo } = useContext(Context);
+  const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -12,15 +15,13 @@ const AddProduct = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+ 
+  const [selected, setSelected] = useState(categories[1]);
+
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
     setIsLoading(true);
-    let category_id = "637eb96cdd59c8779cf07ba7";
-    if (data.category_name === "Network Modules") {
-      category_id = "637eb96cdd59c8779cf07ba8";
-    } else if (data.category_name === "Main boards") {
-      category_id = "637eb96cdd59c8779cf07ba9";
-    }
+
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -44,24 +45,22 @@ const AddProduct = () => {
 
     // const posted_on = new
     const product = {
-      category_id,
-      category_name: data.category_name,
-      condition: data.condition,
+      category_id: selected.id,
+      category: selected.name,
       description: data.description,
-      location: data.location,
       price: data.price,
-      picture: data.picture,
-      product_name: data.product_name,
-      seller_phone: data.seller_phone,
-      usage_period: data.usage_period,
-      year_purchased: data.year_purchased,
+      img: data.img,
+      name: data.name,
+      color: data.color,
       posted_on,
+      seller_phone: data.seller_phone,
       seller_id: user?.uid,
       seller_name: user?.displayName,
       seller_email: user?.email,
       seller_default_image:
         "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-      isPaid: false,
+      reviewsCount: 0,
+      ratings: 0.0,
       isAdvertised: false,
       isReported: false,
     };
@@ -91,17 +90,89 @@ const AddProduct = () => {
         onSubmit={handleSubmit(handleAddProduct)}
         className="grid grid-cols-2 gap-3 mt-10 "
       >
-        <input
-          // name="product_name"
-          type="text"
-          placeholder="product name"
-          {...register("product_name", {
-            required: "name is required",
-          })}
-          className="input  w-full input-bordered text-center"
-          // required
-        />
-        {/* <span className="inline">When did you purchased the product?</span> */}
+        {/* //! PRODUCT_NAME  */}
+        <div className="flex items-center border border-gray-300 rounded-full   overflow-hidden my-6">
+          <input
+            // onBlur={(e) => setCreatedUserEmail(e?.target?.value)}
+            type="text"
+            placeholder="product name"
+            {...register("name", {
+              required: "name is required",
+            })}
+            className=" focus:outline-none w-full bg-secondary-color p-2 rounded-full focus:shadow-nm-inset text-center "
+            required
+          />
+        </div>
+
+        <div className="">
+          <Listbox value={selected} onChange={setSelected}>
+            <div className="relative mt-1">
+              <Listbox.Button className="relative w-full cursor-default rounded-full active:shadow-nm-inset bg-secondary-color border border-zinc-300 py-2 pl-3 pr-10 text-left shadow-nm focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2  sm:text-sm">
+                <span className="block truncate">{selected.name}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <FaArrowDown
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {categories.map((person, personIdx) => (
+                    <Listbox.Option
+                      key={personIdx}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active
+                            ? "bg-amber-100 text-amber-900"
+                            : "text-gray-900"
+                        }`
+                      }
+                      value={person}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {person.name}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <HiCheck
+                                className="h-5 w-5 text-black"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
+        </div>
+        <select
+          {...register("category_name")}
+          className="select select-bordered w-full text-base rounded-full  bg-secondary-color focus:shadow-nm-inset border border-gray-300  text-center"
+        >
+          <option disabled defaultChecked className="text-green-400">
+            Choose a category
+          </option>
+          <option>Network Modules</option>
+          <option>Memory & Storage</option>
+          <option>Main boards</option>
+        </select>
+
         <input
           name="year_purchased"
           {...register("year_purchased", {
@@ -122,17 +193,6 @@ const AddProduct = () => {
           <option>excellent</option>
           <option>good</option>
           <option>fair</option>
-        </select>
-        <select
-          {...register("category_name")}
-          className="select select-bordered w-full text-base"
-        >
-          <option disabled defaultChecked className="text-green-400">
-            Choose a category
-          </option>
-          <option>Network Modules</option>
-          <option>Memory & Storage</option>
-          <option>Main boards</option>
         </select>
 
         <input
