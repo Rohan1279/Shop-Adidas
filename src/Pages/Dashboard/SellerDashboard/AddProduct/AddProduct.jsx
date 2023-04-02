@@ -6,6 +6,8 @@ import { Context } from "../../../../contexts/ContextProvider";
 import { FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
+import { FileUploader } from "react-drag-drop-files";
+import { getImageUrl } from "../../../../utils/getImageUrl";
 
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
@@ -18,6 +20,23 @@ const AddProduct = () => {
   } = useForm();
 
   const [selectedCategory, setSelectedCategory] = useState(categories[1]);
+  const [imgFile, setImgFile] = useState(null);
+  const [isImgDropped, setIsImgDropped] = useState(false);
+  const fileTypes = ["JPG", "PNG", "GIF"];
+
+  const handleChange = (imgFile) => {
+    setImgFile(imgFile);
+    setIsImgDropped(true);
+  };
+
+  // console.log(import.meta.env.VITE_IMGBB_KEY);
+  const handleFileDrop = () => {
+    // console.log("object");
+    setIsImgDropped(true);
+    getImageUrl(imgFile).then((imgData) => {
+      console.log(imgData);
+    });
+  };
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
@@ -65,7 +84,8 @@ const AddProduct = () => {
       isAdvertised: false,
       isReported: false,
     };
-    console.log(product);
+    // console.log(product);
+
     // console.log(product);
     // fetch(`${process.env.REACT_APP_URL}/products`, {
     //   method: "POST",
@@ -89,195 +109,84 @@ const AddProduct = () => {
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="grid grid-cols-2 gap-3 mt-10 "
+        className="px-10 mt-10 grid grid-cols-2 gap-8"
       >
-        {/* //! PRODUCT_NAME  */}
-        <div className="flex items-center border border-gray-300 rounded-full   overflow-hidden my-6">
+        {!isImgDropped ? (
+          <FileUploader
+            handleChange={handleChange}
+            onDrop={handleFileDrop}
+            name="file"
+            types={fileTypes}
+            children={
+              <section className="flex flex-col w-full h-full p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-300">
+                <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit border border-dashed rounded-lg text-blueGray-500 focus:border-blue-500 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
+                  <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
+                    <span>Drag and drop your</span>&nbsp;
+                    <span>files anywhere or</span>
+                  </p>
+                  <button className="w-auto px-2 py-1 my-2 mr-2 transition duration-500 ease-in-out transform border rounded-md text-blueGray-500 hover:text-blueGray-600 text-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:bg-blueGray-100">
+                    Upload a file
+                  </button>
+
+                  {/* <input
+          type="file"
+          id="image"
+          name="image"
+          accept="image/*"
+          className="mx-auto"
+          required
+        /> */}
+                </header>
+              </section>
+            }
+          />
+        ) : (
+          <div className="text-center border border-dashed rounded-md p-6">
+            <h3 className="font-bold text-lg">Your image file</h3>
+            <span className="text-zinc-300">{imgFile.name}</span>
+          </div>
+        )}
+        <div className="col-span-1 flex-col space-y-5">
+          {/* //! PRODUCT_NAME  */}
+          {/* <div className="flex items-center border border-gray-300 rounded-full overflow-hidden"> */}
           <input
             // onBlur={(e) => setCreatedUserEmail(e?.target?.value)}
             type="text"
+            maxLength={20}
             placeholder="product name"
             {...register("name", {
               required: "name is required",
             })}
-            className=" focus:outline-none w-full bg-secondary-color p-2 rounded-full focus:shadow-nm-inset text-center "
+            className=" focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-lg rounded-md focus:shadow-nm-inset text-center "
             required
           />
-        </div>
-
-        <div className="">
+          {/* </div> */}
+          {/* //! CATEGORY  */}
           <DropDownMenu
             selected={selectedCategory}
             setSelected={setSelectedCategory}
             array={categories}
           ></DropDownMenu>
-          {/* <Listbox value={selected} onChange={setSelected}>
-            <div className="relative ">
-              <Listbox.Button className="relative w-full cursor-default rounded-full active:shadow-nm-inset bg-secondary-color border border-zinc-300 py-2 pl-3 pr-10 text-left shadow-nm focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2  sm:text-sm">
-                <span className="block truncate">{selected.name}</span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <FaArrowDown
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </span>
-              </Listbox.Button>
-              <Transition
-                as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {categories.map((person, personIdx) => (
-                    <Listbox.Option
-                      key={personIdx}
-                      className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                          active
-                            ? "bg-blue-300 text-amber-900"
-                            : "text-gray-900"
-                        }`
-                      }
-                      value={person}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
-                          >
-                            {person.name}
-                          </span>
-                          {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                              <HiCheck
-                                className="h-5 w-5 text-black"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Transition>
-            </div>
-          </Listbox> */}
-        </div>
-        <select
-          {...register("category_name")}
-          className="select select-bordered w-full text-base rounded-full  bg-secondary-color focus:shadow-nm-inset border border-gray-300  text-center"
-        >
-          <option disabled defaultChecked className="text-green-400">
-            Choose a category
-          </option>
-          <option>Network Modules</option>
-          <option>Memory & Storage</option>
-          <option>Main boards</option>
-        </select>
 
-        <input
-          name="year_purchased"
-          {...register("year_purchased", {
-            required: "year is required",
-          })}
-          type="text"
-          placeholder="year purchased"
-          className="input  w-full input-bordered text-center"
-        />
-
-        <select
-          {...register("condition")}
-          className="select select-bordered w-full text-base"
-        >
-          <option disabled defaultChecked className="text-green-400">
-            Pick product condition
-          </option>
-          <option>excellent</option>
-          <option>good</option>
-          <option>fair</option>
-        </select>
-
-        <input
-          // name="seller_phone"
-          {...register("seller_phone", {
-            required: "phone number is required",
-          })}
-          type="text"
-          placeholder="your phone number"
-          className="input  w-full input-bordered text-center"
-          required
-        />
-        <input
-          // name="location"
-          {...register("location", {
-            required: "location is required",
-          })}
-          type="text"
-          placeholder="meeting location"
-          className="input  w-full input-bordered"
-          // required
-        />
-        {/* <br /> */}
-        <div className="flex items-center justify-around ">
-          <span className="text-lg mr-7">Price: $</span>
           <input
-            // name="original_price"
-            {...register("original_price")}
+            // name="picture"
+            {...register("img")}
             type="text"
             // defaultValue={product?.resale_price}
-            placeholder="original price"
-            maxLength={4}
-            className="input  w-32 input-bordered  text-center"
+            placeholder="provide a photo URL of your product"
+            className="text-center w-full bg-secondary-color border border-zinc-300 focus:outline-none"
             // required
           />
-          <input
-            // name="resale_price"
-            {...register("resale_price", {
-              required: "resale price is required",
-            })}
-            type="text"
-            // defaultValue={product?.resale_price}
-            placeholder="resale price"
-            maxLength={4}
-            className="input  w-32 input-bordered  text-center"
-            // required
-          />
+          <textarea
+            {...register("description")}
+            // name="description"
+            className="w-full bg-secondary-color border border-zinc-300 focus:outline-none rounded-md p-2 text-center"
+            placeholder="Description about the product"
+          ></textarea>
+          <button className="w-full border border-zinc-300 rounded-md active:shadow-nm-inset">
+            {isLoading ? <Loader /> : <input type="submit" value="Submit" />}
+          </button>
         </div>
-        <input
-          // name="usage_period"
-          {...register("usage_period", {
-            required: "usage period is required",
-          })}
-          type="text"
-          // defaultValue={product?.resale_price}
-          placeholder="usage period"
-          maxLength={10}
-          className="input  w-full input-bordered  text-center"
-          // required
-        />
-
-        <textarea
-          {...register("description")}
-          // name="description"
-          className="textarea textarea-bordered col-span-2"
-          placeholder="Description about the product"
-        ></textarea>
-        <input
-          // name="picture"
-          {...register("picture")}
-          type="text"
-          // defaultValue={product?.resale_price}
-          placeholder="provide a photo URL of your product"
-          className="input  input-bordered  text-center col-span-2"
-          // required
-        />
-        <button className="btn btn-accent col-span-2">
-          {isLoading ? <Loader /> : <input type="submit" value="Submit" />}
-        </button>
       </form>
     </div>
   );
