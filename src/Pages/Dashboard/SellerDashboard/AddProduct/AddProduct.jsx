@@ -8,6 +8,7 @@ import { HiCheck } from "react-icons/hi";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { FileUploader } from "react-drag-drop-files";
 import { getImageUrl } from "../../../../utils/getImageUrl";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
@@ -52,13 +53,27 @@ const AddProduct = () => {
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
+  const [imgLoading, setImgLoading] = useState(false);
   const fileTypes = ["JPG", "PNG", "GIF"];
 
+  const sizes = [
+    { id: 1, name: "XS" },
+    { id: 2, name: "S" },
+    { id: 3, name: "M" },
+    { id: 4, name: "L" },
+    { id: 5, name: "XL" },
+    { id: 6, name: "2L" },
+  ];
+  const [selectedSize, setSelectedSize] = useState([sizes[0]]);
+  console.log(selectedSize);
+
   const handleChange = (imgFile) => {
+    setImgLoading(true);
     setImgFile(imgFile);
     setIsImgDropped(true);
     getImageUrl(imgFile).then((imgData) => {
       console.log(imgData);
+      setImgLoading(false);
       setImgURL(imgData);
     });
   };
@@ -72,7 +87,6 @@ const AddProduct = () => {
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
     setIsLoading(true);
-
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -141,7 +155,7 @@ const AddProduct = () => {
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="px-10 mt-10 grid grid-cols-2 gap-8 "
+        className="px-10 mt-10 md:grid grid-cols-2 gap-8 "
       >
         <div className="col-span-1 h-fit">
           {!isImgDropped && !imgURL ? (
@@ -151,7 +165,7 @@ const AddProduct = () => {
               name="file"
               types={fileTypes}
               children={
-                <section className="flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-300 focus:outline-none">
+                <section className="flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-300 focus:outline-none mb-8">
                   <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit border border-dashed rounded-lg text-blueGray-500 focus:border-blue-500 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;
@@ -167,12 +181,20 @@ const AddProduct = () => {
           ) : (
             <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-300 ">
               <h3 className="font-bold text-sm">Your image file</h3>
-              <img
-                src={imgURL}
-                alt=""
-                className="rounded-md mx-auto w-full max-w-md"
-              />
-              <span className="text-zinc-400 italic">{imgFile.name}</span>
+              {imgLoading ? (
+                <div className="continuous-7 my-10 mx-auto"></div>
+              ) : (
+                <>
+                  <LazyLoadImage
+                    effect="opacity"
+                    src={imgURL}
+                    className={"rounded-md mx-auto w-full max-w-md "}
+                  ></LazyLoadImage>
+                  <span className="text-zinc-500 italic underline underline-offset-2 block">
+                    {imgFile.name}
+                  </span>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -189,11 +211,30 @@ const AddProduct = () => {
             required
           />
           {/* //! CATEGORY  */}
-          <DropDownMenu
-            selected={selectedCategory}
-            setSelected={setSelectedCategory}
-            array={categories}
-          ></DropDownMenu>
+          <div className="md:grid grid-cols-2 gap-x-2 space-y-5 md:space-y-0">
+            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+              <span className="mr-3 font-">Category </span>
+              <div className="w-full border-l border-l-gray-300">
+                <DropDownMenu
+                  selected={selectedCategory}
+                  setSelected={setSelectedCategory}
+                  array={categories}
+                ></DropDownMenu>
+              </div>
+            </div>
+
+            {/* //! PRODUCT_COLOR */}
+            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+              <span className="mr-3 font-">Color </span>
+              <div className="w-full border-l border-l-gray-300">
+                <DropDownMenu
+                  selected={selectedClothColor}
+                  setSelected={setSelectedClothColor}
+                  array={clothColors}
+                ></DropDownMenu>
+              </div>
+            </div>
+          </div>
           {/* //! PRODUCT_PRICE  */}
           <input
             // ! add price validation
@@ -203,15 +244,10 @@ const AddProduct = () => {
             {...register("price", {
               required: "price is required",
             })}
-            className="focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center "
+            className="focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center max-h-min"
             required
           />
-          {/* //! PRODUCT_COLOR */}
-          <DropDownMenu
-            selected={selectedClothColor}
-            setSelected={setSelectedClothColor}
-            array={clothColors}
-          ></DropDownMenu>
+
           <textarea
             {...register("description")}
             // name="description"
@@ -228,6 +264,7 @@ const AddProduct = () => {
               className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer "
             />
           )}
+          {/* <div className="continuous-7"></div> */}
           {/* </button> */}
         </div>
       </form>

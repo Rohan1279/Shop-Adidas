@@ -159,7 +159,6 @@ button:focus-visible {
   width: calc(var(--size) * 1px);
 }
 .rotating-dots div {
-  
   -webkit-animation: rotating-dots calc(var(--duration) * 1s)
     calc(var(--delay, 0) * 1s) infinite;
   animation: rotating-dots calc(var(--duration) * 1s) calc(var(--delay, 0) * 1s)
@@ -178,7 +177,6 @@ button:focus-visible {
   height: 100%;
   position: absolute;
   width: 100%;
-  
 }
 .rotating-dots div:after {
   -webkit-animation: rotating-dots-flash calc(var(--duration) * 1s)
@@ -199,4 +197,51 @@ button:focus-visible {
   --delay: calc((var(--duration) / 2) * -1);
   --rotation: 180;
   --translate: 100;
+}
+
+.dots-9 {
+  width: 15px;
+  aspect-ratio: 1;
+  position: relative;
+  animation: d9-0 1.5s infinite steps(2);
+}
+.dots-9::before,
+.dots-9::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #000;
+}
+.dots-9::before {
+  box-shadow: 26px 0;
+  transform: translateX(-26px);
+  animation: d9-1 .75s infinite linear alternate;
+}
+.dots-9::after {
+  transform: translateX(13px) rotate(0deg) translateX(13px);
+  animation: d9-2 .75s infinite linear alternate;
+}
+@keyframes d9-0 {
+    0% ,49.9% {transform: scale(1)}
+    50%,100%  {transform: scale(-1)}
+}
+@keyframes d9-1 {
+    100%{box-shadow: 52px 0}
+}
+@keyframes d9-2 {
+    100%{transform: translateX(13px) rotate(-180deg) translateX(13px)}
+}
+
+.continuous-7 {
+  width:120px;
+  height:20px;
+  -webkit-mask:linear-gradient(90deg,#000 70%,#0000 0) left/20% 100%;
+  background:
+   linear-gradient(#000 0 0) left -25% top 0 /20% 100% no-repeat
+   #e6ecf0;
+  animation:ct7 1s infinite steps(6);
+}
+@keyframes ct7 {
+    100% {background-position: right -25% top 0}
 }
