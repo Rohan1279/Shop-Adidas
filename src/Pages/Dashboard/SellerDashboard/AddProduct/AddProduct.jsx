@@ -5,6 +5,7 @@ import Loader from "../../../../components/Loader/Loader";
 import { Context } from "../../../../contexts/ContextProvider";
 import { FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
+import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
@@ -15,8 +16,8 @@ const AddProduct = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
- 
-  const [selected, setSelected] = useState(categories[1]);
+
+  const [selectedCategory, setSelectedCategory] = useState(categories[1]);
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
@@ -45,8 +46,8 @@ const AddProduct = () => {
 
     // const posted_on = new
     const product = {
-      category_id: selected.id,
-      category: selected.name,
+      category_id: selectedCategory._id,
+      category: selectedCategory.name,
       description: data.description,
       price: data.price,
       img: data.img,
@@ -105,8 +106,13 @@ const AddProduct = () => {
         </div>
 
         <div className="">
-          <Listbox value={selected} onChange={setSelected}>
-            <div className="relative mt-1">
+          <DropDownMenu
+            selected={selectedCategory}
+            setSelected={setSelectedCategory}
+            array={categories}
+          ></DropDownMenu>
+          {/* <Listbox value={selected} onChange={setSelected}>
+            <div className="relative ">
               <Listbox.Button className="relative w-full cursor-default rounded-full active:shadow-nm-inset bg-secondary-color border border-zinc-300 py-2 pl-3 pr-10 text-left shadow-nm focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2  sm:text-sm">
                 <span className="block truncate">{selected.name}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -129,7 +135,7 @@ const AddProduct = () => {
                       className={({ active }) =>
                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                           active
-                            ? "bg-amber-100 text-amber-900"
+                            ? "bg-blue-300 text-amber-900"
                             : "text-gray-900"
                         }`
                       }
@@ -159,7 +165,7 @@ const AddProduct = () => {
                 </Listbox.Options>
               </Transition>
             </div>
-          </Listbox>
+          </Listbox> */}
         </div>
         <select
           {...register("category_name")}
