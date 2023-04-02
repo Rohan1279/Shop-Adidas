@@ -18,24 +18,55 @@ const AddProduct = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const clothColors = [
+    { name: "Red" },
+    { name: "Blue" },
+    { name: "Green" },
+    { name: "Yellow" },
+    { name: "Orange" },
+    { name: "Purple" },
+    { name: "Pink" },
+    { name: "Black" },
+    { name: "White" },
+    { name: "Gray" },
+    { name: "Brown" },
+    { name: "Beige" },
+    { name: "Turquoise" },
+    { name: "Magenta" },
+    { name: "Navy" },
+    { name: "Maroon" },
+    { name: "Olive" },
+    { name: "Teal" },
+    { name: "Lavender" },
+    { name: "Cream" },
+    { name: "Charcoal" },
+    { name: "Burgundy" },
+    { name: "Indigo" },
+    { name: "Taupe" },
+    { name: "Mustard" },
+    { name: "Rust" },
+    { name: "Fuchsia" },
+  ];
   const [selectedCategory, setSelectedCategory] = useState(categories[1]);
+  const [selectedClothColor, setSelectedClothColor] = useState(clothColors[0]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
+  const [imgURL, setImgURL] = useState("");
   const fileTypes = ["JPG", "PNG", "GIF"];
 
   const handleChange = (imgFile) => {
     setImgFile(imgFile);
     setIsImgDropped(true);
+    getImageUrl(imgFile).then((imgData) => {
+      console.log(imgData);
+      setImgURL(imgData);
+    });
   };
 
   // console.log(import.meta.env.VITE_IMGBB_KEY);
   const handleFileDrop = () => {
     // console.log("object");
     setIsImgDropped(true);
-    getImageUrl(imgFile).then((imgData) => {
-      console.log(imgData);
-    });
   };
 
   const handleAddProduct = (data, e) => {
@@ -69,9 +100,9 @@ const AddProduct = () => {
       category: selectedCategory.name,
       description: data.description,
       price: data.price,
-      img: data.img,
+      img: imgURL,
       name: data.name,
-      color: data.color,
+      color: selectedClothColor.name,
       posted_on,
       seller_phone: data.seller_phone,
       seller_id: user?.uid,
@@ -83,109 +114,121 @@ const AddProduct = () => {
       ratings: 0.0,
       isAdvertised: false,
       isReported: false,
+      inStock: false,
     };
-    // console.log(product);
+    console.log(product);
 
-    // console.log(product);
-    // fetch(`${process.env.REACT_APP_URL}/products`, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //     authorization: `bearer ${localStorage.getItem("accessToken")}`,
-    //   },
-    //   body: JSON.stringify(product),
-    // })
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     console.log(result);
-    //     if (result.acknowledged) {
-    //       toast.success(`${data.product_name}'s data added successfully`);
-    //       navigate("/dashboard/myproducts");
-    //     }
-    //   });
+    console.log(product);
+    fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+      },
+      body: JSON.stringify(product),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        // if (result.acknowledged) {
+        //   toast.success(`${data.product_name}'s data added successfully`);
+        //   navigate("/dashboard/myproducts");
+        // }
+      });
   };
   return (
-    <div>
+    <div className="h-fit ">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="px-10 mt-10 grid grid-cols-2 gap-8"
+        className="px-10 mt-10 grid grid-cols-2 gap-8 "
       >
-        {!isImgDropped ? (
-          <FileUploader
-            handleChange={handleChange}
-            onDrop={handleFileDrop}
-            name="file"
-            types={fileTypes}
-            children={
-              <section className="flex flex-col w-full h-full p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-300">
-                <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit border border-dashed rounded-lg text-blueGray-500 focus:border-blue-500 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
-                  <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
-                    <span>Drag and drop your</span>&nbsp;
-                    <span>files anywhere or</span>
-                  </p>
-                  <button className="w-auto px-2 py-1 my-2 mr-2 transition duration-500 ease-in-out transform border rounded-md text-blueGray-500 hover:text-blueGray-600 text-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:bg-blueGray-100">
-                    Upload a file
-                  </button>
-
-                  {/* <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          className="mx-auto"
-          required
-        /> */}
-                </header>
-              </section>
-            }
-          />
-        ) : (
-          <div className="text-center border border-dashed rounded-md p-6">
-            <h3 className="font-bold text-lg">Your image file</h3>
-            <span className="text-zinc-300">{imgFile.name}</span>
-          </div>
-        )}
+        <div className="col-span-1 h-fit">
+          {!isImgDropped && !imgURL ? (
+            <FileUploader
+              handleChange={handleChange}
+              onDrop={handleFileDrop}
+              name="file"
+              types={fileTypes}
+              children={
+                <section className="flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-300 focus:outline-none">
+                  <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit border border-dashed rounded-lg text-blueGray-500 focus:border-blue-500 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
+                    <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
+                      <span>Drag and drop your</span>&nbsp;
+                      <span>files anywhere or</span>
+                    </p>
+                    <button className="shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all">
+                      Upload a file
+                    </button>
+                  </header>
+                </section>
+              }
+            />
+          ) : (
+            <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-300 ">
+              <h3 className="font-bold text-sm">Your image file</h3>
+              <img
+                src={imgURL}
+                alt=""
+                className="rounded-md mx-auto w-full max-w-md"
+              />
+              <span className="text-zinc-400 italic">{imgFile.name}</span>
+            </div>
+          )}
+        </div>
         <div className="col-span-1 flex-col space-y-5">
           {/* //! PRODUCT_NAME  */}
-          {/* <div className="flex items-center border border-gray-300 rounded-full overflow-hidden"> */}
           <input
-            // onBlur={(e) => setCreatedUserEmail(e?.target?.value)}
             type="text"
             maxLength={20}
             placeholder="product name"
             {...register("name", {
               required: "name is required",
             })}
-            className=" focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-lg rounded-md focus:shadow-nm-inset text-center "
+            className=" focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center "
             required
           />
-          {/* </div> */}
           {/* //! CATEGORY  */}
           <DropDownMenu
             selected={selectedCategory}
             setSelected={setSelectedCategory}
             array={categories}
           ></DropDownMenu>
-
+          {/* //! PRODUCT_PRICE  */}
           <input
-            // name="picture"
-            {...register("img")}
-            type="text"
-            // defaultValue={product?.resale_price}
-            placeholder="provide a photo URL of your product"
-            className="text-center w-full bg-secondary-color border border-zinc-300 focus:outline-none"
-            // required
+            // ! add price validation
+            type=""
+            maxLength={6}
+            placeholder="product price"
+            {...register("price", {
+              required: "price is required",
+            })}
+            className="focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center "
+            required
           />
+          {/* //! PRODUCT_COLOR */}
+          <DropDownMenu
+            selected={selectedClothColor}
+            setSelected={setSelectedClothColor}
+            array={clothColors}
+          ></DropDownMenu>
           <textarea
             {...register("description")}
             // name="description"
             className="w-full bg-secondary-color border border-zinc-300 focus:outline-none rounded-md p-2 text-center"
             placeholder="Description about the product"
           ></textarea>
-          <button className="w-full border border-zinc-300 rounded-md active:shadow-nm-inset">
-            {isLoading ? <Loader /> : <input type="submit" value="Submit" />}
-          </button>
+          {/* <button className="w-full p-3 mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black"> */}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <input
+              type="submit"
+              value="Submit"
+              className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer "
+            />
+          )}
+          {/* </button> */}
         </div>
       </form>
     </div>

@@ -13,7 +13,7 @@ export const useToken = (email) => {
         .then((data) => {
           // console.log("from useToken", data);
           if (data.accessToken) {
-            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("shop-adidas-token", data.accessToken);
             setToken(data.accessToken);
           } else {
             // toast.error("Please create an account first");

@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
-import { FaArrowDown, FaCheckCircle } from "react-icons/fa";
+import { FaAngleDown, FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
 
 const DropDownMenu = ({ array, selected, setSelected }) => {
@@ -10,10 +10,10 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative">
         {/* <Listbox.Label>Category:</Listbox.Label> */}
-        <Listbox.Button className="relative w-full cursor-default rounded-md active:shadow-nm-inset bg-secondary-color border border-zinc-300 py-3 pl-3 pr-10 text-left  p-2  text-lg">
+        <Listbox.Button className="relative w-full cursor-default rounded-md active:shadow-nm-inset bg-secondary-color border border-zinc-300 py-3 pl-3 pr-10 text-left  p-2  text-sm">
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <FaArrowDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <FaAngleDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
         </Listbox.Button>
         <Transition
@@ -22,7 +22,7 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute  max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Listbox.Options className=" max-h-60 w-full overflow-auto rounded-md bg-white py-1  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {array.map((item, itemIdx) => (
               <Listbox.Option
                 key={itemIdx}
@@ -36,7 +36,7 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
                 {({ selected }) => (
                   <>
                     <span
-                      className={`block truncate text-lg${
+                      className={`block truncate ${
                         selected ? "font-medium" : "font-normal"
                       }`}
                     >

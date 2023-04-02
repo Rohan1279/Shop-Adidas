@@ -9,5 +9,6 @@ export const getImageUrl = async (image) => {
     body: formData,
   });
   const data = await response.json();
+  console.log(data);
   return data.data?.display_url;
 };
