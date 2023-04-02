@@ -9,24 +9,32 @@ const DashboardLayout = () => {
   return (
     <div className="h-screen">
       <Navbar />
-      <div className="mt-16 flex h-screen">
+      <div className="mt-16  flex h-screen">
         {isSeller && (
-          <div className="bg-red-500 w-1/6">
-            <p>
-              <Link to={"/dashboard"}>Dashboard</Link>
-            </p>
-            <p>
-              <Link to={"/dashboard/addproduct"}>Add Product</Link>
-            </p>
-            <p>
-              <Link to={"/dashboard/myproducts"}>My Products</Link>
-            </p>
-            <p>
-              <Link to={"/dashboard/mybuyers"}>My Buyers</Link>
-            </p>
+          <div className="border border-r-zinc-300 w-1/6 text-center text-2xl  pt-20 px-5">
+            <Link to={"/dashboard"}>
+              <button className="shadow-nm-inset w-full my-2 py-4 rounded-md border border-zinc-300">
+                Dashboard
+              </button>
+            </Link>
+            <Link to={"/dashboard/addproduct"}>
+              <button className="focus:shadow-nm-inset w-full my-2 py-4 rounded-md border border-zinc-300">
+                Add Product
+              </button>
+            </Link>
+            <Link to={"/dashboard/myproducts"}>
+              <button className="focus:shadow-nm-inset w-full my-2 py-4 rounded-md border border-zinc-300">
+                My Products
+              </button>
+            </Link>
+            <Link to={"/dashboard/mybuyers"}>
+              <button className="focus:shadow-nm-inset w-full my-2 py-4 rounded-md border border-zinc-300">
+                My Buyers
+              </button>
+            </Link>
           </div>
         )}
-        <div className="bg-blue-200 w-5/6">
+        <div className=" w-5/6">
           <Outlet />
         </div>
       </div>

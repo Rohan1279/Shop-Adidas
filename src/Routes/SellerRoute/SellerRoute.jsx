@@ -9,7 +9,7 @@ const SellerRoute = ({ children }) => {
   const { user, loading } = authInfo;
   const [isBuyer, isSeller, setIsSeller, isBuyerLoading, isSellerLoading] =
     useRole(user?.email);
-  console.log(isSeller);
+  // console.log(isSeller);
   const location = useLocation();
   if (loading || isSellerLoading) {
     return <Loader />;
