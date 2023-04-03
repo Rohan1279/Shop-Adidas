@@ -15,7 +15,7 @@ const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
   const navigate = useNavigate();
-
+  const fixedCategories = categories.filter((category) => category.id !== "0");
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -72,13 +72,10 @@ const AddProduct = () => {
 
   const handleChange = (imgFile) => {
     setImgLoading(true);
-    setImgFile(imgFile);
+    console.log(imgFile);
+    setImgFile(URL.createObjectURL(imgFile));
     setIsImgDropped(true);
-    getImageUrl(imgFile).then((imgData) => {
-      console.log(imgData);
-      setImgLoading(false);
-      setImgURL(imgData);
-    });
+    setImgLoading(false);
   };
 
   // console.log(import.meta.env.VITE_IMGBB_KEY);
@@ -137,6 +134,11 @@ const AddProduct = () => {
     console.log(product);
 
     console.log(product);
+    // getImageUrl(imgFile).then((imgData) => {
+    //   console.log(imgData);
+    //   setImgLoading(false);
+    //   setImgURL(imgData);
+    // });
     // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
     //   method: "POST",
     //   headers: {
@@ -196,29 +198,34 @@ const AddProduct = () => {
                 <>
                   <LazyLoadImage
                     effect="opacity"
-                    src={imgURL}
+                    src={imgFile}
                     className={"rounded-md mx-auto w-full max-w-md "}
                   ></LazyLoadImage>
-                  <span className="text-zinc-500  underline underline-offset-2 block">
-                    {imgFile.name}
-                  </span>
+                  
                 </>
               )}
             </div>
           )}
         </div>
+
         <div className="col-span-1 flex-col space-y-5">
           {/* //! PRODUCT_NAME  */}
-          <input
-            type="text"
-            maxLength={20}
-            placeholder="product name"
-            {...register("name", {
-              required: "name is required",
-            })}
-            className=" focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center "
-            required
-          />
+          <div>
+            <input
+              type="text"
+              maxLength={100}
+              placeholder="product name"
+              {...register("name", {
+                required: true,
+              })}
+              className=" focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center "
+            />
+            {errors.name?.type === "required" && (
+              <p role="alert" className="text-red-400 text-sm">
+                Product name must be included
+              </p>
+            )}
+          </div>
           {/* //! CATEGORY  */}
           <div className="md:grid grid-cols-2 gap-x-2 space-y-5 md:space-y-0">
             <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
@@ -227,7 +234,7 @@ const AddProduct = () => {
                 <DropDownMenu
                   selected={selectedCategory}
                   setSelected={setSelectedCategory}
-                  array={categories}
+                  array={fixedCategories}
                 ></DropDownMenu>
               </div>
             </div>
@@ -260,12 +267,12 @@ const AddProduct = () => {
             />
             {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
             {errors.price?.type === "pattern" && (
-              <p role="alert" className="text-red-500 text-sm">
+              <p role="alert" className="text-red-400 text-sm">
                 Please enter a valid input
               </p>
             )}
             {errors.price?.type === "required" && (
-              <p role="alert" className="text-red-500 text-sm">
+              <p role="alert" className="text-red-400 text-sm">
                 Price must be included
               </p>
             )}
