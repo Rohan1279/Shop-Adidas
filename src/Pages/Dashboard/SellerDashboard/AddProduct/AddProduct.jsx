@@ -10,7 +10,28 @@ import { FileUploader } from "react-drag-drop-files";
 import { getImageUrl } from "../../../../utils/getImageUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-
+const clothColors = [
+  { id: 0, name: "Red", hex: "#FF0000" },
+  { id: 1, name: "Orange", hex: "#FFA500" },
+  { id: 2, name: "Yellow", hex: "#FFFF00" },
+  { id: 3, name: "Green", hex: "#008000" },
+  { id: 4, name: "Blue", hex: "#0000FF" },
+  { id: 5, name: "Purple", hex: "#800080" },
+  { id: 6, name: "Pink", hex: "#FFC0CB" },
+  { id: 7, name: "Black", hex: "#000000" },
+  { id: 8, name: "White", hex: "#FFFFFF" },
+  { id: 9, name: "Gray", hex: "#808080" },
+  { id: 10, name: "Brown", hex: "#964B00" },
+  { id: 11, name: "Beige", hex: "#F5F5DC" },
+  { id: 12, name: "Navy", hex: "#000080" },
+  { id: 13, name: "Teal", hex: "#008080" },
+  { id: 14, name: "Turquoise", hex: "#40E0D0" },
+  { id: 15, name: "Lime", hex: "#00FF00" },
+  { id: 16, name: "Magenta", hex: "#FF00FF" },
+  { id: 17, name: "Gold", hex: "#FFD700" },
+  { id: 18, name: "Silver", hex: "#C0C0C0" },
+  { id: 19, name: "Bronze", hex: "#CD7F32" },
+];
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
@@ -22,41 +43,14 @@ const AddProduct = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const clothColors = [
-    { name: "Red" },
-    { name: "Blue" },
-    { name: "Green" },
-    { name: "Yellow" },
-    { name: "Orange" },
-    { name: "Purple" },
-    { name: "Pink" },
-    { name: "Black" },
-    { name: "White" },
-    { name: "Gray" },
-    { name: "Brown" },
-    { name: "Beige" },
-    { name: "Turquoise" },
-    { name: "Magenta" },
-    { name: "Navy" },
-    { name: "Maroon" },
-    { name: "Olive" },
-    { name: "Teal" },
-    { name: "Lavender" },
-    { name: "Cream" },
-    { name: "Charcoal" },
-    { name: "Burgundy" },
-    { name: "Indigo" },
-    { name: "Taupe" },
-    { name: "Mustard" },
-    { name: "Rust" },
-    { name: "Fuchsia" },
-  ];
-  const [selectedCategory, setSelectedCategory] = useState(categories[1]);
-  const [selectedClothColor, setSelectedClothColor] = useState(clothColors[0]);
+
+  console.log(categories, clothColors);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedClothColor, setSelectedClothColor] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
-  const [imgLoading, setImgLoading] = useState(false);
+  const [imgError, setImgError] = useState(null);
   const fileTypes = ["JPG", "PNG"];
 
   const sizes = [
@@ -71,11 +65,11 @@ const AddProduct = () => {
   // console.log(selectedSize);
 
   const handleChange = (imgFile) => {
-    setImgLoading(true);
-    console.log(imgFile);
-    setImgFile(URL.createObjectURL(imgFile));
+    setImgError(false);
+    setIsLoading(false);
+    setImgURL(URL.createObjectURL(imgFile));
+    setImgFile(imgFile);
     setIsImgDropped(true);
-    setImgLoading(false);
   };
 
   // console.log(import.meta.env.VITE_IMGBB_KEY);
@@ -86,6 +80,9 @@ const AddProduct = () => {
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
+    if (!imgFile) {
+      setImgError(true);
+    }
     const form = e.target;
     setIsLoading(true);
     const date = new Date();
@@ -115,7 +112,6 @@ const AddProduct = () => {
       category: selectedCategory.name,
       description: data.description,
       price: data.price,
-      img: imgURL,
       name: data.name,
       color: selectedClothColor.name,
       posted_on,
@@ -131,35 +127,36 @@ const AddProduct = () => {
       isReported: false,
       inStock: false,
     };
-    console.log(product);
 
     console.log(product);
-    // getImageUrl(imgFile).then((imgData) => {
-    //   console.log(imgData);
-    //   setImgLoading(false);
-    //   setImgURL(imgData);
-    // });
-    // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //     authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-    //   },
-    //   body: JSON.stringify(product),
-    // })
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     console.log(result);
+    if (imgFile && imgURL && data) {
+      getImageUrl(imgFile).then((imgData) => {
+        setImgURL(imgData);
+        fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem(
+              "shop-adidas-token"
+            )}`,
+          },
+          body: JSON.stringify({ ...product, img: imgData }),
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            console.log(result);
 
-    //     if (result.acknowledged) {
-    //       console.log(
-    //         "%Product Added successfully!",
-    //         "color: blue; font-size: 24px;"
-    //       );
-    //       form.reset();
-    //       navigate("/dashboard/myproducts");
-    //     }
-    //   });
+            if (result.acknowledged) {
+              console.log(
+                "%Product Added successfully!",
+                "color: blue; font-size: 24px;"
+              );
+              form.reset();
+              navigate("/dashboard/myproducts");
+            }
+          });
+      });
+    }
   };
   return (
     <div className="h-fit ">
@@ -168,8 +165,8 @@ const AddProduct = () => {
         onSubmit={handleSubmit(handleAddProduct)}
         className="px-10 mt-10 md:grid grid-cols-2 gap-8 "
       >
-        <div className="col-span-1 h-fit">
-          {!isImgDropped && !imgURL ? (
+        <div className={`col-span-1 h-fit  ${imgError && "animate-shake"}`}>
+          {!isImgDropped && !imgFile ? (
             <FileUploader
               handleChange={handleChange}
               onDrop={handleFileDrop}
@@ -185,6 +182,11 @@ const AddProduct = () => {
                     <button className="shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all">
                       Upload a file
                     </button>
+                    {imgError && (
+                      <p className={`text-red-400 text-sm mt-2`}>
+                        Please attach at image file
+                      </p>
+                    )}
                   </header>
                 </section>
               }
@@ -192,18 +194,13 @@ const AddProduct = () => {
           ) : (
             <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-300 ">
               <h3 className="font-bold text-sm my-2">Your image file</h3>
-              {imgLoading ? (
-                <div className="continuous-7 my-10 mx-auto"></div>
-              ) : (
-                <>
-                  <LazyLoadImage
-                    effect="opacity"
-                    src={imgFile}
-                    className={"rounded-md mx-auto w-full max-w-md "}
-                  ></LazyLoadImage>
-                  
-                </>
-              )}
+              <>
+                <LazyLoadImage
+                  effect="opacity"
+                  src={imgURL}
+                  className={"rounded-md mx-auto w-full max-w-md "}
+                ></LazyLoadImage>
+              </>
             </div>
           )}
         </div>
@@ -230,7 +227,7 @@ const AddProduct = () => {
           <div className="md:grid grid-cols-2 gap-x-2 space-y-5 md:space-y-0">
             <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
               <span className="mr-3 font-">Category </span>
-              <div className="w-full border-l border-l-gray-300">
+              <div className="w-full border-l border-l-gray-300 h-11">
                 <DropDownMenu
                   selected={selectedCategory}
                   setSelected={setSelectedCategory}
@@ -284,17 +281,18 @@ const AddProduct = () => {
             rows="5"
             style={{ resize: "none" }}
             // name="description"
-            className="w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center"
+            className="w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm"
             placeholder="Description about the product"
           ></textarea>
           {/* <button className="w-full p-3 mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black"> */}
           {isLoading ? (
-            <Loader />
+            // <Loader />
+            <div className="continuous-7 my-10 mx-auto"></div>
           ) : (
             <input
               type="submit"
               value="Submit"
-              className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer "
+              className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer active:scale-95 transition-all"
             />
           )}
           {/* <div className="continuous-7"></div> */}

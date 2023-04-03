@@ -7,10 +7,12 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
   // const [selected, setSelected] = useState(array[1]);
 
   return (
-    <Listbox value={selected} onChange={setSelected} >
+    <Listbox value={selected} onChange={setSelected}>
       <div className="relative">
-        <Listbox.Button className="relative w-full cursor-default rounded-r-md active:shadow-nm-inset  bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm">
-          <span className="block truncate">{selected.name}</span>
+        <Listbox.Button className="relative w-full cursor-default h-11 rounded-r-md active:shadow-nm-inset  bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm">
+          <span className="block truncate">
+            {selected.name ?? <span className="text-sm text-gray-500">Choose an option</span>}
+          </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FaAngleDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
@@ -24,28 +26,28 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-white py-1  shadow-lg  focus:outline-none sm:text-sm z-50">
+          <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
             {array.map((item, itemIdx) => (
               <Listbox.Option
                 key={itemIdx}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-blue-100 text-blue-900" : "text-gray-900"
-                  }`
+                  `relative cursor-default select-none py-2 pl-10 pr-4 active:shadow-nm-inset h-11${
+                    active ? "text-gray-900 shadow-nm-inset" : "text-gray-500"
+                  } `
                 }
                 value={item}
               >
                 {({ selected }) => (
                   <>
                     <span
-                      className={`block truncate ${
-                        selected ? "font-medium" : "font-normal"
+                      className={`block truncate   ${
+                        selected ? "font-medium " : "font-normal"
                       }`}
                     >
                       {item.name}
                     </span>
                     {selected ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600 ">
                         <HiCheck
                           className="h-5 w-5 text-black"
                           aria-hidden="true"
@@ -54,6 +56,21 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
                     ) : null}
                   </>
                 )}
+                {/* {({ active, selected }) => (
+                  <li
+                    className={`${
+                      active ? "bg-blue-500 text-white" : "bg-white text-black"
+                    }`}
+                  >
+                    {selected && (
+                      <HiCheck
+                        className="h-5 w-5 text-black"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {item.name}
+                  </li>
+                )} */}
               </Listbox.Option>
             ))}
           </Listbox.Options>
