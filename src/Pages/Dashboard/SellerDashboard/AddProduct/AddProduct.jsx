@@ -9,10 +9,13 @@ import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { FileUploader } from "react-drag-drop-files";
 import { getImageUrl } from "../../../../utils/getImageUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -54,7 +57,7 @@ const AddProduct = () => {
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
   const [imgLoading, setImgLoading] = useState(false);
-  const fileTypes = ["JPG", "PNG", "GIF"];
+  const fileTypes = ["JPG", "PNG"];
 
   const sizes = [
     { id: 1, name: "XS" },
@@ -65,7 +68,7 @@ const AddProduct = () => {
     { id: 6, name: "2L" },
   ];
   const [selectedSize, setSelectedSize] = useState([sizes[0]]);
-  console.log(selectedSize);
+  // console.log(selectedSize);
 
   const handleChange = (imgFile) => {
     setImgLoading(true);
@@ -86,6 +89,7 @@ const AddProduct = () => {
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
+    const form = e.target;
     setIsLoading(true);
     const date = new Date();
     let day = date.getDate();
@@ -133,22 +137,27 @@ const AddProduct = () => {
     console.log(product);
 
     console.log(product);
-    fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-      },
-      body: JSON.stringify(product),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        // if (result.acknowledged) {
-        //   toast.success(`${data.product_name}'s data added successfully`);
-        //   navigate("/dashboard/myproducts");
-        // }
-      });
+    // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //     authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+    //   },
+    //   body: JSON.stringify(product),
+    // })
+    //   .then((res) => res.json())
+    //   .then((result) => {
+    //     console.log(result);
+
+    //     if (result.acknowledged) {
+    //       console.log(
+    //         "%Product Added successfully!",
+    //         "color: blue; font-size: 24px;"
+    //       );
+    //       form.reset();
+    //       navigate("/dashboard/myproducts");
+    //     }
+    //   });
   };
   return (
     <div className="h-fit ">
@@ -180,7 +189,7 @@ const AddProduct = () => {
             />
           ) : (
             <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-300 ">
-              <h3 className="font-bold text-sm">Your image file</h3>
+              <h3 className="font-bold text-sm my-2">Your image file</h3>
               {imgLoading ? (
                 <div className="continuous-7 my-10 mx-auto"></div>
               ) : (
@@ -190,7 +199,7 @@ const AddProduct = () => {
                     src={imgURL}
                     className={"rounded-md mx-auto w-full max-w-md "}
                   ></LazyLoadImage>
-                  <span className="text-zinc-500 italic underline underline-offset-2 block">
+                  <span className="text-zinc-500  underline underline-offset-2 block">
                     {imgFile.name}
                   </span>
                 </>
@@ -235,23 +244,40 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
-          {/* //! PRODUCT_PRICE  */}
-          <input
-            // ! add price validation
-            type=""
-            maxLength={6}
-            placeholder="product price"
-            {...register("price", {
-              required: "price is required",
-            })}
-            className="focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center max-h-min"
-            required
-          />
+          <div>
+            {/* //! PRODUCT_PRICE  */}
+            <input
+              // ! add price validation
+              maxLength={6}
+              minLength={1}
+              placeholder="product price"
+              {...register("price", {
+                required: true,
+                pattern: /^[1-9]\d*$/,
+              })}
+              aria-invalid={errors.price ? "true" : "false"}
+              className="focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center max-h-min"
+            />
+            {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
+            {errors.price?.type === "pattern" && (
+              <p role="alert" className="text-red-500 text-sm">
+                Please enter a valid input
+              </p>
+            )}
+            {errors.price?.type === "required" && (
+              <p role="alert" className="text-red-500 text-sm">
+                Price must be included
+              </p>
+            )}
+          </div>
 
+          {/* //! PRODUCT_DESCRIPTION  */}
           <textarea
             {...register("description")}
+            rows="5"
+            style={{ resize: "none" }}
             // name="description"
-            className="w-full bg-secondary-color border border-zinc-300 focus:outline-none rounded-md p-2 text-center"
+            className="w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center"
             placeholder="Description about the product"
           ></textarea>
           {/* <button className="w-full p-3 mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black"> */}
