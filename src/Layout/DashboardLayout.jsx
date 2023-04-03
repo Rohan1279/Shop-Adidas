@@ -34,7 +34,7 @@ const DashboardLayout = () => {
             </Link>
           </div>
         )}
-        <div className=" w-5/6">
+        <div className=" w-5/6 ">
           <Outlet />
         </div>
       </div>

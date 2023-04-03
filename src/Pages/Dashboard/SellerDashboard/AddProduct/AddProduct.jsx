@@ -3,7 +3,7 @@ import React, { Fragment, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Loader from "../../../../components/Loader/Loader";
 import { Context } from "../../../../contexts/ContextProvider";
-import { FaArrowDown, FaCheckCircle } from "react-icons/fa";
+import { FaArrowDown, FaCheckCircle, FaTrash } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { FileUploader } from "react-drag-drop-files";
@@ -159,7 +159,7 @@ const AddProduct = () => {
     }
   };
   return (
-    <div className="h-fit ">
+    <div className="h-fit">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
@@ -192,15 +192,29 @@ const AddProduct = () => {
               }
             />
           ) : (
-            <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-300 ">
+            <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-400/50 ">
               <h3 className="font-bold text-sm my-2">Your image file</h3>
-              <>
-                <LazyLoadImage
-                  effect="opacity"
-                  src={imgURL}
-                  className={"rounded-md mx-auto w-full max-w-md "}
-                ></LazyLoadImage>
-              </>
+              {/* <div className="w-full"> */}
+              <LazyLoadImage
+                effect="opacity"
+                src={imgURL}
+                className={"rounded-md mx-auto w-full max-w-md shadow-md"}
+              ></LazyLoadImage>
+              <button
+                onClick={() => {
+                  setImgFile(null);
+                  setImgURL(null);
+                  setIsImgDropped(false);
+                }}
+                type="button"
+                className="justify-center bg-secondary-color border border-zinc-300 
+                rounded-md shadow-nm active:shadow-nm-inset flex  items-center mx-auto 
+                w-1/2 h-10 my-2 gap-x-2 active:text-gray-500"
+              >
+                <FaTrash></FaTrash>
+                Remove
+              </button>
+              {/* </div> */}
             </div>
           )}
         </div>
