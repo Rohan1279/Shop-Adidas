@@ -97,7 +97,11 @@ const DashboardLayout = () => {
             </NavLink>
           </div>
         )}
-        <div className={`w-5/6 transition-all mx-auto ${isDrawerOpen && "mx-0 ml-auto transition-all"}`}>
+        <div
+          className={`w-5/6 transition-all mx-auto ${
+            isDrawerOpen && "mx-0 ml-auto transition-all"
+          }`}
+        >
           <Outlet />
         </div>
       </div>

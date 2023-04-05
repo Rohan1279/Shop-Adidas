@@ -10,6 +10,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { getImageUrl } from "../../../../utils/getImageUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
+import Compressor from "compressorjs";
 const clothColors = [
   { id: 0, name: "Red", hex: "#FF0000" },
   { id: 1, name: "Orange", hex: "#FFA500" },
@@ -32,6 +33,15 @@ const clothColors = [
   { id: 18, name: "Silver", hex: "#C0C0C0" },
   { id: 19, name: "Bronze", hex: "#CD7F32" },
 ];
+const clothSizes = [
+  { id: "0", name: "XS" },
+  { id: "1", name: "S" },
+  { id: "2", name: "M" },
+  { id: "3", name: "L" },
+  { id: "4", name: "XL" },
+  { id: "5", name: "2XL" },
+  { id: "6", name: "3XL" },
+];
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
@@ -44,14 +54,14 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
-  console.log(categories, clothColors);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedClothColor, setSelectedClothColor] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
   const [imgError, setImgError] = useState(null);
-  const fileTypes = ["JPG", "PNG"];
+  const [imgSizeError, setImgSizeError] = useState(null);
+  const fileTypes = ["JPG", "WEBP"];
 
   const sizes = [
     { id: 1, name: "XS" },
@@ -62,14 +72,27 @@ const AddProduct = () => {
     { id: 6, name: "2L" },
   ];
   const [selectedSize, setSelectedSize] = useState([sizes[0]]);
-  // console.log(selectedSize);
+  // console.log(categories);
 
   const handleChange = (imgFile) => {
+    console.log(imgFile.size / 1024);
+
     setImgError(false);
     setIsLoading(false);
     setImgURL(URL.createObjectURL(imgFile));
     setImgFile(imgFile);
     setIsImgDropped(true);
+
+    new Compressor(imgFile, {
+      quality: 0.6,
+
+      success: (compressedResult) => {
+        setImgFile(compressedResult);
+      },
+      error(err) {
+        console.log(err.message);
+      },
+    });
   };
 
   // console.log(import.meta.env.VITE_IMGBB_KEY);
@@ -77,14 +100,16 @@ const AddProduct = () => {
     // console.log("object");
     setIsImgDropped(true);
   };
+  // console.log(selectedCategory, selectedClothColor);
+  // console.log(register);
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
     if (!imgFile) {
       setImgError(true);
     }
+    // setImgSizeError(false);
     const form = e.target;
-    setIsLoading(true);
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -128,35 +153,37 @@ const AddProduct = () => {
       inStock: false,
     };
 
-    console.log(product);
-    if (imgFile && imgURL && data) {
-      getImageUrl(imgFile).then((imgData) => {
-        setImgURL(imgData);
-        fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            authorization: `bearer ${localStorage.getItem(
-              "shop-adidas-token"
-            )}`,
-          },
-          body: JSON.stringify({ ...product, img: imgData }),
-        })
-          .then((res) => res.json())
-          .then((result) => {
-            console.log(result);
+    console.log(product, imgFile.size/1034);
+    // if (imgFile && imgURL && data && selectedCategory && selectedClothColor) {
+    //   setIsLoading(true);
+    //   getImageUrl(imgFile).then((imgData) => {
+    //     setImgURL(imgData);
+    //     fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+    //       method: "POST",
+    //       headers: {
+    //         "content-type": "application/json",
+    //         authorization: `bearer ${localStorage.getItem(
+    //           "shop-adidas-token"
+    //         )}`,
+    //       },
+    //       body: JSON.stringify({ ...product, img: imgData }),
+    //     })
+    //       .then((res) => res.json())
+    //       .then((result) => {
+    //         console.log(result);
 
-            if (result.acknowledged) {
-              console.log(
-                "%Product Added successfully!",
-                "color: blue; font-size: 24px;"
-              );
-              form.reset();
-              navigate("/dashboard/myproducts");
-            }
-          });
-      });
-    }
+    //         if (result.acknowledged) {
+    //           console.log(
+    //             "%Product Added successfully!",
+    //             "color: blue; font-size: 24px;"
+    //           );
+    //           form.reset();
+    //           setIsLoading(false);
+    //           navigate("/dashboard/myproducts");
+    //         }
+    //       });
+    //   });
+    // }
   };
   return (
     <div className="h-fit">
@@ -170,21 +197,37 @@ const AddProduct = () => {
             <FileUploader
               handleChange={handleChange}
               onDrop={handleFileDrop}
+              onSizeError={() => {
+                console.log("file size should be less than 2.00MB");
+                // setImgError(false);
+                setImgSizeError(true);
+              }}
+              hoverTitle={" "}
+              maxSize={"1"}
               name="file"
               types={fileTypes}
               children={
-                <section className="flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-300 focus:outline-none mb-8">
-                  <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit border border-dashed rounded-lg text-blueGray-500 focus:border-blue-500 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2">
+                <section className="bg-gray-300/50 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
+                  <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit  rounded-md ">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;
                       <span>files anywhere or</span>
                     </p>
-                    <button className="shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all">
+                    <button className="bg-secondary-color shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all">
                       Upload a file
                     </button>
-                    {imgError && (
+                    {/* <span className="text-gray-500 text-sm mt-1">[jpeg,webp]</span> */}
+                    <span className="text-gray-500 text-sm mt-1">
+                      Max size: 3.00MB
+                    </span>
+                    {imgError && !imgSizeError && (
                       <p className={`text-red-400 text-sm mt-2`}>
-                        Please attach at image file
+                        Please attach an image file
+                      </p>
+                    )}
+                    {imgSizeError && (
+                      <p className="text-red-400 text-sm mt-2">
+                        File size should be less than 2.00MB
                       </p>
                     )}
                   </header>
@@ -205,6 +248,8 @@ const AddProduct = () => {
                   setImgFile(null);
                   setImgURL(null);
                   setIsImgDropped(false);
+                  setImgError(null);
+                  setImgSizeError(null);
                 }}
                 type="button"
                 className="justify-center bg-secondary-color border border-zinc-300 
@@ -222,25 +267,36 @@ const AddProduct = () => {
         <div className="col-span-1 flex-col space-y-5">
           {/* //! PRODUCT_NAME  */}
           <div>
-            <input
-              type="text"
-              maxLength={100}
-              placeholder="product name"
-              {...register("name", {
-                required: true,
-              })}
-              className=" focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center "
-            />
+            <div className="flex items-center border border-gray-300 rounded-md pl-2 ">
+              {/* <FaVoicemail className=""></FaVoicemail> */}
+              <span className="mr-3">Name </span>
+              <input
+                type="text"
+                maxLength={100}
+                minLength={6}
+                placeholder="product name"
+                {...register("name", {
+                  required: true,
+                  minLength: 6,
+                })}
+                className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center "
+              />
+            </div>
             {errors.name?.type === "required" && (
               <p role="alert" className="text-red-400 text-sm">
                 Product name must be included
               </p>
             )}
+            {errors.name?.type === "minLength" && (
+              <p role="alert" className="text-red-400 text-sm">
+                Should be more than 10 characters
+              </p>
+            )}
           </div>
           {/* //! CATEGORY  */}
-          <div className="md:grid grid-cols-2 gap-x-2 space-y-5 md:space-y-0">
+          <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
             <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
-              <span className="mr-3 font-">Category </span>
+              <span className="mr-3 ">Category </span>
               <div className="w-full border-l border-l-gray-300 h-11">
                 <DropDownMenu
                   selected={selectedCategory}
@@ -262,31 +318,74 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
-          <div>
-            {/* //! PRODUCT_PRICE  */}
-            <input
-              // ! add price validation
-              maxLength={6}
-              minLength={1}
-              placeholder="product price"
-              {...register("price", {
-                required: true,
-                pattern: /^[1-9]\d*$/,
-              })}
-              aria-invalid={errors.price ? "true" : "false"}
-              className="focus:outline-none w-full bg-secondary-color p-3 border border-gray-300 text-sm rounded-md focus:shadow-nm-inset text-center max-h-min"
-            />
-            {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
-            {errors.price?.type === "pattern" && (
-              <p role="alert" className="text-red-400 text-sm">
-                Please enter a valid input
-              </p>
-            )}
-            {errors.price?.type === "required" && (
-              <p role="alert" className="text-red-400 text-sm">
-                Price must be included
-              </p>
-            )}
+          <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+            <div
+              className={`${!selectedCategory && "text-gray-300"} col-span-1`}
+            >
+              {/* //! PRODUCT_PRICE  */}
+              <div
+                className={`flex items-center border border-gray-300 rounded-md pl-2 ${
+                  !selectedCategory && "border-gray-300/50"
+                }`}
+              >
+                <span className={`mr-3 `}>Price</span>
+                <input
+                  // ! add price validation
+                  type={"number"}
+                  maxLength={6}
+                  minLength={1}
+                  placeholder="product price"
+                  {...register("price", {
+                    required: true,
+                    pattern: /^[1-9]\d*$/,
+                  })}
+                  aria-invalid={errors.price ? "true" : "false"}
+                  className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
+                  disabled={!selectedCategory}
+                />
+              </div>
+              {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
+              {errors.price?.type === "pattern" && (
+                <p role="alert" className="text-red-400 text-sm">
+                  Please enter a valid input
+                </p>
+              )}
+              {errors.price?.type === "required" && (
+                <p role="alert" className="text-red-400 text-sm">
+                  Price must be included
+                </p>
+              )}
+            </div>
+            <div
+              className={`${!selectedCategory && "text-gray-300"} col-span-1`}
+            >
+              {/* //! PRODUCT_PROMOTIONAL_PRICE  */}
+              <div
+                className={`flex items-center border border-gray-300 rounded-md pl-2 ${
+                  !selectedCategory && "border-gray-300/50"
+                }`}
+              >
+                <span className={`mr-3 min-w-max`}>Promo Price </span>
+                <input
+                  type={"text"}
+                  maxLength={6}
+                  minLength={1}
+                  placeholder="product price"
+                  {...register("price", {
+                    required: true,
+                    pattern: /^[1-9]\d*$/,
+                  })}
+                  aria-invalid={errors.price ? "true" : "false"}
+                  className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
+                  disabled={!selectedCategory}
+                />
+              </div>
+              {errors.price?.type === "pattern" && (
+                <p role="alert" className="text-red-400 text-sm">
+                  Please enter a valid input
+                </p>
+              )}
+            </div>
           </div>
 
           {/* //! PRODUCT_DESCRIPTION  */}
@@ -295,8 +394,12 @@ const AddProduct = () => {
             rows="5"
             style={{ resize: "none" }}
             // name="description"
-            className="w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm"
+            className={`w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm ${
+              !selectedCategory &&
+              "text-gray-300 border-gray-300/50 disabled:placeholder:text-gray-300"
+            }`}
             placeholder="Description about the product"
+            disabled={!selectedCategory}
           ></textarea>
           {/* <button className="w-full p-3 mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black"> */}
           {isLoading ? (
