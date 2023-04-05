@@ -39,6 +39,14 @@
   border-radius: 10px;
 } */
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--secondary-color) inset !important;
+  /* -webkit-box-shadow: 0 0 0 30px red inset !important; */
+}
+
 /*
 a {
   font-weight: 500;
@@ -216,32 +224,43 @@ button:focus-visible {
 .dots-9::before {
   box-shadow: 26px 0;
   transform: translateX(-26px);
-  animation: d9-1 .75s infinite linear alternate;
+  animation: d9-1 0.75s infinite linear alternate;
 }
 .dots-9::after {
   transform: translateX(13px) rotate(0deg) translateX(13px);
-  animation: d9-2 .75s infinite linear alternate;
+  animation: d9-2 0.75s infinite linear alternate;
 }
 @keyframes d9-0 {
-    0% ,49.9% {transform: scale(1)}
-    50%,100%  {transform: scale(-1)}
+  0%,
+  49.9% {
+    transform: scale(1);
+  }
+  50%,
+  100% {
+    transform: scale(-1);
+  }
 }
 @keyframes d9-1 {
-    100%{box-shadow: 52px 0}
+  100% {
+    box-shadow: 52px 0;
+  }
 }
 @keyframes d9-2 {
-    100%{transform: translateX(13px) rotate(-180deg) translateX(13px)}
+  100% {
+    transform: translateX(13px) rotate(-180deg) translateX(13px);
+  }
 }
 
 .continuous-7 {
-  width:120px;
-  height:20px;
-  -webkit-mask:linear-gradient(90deg,#000 70%,#0000 0) left/20% 100%;
-  background:
-   linear-gradient(#000 0 0) left -25% top 0 /20% 100% no-repeat
-   #e6ecf0;
-  animation:ct7 1s infinite steps(6);
+  width: 120px;
+  height: 20px;
+  -webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) left/20% 100%;
+  background: linear-gradient(#000 0 0) left -25% top 0 /20% 100% no-repeat
+    #e6ecf0;
+  animation: ct7 1s infinite steps(6);
 }
 @keyframes ct7 {
-    100% {background-position: right -25% top 0}
+  100% {
+    background-position: right -25% top 0;
+  }
 }

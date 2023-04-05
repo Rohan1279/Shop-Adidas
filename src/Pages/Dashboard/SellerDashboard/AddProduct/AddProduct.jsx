@@ -138,7 +138,7 @@ const AddProduct = () => {
       description: data.description,
       price: data.price,
       name: data.name,
-      color: selectedClothColor.name,
+      color: selectedClothColor.name ?? "No color information available",
       posted_on,
       seller_phone: data.seller_phone,
       seller_id: user?.uid,
@@ -153,7 +153,7 @@ const AddProduct = () => {
       inStock: false,
     };
 
-    console.log(product, imgFile.size/1034);
+    console.log(product, imgFile?.size / 1034);
     // if (imgFile && imgURL && data && selectedCategory && selectedClothColor) {
     //   setIsLoading(true);
     //   getImageUrl(imgFile).then((imgData) => {
@@ -186,11 +186,11 @@ const AddProduct = () => {
     // }
   };
   return (
-    <div className="h-fit">
+    <div className="h-screen">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="px-10 mt-10 md:grid grid-cols-2 gap-8 "
+        className="px-10 mt-10 md:grid grid-cols-2 gap-x-8"
       >
         <div className={`col-span-1 h-fit  ${imgError && "animate-shake"}`}>
           {!isImgDropped && !imgFile ? (
@@ -203,11 +203,11 @@ const AddProduct = () => {
                 setImgSizeError(true);
               }}
               hoverTitle={" "}
-              maxSize={"1"}
+              maxSize={"2"}
               name="file"
               types={fileTypes}
               children={
-                <section className="bg-gray-300/50 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
+                <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
                   <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit  rounded-md ">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;
@@ -218,7 +218,7 @@ const AddProduct = () => {
                     </button>
                     {/* <span className="text-gray-500 text-sm mt-1">[jpeg,webp]</span> */}
                     <span className="text-gray-500 text-sm mt-1">
-                      Max size: 3.00MB
+                      Max size: 2.00MB
                     </span>
                     {imgError && !imgSizeError && (
                       <p className={`text-red-400 text-sm mt-2`}>
@@ -263,144 +263,170 @@ const AddProduct = () => {
             </div>
           )}
         </div>
-
         <div className="col-span-1 flex-col space-y-5">
-          {/* //! PRODUCT_NAME  */}
-          <div>
-            <div className="flex items-center border border-gray-300 rounded-md pl-2 ">
-              {/* <FaVoicemail className=""></FaVoicemail> */}
-              <span className="mr-3">Name </span>
-              <input
-                type="text"
-                maxLength={100}
-                minLength={6}
-                placeholder="product name"
-                {...register("name", {
-                  required: true,
-                  minLength: 6,
-                })}
-                className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center "
-              />
-            </div>
-            {errors.name?.type === "required" && (
-              <p role="alert" className="text-red-400 text-sm">
-                Product name must be included
-              </p>
-            )}
-            {errors.name?.type === "minLength" && (
-              <p role="alert" className="text-red-400 text-sm">
-                Should be more than 10 characters
-              </p>
-            )}
-          </div>
-          {/* //! CATEGORY  */}
-          <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
-            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
-              <span className="mr-3 ">Category </span>
-              <div className="w-full border-l border-l-gray-300 h-11">
-                <DropDownMenu
-                  selected={selectedCategory}
-                  setSelected={setSelectedCategory}
-                  array={fixedCategories}
-                ></DropDownMenu>
-              </div>
-            </div>
-
-            {/* //! PRODUCT_COLOR */}
-            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
-              <span className="mr-3 font-">Color </span>
-              <div className="w-full border-l border-l-gray-300">
-                <DropDownMenu
-                  selected={selectedClothColor}
-                  setSelected={setSelectedClothColor}
-                  array={clothColors}
-                ></DropDownMenu>
-              </div>
-            </div>
-          </div>
-          <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
-            <div
-              className={`${!selectedCategory && "text-gray-300"} col-span-1`}
-            >
-              {/* //! PRODUCT_PRICE  */}
-              <div
-                className={`flex items-center border border-gray-300 rounded-md pl-2 ${
-                  !selectedCategory && "border-gray-300/50"
-                }`}
-              >
-                <span className={`mr-3 `}>Price</span>
+          <fieldset className=" border border-gray-400/50 p-5 rounded-md spay">
+            <legend className="px-2 bg-secondary-color  rounded-md">
+              Product Information
+            </legend>
+            {/* //! PRODUCT_NAME  */}
+            <div className="mb-5">
+              <div className="flex items-center border border-gray-300 rounded-md pl-2 ">
+                {/* <FaVoicemail className=""></FaVoicemail> */}
+                <span className="mr-3">Name </span>
                 <input
-                  // ! add price validation
-                  type={"number"}
-                  maxLength={6}
-                  minLength={1}
-                  placeholder="product price"
-                  {...register("price", {
+                  type="text"
+                  maxLength={100}
+                  minLength={6}
+                  placeholder="product name"
+                  {...register("name", {
                     required: true,
-                    pattern: /^[1-9]\d*$/,
+                    minLength: 6,
                   })}
-                  aria-invalid={errors.price ? "true" : "false"}
-                  className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
-                  disabled={!selectedCategory}
+                  className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center "
                 />
               </div>
-              {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
-              {errors.price?.type === "pattern" && (
+              {errors.name?.type === "required" && (
                 <p role="alert" className="text-red-400 text-sm">
-                  Please enter a valid input
+                  Product name must be included
                 </p>
               )}
-              {errors.price?.type === "required" && (
+              {errors.name?.type === "minLength" && (
                 <p role="alert" className="text-red-400 text-sm">
-                  Price must be included
-                </p>
-              )}
-            </div>
-            <div
-              className={`${!selectedCategory && "text-gray-300"} col-span-1`}
-            >
-              {/* //! PRODUCT_PROMOTIONAL_PRICE  */}
-              <div
-                className={`flex items-center border border-gray-300 rounded-md pl-2 ${
-                  !selectedCategory && "border-gray-300/50"
-                }`}
-              >
-                <span className={`mr-3 min-w-max`}>Promo Price </span>
-                <input
-                  type={"text"}
-                  maxLength={6}
-                  minLength={1}
-                  placeholder="product price"
-                  {...register("price", {
-                    required: true,
-                    pattern: /^[1-9]\d*$/,
-                  })}
-                  aria-invalid={errors.price ? "true" : "false"}
-                  className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
-                  disabled={!selectedCategory}
-                />
-              </div>
-              {errors.price?.type === "pattern" && (
-                <p role="alert" className="text-red-400 text-sm">
-                  Please enter a valid input
+                  Should be more than 10 characters
                 </p>
               )}
             </div>
-          </div>
+            <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+              {/* //! CATEGORY  */}
 
-          {/* //! PRODUCT_DESCRIPTION  */}
-          <textarea
-            {...register("description")}
-            rows="5"
-            style={{ resize: "none" }}
-            // name="description"
-            className={`w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm ${
-              !selectedCategory &&
-              "text-gray-300 border-gray-300/50 disabled:placeholder:text-gray-300"
+              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+                <span className="mr-3 ">Category </span>
+                <div className="w-full border-l border-l-gray-300 h-11">
+                  <DropDownMenu
+                    selected={selectedCategory}
+                    setSelected={setSelectedCategory}
+                    array={fixedCategories}
+                  ></DropDownMenu>
+                </div>
+              </div>
+
+              {/* //! PRODUCT_COLOR */}
+              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+                <span className="mr-3 font-">Color </span>
+                <div className="w-full border-l border-l-gray-300">
+                  <DropDownMenu
+                    selected={selectedClothColor}
+                    setSelected={setSelectedClothColor}
+                    array={clothColors}
+                  ></DropDownMenu>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset
+            className={`border border-gray-400/50 p-5 rounded-md ${
+              !selectedCategory && "text-zinc-300"
             }`}
-            placeholder="Description about the product"
-            disabled={!selectedCategory}
-          ></textarea>
+          >
+            <legend className={`px-2 bg-secondary-color  rounded-md`}>
+              Sizes, Price, Stock
+            </legend>
+
+            <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+              <div
+                className={`${!selectedCategory && "text-gray-300"} col-span-1`}
+              >
+                {/* //! PRODUCT_PRICE  */}
+                <div
+                  className={`flex items-center border border-gray-300 rounded-md pl-2 ${
+                    !selectedCategory && "border-gray-300/50"
+                  }`}
+                >
+                  <span className={`mr-3 `}>Price</span>
+                  <input
+                    // ! add price validation
+                    type={"number"}
+                    // maxLength={6}
+                    // minLength={1}
+                    // min={1}
+                    placeholder="product price"
+                    {...register("price", {
+                      required: true,
+                      pattern: /^[1-9]\d*$/,
+                      min: 1,
+                    })}
+                    aria-invalid={errors.price ? "true" : "false"}
+                    className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
+                    disabled={!selectedCategory}
+                  />
+                </div>
+                {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
+                {errors.price?.type === "min" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Please enter a valid input
+                  </p>
+                )}
+                {errors.price?.type === "required" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Price must be included
+                  </p>
+                )}
+              </div>
+              <div
+                className={`${!selectedCategory && "text-gray-300"} col-span-1`}
+              >
+                {/* //! PRODUCT_PROMOTIONAL_PRICE  */}
+                <div
+                  className={`flex items-center border border-gray-300 rounded-md pl-2 ${
+                    !selectedCategory && "border-gray-300/50"
+                  }`}
+                >
+                  <span className={`mr-3 min-w-max`}>Promo Price </span>
+                  <input
+                    type={"text"}
+                    maxLength={6}
+                    minLength={1}
+                    placeholder="promo price"
+                    {...register("promo_price", {
+                      // required: true,
+                      pattern: /^[1-9]\d*$/,
+                    })}
+                    aria-invalid={errors.price ? "true" : "false"}
+                    className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
+                    disabled={!selectedCategory}
+                  />
+                </div>
+                {errors.promo_price?.type === "pattern" && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Please enter a valid input
+                  </p>
+                )}
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset
+            className={`border border-gray-400/50 p-5 rounded-md ${
+              !selectedCategory && "text-zinc-300"
+            }`}
+          >
+            <legend className={`px-2 bg-secondary-color  rounded-md`}>
+              DESCRIPTION
+            </legend>
+            {/* //! PRODUCT_DESCRIPTION  */}
+            <textarea
+              {...register("description")}
+              rows="5"
+              style={{ resize: "none" }}
+              // name="description"
+              className={`w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm ${
+                !selectedCategory &&
+                "text-gray-300 border-gray-300/50 disabled:placeholder:text-gray-300"
+              }`}
+              placeholder="Description about the product"
+              disabled={!selectedCategory}
+            ></textarea>
+          </fieldset>
           {/* <button className="w-full p-3 mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black"> */}
           {isLoading ? (
             // <Loader />

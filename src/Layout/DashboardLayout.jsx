@@ -20,13 +20,13 @@ const DashboardLayout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
-    <div className="h-screen">
+    <div className="">
       <Navbar />
-      <div className="mt-16 flex h-screen ">
+      <div className="mt-16 flex max-h-full">
         {/* //!DRAWER */}
         {isSeller && (
           <div
-            className={`w-1/6 text-center text-2xl bg-primary-color shadow-nm pt-20 px-5 space-y-5 absolute -top-0 z-50 h-screen ${
+            className={`w-1/6 text-center text-2xl bg-primary-color shadow-nm pt-20 px-5 space-y-5 absolute -top-0 z-50 h-full ${
               !isDrawerOpen && "w-32"
             } transition-all ease-linear duration-300 
             `}
@@ -98,7 +98,7 @@ const DashboardLayout = () => {
           </div>
         )}
         <div
-          className={`w-5/6 transition-all mx-auto ${
+          className={`w-5/6 transition-all mx-auto h-fit ${
             isDrawerOpen && "mx-0 ml-auto transition-all"
           }`}
         >
