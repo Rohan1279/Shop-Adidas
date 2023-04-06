@@ -177,6 +177,7 @@ const Navbar = () => {
               alt="Your Company"
             />
           </div>
+          {/* //! DESKTOP_NAVBAR */}
           <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block ">
               <div className="flex space-x-4 justify-center items-center">
@@ -213,6 +214,7 @@ const Navbar = () => {
                 >
                   Contact
                 </NavLink>
+
                 {(userRole === "Seller" || isSeller) && user?.email ? (
                   <NavLink
                     to={"/dashboard"}
@@ -222,7 +224,7 @@ const Navbar = () => {
                         : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
                     }
                   >
-                    Dashboard
+                    Dashboardasd
                   </NavLink>
                 ) : (
                   ""

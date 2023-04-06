@@ -1,7 +1,7 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
 import useRole from "../../hooks/useRole";
@@ -14,6 +14,9 @@ const Login = () => {
   const [userEmail, setUserEmail] = useState("");
   // const [isBuyer, isSeller] = useRole(userEmail);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   // console.log(userEmail);
   const handleLogin = (e) => {
     e.preventDefault();
@@ -56,6 +59,8 @@ const Login = () => {
                 "color: green; font-size: 24px;"
               );
               form.reset();
+              navigate(from, { replace: true });
+
               // console.log(isBuyer, isSeller);
               // toast.success("Login successfull");
             })

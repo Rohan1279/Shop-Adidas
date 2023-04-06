@@ -55,7 +55,11 @@ const AddProduct = () => {
   } = useForm();
 
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedClothColor, setSelectedClothColor] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedClothSize, setSelectedClothSize] = useState([
+    clothSizes[0],
+    clothSizes[1],
+  ]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
@@ -63,15 +67,6 @@ const AddProduct = () => {
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
 
-  const sizes = [
-    { id: 1, name: "XS" },
-    { id: 2, name: "S" },
-    { id: 3, name: "M" },
-    { id: 4, name: "L" },
-    { id: 5, name: "XL" },
-    { id: 6, name: "2L" },
-  ];
-  const [selectedSize, setSelectedSize] = useState([sizes[0]]);
   // console.log(categories);
 
   const handleChange = (imgFile) => {
@@ -100,7 +95,7 @@ const AddProduct = () => {
     // console.log("object");
     setIsImgDropped(true);
   };
-  // console.log(selectedCategory, selectedClothColor);
+  // console.log(selectedCategory, selectedColor);
   // console.log(register);
 
   const handleAddProduct = (data, e) => {
@@ -138,7 +133,7 @@ const AddProduct = () => {
       description: data.description,
       price: data.price,
       name: data.name,
-      color: selectedClothColor.name ?? "No color information available",
+      color: selectedColor.name ?? "No color information available",
       posted_on,
       seller_phone: data.seller_phone,
       seller_id: user?.uid,
@@ -154,7 +149,7 @@ const AddProduct = () => {
     };
 
     console.log(product, imgFile?.size / 1034);
-    // if (imgFile && imgURL && data && selectedCategory && selectedClothColor) {
+    // if (imgFile && imgURL && data && selectedCategory && selectedColor) {
     //   setIsLoading(true);
     //   getImageUrl(imgFile).then((imgData) => {
     //     setImgURL(imgData);
@@ -315,8 +310,8 @@ const AddProduct = () => {
                 <span className="mr-3 font-">Color </span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
-                    selected={selectedClothColor}
-                    setSelected={setSelectedClothColor}
+                    selected={selectedColor}
+                    setSelected={setSelectedColor}
                     array={clothColors}
                   ></DropDownMenu>
                 </div>
@@ -333,6 +328,19 @@ const AddProduct = () => {
             </legend>
 
             <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+              {/* //! PRODUCT_SIZE */}
+              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+                <span className="mr-3 font-">Sizes</span>
+                <div className="w-full border-l border-l-gray-300">
+                  <DropDownMenu
+                    error={!selectedCategory}
+                    multiple={true}
+                    selected={selectedClothSize}
+                    setSelected={setSelectedClothSize}
+                    array={clothSizes}
+                  ></DropDownMenu>
+                </div>
+              </div>
               <div
                 className={`${!selectedCategory && "text-gray-300"} col-span-1`}
               >
@@ -381,7 +389,7 @@ const AddProduct = () => {
                     !selectedCategory && "border-gray-300/50"
                   }`}
                 >
-                  <span className={`mr-3 min-w-max`}>Promo Price </span>
+                  <span className={`mr-3 min-w-max`}>Promo Price</span>
                   <input
                     type={"text"}
                     maxLength={6}

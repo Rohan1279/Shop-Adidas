@@ -307,8 +307,11 @@ const Register = () => {
     );
   } else
     return (
-      <div>
-        <p>Want to create a new account?</p>
+      <div className=" h-screen text-center">
+        <p className="my-auto">Want to create a new account?</p>
+        <p className="my-auto">
+          Please <button onClick={() => logOut()} className="hover:text-blue-400 hover:underline underline-offset-1">logout</button> first
+        </p>
       </div>
     );
 };

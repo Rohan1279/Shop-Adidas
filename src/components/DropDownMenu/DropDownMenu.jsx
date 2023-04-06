@@ -3,15 +3,30 @@ import React, { Fragment, useState } from "react";
 import { FaAngleDown, FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
 
-const DropDownMenu = ({ array, selected, setSelected }) => {
+const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
   // const [selected, setSelected] = useState(array[1]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox
+      value={selected}
+      onChange={setSelected}
+      as={Fragment}
+      disabled={error}
+      multiple={multiple}
+    >
       <div className="relative">
         <Listbox.Button className="relative w-full cursor-default h-11 rounded-r-md active:shadow-nm-inset  bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm">
           <span className="block truncate">
-            {selected.name ?? <span className="text-sm text-gray-500">Choose an option</span>}
+            {multiple && selected?.map((item) => item.name).join(", ")}
+            {/* {selected.name ?? (
+              <span
+                className={`text-sm text-gray-500 disabled:text-gray-300 ${
+                  error && "text-gray-300"
+                }`}
+              >
+                Choose an option
+              </span>
+            )} */}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FaAngleDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -29,9 +44,10 @@ const DropDownMenu = ({ array, selected, setSelected }) => {
           <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
             {array.map((item, itemIdx) => (
               <Listbox.Option
+                // disabled={error}
                 key={itemIdx}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 active:shadow-nm-inset h-11${
+                  `relative cursor-default select-none py-2 pl-10 pr-4 active:shadow-nm-inset ${
                     active ? "text-gray-900 shadow-nm-inset" : "text-gray-500"
                   } `
                 }
