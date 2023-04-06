@@ -56,10 +56,7 @@ const AddProduct = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedClothSize, setSelectedClothSize] = useState([
-    clothSizes[0],
-    clothSizes[1],
-  ]);
+  const [selectedClothSize, setSelectedClothSize] = useState([clothSizes[0]]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");

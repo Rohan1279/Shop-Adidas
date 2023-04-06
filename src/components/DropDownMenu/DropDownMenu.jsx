@@ -5,6 +5,7 @@ import { HiCheck } from "react-icons/hi";
 
 const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
   // const [selected, setSelected] = useState(array[1]);
+  multiple && console.log(selected?.map((item) => item.name).join(", "));
 
   return (
     <Listbox
@@ -17,8 +18,15 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
       <div className="relative">
         <Listbox.Button className="relative w-full cursor-default h-11 rounded-r-md active:shadow-nm-inset  bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm">
           <span className="block truncate">
-            {multiple && selected?.map((item) => item.name).join(", ")}
-            {/* {selected.name ?? (
+            {multiple &&
+              selected
+                ?.sort((a, b) => {
+                  // sort id wise
+                  return parseInt(a.id) - parseInt(b.id);
+                })
+                .map((item) => item.name)
+                .join(", ")}
+            {(!multiple && selected.name) ?? (
               <span
                 className={`text-sm text-gray-500 disabled:text-gray-300 ${
                   error && "text-gray-300"
@@ -26,7 +34,7 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
               >
                 Choose an option
               </span>
-            )} */}
+            )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FaAngleDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
