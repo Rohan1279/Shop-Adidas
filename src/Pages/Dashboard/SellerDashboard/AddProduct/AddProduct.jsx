@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Loader from "../../../../components/Loader/Loader";
 import { Context } from "../../../../contexts/ContextProvider";
@@ -11,7 +11,7 @@ import { getImageUrl } from "../../../../utils/getImageUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
-const clothColors = [
+const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
   { id: 2, name: "Blue", hex: "#0000FF" },
@@ -58,6 +58,9 @@ const AddProduct = () => {
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
   const navigate = useNavigate();
   const fixedCategories = categories.filter((category) => category.id !== "0");
+  const clothesCategories = fixedCategories.filter((category) =>
+    [1, 2, 3, 5, 8].includes(parseInt(category.id))
+  );
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -65,8 +68,8 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedColor, setSelectedColor] = useState([]);
   const [selectedClothSize, setSelectedClothSize] = useState([]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
@@ -74,8 +77,19 @@ const AddProduct = () => {
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
-
-  // console.log(categories);
+  const error = !selectedCategory;
+  // error && () => setSelectedClothSize([]);
+  // console.log(error);
+  // if (!clothesCategories.includes(selectedCategory)) {
+  //   setSelectedClothSize([]);
+  // }
+  // console.log(selectedClothSize);
+  useEffect(() => {
+    if (!clothesCategories.includes(selectedCategory)) {
+      setSelectedClothSize([]);
+    }
+  }, [selectedCategory]);
+  console.log(clothesCategories.includes(selectedCategory));
 
   const handleChange = (imgFile) => {
     console.log(imgFile.size / 1024);
@@ -188,11 +202,11 @@ const AddProduct = () => {
     // }
   };
   return (
-    <div className="h-screen ">
+    <div className="h-fit md:h-screen">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="px-10 mt-10 md:grid grid-cols-2 gap-x-8"
+        className="px-0 md:px-10 mt-10 md:grid grid-cols-2 gap-x-8"
       >
         <div className={`col-span-1 h-fit  ${imgError && "animate-shake"}`}>
           {!isImgDropped && !imgFile ? (
@@ -209,8 +223,8 @@ const AddProduct = () => {
               name="file"
               types={fileTypes}
               children={
-                <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
-                  <header className="flex flex-col items-center justify-center py-12 text-base transition duration-500 ease-in-out transform bg-inherit  rounded-md ">
+                <section className="bg-gray-300/20  flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
+                  <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-300 ">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;
                       <span>files anywhere or</span>
@@ -319,7 +333,7 @@ const AddProduct = () => {
                   <DropDownMenu
                     selected={selectedColor}
                     setSelected={setSelectedColor}
-                    array={clothColors}
+                    array={productColors}
                   ></DropDownMenu>
                 </div>
               </div>
@@ -327,19 +341,26 @@ const AddProduct = () => {
           </fieldset>
           <fieldset
             className={`border border-gray-400/50 p-5 rounded-md ${
-              !selectedCategory && "text-zinc-300"
+              error && "text-zinc-300"
             }`}
           >
             <legend className={`px-2 bg-secondary-color  rounded-md`}>
               Sizes, Price, Stock
             </legend>
-            
-            {/* //! PRODUCT_SIZE */}
+
+            {/* //! PRODUCT_SIZE*/}
             <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  mb-5">
-              <span className="mr-3 font-">Sizes</span>
+              <span
+                className={`mr-3 font- ${
+                  !clothesCategories.includes(selectedCategory) &&
+                  "text-gray-300"
+                }`}
+              >
+                Sizes
+              </span>
               <div className="w-full border-l border-l-gray-300">
                 <DropDownMenu
-                  error={!selectedCategory}
+                  error={error || !clothesCategories.includes(selectedCategory)}
                   multiple={true}
                   selected={selectedClothSize}
                   setSelected={setSelectedClothSize}
@@ -347,19 +368,14 @@ const AddProduct = () => {
                 ></DropDownMenu>
               </div>
             </div>
-            <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
-              {/* //! PRODUCT_PRICE  */}
-              <div
-                className={` ${
-                  !selectedCategory && "text-gray-300"
-                } col-span-1`}
-              >
+            {selectedClothSize.map((category) => (
+              <div className={` ${error && "text-gray-300"} col-span-1 my-3`}>
                 <div
                   className={`flex  items-center border border-gray-300 rounded-md pl-2 ${
-                    !selectedCategory && "border-gray-300/50"
+                    error && "border-gray-300/50"
                   }`}
                 >
-                  <span className={`mr-3`}>Price</span>
+                  <span className={`mr-3`}>{category?.name}</span>
                   <input
                     type={"number"}
                     placeholder="product price"
@@ -370,7 +386,7 @@ const AddProduct = () => {
                     })}
                     aria-invalid={errors.price ? "true" : "false"}
                     className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
-                    disabled={!selectedCategory}
+                    disabled={error}
                   />
                 </div>
                 {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
@@ -385,13 +401,47 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
-              <div
-                className={`${!selectedCategory && "text-gray-300"} col-span-1`}
-              >
-                {/* //! PRODUCT_PROMOTIONAL_PRICE  */}
+            ))}
+            <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+              {/* //! PRODUCT_PRICE*/}
+
+              <div className={` ${error && "text-gray-300"} col-span-1`}>
+                <div
+                  className={`flex  items-center border border-gray-300 rounded-md pl-2 ${
+                    error && "border-gray-300/50"
+                  }`}
+                >
+                  <span className={`mr-3`}>Price</span>
+                  <input
+                    type={"number"}
+                    placeholder="product price"
+                    {...register("price", {
+                      required: true,
+                      pattern: /^[1-9]\d*$/,
+                      min: 1,
+                    })}
+                    aria-invalid={errors.price ? "true" : "false"}
+                    className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
+                    disabled={error}
+                  />
+                </div>
+                {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
+                {errors.price?.type === "min" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Please enter a valid input
+                  </p>
+                )}
+                {errors.price?.type === "required" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Price must be included
+                  </p>
+                )}
+              </div>
+              <div className={`${error && "text-gray-300"} col-span-1`}>
+                {/* //! PRODUCT_PROMOTIONAL_PRICE*/}
                 <div
                   className={`flex items-center border border-gray-300 rounded-md pl-2 ${
-                    !selectedCategory && "border-gray-300/50"
+                    error && "border-gray-300/50"
                   }`}
                 >
                   <span className={`mr-3 min-w-max`}>Promo Price</span>
@@ -406,7 +456,7 @@ const AddProduct = () => {
                     })}
                     aria-invalid={errors.price ? "true" : "false"}
                     className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
-                    disabled={!selectedCategory}
+                    disabled={error}
                   />
                 </div>
                 {errors.promo_price?.type === "pattern" && (
@@ -420,24 +470,24 @@ const AddProduct = () => {
 
           <fieldset
             className={`border border-gray-400/50 p-5 rounded-md ${
-              !selectedCategory && "text-zinc-300"
+              error && "text-zinc-300"
             }`}
           >
             <legend className={`px-2 bg-secondary-color  rounded-md`}>
               DESCRIPTION
             </legend>
-            {/* //! PRODUCT_DESCRIPTION  */}
+            {/* //! PRODUCT_DESCRIPTION*/}
             <textarea
               {...register("description")}
               rows="5"
               style={{ resize: "none" }}
               // name="description"
               className={`w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm ${
-                !selectedCategory &&
+                error &&
                 "text-gray-300 border-gray-300/50 disabled:placeholder:text-gray-300"
               }`}
               placeholder="Description about the product"
-              disabled={!selectedCategory}
+              disabled={error}
             ></textarea>
           </fieldset>
           {/* <button className="w-full p-3 mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black"> */}

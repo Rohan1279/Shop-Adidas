@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import Contact from "../Pages/Contact";
@@ -10,10 +11,15 @@ import Cart from "../Pages/Cart/Cart";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import SellerRoute from "./SellerRoute/SellerRoute";
-import AddProduct from "../Pages/Dashboard/SellerDashboard/AddProduct/AddProduct";
+// import AddProduct from "../Pages/Dashboard/SellerDashboard/AddProduct/AddProduct";
+const AddProduct = lazy(() =>
+  import("../Pages/Dashboard/SellerDashboard/AddProduct/AddProduct")
+);
+
 import MyProducts from "../Pages/Dashboard/SellerDashboard/MyProducts/MyProducts";
 import MyBuyers from "../Pages/Dashboard/SellerDashboard/MyBuyers/MyBuyers";
 import DashboardLayout from "../Layout/DashboardLayout";
+import Loader from "../components/Loader/Loader";
 
 const router = createBrowserRouter([
   {

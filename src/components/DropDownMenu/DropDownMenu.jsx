@@ -1,11 +1,15 @@
 import { Listbox, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FaAngleDown, FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
 
 const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
   // const [selected, setSelected] = useState(array[1]);
   // multiple && console.log(selected);
+  // if (multiple && error) {
+  //   setSelected([]);
+  // }
+
 
   return (
     <Listbox
@@ -17,9 +21,11 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
     >
       <div className="relative">
         <Listbox.Button
-          className={`relative w-full cursor-default h-11 rounded-r-md bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm ${
-            !error && "active:shadow-nm-inset"
-          }`}
+          className={({ open }) =>
+            `relative w-full cursor-default h-11 rounded-r-md bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm ${
+              !error && "active:shadow-nm-inset"
+            } ${open && "shadow-nm-inset"}`
+          }
         >
           <span
             className={`text-sm text-gray-500 disabled:text-gray-300 ${
@@ -42,8 +48,24 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
               >
                 Choose an option
               </span>
+            ) : selected?.name ? (
+              <span className="flex justify-start items-center gap-x-2">
+                {selected?.hex && (
+                  <span
+                    style={{ backgroundColor: `${selected?.hex}` }}
+                    className={`w-4 h-4 rounded-sm`}
+                  ></span>
+                )}
+                <span
+                  className={`block truncate  ${
+                    selected ? "font-medium " : "font-normal"
+                  }`}
+                >
+                  {selected.name}
+                </span>
+              </span>
             ) : (
-              selected?.name ?? "Choose and option"
+              "Choose and option"
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -74,7 +96,7 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
                       ? "text-gray-900 shadow-nm-inset rounded-md"
                       : "text-gray-500"
                   } 
-                  ${selected && "shadow-nm-inset rounded-md"} `
+                  ${selected && "shadow-nm-inset rounded-md text-gray-900"} `
                 }
                 value={item}
               >
@@ -92,7 +114,7 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
                       {item?.hex && (
                         <span
                           style={{ backgroundColor: `${item?.hex}` }}
-                          className={`w-3 h-3 rounded-sm`}
+                          className={`w-4 h-4 rounded-sm`}
                         ></span>
                       )}
                       <span

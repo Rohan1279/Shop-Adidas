@@ -46,6 +46,20 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--secondary-color) inset !important;
   /* -webkit-box-shadow: 0 0 0 30px red inset !important; */
 }
+/* remove highlight on mobile device */
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+a:focus,
+a:visited,
+a:active {
+  outline: none;
+}
 
 /*
 a {

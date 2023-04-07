@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { Suspense, useContext, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
@@ -11,8 +11,8 @@ import {
   FaListAlt,
   FaShopify,
 } from "react-icons/fa";
-import {} from "react-icons/hi";
 import { HiXMark } from "react-icons/hi2";
+import Loader from "../components/Loader/Loader";
 
 const DashboardLayout = () => {
   const { authInfo } = useContext(Context);
@@ -97,13 +97,21 @@ const DashboardLayout = () => {
             </NavLink>
           </div>
         )}
-        <div
-          className={`w-5/6 transition-all mx-auto h-fit ${
-            isDrawerOpen && "mx-0 ml-auto transition-all"
-          }`}
+        <Suspense
+          fallback={
+            <div className="w-full h-screen">
+              <Loader></Loader>
+            </div>
+          }
         >
-          <Outlet />
-        </div>
+          <div
+            className={`w-5/6 transition-all mx-auto h-fit ${
+              isDrawerOpen && "mx-0 ml-auto transition-all"
+            }`}
+          >
+            <Outlet />
+          </div>
+        </Suspense>
       </div>
     </div>
   );
