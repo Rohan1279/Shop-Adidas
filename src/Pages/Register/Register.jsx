@@ -88,7 +88,9 @@ const Register = () => {
             "%cPlease email for verification",
             "color: yellow; font-size: 24px;"
           );
-          navigate(from, { replace: true });
+          // navigate(from, { replace: true });
+          navigate("/");
+
         });
         // setCreatedUserEmail(user?.email);
         //   })

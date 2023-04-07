@@ -16,7 +16,7 @@ import { HiXMark } from "react-icons/hi2";
 
 const DashboardLayout = () => {
   const { authInfo } = useContext(Context);
-  const { user, loading, isSeller, isSellerLoading } = authInfo;
+  const { user, loading, isSeller, isSellerLoading, userRole } = authInfo;
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
@@ -24,7 +24,7 @@ const DashboardLayout = () => {
       <Navbar />
       <div className="mt-16 flex max-h-full">
         {/* //!DRAWER */}
-        {isSeller && (
+        {(userRole === "Seller" || isSeller) && (
           <div
             className={`w-1/6 text-center text-2xl bg-primary-color shadow-nm pt-20 px-5 space-y-5 absolute -top-0 z-50 h-full ${
               !isDrawerOpen && "w-32"

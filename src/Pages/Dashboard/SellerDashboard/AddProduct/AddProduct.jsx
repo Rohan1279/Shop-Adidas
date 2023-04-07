@@ -42,7 +42,7 @@ const clothColors = [
   { id: 27, name: "Turquoise", hex: "#40E0D0" },
   { id: 28, name: "White", hex: "#FFFFFF" },
   { id: 29, name: "Yellow", hex: "#FFFF00" },
-  { id: 30, name: "Ochre", hex: "#CC7722" }
+  { id: 30, name: "Ochre", hex: "#CC7722" },
 ];
 const clothSizes = [
   { id: "0", name: "XS" },
@@ -67,7 +67,7 @@ const AddProduct = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedClothSize, setSelectedClothSize] = useState([clothSizes[0]]);
+  const [selectedClothSize, setSelectedClothSize] = useState([]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
@@ -88,7 +88,6 @@ const AddProduct = () => {
 
     new Compressor(imgFile, {
       quality: 0.6,
-
       success: (compressedResult) => {
         setImgFile(compressedResult);
       },
@@ -303,7 +302,7 @@ const AddProduct = () => {
               {/* //! CATEGORY  */}
 
               <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
-                <span className="mr-3 ">Category </span>
+                <span className="mr-3 ">Category</span>
                 <div className="w-full border-l border-l-gray-300 h-11">
                   <DropDownMenu
                     selected={selectedCategory}
@@ -315,7 +314,7 @@ const AddProduct = () => {
 
               {/* //! PRODUCT_COLOR */}
               <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
-                <span className="mr-3 font-">Color </span>
+                <span className="mr-3 font-">Color</span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
                     selected={selectedColor}
@@ -334,7 +333,8 @@ const AddProduct = () => {
             <legend className={`px-2 bg-secondary-color  rounded-md`}>
               Sizes, Price, Stock
             </legend>
-
+            
+            {/* //! PRODUCT_SIZE */}
             <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  mb-5">
               <span className="mr-3 font-">Sizes</span>
               <div className="w-full border-l border-l-gray-300">
@@ -348,19 +348,18 @@ const AddProduct = () => {
               </div>
             </div>
             <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
-              {/* //! PRODUCT_SIZE */}
               {/* //! PRODUCT_PRICE  */}
               <div
-                className={`${
+                className={` ${
                   !selectedCategory && "text-gray-300"
-                } col-span-1 `}
+                } col-span-1`}
               >
                 <div
-                  className={`flex items-center border border-gray-300 rounded-md pl-2 ${
+                  className={`flex  items-center border border-gray-300 rounded-md pl-2 ${
                     !selectedCategory && "border-gray-300/50"
                   }`}
                 >
-                  <span className={`mr-3 `}>Price</span>
+                  <span className={`mr-3`}>Price</span>
                   <input
                     type={"number"}
                     placeholder="product price"

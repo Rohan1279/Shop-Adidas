@@ -34,7 +34,7 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
                 })
                 .map((item) => item.name)
                 .join(", ")
-            ) : (multiple && selected?.length) === 0 ? (
+            ) : multiple && selected?.length === 0 ? (
               <span
                 className={`text-sm text-gray-500 disabled:text-gray-300 ${
                   error && "text-gray-300"
