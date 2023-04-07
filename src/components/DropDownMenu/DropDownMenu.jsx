@@ -68,12 +68,13 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
                 // disabled={error}
 
                 key={itemIdx}
-                className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4   ${
+                className={({ active, selected }) =>
+                  `relative cursor-default select-none py-2 pl-10 pr-4 my-1  ${
                     active
                       ? "text-gray-900 shadow-nm-inset rounded-md"
                       : "text-gray-500"
-                  } `
+                  } 
+                  ${selected && "shadow-nm-inset rounded-md"} `
                 }
                 value={item}
               >
