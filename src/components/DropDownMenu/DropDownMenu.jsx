@@ -5,7 +5,7 @@ import { HiCheck } from "react-icons/hi";
 
 const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
   // const [selected, setSelected] = useState(array[1]);
-  multiple && console.log(selected?.map((item) => item.name).join(", "));
+  // multiple && console.log(selected);
 
   return (
     <Listbox
@@ -16,17 +16,25 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
       multiple={multiple}
     >
       <div className="relative">
-        <Listbox.Button className="relative w-full cursor-default h-11 rounded-r-md active:shadow-nm-inset  bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm">
-          <span className="block truncate">
-            {multiple &&
+        <Listbox.Button
+          className={`relative w-full cursor-default h-11 rounded-r-md bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm ${
+            !error && "active:shadow-nm-inset"
+          }`}
+        >
+          <span
+            className={`text-sm text-gray-500 disabled:text-gray-300 ${
+              error && "text-gray-300"
+            }`}
+          >
+            {multiple && selected?.length !== 0 ? (
               selected
                 ?.sort((a, b) => {
                   // sort id wise
                   return parseInt(a.id) - parseInt(b.id);
                 })
                 .map((item) => item.name)
-                .join(", ")}
-            {(!multiple && selected.name) ?? (
+                .join(", ")
+            ) : (multiple && selected?.length) === 0 ? (
               <span
                 className={`text-sm text-gray-500 disabled:text-gray-300 ${
                   error && "text-gray-300"
@@ -34,10 +42,15 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
               >
                 Choose an option
               </span>
+            ) : (
+              selected?.name ?? "Choose and option"
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <FaAngleDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <FaAngleDown
+              className={`h-5 w-5 text-gray-400 ${error && " text-zinc-300"}`}
+              aria-hidden="true"
+            />
           </span>
         </Listbox.Button>
         <Transition
@@ -53,31 +66,42 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
             {array.map((item, itemIdx) => (
               <Listbox.Option
                 // disabled={error}
+
                 key={itemIdx}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 active:shadow-nm-inset ${
-                    active ? "text-gray-900 shadow-nm-inset" : "text-gray-500"
+                  `relative cursor-default select-none py-2 pl-10 pr-4   ${
+                    active
+                      ? "text-gray-900 shadow-nm-inset rounded-md"
+                      : "text-gray-500"
                   } `
                 }
                 value={item}
               >
                 {({ selected }) => (
                   <>
-                    <span
-                      className={`block truncate   ${
-                        selected ? "font-medium " : "font-normal"
-                      }`}
-                    >
-                      {item.name}
-                    </span>
                     {selected ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600 ">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <HiCheck
                           className="h-5 w-5 text-black"
                           aria-hidden="true"
                         />
                       </span>
                     ) : null}
+                    <span className="flex justify-start items-center gap-x-2">
+                      {item?.hex && (
+                        <span
+                          style={{ backgroundColor: `${item?.hex}` }}
+                          className={`w-3 h-3 rounded-sm`}
+                        ></span>
+                      )}
+                      <span
+                        className={`block truncate  ${
+                          selected ? "font-medium " : "font-normal"
+                        }`}
+                      >
+                        {item.name}
+                      </span>
+                    </span>
                   </>
                 )}
                 {/* {({ active, selected }) => (

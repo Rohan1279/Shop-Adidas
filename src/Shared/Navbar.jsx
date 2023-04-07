@@ -224,7 +224,7 @@ const Navbar = () => {
                         : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
                     }
                   >
-                    Dashboardasd
+                    Dashboard
                   </NavLink>
                 ) : (
                   ""

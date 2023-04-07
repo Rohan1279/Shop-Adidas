@@ -12,26 +12,37 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
 const clothColors = [
-  { id: 0, name: "Red", hex: "#FF0000" },
-  { id: 1, name: "Orange", hex: "#FFA500" },
-  { id: 2, name: "Yellow", hex: "#FFFF00" },
-  { id: 3, name: "Green", hex: "#008000" },
-  { id: 4, name: "Blue", hex: "#0000FF" },
-  { id: 5, name: "Purple", hex: "#800080" },
-  { id: 6, name: "Pink", hex: "#FFC0CB" },
-  { id: 7, name: "Black", hex: "#000000" },
-  { id: 8, name: "White", hex: "#FFFFFF" },
-  { id: 9, name: "Gray", hex: "#808080" },
-  { id: 10, name: "Brown", hex: "#964B00" },
-  { id: 11, name: "Beige", hex: "#F5F5DC" },
-  { id: 12, name: "Navy", hex: "#000080" },
-  { id: 13, name: "Teal", hex: "#008080" },
-  { id: 14, name: "Turquoise", hex: "#40E0D0" },
-  { id: 15, name: "Lime", hex: "#00FF00" },
-  { id: 16, name: "Magenta", hex: "#FF00FF" },
-  { id: 17, name: "Gold", hex: "#FFD700" },
-  { id: 18, name: "Silver", hex: "#C0C0C0" },
-  { id: 19, name: "Bronze", hex: "#CD7F32" },
+  { id: 0, name: "Beige", hex: "#F5F5DC" },
+  { id: 1, name: "Black", hex: "#000000" },
+  { id: 2, name: "Blue", hex: "#0000FF" },
+  { id: 3, name: "Bronze", hex: "#CD7F32" },
+  { id: 4, name: "Brown", hex: "#964B00" },
+  { id: 5, name: "Coral", hex: "#FF7F50" },
+  { id: 6, name: "Gold", hex: "#FFD700" },
+  { id: 7, name: "Gray", hex: "#808080" },
+  { id: 8, name: "Green", hex: "#008000" },
+  { id: 9, name: "Indigo", hex: "#4B0082" },
+  { id: 10, name: "Khaki", hex: "#F0E68C" },
+  { id: 11, name: "Lavender", hex: "#E6E6FA" },
+  { id: 12, name: "Lime", hex: "#00FF00" },
+  { id: 13, name: "Magenta", hex: "#FF00FF" },
+  { id: 14, name: "Maroon", hex: "#800000" },
+  { id: 15, name: "Navy", hex: "#000080" },
+  { id: 16, name: "Olive", hex: "#808000" },
+  { id: 17, name: "Orange", hex: "#FFA500" },
+  { id: 18, name: "Peach", hex: "#FFE5B4" },
+  { id: 19, name: "Pink", hex: "#FFC0CB" },
+  { id: 20, name: "Purple", hex: "#800080" },
+  { id: 21, name: "Red", hex: "#FF0000" },
+  { id: 22, name: "Salmon", hex: "#FA8072" },
+  { id: 23, name: "Silver", hex: "#C0C0C0" },
+  { id: 24, name: "Slate", hex: "#708090" },
+  { id: 25, name: "Sky blue", hex: "#87CEEB" },
+  { id: 26, name: "Teal", hex: "#008080" },
+  { id: 27, name: "Turquoise", hex: "#40E0D0" },
+  { id: 28, name: "White", hex: "#FFFFFF" },
+  { id: 29, name: "Yellow", hex: "#FFFF00" },
+  { id: 30, name: "Ochre", hex: "#CC7722" }
 ];
 const clothSizes = [
   { id: "0", name: "XS" },
@@ -178,7 +189,7 @@ const AddProduct = () => {
     // }
   };
   return (
-    <div className="h-screen">
+    <div className="h-screen ">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
@@ -324,24 +335,26 @@ const AddProduct = () => {
               Sizes, Price, Stock
             </legend>
 
+            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  mb-5">
+              <span className="mr-3 font-">Sizes</span>
+              <div className="w-full border-l border-l-gray-300">
+                <DropDownMenu
+                  error={!selectedCategory}
+                  multiple={true}
+                  selected={selectedClothSize}
+                  setSelected={setSelectedClothSize}
+                  array={clothSizes}
+                ></DropDownMenu>
+              </div>
+            </div>
             <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
               {/* //! PRODUCT_SIZE */}
-              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
-                <span className="mr-3 font-">Sizes</span>
-                <div className="w-full border-l border-l-gray-300">
-                  <DropDownMenu
-                    error={!selectedCategory}
-                    multiple={true}
-                    selected={selectedClothSize}
-                    setSelected={setSelectedClothSize}
-                    array={clothSizes}
-                  ></DropDownMenu>
-                </div>
-              </div>
+              {/* //! PRODUCT_PRICE  */}
               <div
-                className={`${!selectedCategory && "text-gray-300"} col-span-1`}
+                className={`${
+                  !selectedCategory && "text-gray-300"
+                } col-span-1 `}
               >
-                {/* //! PRODUCT_PRICE  */}
                 <div
                   className={`flex items-center border border-gray-300 rounded-md pl-2 ${
                     !selectedCategory && "border-gray-300/50"
@@ -349,11 +362,7 @@ const AddProduct = () => {
                 >
                   <span className={`mr-3 `}>Price</span>
                   <input
-                    // ! add price validation
                     type={"number"}
-                    // maxLength={6}
-                    // minLength={1}
-                    // min={1}
                     placeholder="product price"
                     {...register("price", {
                       required: true,
