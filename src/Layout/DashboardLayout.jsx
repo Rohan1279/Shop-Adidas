@@ -26,7 +26,7 @@ const DashboardLayout = () => {
         {/* //!DRAWER */}
         {(userRole === "Seller" || isSeller) && (
           <div
-            className={`w-1/6 text-center text-2xl bg-primary-color shadow-nm pt-20 px-5 space-y-5 absolute -top-0 z-50 h-full ${
+            className={`w-1/6 text-center text-2xl bg-primary-color shadow-nm pt-20 px-5 space-y-5 absolute  z-50 h-full ${
               !isDrawerOpen && "w-32"
             } transition-all ease-linear duration-300 
             `}

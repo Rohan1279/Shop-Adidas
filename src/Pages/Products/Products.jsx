@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import BannerCard from "../../components/BannerCard/BannerCard";
 import { Context } from "../../contexts/ContextProvider";
@@ -8,15 +8,22 @@ import Button from "../../components/Button/Button";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { Transition } from "@headlessui/react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import Loader from "../../components/Loader/Loader";
 
 //! add pagination feature
 const Products = () => {
-  const { products, categories } = useContext(Context);
-  const [categoryProducts, setCategoryProducts] = useState(products);
+  const { products, categories, isSuccess, isFetching } = useContext(Context);
+  const [categoryProducts, setCategoryProducts] = useState(products.slice(0,10));
   const [prevCategory, setPrevCategory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  console.log();
+  // useEffect(() => {
+  // }, [products]);
+  // if (products.length < 1) {
+  //   setIsLoading(true);
+  // }
+  console.log(isFetching);
 
   const handleFilterProducts = (e, id) => {
     setPrevCategory(e);
@@ -53,42 +60,48 @@ const Products = () => {
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
-      <div className="px-1">
-        <h1 className="text-center text-5xl my-10">All Products</h1>
-        <div className="flex flex-wrap justify-between items-center my-8 w-full ">
-          {categories?.map((category) => (
-            <button
-              key={category._id}
-              className={`w-44 border-slate-300 mx-auto my-1 p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all`}
-              onClick={(e) => {
-                handleFilterProducts(e, category._id);
-              }}
+      {isLoading ? (
+        <div className="h-screen bg-red-400 w-fit">
+          <Loader></Loader>
+        </div>
+      ) : (
+        <div className="px-1">
+          <h1 className="text-center text-5xl my-10">All Products</h1>
+          <div className="flex flex-wrap justify-between items-center my-8 w-full ">
+            {categories?.map((category) => (
+              <button
+                key={category._id}
+                className={`w-44 border-slate-300 mx-auto my-1 p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all`}
+                onClick={(e) => {
+                  handleFilterProducts(e, category._id);
+                }}
 
-              // handler={handleCurrentSize}
-            >
-              {category.name}
-            </button>
-            //    <Button
-            //    key={category.id}
-            //    data={category}
-            //    handler={handleFilterProducts}
-            //    classes={"w-44 border-slate-300 mx-auto my-1"}
-            //  >
-            //    {category.name}
-            //  </Button>
-          ))}
+                // handler={handleCurrentSize}
+              >
+                {category.name}
+              </button>
+              //    <Button
+              //    key={category.id}
+              //    data={category}
+              //    handler={handleFilterProducts}
+              //    classes={"w-44 border-slate-300 mx-auto my-1"}
+              //  >
+              //    {category.name}
+              //  </Button>
+            ))}
+          </div>
+          <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">
+            {categoryProducts?.map((product) => (
+              <ProductCard
+                handler={handleBrowseProduct}
+                key={product._id}
+                data={product}
+                classes={"text-lg"}
+              ></ProductCard>
+            ))}
+          </div>
         </div>
-        <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">
-          {categoryProducts?.map((product) => (
-            <ProductCard
-              handler={handleBrowseProduct}
-              key={product._id}
-              data={product}
-              classes={"text-lg"}
-            ></ProductCard>
-          ))}
-        </div>
-      </div>
+      )}
     </Transition>
   );
 };

@@ -9,6 +9,7 @@ export const dataLoader = () => {
     data: products = [],
     isLoading,
     isSuccess,
+    isFetching,
   } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -49,7 +50,8 @@ export const dataLoader = () => {
   // let a = 20
   // if (!isLoading ) {
   // console.log(isSuccess);
-  if (isSuccess) return { products, categories, isLoading };
+  if (isSuccess)
+    return { products, categories, isLoading, isSuccess, isFetching };
   else return { isLoading };
   // }
   // if (products.length || categories.length) {

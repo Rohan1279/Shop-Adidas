@@ -2,6 +2,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
 import useRole from "../../hooks/useRole";
@@ -155,17 +156,13 @@ const Login = () => {
               Forgot password?
             </p>
           </div>
-          <input
-            type="submit"
-            value="Login"
+
+          <button
             className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md "
-          />
-          {/* <button
-        onClick={handleRegister}
-        className="mx-auto bg-secondary-color border border-gray-300 p-2 text-xl active:shadow-nm-inset w-full rounded-md"
-      >
-        Register
-      </button> */}
+            type="submit"
+          >
+            {isLoading ? <Loader></Loader> : "Login"}
+          </button>
 
           <div className="flex justify-center items-center space-x-5 my-3 text-sm text-zinc-600">
             <hr className=" border-gray-400 w-20" />

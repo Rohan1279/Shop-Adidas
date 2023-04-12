@@ -11,6 +11,7 @@ import { getImageUrl } from "../../../../utils/getImageUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
+import axios from "axios";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -91,7 +92,7 @@ const AddProduct = () => {
   }, [selectedCategory]);
   console.log(clothesCategories.includes(selectedCategory));
 
-  const handleChange = (imgFile) => {
+  const handleChange = async (imgFile) => {
     console.log(imgFile.size / 1024);
 
     setImgError(false);
@@ -102,13 +103,44 @@ const AddProduct = () => {
 
     new Compressor(imgFile, {
       quality: 0.6,
-      success: (compressedResult) => {
-        setImgFile(compressedResult);
+      success: async (compressedResult) => {
+        // setImgFile(compressedResult);
+        // console.log("compressedResult", compressedResult);
+        // console.log("imgFile", imgFile);
+        // const formData = new FormData();
+        // formData.append("image", imgFile);
+        // try {
+        //   const response = await fetch(
+        //     `${import.meta.env.VITE_SERVER_URL}/upload`,
+        //     {
+        //       method: "POST",
+        //       body: formData,
+        //     }
+        //   );
+        //   console.log(await response.json());
+        // } catch (e) {
+        //   console.log("error");
+        // }
       },
       error(err) {
         console.log(err.message);
       },
     });
+
+    const formData = new FormData();
+    formData.append("image", imgFile);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log("error");
+    }
   };
 
   // console.log(import.meta.env.VITE_IMGBB_KEY);
@@ -155,7 +187,7 @@ const AddProduct = () => {
       price: data.price,
       name: data.name,
       color: selectedColor.name ?? "No color information available",
-      posted_on,
+      posted_on: posted_on,
       seller_phone: data.seller_phone,
       seller_id: user?.uid,
       seller_name: user?.displayName,
@@ -174,30 +206,28 @@ const AddProduct = () => {
     //   setIsLoading(true);
     //   getImageUrl(imgFile).then((imgData) => {
     //     setImgURL(imgData);
-    //     fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-    //       method: "POST",
-    //       headers: {
-    //         "content-type": "application/json",
-    //         authorization: `bearer ${localStorage.getItem(
-    //           "shop-adidas-token"
-    //         )}`,
-    //       },
-    //       body: JSON.stringify({ ...product, img: imgData }),
-    //     })
-    //       .then((res) => res.json())
-    //       .then((result) => {
-    //         console.log(result);
+    fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+      },
+      body: JSON.stringify({ ...product }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
 
-    //         if (result.acknowledged) {
-    //           console.log(
-    //             "%Product Added successfully!",
-    //             "color: blue; font-size: 24px;"
-    //           );
-    //           form.reset();
-    //           setIsLoading(false);
-    //           navigate("/dashboard/myproducts");
-    //         }
-    //       });
+        if (result.acknowledged) {
+          console.log(
+            "%Product Added successfully!",
+            "color: blue; font-size: 24px;"
+          );
+          form.reset();
+          setIsLoading(false);
+          navigate("/dashboard/myproducts");
+        }
+      });
     //   });
     // }
   };
@@ -312,10 +342,10 @@ const AddProduct = () => {
                 </p>
               )}
             </div>
-            <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+            <div className="  gap-x-2 space-y-5 lg:space-y-5">
               {/* //! CATEGORY  */}
 
-              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+              <div className="col-span-1  flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
                 <span className="mr-3 ">Category</span>
                 <div className="w-full border-l border-l-gray-300 h-11">
                   <DropDownMenu

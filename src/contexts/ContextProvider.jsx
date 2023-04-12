@@ -12,16 +12,15 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { dataLoader } from "../utils/dataLoader";
-import { getStoredCart } from "../utils/fakeDB";
 import useRole from "../hooks/useRole";
 
 export const Context = createContext();
 const auth = getAuth(app);
 const ContextProvider = ({ children }) => {
-  const { products, categories, isLoading } = dataLoader();
+  const { products, categories, isLoading, isSuccess, isFetching } =
+    dataLoader();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const [createdUserEmail, setCreatedUserEmail] = useState("");
 
   const [isBuyer, isSeller, setIsSeller, isBuyerLoading, isSellerLoading] =
     useRole(user?.email);
@@ -97,6 +96,8 @@ const ContextProvider = ({ children }) => {
         value={{
           products,
           categories,
+          isSuccess,
+          isFetching,
           authInfo,
         }}
       >
