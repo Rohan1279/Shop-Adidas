@@ -23,7 +23,7 @@ const InputField = ({
       }`}
     >
       {/* <FaVoicemail className=""></FaVoicemail> */}
-      <span className="mr-3 min-w-max">{fieldName} </span>
+      {fieldName && <span className="mr-3 min-w-max">{fieldName} </span>}
       <input
         type={type}
         maxLength={maxLength}
@@ -36,7 +36,7 @@ const InputField = ({
           min: `${min}`,
         })}
         aria-invalid={aria_invalid}
-        className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center "
+        className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset rounded-md text-center "
         disabled={error}
       />
     </div>

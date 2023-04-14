@@ -70,7 +70,7 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
-  const [selectedCategory, setSelectedCategory] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedClothSize, setSelectedClothSize] = useState([]);
   const [imgFile, setImgFile] = useState(null);
@@ -79,7 +79,9 @@ const AddProduct = () => {
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
+  const error = !selectedCategory;
+
   console.log("selectedCategory", selectedCategory);
   console.log("error", error);
   // error && () => setSelectedClothSize([]);
@@ -353,13 +355,13 @@ const AddProduct = () => {
                     selected={selectedCategory}
                     setSelected={setSelectedCategory}
                     array={fixedCategories}
-                    setError={setError}
+                    // setError={setError}
                   ></DropDownMenu>
                 </div>
               </div>
 
               {/* //! PRODUCT_COLOR */}
-              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2   bg-gray-300/60 ">
+              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  bg-gray-300/60 ">
                 <span className="mr-3 font-">Color</span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
@@ -400,44 +402,8 @@ const AddProduct = () => {
                 ></DropDownMenu>
               </div>
             </div>
-            
-            {selectedClothSize.map((size, idx) => (
-              <div
-                key={idx}
-                className={` ${error && "text-gray-300"} col-span-1 my-3`}
-              >
-                <div
-                  className={`flex  items-center border border-gray-300 rounded-md pl-2 ${
-                    error && "border-gray-300/50"
-                  }`}
-                >
-                  <span className={`mr-3`}>{size?.name}</span>
-                  <input
-                    type={"number"}
-                    placeholder="product price"
-                    {...register("price", {
-                      required: true,
-                      pattern: /^[1-9]\d*$/,
-                      min: 1,
-                    })}
-                    aria-invalid={errors.price ? "true" : "false"}
-                    className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
-                    disabled={error}
-                  />
-                </div>
-                {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
-                {errors.price?.type === "min" && selectedCategory && (
-                  <p role="alert" className="text-red-400 text-sm">
-                    Please enter a valid input
-                  </p>
-                )}
-                {errors.price?.type === "required" && selectedCategory && (
-                  <p role="alert" className="text-red-400 text-sm">
-                    Price must be included
-                  </p>
-                )}
-              </div>
-            ))}
+
+          
             <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
               {/* //! PRODUCT_PRICE*/}
               <div className={` ${error && "text-gray-300"} col-span-1`}>
@@ -506,49 +472,94 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
-              
             </div>
-            <table class="min-w-full divide-y divide-gray-200 mt-5">
-              <thead class="bg-gray-300/60">
-                <tr>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Size
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Quantity
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Price
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-secondary-color divide-y divide-gray-400/50">
-                {selectedClothSize.map((size, idx) => (
+            {selectedCategory && selectedClothSize.length > 0 && (
+              <table class="min-w-full divide-y divide-gray-200 mt-5 border border-gray-300/60 ">
+                <thead class="bg-gray-300/60 ">
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">
-                        {size.name}
-                      </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">1</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">$10</div>
-                    </td>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Size
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Price
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody class="bg-secondary-color divide-y divide-gray-400/50">
+                  {selectedClothSize.map((size, idx) => (
+                    <tr key={idx}>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">
+                          {size.name}
+                        </div>
+                      </td>
+                      <td class="py-2 whitespace-nowrap">
+                        <div
+                          className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
+                            error && "border-gray-300/50"
+                          }`}
+                        >
+                         
+
+                          <input
+                            type="number"
+                            placeholder="quantity"
+                            {...register("sizeQuantity", {
+                              required: true,
+                              pattern: /^[1-9]\d*$/,
+                              min: 1,
+                            })}
+                            aria-invalid={errors?.price ? "true" : "false"}
+                            className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
+                            disabled={error}
+                          />
+                        </div>
+                        {/* <InputField
+                          fieldName={""}
+                          register={register}
+                          placeholder={"quantity"}
+                          inputName={"promo_price"}
+                          min={1}
+                          type={"number"}
+                          required={true}
+                          pattern={/^[1-9]\d*$/}
+                          error={error}
+                          formErrors={errors}
+                          aria-invalid={errors?.promo_price ? "true" : "false"}
+                        ></InputField> */}
+                      </td>
+                      <td class="">
+                        <InputField
+                          fieldName={""}
+                          register={register}
+                          placeholder={"price"}
+                          inputName={"promo_price"}
+                          min={1}
+                          type={"number"}
+                          required={true}
+                          pattern={/^[1-9]\d*$/}
+                          error={error}
+                          formErrors={errors}
+                          aria-invalid={errors?.promo_price ? "true" : "false"}
+                        ></InputField>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </fieldset>
 
           <fieldset
