@@ -3,13 +3,19 @@ import React, { Fragment, useEffect, useState } from "react";
 import { FaAngleDown, FaArrowDown, FaCheckCircle } from "react-icons/fa";
 import { HiCheck } from "react-icons/hi";
 
-const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
+const DropDownMenu = ({
+  array,
+  selected,
+  setSelected,
+  error,
+  setError,
+  multiple,
+}) => {
   // const [selected, setSelected] = useState(array[1]);
   // multiple && console.log(selected);
   // if (multiple && error) {
   //   setSelected([]);
   // }
-
 
   return (
     <Listbox
@@ -84,11 +90,11 @@ const DropDownMenu = ({ array, selected, setSelected, error, multiple }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
+          <Listbox.Options  className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
             {array.map((item, itemIdx) => (
               <Listbox.Option
                 // disabled={error}
-
+                // onClick={() => setError(false)}
                 key={itemIdx}
                 className={({ active, selected }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 my-1  ${

@@ -12,6 +12,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
 import axios from "axios";
+import InputField from "../../../../components/InputField/InputField";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -69,7 +70,7 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState({});
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedClothSize, setSelectedClothSize] = useState([]);
   const [imgFile, setImgFile] = useState(null);
@@ -78,7 +79,9 @@ const AddProduct = () => {
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
-  const error = !selectedCategory;
+  const [error, setError] = useState(false);
+  console.log("selectedCategory", selectedCategory);
+  console.log("error", error);
   // error && () => setSelectedClothSize([]);
   // console.log(error);
   // if (!clothesCategories.includes(selectedCategory)) {
@@ -89,8 +92,11 @@ const AddProduct = () => {
     if (!clothesCategories.includes(selectedCategory)) {
       setSelectedClothSize([]);
     }
+    // if (!selectedCategory) {
+    //   setError(false);
+    // }
   }, [selectedCategory]);
-  console.log(clothesCategories.includes(selectedCategory));
+  // console.log(clothesCategories.includes(selectedCategory));
 
   const handleChange = async (imgFile) => {
     console.log(imgFile.size / 1024);
@@ -200,39 +206,38 @@ const AddProduct = () => {
       isReported: false,
       inStock: false,
     };
-
-    console.log(product, imgFile?.size / 1034);
+    console.log(data);
+    // console.log(product, imgFile?.size / 1034);
     // if (imgFile && imgURL && data && selectedCategory && selectedColor) {
     //   setIsLoading(true);
     //   getImageUrl(imgFile).then((imgData) => {
     //     setImgURL(imgData);
-    fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-      },
-      body: JSON.stringify({ ...product }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
 
-        if (result.acknowledged) {
-          console.log(
-            "%Product Added successfully!",
-            "color: blue; font-size: 24px;"
-          );
-          form.reset();
-          setIsLoading(false);
-          navigate("/dashboard/myproducts");
-        }
-      });
+    // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //     authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+    //   },
+    //   body: JSON.stringify({ ...product }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((result) => {
+    //     console.log(result);
+
+    //     if (result.acknowledged) {
+    //       console.log(
+    //         "%Product Added successfully!",
+    //         "color: blue; font-size: 24px;"
+    //       );
+    //       form.reset();
+    //       setIsLoading(false);
+    //       navigate("/dashboard/myproducts");
+    //     }
     //   });
-    // }
   };
   return (
-    <div className="h-fit md:h-screen">
+    <div className="h-fit">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
@@ -316,21 +321,16 @@ const AddProduct = () => {
             </legend>
             {/* //! PRODUCT_NAME  */}
             <div className="mb-5">
-              <div className="flex items-center border border-gray-300 rounded-md pl-2 ">
-                {/* <FaVoicemail className=""></FaVoicemail> */}
-                <span className="mr-3">Name </span>
-                <input
-                  type="text"
-                  maxLength={100}
-                  minLength={6}
-                  placeholder="product name"
-                  {...register("name", {
-                    required: true,
-                    minLength: 6,
-                  })}
-                  className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center "
-                />
-              </div>
+              <InputField
+                fieldName={"Name"}
+                register={register}
+                placeholder={"product name"}
+                inputName={"name"}
+                minLength={6}
+                maxLength={100}
+                type={"text"}
+                required={true}
+              ></InputField>
               {errors.name?.type === "required" && (
                 <p role="alert" className="text-red-400 text-sm">
                   Product name must be included
@@ -342,22 +342,24 @@ const AddProduct = () => {
                 </p>
               )}
             </div>
+
             <div className="  gap-x-2 space-y-5 lg:space-y-5">
               {/* //! CATEGORY  */}
 
-              <div className="col-span-1  flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+              <div className="col-span-1  flex items-center border border-gray-300 rounded-md pl-2   bg-gray-300/60">
                 <span className="mr-3 ">Category</span>
                 <div className="w-full border-l border-l-gray-300 h-11">
                   <DropDownMenu
                     selected={selectedCategory}
                     setSelected={setSelectedCategory}
                     array={fixedCategories}
+                    setError={setError}
                   ></DropDownMenu>
                 </div>
               </div>
 
               {/* //! PRODUCT_COLOR */}
-              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  overflow- ">
+              <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2   bg-gray-300/60 ">
                 <span className="mr-3 font-">Color</span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
@@ -379,7 +381,7 @@ const AddProduct = () => {
             </legend>
 
             {/* //! PRODUCT_SIZE*/}
-            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  mb-5">
+            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  mb-5  bg-gray-300/60">
               <span
                 className={`mr-3 font- ${
                   !clothesCategories.includes(selectedCategory) &&
@@ -398,14 +400,18 @@ const AddProduct = () => {
                 ></DropDownMenu>
               </div>
             </div>
-            {selectedClothSize.map((category) => (
-              <div className={` ${error && "text-gray-300"} col-span-1 my-3`}>
+            
+            {selectedClothSize.map((size, idx) => (
+              <div
+                key={idx}
+                className={` ${error && "text-gray-300"} col-span-1 my-3`}
+              >
                 <div
                   className={`flex  items-center border border-gray-300 rounded-md pl-2 ${
                     error && "border-gray-300/50"
                   }`}
                 >
-                  <span className={`mr-3`}>{category?.name}</span>
+                  <span className={`mr-3`}>{size?.name}</span>
                   <input
                     type={"number"}
                     placeholder="product price"
@@ -434,28 +440,20 @@ const AddProduct = () => {
             ))}
             <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
               {/* //! PRODUCT_PRICE*/}
-
               <div className={` ${error && "text-gray-300"} col-span-1`}>
-                <div
-                  className={`flex  items-center border border-gray-300 rounded-md pl-2 ${
-                    error && "border-gray-300/50"
-                  }`}
-                >
-                  <span className={`mr-3`}>Price</span>
-                  <input
-                    type={"number"}
-                    placeholder="product price"
-                    {...register("price", {
-                      required: true,
-                      pattern: /^[1-9]\d*$/,
-                      min: 1,
-                    })}
-                    aria-invalid={errors.price ? "true" : "false"}
-                    className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
-                    disabled={error}
-                  />
-                </div>
-                {/* {errors.price && <p role="alert">{errors.price?.message}</p>} */}
+                <InputField
+                  fieldName={"Price"}
+                  register={register}
+                  placeholder={"product price"}
+                  inputName={"price"}
+                  min={1}
+                  type={"number"}
+                  required={true}
+                  pattern={/^[1-9]\d*$/}
+                  error={error}
+                  formErrors={errors}
+                  aria_invalid={errors?.price ? "true" : "false"}
+                ></InputField>
                 {errors.price?.type === "min" && selectedCategory && (
                   <p role="alert" className="text-red-400 text-sm">
                     Please enter a valid input
@@ -469,7 +467,20 @@ const AddProduct = () => {
               </div>
               <div className={`${error && "text-gray-300"} col-span-1`}>
                 {/* //! PRODUCT_PROMOTIONAL_PRICE*/}
-                <div
+                <InputField
+                  fieldName={"Promo Price"}
+                  register={register}
+                  placeholder={"promo price"}
+                  inputName={"promo_price"}
+                  min={1}
+                  type={"number"}
+                  required={true}
+                  pattern={/^[1-9]\d*$/}
+                  error={error}
+                  formErrors={errors}
+                  aria-invalid={errors?.promo_price ? "true" : "false"}
+                ></InputField>
+                {/* <div
                   className={`flex items-center border border-gray-300 rounded-md pl-2 ${
                     error && "border-gray-300/50"
                   }`}
@@ -488,14 +499,56 @@ const AddProduct = () => {
                     className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset text-center disabled:placeholder:text-gray-300"
                     disabled={error}
                   />
-                </div>
+                </div> */}
                 {errors.promo_price?.type === "pattern" && (
                   <p role="alert" className="text-red-400 text-sm">
                     Please enter a valid input
                   </p>
                 )}
               </div>
+              
             </div>
+            <table class="min-w-full divide-y divide-gray-200 mt-5">
+              <thead class="bg-gray-300/60">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Size
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Quantity
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Price
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-secondary-color divide-y divide-gray-400/50">
+                {selectedClothSize.map((size, idx) => (
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">
+                        {size.name}
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">1</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">$10</div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </fieldset>
 
           <fieldset
