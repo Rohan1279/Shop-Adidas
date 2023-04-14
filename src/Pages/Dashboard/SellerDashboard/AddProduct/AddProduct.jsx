@@ -239,7 +239,7 @@ const AddProduct = () => {
     //   });
   };
   return (
-    <div className="h-fit">
+    <div className="min-h-screen py-10">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
