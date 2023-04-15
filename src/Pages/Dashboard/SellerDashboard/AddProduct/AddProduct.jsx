@@ -383,8 +383,8 @@ const AddProduct = () => {
             </legend>
 
             {/* //! PRODUCT_SIZE*/}
-            <div className="flex items-center gap-x-5 mb-5">
-              <div className="flex items-center w-1/2 border rounded-md border-gray-300 bg-gray-300/60 pl-2">
+            <div className="lg:flex items-start gap-x-2 mb-5">
+              <div className="flex items-center lg:w-3/5 border rounded-md border-gray-300 bg-gray-300/60 pl-2 mb-5 lg:mb-0">
                 {" "}
                 <span
                   className={`mr-3 font- ${
@@ -406,7 +406,7 @@ const AddProduct = () => {
                   ></DropDownMenu>
                 </div>
               </div>
-              <div className="w-1/2">
+              <div className="lg:w-2/5">
                 <InputField
                   fieldName={"Quantity"}
                   register={register}
@@ -507,25 +507,25 @@ const AddProduct = () => {
                   <tr>
                     <th
                       scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
                       Size
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
                       Quantity
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
                       Price
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-secondary-color divide-y divide-gray-400/50">
+                <tbody class="bg-secondary-color divide-y divide-gray-400/50 ">
                   {selectedClothSize.map((size, idx) => (
                     <tr key={idx}>
                       <td class="px-6 py-4 whitespace-nowrap">
@@ -536,7 +536,7 @@ const AddProduct = () => {
                       <td class="py-2 whitespace-nowrap">
                         <div
                           className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
-                            error && "border-gray-300/50"
+                            error && "border-gray-300/50 "
                           }`}
                         >
                           <input

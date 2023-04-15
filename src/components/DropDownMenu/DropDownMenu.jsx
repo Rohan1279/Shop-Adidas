@@ -16,7 +16,7 @@ const DropDownMenu = ({
   // if (multiple && error) {
   //   setSelected([]);
   // }
-
+  console.log(selected);
   return (
     <Listbox
       value={selected}
@@ -28,7 +28,7 @@ const DropDownMenu = ({
       <div className="relative">
         <Listbox.Button
           className={({ open }) =>
-            `relative w-full cursor-default h-11 rounded-r-md bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm ${
+            `relative w-full cursor-default min-h-min rounded-r-md bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm  ${
               !error && "active:shadow-nm-inset"
             } ${open && "shadow-nm-inset"}`
           }
@@ -44,8 +44,36 @@ const DropDownMenu = ({
                   // sort id wise
                   return parseInt(a.id) - parseInt(b.id);
                 })
-                .map((item) => item.name)
-                .join(", ")
+                .map((item, idx) => (
+                  // <span className="bg-red-300 mx-1">{item.name}</span>
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                  >
+                    {item.name}
+                    <div
+                      onClick={() => {
+                        const newSelected = [...selected];
+                        newSelected.splice(idx, 1);
+                        setSelected(newSelected);
+                      }}
+                      type="button"
+                      className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-blue-600 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-200 focus:text-blue-500"
+                    >
+                      <span className="sr-only">Remove badge</span>
+                      <svg
+                        className="h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                      </svg>
+                    </div>
+                  </span>
+                ))
             ) : multiple && selected?.length === 0 ? (
               <span
                 className={`text-sm text-gray-500 disabled:text-gray-300 ${
@@ -90,7 +118,7 @@ const DropDownMenu = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options  className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
+          <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
             {array.map((item, itemIdx) => (
               <Listbox.Option
                 // disabled={error}
