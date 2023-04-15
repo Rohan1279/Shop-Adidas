@@ -23,7 +23,16 @@ const InputField = ({
       }`}
     >
       {/* <FaVoicemail className=""></FaVoicemail> */}
-      {fieldName && <span className="mr-3 min-w-max">{fieldName} </span>}
+      {fieldName && (
+        <span
+          className={`mr-3 min-w-max ${
+            !error &&
+            " text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
+          }`}
+        >
+          {fieldName}{" "}
+        </span>
+      )}
       <input
         type={type}
         maxLength={maxLength}

@@ -52,7 +52,8 @@ const DropDownMenu = ({
                   >
                     {item.name}
                     <div
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         const newSelected = [...selected];
                         newSelected.splice(idx, 1);
                         setSelected(newSelected);

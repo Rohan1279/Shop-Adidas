@@ -61,18 +61,15 @@ const Dashboard = () => {
   return (
     <div className="h-screen">
       <h3 className="text-3xl text-center ">Dashboard Page</h3>
-      <span className
-="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
+      <span className="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
         Badge
         <button
           type="button"
-          className
-="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-blue-600 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-200 focus:text-blue-500"
+          className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-blue-600 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-200 focus:text-blue-500"
         >
           <span className="sr-only">Remove badge</span>
           <svg
-            className
-="h-4 w-4"
+            className="h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"

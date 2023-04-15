@@ -349,7 +349,9 @@ const AddProduct = () => {
               {/* //! CATEGORY  */}
 
               <div className="col-span-1  flex items-center border border-gray-300 rounded-md pl-2   bg-gray-300/60">
-                <span className="mr-3 ">Category</span>
+                <span className="mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                  Category
+                </span>
                 <div className="w-full border-l border-l-gray-300 h-11">
                   <DropDownMenu
                     selected={selectedCategory}
@@ -362,7 +364,9 @@ const AddProduct = () => {
 
               {/* //! PRODUCT_COLOR */}
               <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  bg-gray-300/60 ">
-                <span className="mr-3 font-">Color</span>
+                <span className="mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                  Color
+                </span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
                     selected={selectedColor}
@@ -387,7 +391,7 @@ const AddProduct = () => {
               <div className="flex items-center lg:w-3/5 border rounded-md border-gray-300 bg-gray-300/60 pl-2 mb-5 lg:mb-0">
                 {" "}
                 <span
-                  className={`mr-3 font- ${
+                  className={`mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center ${
                     !clothesCategories.includes(selectedCategory) &&
                     "text-gray-300"
                   }`}
@@ -502,38 +506,38 @@ const AddProduct = () => {
               </div>
             </div>
             {selectedCategory && selectedClothSize.length > 0 && (
-              <table class="min-w-full divide-y divide-gray-200 mt-5 border border-gray-300/60 ">
-                <thead class="bg-gray-300/60 ">
+              <table className="min-w-full divide-y divide-gray-200 mt-5 border border-gray-300/60 ">
+                <thead className="bg-gray-300/60 ">
                   <tr>
                     <th
                       scope="col"
-                      class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
+                      className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
                       Size
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
+                      className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
                       Quantity
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
+                      className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
                       Price
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-secondary-color divide-y divide-gray-400/50 ">
+                <tbody className="bg-secondary-color divide-y divide-gray-400/50 ">
                   {selectedClothSize.map((size, idx) => (
                     <tr key={idx}>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
                           {size.name}
                         </div>
                       </td>
-                      <td class="py-2 whitespace-nowrap">
+                      <td className="py-2 whitespace-nowrap">
                         <div
                           className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
                             error && "border-gray-300/50 "
@@ -581,7 +585,7 @@ const AddProduct = () => {
                           aria-invalid={errors?.promo_price ? "true" : "false"}
                         ></InputField> */}
                       </td>
-                      <td class="">
+                      <td className="">
                         <div
                           className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
                             error && "border-gray-300/50"
