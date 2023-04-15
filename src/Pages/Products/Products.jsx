@@ -13,7 +13,11 @@ import Loader from "../../components/Loader/Loader";
 //! add pagination feature
 const Products = () => {
   const { products, categories, isSuccess, isFetching } = useContext(Context);
-  const [categoryProducts, setCategoryProducts] = useState(products.slice(0,10));
+  const fixedCategories = categories.filter((category) => category.id !== "0");
+
+  const [categoryProducts, setCategoryProducts] = useState(
+    products.slice(0, 10)
+  );
   const [prevCategory, setPrevCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -68,7 +72,7 @@ const Products = () => {
         <div className="px-1">
           <h1 className="text-center text-5xl my-10">All Products</h1>
           <div className="flex flex-wrap justify-between items-center my-8 w-full ">
-            {categories?.map((category) => (
+            {fixedCategories?.map((category) => (
               <button
                 key={category._id}
                 className={`w-44 border-slate-300 mx-auto my-1 p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all`}

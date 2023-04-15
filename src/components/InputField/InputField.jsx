@@ -28,6 +28,7 @@ const InputField = ({
         type={type}
         maxLength={maxLength}
         minLength={minLength}
+        min={min}
         placeholder={placeholder}
         {...register(`${inputName}`, {
           required: required,
@@ -36,7 +37,7 @@ const InputField = ({
           min: `${min}`,
         })}
         aria-invalid={aria_invalid}
-        className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset rounded-md text-center disabled:placeholder:text-gray-300"
+        className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset rounded-r-md text-center disabled:placeholder:text-gray-300"
         disabled={error}
       />
     </div>

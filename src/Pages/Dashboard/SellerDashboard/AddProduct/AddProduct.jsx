@@ -141,7 +141,7 @@ const AddProduct = () => {
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_URL}/upload`,
         {
-          method: "POST",
+          method: "PATCH",
           body: formData,
         }
       );
@@ -383,27 +383,55 @@ const AddProduct = () => {
             </legend>
 
             {/* //! PRODUCT_SIZE*/}
-            <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  mb-5  bg-gray-300/60">
-              <span
-                className={`mr-3 font- ${
-                  !clothesCategories.includes(selectedCategory) &&
-                  "text-gray-300"
-                }`}
-              >
-                Sizes
-              </span>
-              <div className="w-full border-l border-l-gray-300">
-                <DropDownMenu
-                  error={error || !clothesCategories.includes(selectedCategory)}
-                  multiple={true}
-                  selected={selectedClothSize}
-                  setSelected={setSelectedClothSize}
-                  array={clothSizes}
-                ></DropDownMenu>
+            <div className="flex items-center gap-x-5 mb-5">
+              <div className="flex items-center w-1/2 border rounded-md border-gray-300 bg-gray-300/60 pl-2">
+                {" "}
+                <span
+                  className={`mr-3 font- ${
+                    !clothesCategories.includes(selectedCategory) &&
+                    "text-gray-300"
+                  }`}
+                >
+                  Sizes
+                </span>
+                <div className="w-full border-l border-l-gray-300">
+                  <DropDownMenu
+                    error={
+                      error || !clothesCategories.includes(selectedCategory)
+                    }
+                    multiple={true}
+                    selected={selectedClothSize}
+                    setSelected={setSelectedClothSize}
+                    array={clothSizes}
+                  ></DropDownMenu>
+                </div>
+              </div>
+              <div className="w-1/2">
+                <InputField
+                  fieldName={"Quantity"}
+                  register={register}
+                  placeholder={"product quantity"}
+                  inputName={"quantity"}
+                  min={1}
+                  type={"number"}
+                  required={true}
+                  pattern={/^[1-9]\d*$/}
+                  error={error}
+                  aria_invalid={errors?.quantity ? "true" : "false"}
+                ></InputField>
+                {errors.quantity?.type === "min" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Please enter a valid input
+                  </p>
+                )}
+                {errors.quantity?.type === "required" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Price must be included
+                  </p>
+                )}
               </div>
             </div>
 
-          
             <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
               {/* //! PRODUCT_PRICE*/}
               <div className={` ${error && "text-gray-300"} col-span-1`}>
@@ -511,21 +539,34 @@ const AddProduct = () => {
                             error && "border-gray-300/50"
                           }`}
                         >
-                         
-
                           <input
                             type="number"
                             placeholder="quantity"
+                            min={1}
                             {...register("sizeQuantity", {
                               required: true,
                               pattern: /^[1-9]\d*$/,
                               min: 1,
                             })}
-                            aria-invalid={errors?.price ? "true" : "false"}
+                            aria-invalid={
+                              errors?.sizeQuantity ? "true" : "false"
+                            }
                             className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
                             disabled={error}
                           />
                         </div>
+                        {errors.sizeQuantity?.type === "min" &&
+                          selectedCategory && (
+                            <p role="alert" className="text-red-400 text-sm">
+                              Please enter a valid input
+                            </p>
+                          )}
+                        {errors.sizeQuantity?.type === "required" &&
+                          selectedCategory && (
+                            <p role="alert" className="text-red-400 text-sm">
+                              Quantity must be included
+                            </p>
+                          )}
                         {/* <InputField
                           fieldName={""}
                           register={register}
@@ -541,7 +582,38 @@ const AddProduct = () => {
                         ></InputField> */}
                       </td>
                       <td class="">
-                        <InputField
+                        <div
+                          className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
+                            error && "border-gray-300/50"
+                          }`}
+                        >
+                          <input
+                            type="number"
+                            placeholder="price"
+                            min={1}
+                            {...register("sizePrice", {
+                              required: true,
+                              pattern: /^[1-9]\d*$/,
+                              min: 1,
+                            })}
+                            aria-invalid={errors?.sizePrice ? "true" : "false"}
+                            className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
+                            disabled={error}
+                          />
+                        </div>
+                        {errors.sizePrice?.type === "min" &&
+                          selectedCategory && (
+                            <p role="alert" className="text-red-400 text-sm">
+                              Please enter a valid input
+                            </p>
+                          )}
+                        {errors.sizePrice?.type === "required" &&
+                          selectedCategory && (
+                            <p role="alert" className="text-red-400 text-sm">
+                              Price must be included
+                            </p>
+                          )}
+                        {/* <InputField
                           fieldName={""}
                           register={register}
                           placeholder={"price"}
@@ -553,7 +625,7 @@ const AddProduct = () => {
                           error={error}
                           formErrors={errors}
                           aria-invalid={errors?.promo_price ? "true" : "false"}
-                        ></InputField>
+                        ></InputField> */}
                       </td>
                     </tr>
                   ))}

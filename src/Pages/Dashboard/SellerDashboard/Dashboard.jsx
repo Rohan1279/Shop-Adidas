@@ -61,6 +61,7 @@ const Dashboard = () => {
   return (
     <div className="h-screen">
       <h3 className="text-3xl text-center ">Dashboard Page</h3>
+      <img src="https://img.icons8.com/color/256/chat--v3.png" alt="" className="w-28 h-28" />
       {/* <img src="https://drive.google.com/uc?id=1cV8OQJ3dO81sC35nPqid-juwPsemMGyq&" alt="" /> */}
       <LazyLoadImage effect="blur" src="https://drive.google.com/uc?id=1cV8OQJ3dO81sC35nPqid-juwPsemMGyq" className="w-1/5"></LazyLoadImage>
       <div className="ml-28 bg-red-200">
