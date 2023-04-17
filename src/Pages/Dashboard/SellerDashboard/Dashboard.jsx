@@ -3,9 +3,25 @@ import axios from "axios";
 import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Loader from "../../../components/Loader/Loader";
+import { useFieldArray, useForm } from "react-hook-form";
 
 const Dashboard = () => {
   const [file, setFile] = useState("");
+  const { register, handleSubmit, control, watch } = useForm();
+  const { fields, append } = useFieldArray({
+    control,
+    name: "fieldArray",
+  });
+  const onSubmit = (data) => console.log(data);
+  const watchFieldArray = watch("fieldArray");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...watchFieldArray[index],
+    };
+  });
+
+  console.log(controlledFields);
+
   const handleChange = (e) => {
     setFile(e.target.files[0]);
     // console.log(e.target.files[0]);
@@ -61,7 +77,7 @@ const Dashboard = () => {
   return (
     <div className="h-screen">
       <h3 className="text-3xl text-center ">Dashboard Page</h3>
-      <span className="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
+      {/* <span className="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
         Badge
         <button
           type="button"
@@ -85,7 +101,6 @@ const Dashboard = () => {
         alt=""
         className="w-28 h-28"
       />
-      {/* <img src="https://drive.google.com/uc?id=1cV8OQJ3dO81sC35nPqid-juwPsemMGyq&" alt="" /> */}
       <LazyLoadImage
         effect="blur"
         src="https://drive.google.com/uc?id=1cV8OQJ3dO81sC35nPqid-juwPsemMGyq"
@@ -106,7 +121,27 @@ const Dashboard = () => {
           {" "}
           Upload{" "}
         </button>
-      </div>
+      </div> */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("firstName")} placeholder="First Name" />
+
+        {controlledFields.map((field, index) => {
+          return <input {...register(`fieldArray.${index}.name`)} />;
+        })}
+
+        <button
+          type="button"
+          onClick={() =>
+            append({
+              name: "bill",
+            })
+          }
+        >
+          Append
+        </button>
+
+        <input type="submit" />
+      </form>
     </div>
   );
 };

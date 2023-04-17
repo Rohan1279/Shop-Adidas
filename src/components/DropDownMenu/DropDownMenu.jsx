@@ -11,12 +11,6 @@ const DropDownMenu = ({
   setError,
   multiple,
 }) => {
-  // const [selected, setSelected] = useState(array[1]);
-  // multiple && console.log(selected);
-  // if (multiple && error) {
-  //   setSelected([]);
-  // }
-  console.log(selected);
   return (
     <Listbox
       value={selected}
@@ -28,14 +22,14 @@ const DropDownMenu = ({
       <div className="relative">
         <Listbox.Button
           className={({ open }) =>
-            `relative w-full cursor-default min-h-min rounded-r-md bg-secondary-color py-3 pl-3 pr-10 text-left  p-2  text-sm  ${
+            `relative w-full cursor-default min-h-min rounded-r-md bg-secondary-color py-3 pl-2   text-left   text-sm  ${
               !error && "active:shadow-nm-inset"
             } ${open && "shadow-nm-inset"}`
           }
         >
           <span
             className={`text-sm text-gray-500 disabled:text-gray-300 ${
-              error && "text-gray-300"
+              error && "text-gray-300 "
             }`}
           >
             {multiple && selected?.length !== 0 ? (
@@ -48,7 +42,7 @@ const DropDownMenu = ({
                   // <span className="bg-red-300 mx-1">{item.name}</span>
                   <span
                     key={idx}
-                    className="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                    className="inline-flex items-center border border-gray-400 gap-1.5  py-1.5 pl-3 pr-2 rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 m-1 "
                   >
                     {item.name}
                     <div
@@ -59,9 +53,8 @@ const DropDownMenu = ({
                         setSelected(newSelected);
                       }}
                       type="button"
-                      className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full text-blue-600 hover:bg-blue-200 hover:text-blue-500 focus:outline-none focus:bg-blue-200 focus:text-blue-500"
+                      className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full active:shadow-nm-inset border border-gray-400 hover:text-gray-900"
                     >
-                      <span className="sr-only">Remove badge</span>
                       <svg
                         className="h-4 w-4"
                         xmlns="http://www.w3.org/2000/svg"
