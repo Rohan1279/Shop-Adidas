@@ -188,7 +188,6 @@ const AddProduct = () => {
     // }
 
     // console.log(data);
-    // console.log(selectedClothSize);
     const sizes = selectedClothSize.reduce((prev, size, index) => {
       return [
         ...prev,
@@ -536,20 +535,20 @@ const AddProduct = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-secondary-color divide-y divide-gray-400/50 ">
+                <tbody className="bg-secondary-color divide-y divide-gray-300/80 ">
                   {selectedClothSize
                     ?.sort((a, b) => {
                       // sort id wise
                       return parseInt(a.id) - parseInt(b.id);
                     })
                     .map((size, idx) => (
-                      <tr key={idx}>
+                      <tr key={size.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm text-center font-medium text-gray-900">
                             {size.name}
                           </div>
                         </td>
-                        <td className="py-2 whitespace-nowrap">
+                        <td className="py-2 whitespace-nowrap px-2">
                           <div
                             className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
                               error && "border-gray-300/50 "
@@ -558,10 +557,11 @@ const AddProduct = () => {
                             {/* //!  sizeQuantity */}
                             <input
                               type="number"
+                              // defaultValue={}
                               placeholder="quantity"
                               min={1}
                               {...register(
-                                `selectedClothSize.${idx}.quantity`,
+                                `selectedClothSize.${size.id}.quantity`,
                                 {
                                   required: true,
                                   pattern: /^[1-9]\d*$/,
@@ -588,7 +588,7 @@ const AddProduct = () => {
                               </p>
                             )}
                         </td>
-                        <td className="">
+                        <td className="pr-2">
                           <div
                             className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
                               error && "border-gray-300/50"
@@ -599,7 +599,7 @@ const AddProduct = () => {
                               type="number"
                               placeholder="price"
                               min={1}
-                              {...register(`selectedClothSize.${idx}.price`, {
+                              {...register(`selectedClothSize.${size.id}.price`, {
                                 required: true,
                                 pattern: /^[1-9]\d*$/,
                                 min: 1,

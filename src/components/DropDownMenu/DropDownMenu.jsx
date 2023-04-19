@@ -38,18 +38,19 @@ const DropDownMenu = ({
                   // sort id wise
                   return parseInt(a.id) - parseInt(b.id);
                 })
-                .map((item, idx) => (
+                .map((item) => (
                   // <span className="bg-red-300 mx-1">{item.name}</span>
                   <span
-                    key={idx}
-                    className="inline-flex items-center border border-gray-400 gap-1.5  py-1.5 pl-3 pr-2 rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 m-1 "
+                    key={item.id}
+                    className="inline-flex items-center border border-gray-400 gap-1.5  py-1.5 pl-3 pr-2 rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 m-1 hover:bg-gray-200/50 transition-all"
                   >
                     {item.name}
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        const newSelected = [...selected];
-                        newSelected.splice(idx, 1);
+                        const newSelected = selected.filter(
+                          (obj) => obj.id !== item.id
+                        );
                         setSelected(newSelected);
                       }}
                       type="button"
