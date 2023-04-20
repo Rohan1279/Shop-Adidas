@@ -14,6 +14,7 @@ import Compressor from "compressorjs";
 import axios from "axios";
 import InputField from "../../../../components/InputField/InputField";
 import { memo } from "react";
+import Button from "../../../../components/Button/Button";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -48,13 +49,13 @@ const productColors = [
   { id: 30, name: "Ochre", hex: "#CC7722" },
 ];
 const clothSizes = [
-  { id: "0", name: "XS" },
-  { id: "1", name: "S" },
-  { id: "2", name: "M" },
-  { id: "3", name: "L" },
-  { id: "4", name: "XL" },
-  { id: "5", name: "2XL" },
-  { id: "6", name: "3XL" },
+  { id: "0", name: "XS", quantity: "", price: "" },
+  { id: "1", name: "S", quantity: "", price: "" },
+  { id: "2", name: "M", quantity: "", price: "" },
+  { id: "3", name: "L", quantity: "", price: "" },
+  { id: "4", name: "XL", quantity: "", price: "" },
+  { id: "5", name: "2XL", quantity: "", price: "" },
+  { id: "6", name: "3XL", quantity: "", price: "" },
 ];
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
@@ -73,7 +74,6 @@ const AddProduct = () => {
     control,
     watch,
   } = useForm();
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedClothSize, setSelectedClothSize] = useState([]);
@@ -89,21 +89,6 @@ const AddProduct = () => {
       setSelectedClothSize([]);
     }
   }, [selectedCategory]);
-
-  // ! react-hook-form
-
-  const { fields = [...selectedClothSize], append } = useFieldArray({
-    control,
-    name: "fieldArray",
-  });
-  const onSubmit = (data) => console.log(data);
-  const watchFieldArray = watch("fieldArray");
-  const controlledFields = selectedClothSize.map((field, index) => {
-    return {
-      ...watchFieldArray[index],
-    };
-  });
-  // console.log(selectedClothSize);
 
   const handleChange = async (imgFile) => {
     console.log(imgFile.size / 1024);
@@ -159,6 +144,7 @@ const AddProduct = () => {
   const handleFileDrop = () => {
     setIsImgDropped(true);
   };
+  // console.log("selectedClothSize", selectedClothSize);
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
@@ -187,15 +173,15 @@ const AddProduct = () => {
     //   productLinkHref: https://www.adidas.com/us/forum-84-low-aec-shoes/HR0557.html
     // }
 
-    // console.log(data);
-    const sizes = selectedClothSize.reduce((prev, size, index) => {
+    console.log("data.selectedClothSize", data.selectedClothSize);
+    const sizes = selectedClothSize.reduce((acc, size, index) => {
       return [
-        ...prev,
+        ...acc,
         {
           id: size.id,
-          size: size.name,
-          quantity: data.selectedClothSize[index].quantity,
-          price: data.selectedClothSize[index].price,
+          name: size.name,
+          quantity: data.selectedClothSize[index]?.quantity,
+          price: data.selectedClothSize[index]?.price,
         },
       ];
     }, []);
@@ -222,7 +208,7 @@ const AddProduct = () => {
       isReported: false,
       inStock: false,
     };
-    console.log(product);
+    console.log(product.sizes);
 
     {
       /*
@@ -264,12 +250,22 @@ const AddProduct = () => {
     //     }
     //   });
   };
+  const handleRegister = () => {
+    const product_price = control._fields.price._f.ref.value;
+    const product_quantity = control._fields.quantity._f.ref.value;
+
+    control._fields.selectedClothSize.map((size) => {
+      size.price._f.ref.value = product_price;
+      size.quantity._f.ref.value = product_quantity;
+    });
+    console.log(control._fields.selectedClothSize);
+  };
   return (
     <div className="min-h-screen py-10">
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="px-0 md:px-10 mt-10 md:grid grid-cols-2 gap-x-8"
+        className="px-0 md:px-10 mt-10 "
       >
         <div className={`col-span-1 h-fit  ${imgError && "animate-shake"}`}>
           {!isImgDropped && !imgFile ? (
@@ -413,7 +409,7 @@ const AddProduct = () => {
 
             {/* //! PRODUCT_SIZE*/}
             <div className="lg:flex items-start gap-x-2 mb-5">
-              <div className="flex items-center lg:w-3/5 border rounded-md border-gray-300 bg-gray-300/60 pl-2 mb-5 lg:mb-0">
+              <div className="flex items-center w-full border rounded-md border-gray-300 bg-gray-300/60 pl-2 mb-5 lg:mb-0">
                 {" "}
                 <span
                   className={`mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center ${
@@ -435,33 +431,9 @@ const AddProduct = () => {
                   ></DropDownMenu>
                 </div>
               </div>
-              <div className="lg:w-2/5">
-                <InputField
-                  fieldName={"Quantity"}
-                  register={register}
-                  placeholder={"product quantity"}
-                  inputName={"quantity"}
-                  min={1}
-                  type={"number"}
-                  required={true}
-                  pattern={/^[1-9]\d*$/}
-                  error={error}
-                  aria_invalid={errors?.quantity ? "true" : "false"}
-                ></InputField>
-                {errors.quantity?.type === "min" && selectedCategory && (
-                  <p role="alert" className="text-red-400 text-sm">
-                    Please enter a valid input
-                  </p>
-                )}
-                {errors.quantity?.type === "required" && selectedCategory && (
-                  <p role="alert" className="text-red-400 text-sm">
-                    Price must be included
-                  </p>
-                )}
-              </div>
             </div>
 
-            <div className="lg:grid grid-cols-2 gap-x-2 space-y-5 lg:space-y-0">
+            <div className="lg:grid grid-cols-4 gap-x-2 space-y-5 lg:space-y-0">
               {/* //! PRODUCT_PRICE*/}
               <div className={` ${error && "text-gray-300"} col-span-1`}>
                 <InputField
@@ -488,8 +460,33 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
+              {/* //! PRODUCT_QUANTITY */}
+              <div className="col-span-1">
+                <InputField
+                  fieldName={"Quantity"}
+                  register={register}
+                  placeholder={"product quantity"}
+                  inputName={"quantity"}
+                  min={1}
+                  type={"number"}
+                  required={true}
+                  pattern={/^[1-9]\d*$/}
+                  error={error}
+                  aria_invalid={errors?.quantity ? "true" : "false"}
+                ></InputField>
+                {errors.quantity?.type === "min" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Please enter a valid input
+                  </p>
+                )}
+                {errors.quantity?.type === "required" && selectedCategory && (
+                  <p role="alert" className="text-red-400 text-sm">
+                    Price must be included
+                  </p>
+                )}
+              </div>
+              {/* //! PRODUCT_PROMOTIONAL_PRICE*/}
               <div className={`${error && "text-gray-300"} col-span-1`}>
-                {/* //! PRODUCT_PROMOTIONAL_PRICE*/}
                 <InputField
                   fieldName={"Promo Price"}
                   register={register}
@@ -508,6 +505,15 @@ const AddProduct = () => {
                     Please enter a valid input
                   </p>
                 )}
+              </div>
+              <div>
+                <button
+                  onClick={handleRegister}
+                  type="button"
+                  className=" p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all rounded-md"
+                >
+                  Apply to all
+                </button>
               </div>
             </div>
             {/* // ! TABLE */}
@@ -561,7 +567,7 @@ const AddProduct = () => {
                               placeholder="quantity"
                               min={1}
                               {...register(
-                                `selectedClothSize.${size.id}.quantity`,
+                                `selectedClothSize.${idx}.quantity`,
                                 {
                                   required: true,
                                   pattern: /^[1-9]\d*$/,
@@ -599,7 +605,7 @@ const AddProduct = () => {
                               type="number"
                               placeholder="price"
                               min={1}
-                              {...register(`selectedClothSize.${size.id}.price`, {
+                              {...register(`selectedClothSize.${idx}.price`, {
                                 required: true,
                                 pattern: /^[1-9]\d*$/,
                                 min: 1,

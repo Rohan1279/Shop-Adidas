@@ -94,7 +94,7 @@ const DropDownMenu = ({
                 </span>
               </span>
             ) : (
-              "Choose and option"
+              "Choose an option"
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -114,11 +114,11 @@ const DropDownMenu = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
-            {array.map((item, itemIdx) => (
+            {array.map((item) => (
               <Listbox.Option
                 // disabled={error}
                 // onClick={() => setError(false)}
-                key={itemIdx}
+                key={item.id}
                 className={({ active, selected }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 my-1  ${
                     active
