@@ -251,14 +251,19 @@ const AddProduct = () => {
     //   });
   };
   const handleRegister = () => {
-    const product_price = control._fields.price._f.ref.value;
-    const product_quantity = control._fields.quantity._f.ref.value;
+    const product_price = control._formValues.price;
+    const product_quantity = control._formValues.quantity;
 
+    control._formValues.selectedClothSize.map((size) => {
+      size.price = product_price;
+      size.quantity = product_quantity;
+    });
     control._fields.selectedClothSize.map((size) => {
       size.price._f.ref.value = product_price;
       size.quantity._f.ref.value = product_quantity;
+
     });
-    console.log(control._fields.selectedClothSize);
+    console.log(control._formValues.selectedClothSize);
   };
   return (
     <div className="min-h-screen py-10">
