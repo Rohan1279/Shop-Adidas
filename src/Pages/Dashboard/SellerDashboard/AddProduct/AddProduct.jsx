@@ -274,9 +274,9 @@ const AddProduct = () => {
       <h3 className="text-3xl text-center">Add a product</h3>
       <form
         onSubmit={handleSubmit(handleAddProduct)}
-        className="px-0 md:px-10 mt-10 "
+        className="mx-5 mt-10 "
       >
-        <div className={`col-span-1 h-fit  ${imgError && "animate-shake"}`}>
+        <div className={`h-fit  ${imgError && "animate-shake"}`}>
           {!isImgDropped && !imgFile ? (
             <FileUploader
               handleChange={handleChange}
@@ -291,7 +291,7 @@ const AddProduct = () => {
               name="file"
               types={fileTypes}
               children={
-                <section className="bg-gray-300/20  flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
+                <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
                   <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-300 ">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;

@@ -122,26 +122,7 @@ const Dashboard = () => {
           Upload{" "}
         </button>
       </div> */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("firstName")} placeholder="First Name" />
-
-        {controlledFields.map((field, index) => {
-          return <input {...register(`fieldArray.${index}.name`)} />;
-        })}
-
-        <button
-          type="button"
-          onClick={() =>
-            append({
-              name: "bill",
-            })
-          }
-        >
-          Append
-        </button>
-
-        <input type="submit" />
-      </form>
+      
     </div>
   );
 };

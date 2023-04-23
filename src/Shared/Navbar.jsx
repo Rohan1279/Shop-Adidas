@@ -105,7 +105,7 @@ const Navbar = () => {
                               >
                                 Products
                               </NavLink>
-                              <NavLink
+                              {/* <NavLink
                                 onClick={() => setActive(!active)}
                                 to={"/contact"}
                                 className={({ isActive }) =>
@@ -115,7 +115,7 @@ const Navbar = () => {
                                 }
                               >
                                 Contact
-                              </NavLink>
+                              </NavLink> */}
                               {(userRole === "Seller" || isSeller) &&
                               user?.email ? (
                                 <NavLink
@@ -204,7 +204,7 @@ const Navbar = () => {
                 >
                   Products
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   to={"/contact"}
                   className={({ isActive }) =>
                     isActive
@@ -213,7 +213,7 @@ const Navbar = () => {
                   }
                 >
                   Contact
-                </NavLink>
+                </NavLink> */}
 
                 {(userRole === "Seller" || isSeller) && user?.email ? (
                   <NavLink
