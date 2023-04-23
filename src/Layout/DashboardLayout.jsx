@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useState } from "react";
+import React, { Fragment, Suspense, useContext, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
@@ -25,8 +25,8 @@ const DashboardLayout = () => {
       <Navbar />
       <div className="mt-16 flex max-h-full">
         {/* //!DRAWER */}
-        <Popover className="relative">
-          <Popover.Button className={"absolute left-0"}>
+        <Popover className="relative z-50">
+          <Popover.Button className={"absolute left-5 -z-10"}>
             {" "}
             <FaBars
               className=""
@@ -34,19 +34,19 @@ const DashboardLayout = () => {
             ></FaBars>
           </Popover.Button>
 
-          <Popover.Panel className=" z-10">
-            {(userRole === "Seller" || isSeller) && (
-              <Transition
-                // as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-x-1"
+            enterTo="opacity-100 translate-x-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-x-0"
+            leaveTo="opacity-0 translate-x-1"
+          >
+            <Popover.Panel className="h-screen z-50 bg-secondary-color ">
+              {(userRole === "Seller" || isSeller) && (
                 <div
-                  className={`w-fit text-center text-2xl bg-primary-color shadow-nm pt-20 px-5 space-y-5 absolute  z-50 h-full ${
+                  className={`w-fit text-center text-2xl bg-primary-color pt-20 px-5 space-y-5 absolute z-50 h-full ${
                     !isDrawerOpen && "w-32 hidden"
                   } transition-all ease-linear duration-300 
             `}
@@ -105,9 +105,9 @@ const DashboardLayout = () => {
                     </div>
                   </NavLink>
                 </div>
-              </Transition>
-            )}
-          </Popover.Panel>
+              )}
+            </Popover.Panel>
+          </Transition>
         </Popover>
 
         <Suspense
