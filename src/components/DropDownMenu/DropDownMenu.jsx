@@ -10,6 +10,7 @@ const DropDownMenu = ({
   error,
   setError,
   multiple,
+  formControl,
 }) => {
   return (
     <Listbox
@@ -38,7 +39,7 @@ const DropDownMenu = ({
                   // sort id wise
                   return parseInt(a.id) - parseInt(b.id);
                 })
-                .map((item) => (
+                .map((item, idx) => (
                   // <span className="bg-red-300 mx-1">{item.name}</span>
                   <span
                     key={item.id}
@@ -52,6 +53,20 @@ const DropDownMenu = ({
                           (obj) => obj.id !== item.id
                         );
                         setSelected(newSelected);
+                        // formControl._fields.selectedClothSize =
+                        //   formControl._fields.selectedClothSize.filter(
+                        //     (size, index) => index !== idx
+                        //   );
+
+                        // formControl._formValues.selectedClothSize =
+                        //   formControl._fields.selectedClothSize.filter(
+                        //     (size, index) => index !== idx
+                        //   );
+
+                        // formControl._fields.selectedClothSize[idx].price._f.ref.value = "0"
+                        // formControl._formValues.selectedClothSize[idx].price = "0"
+                        // formControl._fields.selectedClothSize[idx].quantity._f.ref.value = "0"
+                        // formControl._formValues.selectedClothSize[idx].quantity = "0"
                       }}
                       type="button"
                       className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full active:shadow-nm-inset border border-gray-400 hover:text-gray-900"

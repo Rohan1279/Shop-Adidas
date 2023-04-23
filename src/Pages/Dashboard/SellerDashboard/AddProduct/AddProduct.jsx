@@ -250,20 +250,24 @@ const AddProduct = () => {
     //     }
     //   });
   };
-  const handleRegister = () => {
+  const handleApply = () => {
+    console.log(selectedClothSize);
+    console.log(control._formValues);
+
     const product_price = control._formValues.price;
     const product_quantity = control._formValues.quantity;
 
-    control._formValues.selectedClothSize.map((size) => {
-      size.price = product_price;
-      size.quantity = product_quantity;
-    });
-    control._fields.selectedClothSize.map((size) => {
-      size.price._f.ref.value = product_price;
-      size.quantity._f.ref.value = product_quantity;
-
-    });
-    console.log(control._formValues.selectedClothSize);
+    // remove input field data
+    // control._formValues.selectedClothSize.map((size) => {
+    //   size.price = product_price;
+    //   size.quantity = product_quantity;
+    // });
+    // // remove input field value
+    // control._fields.selectedClothSize.map((size) => {
+    //   size.price._f.ref.value = product_price;
+    //   size.quantity._f.ref.value = product_quantity;
+    // });
+    // console.log(control._formValues.selectedClothSize);
   };
   return (
     <div className="min-h-screen py-10">
@@ -426,6 +430,7 @@ const AddProduct = () => {
                 </span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
+                    formControl={control}
                     error={
                       error || !clothesCategories.includes(selectedCategory)
                     }
@@ -448,7 +453,7 @@ const AddProduct = () => {
                   inputName={"price"}
                   min={1}
                   type={"number"}
-                  required={true}
+                  required={false}
                   pattern={/^[1-9]\d*$/}
                   error={error}
                   formErrors={errors}
@@ -474,7 +479,7 @@ const AddProduct = () => {
                   inputName={"quantity"}
                   min={1}
                   type={"number"}
-                  required={true}
+                  required={false}
                   pattern={/^[1-9]\d*$/}
                   error={error}
                   aria_invalid={errors?.quantity ? "true" : "false"}
@@ -499,7 +504,7 @@ const AddProduct = () => {
                   inputName={"promo_price"}
                   min={1}
                   type={"number"}
-                  required={true}
+                  required={false}
                   pattern={/^[1-9]\d*$/}
                   error={error}
                   formErrors={errors}
@@ -513,7 +518,7 @@ const AddProduct = () => {
               </div>
               <div>
                 <button
-                  onClick={handleRegister}
+                  onClick={handleApply}
                   type="button"
                   className=" p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all rounded-md"
                 >
