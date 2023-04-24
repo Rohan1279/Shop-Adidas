@@ -88,7 +88,7 @@ const Navbar = () => {
                                 to={"/"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
@@ -99,7 +99,7 @@ const Navbar = () => {
                                 to={"/products"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
@@ -110,7 +110,7 @@ const Navbar = () => {
                                 to={"/contact"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                    ? `bg-secondary-color text-gray-500 shadow-nm  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
@@ -123,7 +123,7 @@ const Navbar = () => {
                                   to={"/dashboard"}
                                   className={({ isActive }) =>
                                     isActive
-                                      ? `bg-secondary-color text-gray-500 shadow-nm hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                      ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
                                       : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                   }
                                 >
@@ -137,7 +137,7 @@ const Navbar = () => {
                                 to={"/cart"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
+                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
                                     : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
                                 }
                               >
@@ -187,7 +187,7 @@ const Navbar = () => {
                   to={"/"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
                       : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
                   }
                   //   className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
@@ -198,7 +198,7 @@ const Navbar = () => {
                   to={"/products"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                      ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
                       : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
                   }
                 >
@@ -220,7 +220,7 @@ const Navbar = () => {
                     to={"/dashboard"}
                     className={({ isActive }) =>
                       isActive
-                        ? ` shadow-nm hover:shadow-nm transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
+                        ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
                         : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
                     }
                   >
@@ -250,11 +250,12 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          {/* //! MENU_ITEMS */}
+          <div className=" absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <Menu>
-              <Menu.Button>
+              <Menu.Button className={"relative"}>
                 <img
-                  className="h-12 w-12 rounded-full border border-gray-300"
+                  className=" h-12 w-12 rounded-full border border-gray-300"
                   src="https://cdn2.iconfinder.com/data/icons/male-avatars/256/avatars_accounts___man_male_people_person_hat_cap_baseball_cap_necklace_shirtless.png"
                   alt=""
                 />
@@ -268,7 +269,7 @@ const Navbar = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-48 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 z-50">
+                <Menu.Items className="absolute top-20 right-0 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 z-50">
                   <div className="px-1 py-1">
                     {user && (
                       <Link to={"/"}>

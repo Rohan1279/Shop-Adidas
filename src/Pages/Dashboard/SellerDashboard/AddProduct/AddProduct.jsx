@@ -70,7 +70,7 @@ const AddProduct = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    // getValues,
     control,
     watch,
   } = useForm();
@@ -251,8 +251,8 @@ const AddProduct = () => {
     //   });
   };
   const handleApply = () => {
-    console.log(selectedClothSize);
-    console.log(control._formValues);
+    // console.log(selectedClothSize);
+    console.log(control);
 
     const product_price = control._formValues.price;
     const product_quantity = control._formValues.quantity;
@@ -272,11 +272,8 @@ const AddProduct = () => {
   return (
     <div className="min-h-screen py-10">
       <h3 className="text-3xl text-center">Add a product</h3>
-      <form
-        onSubmit={handleSubmit(handleAddProduct)}
-        className="mx-5 mt-10 "
-      >
-        <div className={`h-fit  ${imgError && "animate-shake"}`}>
+      <form onSubmit={handleSubmit(handleAddProduct)} className="mx-5 mt-10 ">
+        <div className={`h-fit mb-5 ${imgError && "animate-shake"}`}>
           {!isImgDropped && !imgFile ? (
             <FileUploader
               handleChange={handleChange}
@@ -291,7 +288,7 @@ const AddProduct = () => {
               name="file"
               types={fileTypes}
               children={
-                <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8">
+                <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8 ">
                   <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-300 ">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;
@@ -353,7 +350,7 @@ const AddProduct = () => {
             {/* //! PRODUCT_NAME  */}
             <div className="mb-5">
               <InputField
-                getValues={getValues}
+                // // getValues={getValues}
                 fieldName={"Name"}
                 register={register}
                 placeholder={"product name"}
@@ -573,11 +570,11 @@ const AddProduct = () => {
                             {/* //!  sizeQuantity */}
                             <input
                               type="number"
-                              // defaultValue={}
+                              defaultValue={"0"}
                               placeholder="quantity"
                               min={1}
                               {...register(
-                                `selectedClothSize.${idx}.quantity`,
+                                `selectedClothSize.${size.id}.quantity`,
                                 {
                                   required: true,
                                   pattern: /^[1-9]\d*$/,
@@ -612,10 +609,11 @@ const AddProduct = () => {
                           >
                             {/* //!  sizePrice */}
                             <input
+                              defaultValue={"0"}
                               type="number"
                               placeholder="price"
                               min={1}
-                              {...register(`selectedClothSize.${idx}.price`, {
+                              {...register(`selectedClothSize.${size.id}.price`, {
                                 required: true,
                                 pattern: /^[1-9]\d*$/,
                                 min: 1,

@@ -26,7 +26,7 @@ const DashboardLayout = () => {
       <div className="mt-16 flex max-h-full">
         {/* //!DRAWER */}
         <Popover className="relative z-50">
-          <Popover.Button className={"absolute left-5 -z-10"}>
+          <Popover.Button className={"absolute left-5 "}>
             {" "}
             <FaBars
               className=""
