@@ -173,18 +173,24 @@ const AddProduct = () => {
     //   productLinkHref: https://www.adidas.com/us/forum-84-low-aec-shoes/HR0557.html
     // }
 
-    console.log("data.selectedClothSize", data.selectedClothSize);
+    // console.log("data.selectedClothSize", data.selectedClothSize);
+    console.log(selectedClothSize);
+    const filteredClothSize = selectedClothSize.map((size) => {
+      const index = parseInt(size.id);
+      return data.selectedClothSize[index];
+    });
+    console.log(filteredClothSize);
     const sizes = selectedClothSize.reduce((acc, size, index) => {
       return [
         ...acc,
         {
-          id: size.id,
-          name: size.name,
-          quantity: data.selectedClothSize[index]?.quantity,
-          price: data.selectedClothSize[index]?.price,
+          ...size,
+          quantity: filteredClothSize[index]?.quantity,
+          price: filteredClothSize[index]?.price,
         },
       ];
     }, []);
+
     const product = {
       category_id: selectedCategory._id,
       category: selectedCategory.name,
@@ -588,7 +594,8 @@ const AddProduct = () => {
                               disabled={error}
                             />
                           </div>
-                          {errors.sizeQuantity?.type === "min" &&
+                          {(errors.sizeQuantity?.type === "min" ||
+                            errors.sizePrice?.type === "pattern") &&
                             selectedCategory && (
                               <p role="alert" className="text-red-400 text-sm">
                                 Please enter a valid input
@@ -613,11 +620,14 @@ const AddProduct = () => {
                               type="number"
                               placeholder="price"
                               min={1}
-                              {...register(`selectedClothSize.${size.id}.price`, {
-                                required: true,
-                                pattern: /^[1-9]\d*$/,
-                                min: 1,
-                              })}
+                              {...register(
+                                `selectedClothSize.${size.id}.price`,
+                                {
+                                  required: true,
+                                  pattern: /^[1-9]\d*$/,
+                                  min: 1,
+                                }
+                              )}
                               aria-invalid={
                                 errors?.sizePrice ? "true" : "false"
                               }
@@ -625,7 +635,8 @@ const AddProduct = () => {
                               disabled={error}
                             />
                           </div>
-                          {errors.sizePrice?.type === "min" &&
+                          {(errors.sizePrice?.type === "min" ||
+                            errors.sizePrice?.type === "pattern") &&
                             selectedCategory && (
                               <p role="alert" className="text-red-400 text-sm">
                                 Please enter a valid input
