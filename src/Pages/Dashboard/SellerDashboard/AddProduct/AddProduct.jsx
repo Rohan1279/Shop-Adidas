@@ -57,14 +57,40 @@ const clothSizes = [
   { id: "5", name: "2XL", quantity: "", price: "" },
   { id: "6", name: "3XL", quantity: "", price: "" },
 ];
+const footSizes = [
+  { id: "0", name: "39", quantity: "", price: "" },
+  { id: "1", name: "40", quantity: "", price: "" },
+  { id: "2", name: "41", quantity: "", price: "" },
+  { id: "3", name: "42", quantity: "", price: "" },
+  { id: "4", name: "43", quantity: "", price: "" },
+  { id: "5", name: "44", quantity: "", price: "" },
+];
+const pantsSizes = [
+  { id: "1", name: "29", quantity: "", price: "" },
+  { id: "2", name: "30", quantity: "", price: "" },
+  { id: "3", name: "31", quantity: "", price: "" },
+  { id: "4", name: "32", quantity: "", price: "" },
+  { id: "5", name: "34", quantity: "", price: "" },
+];
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
   const navigate = useNavigate();
   const fixedCategories = categories.filter((category) => category.id !== "0");
+
   const clothesCategories = fixedCategories.filter((category) =>
-    [1, 2, 3, 5, 8].includes(parseInt(category.id))
+    // add category id here
+    [8].includes(parseInt(category.id))
   );
+  const footWearCategories = fixedCategories.filter((category) =>
+    // add category id here
+    [1, 3].includes(parseInt(category.id))
+  );
+  const pantsCategories = fixedCategories.filter((category) =>
+    // add category id here
+    [2].includes(parseInt(category.id))
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -76,20 +102,35 @@ const AddProduct = () => {
   } = useForm();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState([]);
-  const [selectedClothSize, setSelectedClothSize] = useState([]);
+  const [selectedProductSize, setSelectedProductSize] = useState([]);
+  const [selectedCategorySizes, setselectedCategorySizes] = useState([]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
+  const [uploadUrl, setUploadUrl] = useState("");
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
   const error = !selectedCategory;
+
   useEffect(() => {
-    if (!clothesCategories.includes(selectedCategory)) {
-      setSelectedClothSize([]);
+    if (
+      !clothesCategories.includes(selectedCategory) ||
+      !footWearCategories.includes(selectedCategory) ||
+      !pantsCategories.includes(selectedCategory)
+    ) {
+      setSelectedProductSize([]);
+    }
+    if (clothesCategories.includes(selectedCategory)) {
+      setselectedCategorySizes(clothSizes);
+    } else if (footWearCategories.includes(selectedCategory)) {
+      setselectedCategorySizes(footSizes);
+    } else if (pantsCategories.includes(selectedCategory)) {
+      setselectedCategorySizes(pantsSizes);
+    } else {
+      setselectedCategorySizes([]);
     }
   }, [selectedCategory]);
-
   const handleChange = async (imgFile) => {
     console.log(imgFile.size / 1024);
 
@@ -99,52 +140,49 @@ const AddProduct = () => {
     setImgFile(imgFile);
     setIsImgDropped(true);
 
-    new Compressor(imgFile, {
-      quality: 0.6,
-      success: async (compressedResult) => {
-        // setImgFile(compressedResult);
-        // console.log("compressedResult", compressedResult);
-        // console.log("imgFile", imgFile);
-        // const formData = new FormData();
-        // formData.append("image", imgFile);
-        // try {
-        //   const response = await fetch(
-        //     `${import.meta.env.VITE_SERVER_URL}/upload`,
-        //     {
-        //       method: "POST",
-        //       body: formData,
-        //     }
-        //   );
-        //   console.log(await response.json());
-        // } catch (e) {
-        //   console.log("error");
-        // }
-      },
-      error(err) {
-        console.log(err.message);
-      },
-    });
+    // new Compressor(imgFile, {
+    //   quality: 0.6,
+    //   success: async (compressedResult) => {
+    //     // setImgFile(compressedResult);
+    //     // console.log("compressedResult", compressedResult);
+    //     // console.log("imgFile", imgFile);
+    //     // const formData = new FormData();
+    //     // formData.append("image", imgFile);
+    //     // try {
+    //     //   const response = await fetch(
+    //     //     `${import.meta.env.VITE_SERVER_URL}/upload`,
+    //     //     {
+    //     //       method: "POST",
+    //     //       body: formData,
+    //     //     }
+    //     //   );
+    //     //   console.log(await response.json());
+    //     // } catch (e) {
+    //     //   console.log("error");
+    //     // }
+    //   },
+    //   error(err) {
+    //     console.log(err.message);
+    //   },
+    // });
 
     const formData = new FormData();
     formData.append("image", imgFile);
-    // try {
-    //   const response = await fetch(
-    //     `${import.meta.env.VITE_SERVER_URL}/upload`,
-    //     {
-    //       method: "PATCH",
-    //       body: formData,
-    //     }
-    //   );
-    //   console.log(response);
-    // } catch (e) {
-    //   console.log("error");
-    // }
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/upload`,
+        formData
+      );
+      setUploadUrl(response.data.imgUrl);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleFileDrop = () => {
     setIsImgDropped(true);
   };
-  // console.log("selectedClothSize", selectedClothSize);
+  // console.log("selectedProductSize", selectedProductSize);
 
   const handleAddProduct = (data, e) => {
     // e.preventDefault();
@@ -173,14 +211,12 @@ const AddProduct = () => {
     //   productLinkHref: https://www.adidas.com/us/forum-84-low-aec-shoes/HR0557.html
     // }
 
-    // console.log("data.selectedClothSize", data.selectedClothSize);
-    console.log(selectedClothSize);
-    const filteredClothSize = selectedClothSize.map((size) => {
+    // console.log("data.selectedProductSize", data.selectedProductSize);
+    const filteredClothSize = selectedProductSize.map((size) => {
       const index = parseInt(size.id);
-      return data.selectedClothSize[index];
+      return data.selectedProductSize[index];
     });
-    console.log(filteredClothSize);
-    const sizes = selectedClothSize.reduce((acc, size, index) => {
+    const sizes = selectedProductSize.reduce((acc, size, index) => {
       return [
         ...acc,
         {
@@ -201,6 +237,7 @@ const AddProduct = () => {
       quantity: data.quantity,
       promo_price: data.promo_price,
       sizes: sizes,
+      img: uploadUrl,
       posted_on: posted_on,
       seller_phone: data.seller_phone,
       seller_id: user?.uid,
@@ -214,66 +251,53 @@ const AddProduct = () => {
       isReported: false,
       inStock: false,
     };
-    console.log(product.sizes);
-
-    {
-      /*
-    sizes: [
-      {size:"XS", price:"120", quantity:1},
-      {size:"S", price:"120", quantity:1},
-      {size:"M", price:"120", quantity:1},
-      {size:"L", price:"120", quantity:1},
-    ]
-  */
-    }
-
+console.log(product);
     // console.log(product, imgFile?.size / 1024);
     // if (imgFile && imgURL && data && selectedCategory && selectedColor) {
-    //   setIsLoading(true);
-    //   getImageUrl(imgFile).then((imgData) => {
-    //     setImgURL(imgData);
+    //   // setIsLoading(true);
+    //   // getImageUrl(imgFile).then((imgData) => {
+    //   //   setImgURL(imgData);
+    //   // };
+    //   fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+    //     method: "POST",
+    //     headers: {
+    //       "content-type": "application/json",
+    //       authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+    //     },
+    //     body: JSON.stringify({ ...product }),
+    //   })
+    //     .then((res) => res.json())
+    //     .then((result) => {
+    //       console.log(result);
 
-    // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //     authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-    //   },
-    //   body: JSON.stringify({ ...product }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     console.log(result);
-
-    //     if (result.acknowledged) {
-    //       console.log(
-    //         "%Product Added successfully!",
-    //         "color: blue; font-size: 24px;"
-    //       );
-    //       form.reset();
-    //       setIsLoading(false);
-    //       navigate("/dashboard/myproducts");
-    //     }
-    //   });
+    //       if (result.acknowledged) {
+    //         console.log(
+    //           "%Product Added successfully!",
+    //           "color: blue; font-size: 24px;"
+    //         );
+    //         form.reset();
+    //         setIsLoading(false);
+    //         navigate("/dashboard/myproducts");
+    //       }
+    //     });
+    // }
   };
   const handleApply = () => {
-    // console.log(selectedClothSize);
-    console.log(control);
+    // console.log(selectedProductSize);
 
     const product_price = control._formValues.price;
     const product_quantity = control._formValues.quantity;
 
     // remove input field data
-    // control._formValues.selectedClothSize.map((size) => {
-    //   size.price = product_price;
-    //   size.quantity = product_quantity;
-    // });
-    // // remove input field value
-    // control._fields.selectedClothSize.map((size) => {
-    //   size.price._f.ref.value = product_price;
-    //   size.quantity._f.ref.value = product_quantity;
-    // });
-    // console.log(control._formValues.selectedClothSize);
+    control._formValues.selectedProductSize.map((size) => {
+      size.price = product_price;
+      size.quantity = product_quantity;
+    });
+    // remove input field value
+    control._fields.selectedProductSize.map((size) => {
+      size.price._f.ref.value = product_price;
+      size.quantity._f.ref.value = product_quantity;
+    });
   };
   return (
     <div className="min-h-screen py-10">
@@ -426,6 +450,8 @@ const AddProduct = () => {
                 <span
                   className={`mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center ${
                     !clothesCategories.includes(selectedCategory) &&
+                    !footWearCategories.includes(selectedCategory) &&
+                    !pantsCategories.includes(selectedCategory) &&
                     "text-gray-300"
                   }`}
                 >
@@ -435,12 +461,15 @@ const AddProduct = () => {
                   <DropDownMenu
                     formControl={control}
                     error={
-                      error || !clothesCategories.includes(selectedCategory)
+                      error ||
+                      (!clothesCategories.includes(selectedCategory) &&
+                        !footWearCategories.includes(selectedCategory) &&
+                        !pantsCategories.includes(selectedCategory))
                     }
                     multiple={true}
-                    selected={selectedClothSize}
-                    setSelected={setSelectedClothSize}
-                    array={clothSizes}
+                    selected={selectedProductSize}
+                    setSelected={setSelectedProductSize}
+                    array={selectedCategorySizes}
                   ></DropDownMenu>
                 </div>
               </div>
@@ -507,7 +536,7 @@ const AddProduct = () => {
                   inputName={"promo_price"}
                   min={1}
                   type={"number"}
-                  required={false}
+                  required={true}
                   pattern={/^[1-9]\d*$/}
                   error={error}
                   formErrors={errors}
@@ -530,7 +559,7 @@ const AddProduct = () => {
               </div>
             </div>
             {/* // ! TABLE */}
-            {selectedCategory && selectedClothSize.length > 0 && (
+            {selectedCategory && selectedProductSize.length > 0 && (
               <table className="min-w-full divide-y divide-gray-200 mt-5 border border-gray-300/60 ">
                 <thead className="bg-gray-300/60 ">
                   <tr>
@@ -555,7 +584,7 @@ const AddProduct = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-secondary-color divide-y divide-gray-300/80 ">
-                  {selectedClothSize
+                  {selectedProductSize
                     ?.sort((a, b) => {
                       // sort id wise
                       return parseInt(a.id) - parseInt(b.id);
@@ -580,7 +609,7 @@ const AddProduct = () => {
                               placeholder="quantity"
                               min={1}
                               {...register(
-                                `selectedClothSize.${size.id}.quantity`,
+                                `selectedProductSize.${size.id}.quantity`,
                                 {
                                   required: true,
                                   pattern: /^[1-9]\d*$/,
@@ -621,7 +650,7 @@ const AddProduct = () => {
                               placeholder="price"
                               min={1}
                               {...register(
-                                `selectedClothSize.${size.id}.price`,
+                                `selectedProductSize.${size.id}.price`,
                                 {
                                   required: true,
                                   pattern: /^[1-9]\d*$/,
@@ -683,7 +712,7 @@ const AddProduct = () => {
             <div className="continuous-7 my-10 mx-auto"></div>
           ) : (
             <input
-              // disabled={error || selectedClothSize.length === 0 }
+              // disabled={error || selectedProductSize.length === 0 }
               type="submit"
               value="Submit"
               className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"

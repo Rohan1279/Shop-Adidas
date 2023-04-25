@@ -54,14 +54,14 @@ const DropDownMenu = ({
                           (obj) => obj.id !== item.id
                         );
                         setSelected(newSelected);
-                        formControl._fields.selectedClothSize =
-                          formControl._fields.selectedClothSize.filter(
-                            (size, index) => size.name !== item.name
-                          );
-                        formControl._formValues.selectedClothSize =
-                          formControl._formValues.selectedClothSize.filter(
-                            (size, index) => size.name !== item.name
-                          );
+                        // formControl._fields.selectedClothSize =
+                        //   formControl._fields.selectedClothSize.filter(
+                        //     (size, index) => size.name !== item.name
+                        //   );
+                        // formControl._formValues.selectedClothSize =
+                        //   formControl._formValues.selectedClothSize.filter(
+                        //     (size, index) => size.name !== item.name
+                        //   );
                         // console.log(
                         //   formControl._fields.selectedClothSize,
                         //   formControl._formValues.selectedClothSize

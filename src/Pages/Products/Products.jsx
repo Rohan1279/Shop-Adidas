@@ -27,7 +27,6 @@ const Products = () => {
   // if (products.length < 1) {
   //   setIsLoading(true);
   // }
-  console.log(isFetching);
 
   const handleFilterProducts = (e, id) => {
     setPrevCategory(e);
