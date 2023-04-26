@@ -1,13 +1,10 @@
-import { Listbox, Transition } from "@headlessui/react";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import Loader from "../../../../components/Loader/Loader";
 import { Context } from "../../../../contexts/ContextProvider";
-import { FaArrowDown, FaCheckCircle, FaTrash } from "react-icons/fa";
-import { HiCheck } from "react-icons/hi";
+import { FaTrash } from "react-icons/fa";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { FileUploader } from "react-drag-drop-files";
-import { getImageUrl } from "../../../../utils/getImageUrl";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
@@ -140,43 +137,42 @@ const AddProduct = () => {
     setImgFile(imgFile);
     setIsImgDropped(true);
 
-    // new Compressor(imgFile, {
-    //   quality: 0.6,
-    //   success: async (compressedResult) => {
-    //     // setImgFile(compressedResult);
-    //     // console.log("compressedResult", compressedResult);
-    //     // console.log("imgFile", imgFile);
-    //     // const formData = new FormData();
-    //     // formData.append("image", imgFile);
-    //     // try {
-    //     //   const response = await fetch(
-    //     //     `${import.meta.env.VITE_SERVER_URL}/upload`,
-    //     //     {
-    //     //       method: "POST",
-    //     //       body: formData,
-    //     //     }
-    //     //   );
-    //     //   console.log(await response.json());
-    //     // } catch (e) {
-    //     //   console.log("error");
-    //     // }
-    //   },
-    //   error(err) {
-    //     console.log(err.message);
-    //   },
-    // });
+    new Compressor(imgFile, {
+      quality: 0.4,
+      success: async (compressedResult) => {
+        console.log("compressedResult", compressedResult.size / 1024);
+        const formData = new FormData();
+        formData.append("image", compressedResult);
+        // sets blob name
+        formData.set("image", compressedResult, imgFile.name);
+        try {
+          const response = await axios.post(
+            `${import.meta.env.VITE_SERVER_URL}/upload`,
+            formData
+          );
+          setUploadUrl(response.data.imgUrl);
+          console.log(response.data);
+        } catch (e) {
+          console.log("error");
+        }
+      },
+      error(err) {
+        console.log(err.message);
+      },
+    });
 
-    const formData = new FormData();
-    formData.append("image", imgFile);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/upload`,
-        formData
-      );
-      setUploadUrl(response.data.imgUrl);
-    } catch (e) {
-      console.log(e);
-    }
+    // const formData = new FormData();
+    // formData.append("image", imgFile);
+    // try {
+    //   const response = await axios.post(
+    //     `${import.meta.env.VITE_SERVER_URL}/upload`,
+    //     formData
+    //   );
+    //   setUploadUrl(response.data.imgUrl);
+    //   console.log(response.data);
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const handleFileDrop = () => {
@@ -251,7 +247,7 @@ const AddProduct = () => {
       isReported: false,
       inStock: false,
     };
-console.log(product);
+    console.log(user);
     // console.log(product, imgFile?.size / 1024);
     // if (imgFile && imgURL && data && selectedCategory && selectedColor) {
     //   // setIsLoading(true);
@@ -300,10 +296,13 @@ console.log(product);
     });
   };
   return (
-    <div className="min-h-screen py-10">
+    <div className="min-h-screen py-10 px-5">
       <h3 className="text-3xl text-center">Add a product</h3>
-      <form onSubmit={handleSubmit(handleAddProduct)} className="mx-5 mt-10 ">
-        <div className={`h-fit mb-5 ${imgError && "animate-shake"}`}>
+      <form
+        onSubmit={handleSubmit(handleAddProduct)}
+        className=" mx-auto mt-10 max-w-7xl "
+      >
+        <div className={` h-fit mb-5 ${imgError && "animate-shake"}`}>
           {!isImgDropped && !imgFile ? (
             <FileUploader
               handleChange={handleChange}
@@ -528,7 +527,7 @@ console.log(product);
                 )}
               </div>
               {/* //! PRODUCT_PROMOTIONAL_PRICE*/}
-              <div className={`${error && "text-gray-300"} col-span-1`}>
+              <div className={`${error && "text-gray-300"} text-sm col-span-1`}>
                 <InputField
                   fieldName={"Promo Price"}
                   register={register}
@@ -536,7 +535,7 @@ console.log(product);
                   inputName={"promo_price"}
                   min={1}
                   type={"number"}
-                  required={true}
+                  required={false}
                   pattern={/^[1-9]\d*$/}
                   error={error}
                   formErrors={errors}
@@ -548,11 +547,11 @@ console.log(product);
                   </p>
                 )}
               </div>
-              <div>
+              <div className="">
                 <button
                   onClick={handleApply}
                   type="button"
-                  className=" p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all rounded-md"
+                  className=" p-2 bg-inherit border border-zinc-300 active:shadow-nm-inset transition-all rounded-md "
                 >
                   Apply to all
                 </button>
@@ -573,13 +572,13 @@ console.log(product);
                       scope="col"
                       className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
-                      Quantity
+                      Price
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
-                      Price
+                      Quantity
                     </th>
                   </tr>
                 </thead>
@@ -595,47 +594,6 @@ console.log(product);
                           <div className="text-sm text-center font-medium text-gray-900">
                             {size.name}
                           </div>
-                        </td>
-                        <td className="py-2 whitespace-nowrap px-2">
-                          <div
-                            className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
-                              error && "border-gray-300/50 "
-                            }`}
-                          >
-                            {/* //!  sizeQuantity */}
-                            <input
-                              type="number"
-                              defaultValue={"0"}
-                              placeholder="quantity"
-                              min={1}
-                              {...register(
-                                `selectedProductSize.${size.id}.quantity`,
-                                {
-                                  required: true,
-                                  pattern: /^[1-9]\d*$/,
-                                  min: 1,
-                                }
-                              )}
-                              aria-invalid={
-                                errors?.sizeQuantity ? "true" : "false"
-                              }
-                              className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
-                              disabled={error}
-                            />
-                          </div>
-                          {(errors.sizeQuantity?.type === "min" ||
-                            errors.sizePrice?.type === "pattern") &&
-                            selectedCategory && (
-                              <p role="alert" className="text-red-400 text-sm">
-                                Please enter a valid input
-                              </p>
-                            )}
-                          {errors.sizeQuantity?.type === "required" &&
-                            selectedCategory && (
-                              <p role="alert" className="text-red-400 text-sm">
-                                Quantity must be included
-                              </p>
-                            )}
                         </td>
                         <td className="pr-2">
                           <div
@@ -675,6 +633,47 @@ console.log(product);
                             selectedCategory && (
                               <p role="alert" className="text-red-400 text-sm">
                                 Price must be included
+                              </p>
+                            )}
+                        </td>
+                        <td className="py-2 whitespace-nowrap px-2">
+                          <div
+                            className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
+                              error && "border-gray-300/50 "
+                            }`}
+                          >
+                            {/* //!  sizeQuantity */}
+                            <input
+                              type="number"
+                              defaultValue={"0"}
+                              placeholder="quantity"
+                              min={1}
+                              {...register(
+                                `selectedProductSize.${size.id}.quantity`,
+                                {
+                                  required: true,
+                                  pattern: /^[1-9]\d*$/,
+                                  min: 1,
+                                }
+                              )}
+                              aria-invalid={
+                                errors?.sizeQuantity ? "true" : "false"
+                              }
+                              className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
+                              disabled={error}
+                            />
+                          </div>
+                          {(errors.selectedProductSize?.type === "min" ||
+                            errors.selectedProductSize?.type === "pattern") &&
+                            selectedCategory && (
+                              <p role="alert" className="text-red-400 text-sm">
+                                Please enter a valid input
+                              </p>
+                            )}
+                          {errors.selectedProductSize?.type === "required" &&
+                            selectedCategory && (
+                              <p role="alert" className="text-red-400 text-sm">
+                                Quantity must be included
                               </p>
                             )}
                         </td>
