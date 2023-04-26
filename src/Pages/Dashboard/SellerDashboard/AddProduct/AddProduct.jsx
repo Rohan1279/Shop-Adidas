@@ -109,7 +109,20 @@ const AddProduct = () => {
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
   const error = !selectedCategory;
+  const getDate = () => {
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
 
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    let posted_on = `${day}-${month}-${year}+${hour}:${minute}:${second}`;
+    console.log(posted_on);
+    return posted_on;
+  };
   useEffect(() => {
     if (
       !clothesCategories.includes(selectedCategory) ||
@@ -138,13 +151,13 @@ const AddProduct = () => {
     setIsImgDropped(true);
 
     new Compressor(imgFile, {
-      quality: 0.4,
+      quality: 0.2,
       success: async (compressedResult) => {
         console.log("compressedResult", compressedResult.size / 1024);
         const formData = new FormData();
         formData.append("image", compressedResult);
         // sets blob name
-        formData.set("image", compressedResult, imgFile.name);
+        formData.set("image", compressedResult, getDate() + imgFile.name);
         try {
           const response = await axios.post(
             `${import.meta.env.VITE_SERVER_URL}/upload`,
@@ -187,11 +200,7 @@ const AddProduct = () => {
     }
     // setImgSizeError(false);
     const form = e.target;
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let posted_on = `${day}-${month}-${year}`;
+
     // {
     //   _id: 63c417a57229a7dca8c2092d,
     //   category: Men's Sneakers,
@@ -234,7 +243,7 @@ const AddProduct = () => {
       promo_price: data.promo_price,
       sizes: sizes,
       img: uploadUrl,
-      posted_on: posted_on,
+      posted_on: getDate(),
       seller_phone: data.seller_phone,
       seller_id: user?.uid,
       seller_name: user?.displayName,
@@ -247,7 +256,7 @@ const AddProduct = () => {
       isReported: false,
       inStock: false,
     };
-    console.log(user);
+    console.log(product);
     // console.log(product, imgFile?.size / 1024);
     // if (imgFile && imgURL && data && selectedCategory && selectedColor) {
     //   // setIsLoading(true);
