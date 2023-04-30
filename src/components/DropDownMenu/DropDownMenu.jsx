@@ -162,7 +162,7 @@ const DropDownMenu = ({
                       {item?.hex && (
                         <span
                           style={{ backgroundColor: `${item?.hex}` }}
-                          className={`w-4 h-4 rounded-sm`}
+                          className={`w-4 h-4 rounded-sm mr-2`}
                         ></span>
                       )}
                       <span

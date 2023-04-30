@@ -119,7 +119,7 @@ const AddProduct = () => {
     let minute = date.getMinutes();
     let second = date.getSeconds();
 
-    let posted_on = `${day}-${month}-${year}+${hour}:${minute}:${second}`;
+    let posted_on = `${day}-${month}-${year}`;
     console.log(posted_on);
     return posted_on;
   };
@@ -157,13 +157,21 @@ const AddProduct = () => {
         const formData = new FormData();
         formData.append("image", compressedResult);
         // sets blob name
-        formData.set("image", compressedResult, getDate() + imgFile.name);
+        formData.set("image", compressedResult, imgFile.name);
         try {
+          // const response = await axios.post(
+          //   `${import.meta.env.VITE_SERVER_URL}/upload`,
+          //   formData
+          // );
+          // setUploadUrl(response.data.imgUrl);
+          //! Create a route to create a new folder
+          //? take username if user create a profile with phone no and such...
+          const folderName = `${user?.email}`;
           const response = await axios.post(
-            `${import.meta.env.VITE_SERVER_URL}/upload`,
-            formData
+            `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+            { folderName }
           );
-          setUploadUrl(response.data.imgUrl);
+          // setUploadUrl(response.data.imgUrl);
           console.log(response.data);
         } catch (e) {
           console.log("error");
@@ -294,12 +302,12 @@ const AddProduct = () => {
     const product_quantity = control._formValues.quantity;
 
     // remove input field data
-    control._formValues.selectedProductSize.map((size) => {
+    control._formValues.selectedProductSize?.map((size) => {
       size.price = product_price;
       size.quantity = product_quantity;
     });
     // remove input field value
-    control._fields.selectedProductSize.map((size) => {
+    control._fields.selectedProductSize?.map((size) => {
       size.price._f.ref.value = product_price;
       size.quantity._f.ref.value = product_quantity;
     });
@@ -560,7 +568,9 @@ const AddProduct = () => {
                 <button
                   onClick={handleApply}
                   type="button"
-                  className=" p-2 bg-inherit border border-zinc-300 active:shadow-nm-inset transition-all rounded-md "
+                  className={`${
+                    error ? "bg-secondary-color" : "bg-blue-50/50"
+                  } p-2 border border-zinc-300 active:shadow-nm-inset transition-all rounded-md w-full `}
                 >
                   Apply to all
                 </button>
@@ -749,6 +759,7 @@ const AddProduct = () => {
 
         <input type="submit" />
       </form> */}
+      <Loader></Loader>
     </div>
   );
 };
