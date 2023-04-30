@@ -93,9 +93,7 @@ const AddProduct = () => {
     register,
     handleSubmit,
     formState: { errors },
-    // getValues,
     control,
-    watch,
   } = useForm();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedColor, setSelectedColor] = useState([]);
@@ -104,23 +102,31 @@ const AddProduct = () => {
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState("");
-  const [uploadUrl, setUploadUrl] = useState("");
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
   const fileTypes = ["JPG", "WEBP"];
   const error = !selectedCategory;
   const getDate = () => {
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+    // const date = new Date();
+    // let day = date.getDate();
+    // let month = date.getMonth() + 1;
+    // let year = date.getFullYear();
 
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
+    // let hour = date.getHours();
+    // let minute = date.getMinutes();
+    // let second = date.getSeconds();
 
-    let posted_on = `${day}-${month}-${year}`;
-    console.log(posted_on);
+    // console.log(posted_on);
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = ("0" + (now.getMonth() + 1)).slice(-2);
+    const day = ("0" + now.getDate()).slice(-2);
+    const hour = ("0" + now.getHours()).slice(-2);
+    const minute = ("0" + now.getMinutes()).slice(-2);
+    const second = ("0" + now.getSeconds()).slice(-2);
+    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+
     return posted_on;
   };
   useEffect(() => {
@@ -142,20 +148,20 @@ const AddProduct = () => {
     }
   }, [selectedCategory]);
   const handleChange = async (imgFile) => {
-    console.log(imgFile.size / 1024);
+    // console.log(imgFile.size / 1024);
 
     setImgError(false);
-    setIsLoading(false);
+    // setIsLoading(false);
     setImgURL(URL.createObjectURL(imgFile));
     setIsImgDropped(true);
 
     new Compressor(imgFile, {
-      quality: 0.2,
+      quality: 0.4,
       success: async (compressedResult) => {
-        console.log("compressedResult", compressedResult.size / 1024);
+        // console.log("compressedResult", compressedResult.size / 1024);
         const formData = new FormData();
         formData.append("image", compressedResult);
-        
+
         // sets blob name
         formData.set("image", compressedResult, imgFile.name);
         setImgFile(formData);
@@ -222,89 +228,87 @@ const AddProduct = () => {
         },
       ];
     }, []);
-    try {
-      //! Create a route to create a new folder
-      //? take username if user creates a profile with phone no and such...
-      const folderName = `${user?.email}`;
-      const response = await axios.put(
-        `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-        { folderName }
-      );
-      const folderId = response.data.folderId;
-      console.log(response.data);
-      // Upload file
-      try {
-        // const payload = { imgFile: imgFile, folderId: folderId };
-        const payload = new FormData();
-        // payload.append("imgFile", imgFile);
-        // payload.append("folderId", folderId);
-        // console.log("folderId", folderId);
-        imgFile.append("folderId", folderId);
-        const uploadResponse = await axios.post(
-          `${import.meta.env.VITE_SERVER_URL}/upload`,
-          imgFile
-        );
-        console.log(uploadResponse.data);
-      } catch (error) {
-        console.log(error);
-      }
-    } catch (e) {
-      console.log("error");
-    }
-    const product = {
-      category_id: selectedCategory._id,
-      category: selectedCategory.name,
-      description: data.description,
-      price: data.price,
-      name: data.name,
-      color: selectedColor.name ?? "No color information available",
-      quantity: data.quantity,
-      promo_price: data.promo_price,
-      sizes: sizes,
-      img: uploadUrl,
-      posted_on: getDate(),
-      seller_phone: data.seller_phone,
-      seller_id: user?.uid,
-      seller_name: user?.displayName,
-      seller_email: user?.email,
-      seller_default_image:
-        "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-      reviewsCount: 0,
-      ratings: 0.0,
-      isAdvertised: false,
-      isReported: false,
-      inStock: false,
-    };
-    console.log(product);
-    // console.log(product, imgFile?.size / 1024);
-    // if (imgFile && imgURL && data && selectedCategory && selectedColor) {
-    //   // setIsLoading(true);
-    //   // getImageUrl(imgFile).then((imgData) => {
-    //   //   setImgURL(imgData);
-    //   // };
-    //   fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-    //     method: "POST",
-    //     headers: {
-    //       "content-type": "application/json",
-    //       authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-    //     },
-    //     body: JSON.stringify({ ...product }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((result) => {
-    //       console.log(result);
+    if (imgFile && imgURL && data && selectedCategory) {
+      setIsLoading(true);
 
-    //       if (result.acknowledged) {
-    //         console.log(
-    //           "%Product Added successfully!",
-    //           "color: blue; font-size: 24px;"
-    //         );
-    //         form.reset();
-    //         setIsLoading(false);
-    //         navigate("/dashboard/myproducts");
-    //       }
-    //     });
-    // }
+      try {
+        //! Create a route to create a new folder
+        //? take username if user creates a profile with phone no and such...
+        const folderName = `${user?.email}`;
+        const response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+          { folderName }
+        );
+        const folderId = response.data.folderId;
+        // Upload file
+        try {
+          imgFile.append("folderId", folderId);
+          const uploadResponse = await axios.post(
+            `${import.meta.env.VITE_SERVER_URL}/upload`,
+            imgFile
+          );
+          // console.log(uploadResponse.data);
+          const imgId = uploadResponse.data.fileId;
+          const imgUrl = uploadResponse.data.imgUrl;
+          const product = {
+            category_id: selectedCategory._id,
+            category: selectedCategory.name,
+            description: data.description,
+            price: data.price,
+            name: data.name,
+            color: selectedColor.name ?? "No color information available",
+            quantity: data.quantity,
+            promo_price: data.promo_price,
+            sizes: sizes,
+            imgId: imgId,
+            img: imgUrl,
+            googleFolderId: folderId,
+            posted_on: getDate(),
+            seller_phone: data.seller_phone,
+            seller_id: user?.uid,
+            seller_name: user?.displayName,
+            seller_email: user?.email,
+            seller_default_image:
+              "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
+            reviewsCount: 0,
+            ratings: 0.0,
+            isAdvertised: false,
+            isReported: false,
+            inStock: false,
+          };
+          console.log(product);
+
+          // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+          //   method: "POST",
+          //   headers: {
+          //     "content-type": "application/json",
+          //     authorization: `bearer ${localStorage.getItem(
+          //       "shop-adidas-token"
+          //     )}`,
+          //   },
+          //   body: JSON.stringify({ ...product }),
+          // })
+          //   .then((res) => res.json())
+          //   .then((result) => {
+          //     console.log(result);
+
+          //     if (result.acknowledged) {
+          //       console.log(
+          //         "%Product Added successfully!",
+          //         "color: blue; font-size: 24px;"
+          //       );
+          //       form.reset();
+          //       setIsLoading(false);
+          //       navigate("/dashboard/myproducts");
+          //     }
+          //   });
+        } catch (error) {
+          console.log(error);
+        }
+      } catch (e) {
+        console.log("error");
+      }
+    }
   };
   const handleApply = () => {
     // console.log(selectedProductSize);
@@ -770,7 +774,6 @@ const AddProduct = () => {
 
         <input type="submit" />
       </form> */}
-      <Loader></Loader>
     </div>
   );
 };
