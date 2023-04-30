@@ -147,7 +147,6 @@ const AddProduct = () => {
     setImgError(false);
     setIsLoading(false);
     setImgURL(URL.createObjectURL(imgFile));
-    setImgFile(imgFile);
     setIsImgDropped(true);
 
     new Compressor(imgFile, {
@@ -156,26 +155,10 @@ const AddProduct = () => {
         console.log("compressedResult", compressedResult.size / 1024);
         const formData = new FormData();
         formData.append("image", compressedResult);
+        
         // sets blob name
         formData.set("image", compressedResult, imgFile.name);
-        try {
-          // const response = await axios.post(
-          //   `${import.meta.env.VITE_SERVER_URL}/upload`,
-          //   formData
-          // );
-          // setUploadUrl(response.data.imgUrl);
-          //! Create a route to create a new folder
-          //? take username if user create a profile with phone no and such...
-          const folderName = `${user?.email}`;
-          const response = await axios.post(
-            `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-            { folderName }
-          );
-          // setUploadUrl(response.data.imgUrl);
-          console.log(response.data);
-        } catch (e) {
-          console.log("error");
-        }
+        setImgFile(formData);
       },
       error(err) {
         console.log(err.message);
@@ -201,7 +184,7 @@ const AddProduct = () => {
   };
   // console.log("selectedProductSize", selectedProductSize);
 
-  const handleAddProduct = (data, e) => {
+  const handleAddProduct = async (data, e) => {
     // e.preventDefault();
     if (!imgFile) {
       setImgError(true);
@@ -224,11 +207,11 @@ const AddProduct = () => {
     //   productLinkHref: https://www.adidas.com/us/forum-84-low-aec-shoes/HR0557.html
     // }
 
-    // console.log("data.selectedProductSize", data.selectedProductSize);
     const filteredClothSize = selectedProductSize.map((size) => {
       const index = parseInt(size.id);
       return data.selectedProductSize[index];
     });
+    // combine filtered cloth sizes with selected cloth sizes from form
     const sizes = selectedProductSize.reduce((acc, size, index) => {
       return [
         ...acc,
@@ -239,7 +222,35 @@ const AddProduct = () => {
         },
       ];
     }, []);
-
+    try {
+      //! Create a route to create a new folder
+      //? take username if user creates a profile with phone no and such...
+      const folderName = `${user?.email}`;
+      const response = await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+        { folderName }
+      );
+      const folderId = response.data.folderId;
+      console.log(response.data);
+      // Upload file
+      try {
+        // const payload = { imgFile: imgFile, folderId: folderId };
+        const payload = new FormData();
+        // payload.append("imgFile", imgFile);
+        // payload.append("folderId", folderId);
+        // console.log("folderId", folderId);
+        imgFile.append("folderId", folderId);
+        const uploadResponse = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/upload`,
+          imgFile
+        );
+        console.log(uploadResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (e) {
+      console.log("error");
+    }
     const product = {
       category_id: selectedCategory._id,
       category: selectedCategory.name,
