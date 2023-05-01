@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import Loader from "../../../../components/Loader/Loader";
 import { Context } from "../../../../contexts/ContextProvider";
-import { FaTrash } from "react-icons/fa";
+import { FaImage, FaImages, FaTrash } from "react-icons/fa";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { FileUploader } from "react-drag-drop-files";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -125,7 +125,7 @@ const AddProduct = () => {
     const hour = ("0" + now.getHours()).slice(-2);
     const minute = ("0" + now.getMinutes()).slice(-2);
     const second = ("0" + now.getSeconds()).slice(-2);
-    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+    let posted_on = `${day}-${month}-${year}`;
 
     return posted_on;
   };
@@ -257,7 +257,8 @@ const AddProduct = () => {
             price: data.price,
             name: data.name,
             color: selectedColor.name ?? "No color information available",
-            quantity: data.quantity,
+            brand: data?.brand ?? "No brand",
+            stock: data.stock,
             promo_price: data.promo_price,
             sizes: sizes,
             imgId: imgId,
@@ -278,30 +279,30 @@ const AddProduct = () => {
           };
           console.log(product);
 
-          // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-          //   method: "POST",
-          //   headers: {
-          //     "content-type": "application/json",
-          //     authorization: `bearer ${localStorage.getItem(
-          //       "shop-adidas-token"
-          //     )}`,
-          //   },
-          //   body: JSON.stringify({ ...product }),
-          // })
-          //   .then((res) => res.json())
-          //   .then((result) => {
-          //     console.log(result);
+          fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              authorization: `bearer ${localStorage.getItem(
+                "shop-adidas-token"
+              )}`,
+            },
+            body: JSON.stringify({ ...product }),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              console.log(result);
 
-          //     if (result.acknowledged) {
-          //       console.log(
-          //         "%Product Added successfully!",
-          //         "color: blue; font-size: 24px;"
-          //       );
-          //       form.reset();
-          //       setIsLoading(false);
-          //       navigate("/dashboard/myproducts");
-          //     }
-          //   });
+              if (result.acknowledged) {
+                console.log(
+                  "%Product Added successfully!",
+                  "color: blue; font-size: 24px;"
+                );
+                form.reset();
+                setIsLoading(false);
+                navigate("/dashboard/myproducts");
+              }
+            });
         } catch (error) {
           console.log(error);
         }
@@ -355,8 +356,8 @@ const AddProduct = () => {
                       <span>Drag and drop your</span>&nbsp;
                       <span>files anywhere or</span>
                     </p>
-                    <button className="bg-secondary-color shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all">
-                      Upload a file
+                    <button className="bg-secondary-color shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all flex justify-center items-center gap-x-1">
+                      Upload an image<FaImages></FaImages>
                     </button>
 
                     <span className="text-gray-500 text-sm mt-1">
@@ -433,7 +434,7 @@ const AddProduct = () => {
               )}
             </div>
 
-            <div className="  gap-x-2 space-y-5 lg:space-y-5">
+            <div className="gap-x-2 space-y-5 lg:space-y-5">
               {/* //! CATEGORY  */}
 
               <div className="col-span-1  flex items-center border border-gray-300 rounded-md pl-2   bg-gray-300/60">
@@ -463,6 +464,23 @@ const AddProduct = () => {
                   ></DropDownMenu>
                 </div>
               </div>
+              {/* //! BRAND */}
+              <InputField
+                // // getValues={getValues}
+                fieldName={"Brand"}
+                register={register}
+                placeholder={"brand name"}
+                inputName={"brand"}
+                minLength={3}
+                maxLength={100}
+                type={"text"}
+                required={false}
+              ></InputField>
+              {errors.name?.type === "minLength" && (
+                <p role="alert" className="text-red-400 text-sm">
+                  Should be more than 10 characters
+                </p>
+              )}
             </div>
           </fieldset>
           <fieldset
@@ -536,23 +554,23 @@ const AddProduct = () => {
               {/* //! PRODUCT_QUANTITY */}
               <div className="col-span-1">
                 <InputField
-                  fieldName={"Quantity"}
+                  fieldName={"Stock"}
                   register={register}
-                  placeholder={"product quantity"}
-                  inputName={"quantity"}
+                  placeholder={"product stock"}
+                  inputName={"stock"}
                   min={1}
                   type={"number"}
                   required={false}
                   pattern={/^[1-9]\d*$/}
                   error={error}
-                  aria_invalid={errors?.quantity ? "true" : "false"}
+                  aria_invalid={errors?.stock ? "true" : "false"}
                 ></InputField>
-                {errors.quantity?.type === "min" && selectedCategory && (
+                {errors.stock?.type === "min" && selectedCategory && (
                   <p role="alert" className="text-red-400 text-sm">
                     Please enter a valid input
                   </p>
                 )}
-                {errors.quantity?.type === "required" && selectedCategory && (
+                {errors.stock?.type === "required" && selectedCategory && (
                   <p role="alert" className="text-red-400 text-sm">
                     Price must be included
                   </p>
@@ -612,7 +630,7 @@ const AddProduct = () => {
                       scope="col"
                       className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
                     >
-                      Quantity
+                      Stock
                     </th>
                   </tr>
                 </thead>
@@ -680,10 +698,10 @@ const AddProduct = () => {
                             <input
                               type="number"
                               defaultValue={"0"}
-                              placeholder="quantity"
+                              placeholder="stock"
                               min={1}
                               {...register(
-                                `selectedProductSize.${size.id}.quantity`,
+                                `selectedProductSize.${size.id}.stock`,
                                 {
                                   required: true,
                                   pattern: /^[1-9]\d*$/,
