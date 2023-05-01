@@ -3,13 +3,14 @@ import { Fragment, useState } from "react";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-export default function Modal({
+export default function AddToCartModal({
   modalButtonText,
   data,
   prevSize,
   sizeError,
   setSizeError,
   handleAddToCart,
+  buttonClass,
 }) {
   let [isOpen, setIsOpen] = useState(false);
   // console.log(data);
@@ -20,10 +21,12 @@ export default function Modal({
         <button
           type="button"
           onClick={() => {
-            prevSize && handleAddToCart(data);
-            !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
+            if (prevSize) {
+              prevSize ? handleAddToCart(data) : "";
+              !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
+            }
           }}
-          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
+          className={`${buttonClass} mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
         >
           {modalButtonText}
         </button>

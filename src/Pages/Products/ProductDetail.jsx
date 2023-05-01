@@ -3,10 +3,10 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
-import Modal from "../../components/Modal";
 import { Context } from "../../contexts/ContextProvider";
 import { addToDb } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
+import AddToCartModal from "../../components/AddToCartModal";
 const ProductDetail = () => {
   const [cart, setCart] = useContext(CartContext);
   // console.log(cart);
@@ -175,14 +175,15 @@ const ProductDetail = () => {
             ) : (
               ""
             )}
-            <Modal
+            <AddToCartModal
+              buttonClass={"w-1/2"}
               modalButtonText={"Add to cart"}
               data={state}
               prevSize={prevSize?.innerText}
               sizeError={sizeError}
               setSizeError={setSizeError}
               handleAddToCart={handleAddToCart}
-            ></Modal>
+            ></AddToCartModal>
           </section>
         </div>
       </div>

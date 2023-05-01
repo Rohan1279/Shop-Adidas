@@ -1,18 +1,29 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../../contexts/ContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import { FaEdit, FaEye, FaTrash, FaTrashAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Dialog, Transition } from "@headlessui/react";
+import Modal from "../../../../components/Modal/Modal";
 
 const MyProducts = () => {
+  let [isOpen, setIsOpen] = useState(false);
+  const [selectedProduct, setselectedProduct] = useState({});
+  function closeModal() {
+    setselectedProduct({});
+    setIsOpen(false);
+  }
+  function openModal(product) {
+    setselectedProduct(product);
+    setIsOpen(true);
+  }
   const navigate = useNavigate();
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
   const url = `${import.meta.env.VITE_SERVER_URL}/seller_products?email=${
     user?.email
   }`;
-  console.log(url);
   const { data: products = [], refetch } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
@@ -25,8 +36,10 @@ const MyProducts = () => {
   useEffect(() => {
     refetch();
   }, [refetch]);
-  console.log(products);
-
+  const viewproduct = (data) => {
+    console.log(data);
+  };
+  // console.log(products);
   return (
     <div className="min-h-screen py-10 px-5">
       <div className="flex flex-col max-w-7xl mx-auto mt-10">
@@ -100,12 +113,12 @@ const MyProducts = () => {
                 </thead>
                 <tbody className=" divide-y divide-gray-100  bg-secondary-color">
                   {products?.map((product, idx) => (
-                    <tr key={product._id} className="text-center h-16">
+                    <tr key={product?._id} className="text-center h-16">
                       <th className="text-sm font-light ">{idx + 1}</th>
                       <td>
                         <LazyLoadImage
                           effect="opacity"
-                          src={product.img}
+                          src={product?.img}
                           alt=""
                           className="w-12 h-12 mx-auto"
                         />
@@ -117,16 +130,34 @@ const MyProducts = () => {
                       <td>{product?.price}</td>
                       <td>{product?.stock}</td>
                       <td className="text-left">
-                        {product?.sizes.map((size) => (
-                          <span className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all">
+                        {product?.sizes.map((size, idx) => (
+                          <span
+                            key={size?.id}
+                            className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
+                          >
                             {size.name}
                           </span>
                         ))}
                       </td>
                       <td className="space-x-2">
                         <FaEdit className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaEdit>
-                        {/* <FaTrash></FaTrash> */}
-                        <FaTrashAlt className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaTrashAlt>
+                        <Modal
+                          isOpen={isOpen}
+                          setIsOpen={setIsOpen}
+                          closeModal={closeModal}
+                          openModal={openModal}
+                          data={selectedProduct}
+                          confirmText={"Confirm"}
+                        >
+                          <FaTrashAlt
+                            onClick={() => {
+                              openModal(product);
+                              // viewproduct(product?._id);
+                            }}
+                            className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
+                          ></FaTrashAlt>
+                        </Modal>
+                        
                         <FaEye
                           onClick={() => {
                             navigate(`/products/product/${product._id}`, {
@@ -138,7 +169,6 @@ const MyProducts = () => {
                           {/* <Link to={`/products/product/${product._id}`}></Link> */}
                         </FaEye>
                       </td>
-                      <div className="w- bg-red-100 h-1"></div>
                     </tr>
                   ))}
                 </tbody>
