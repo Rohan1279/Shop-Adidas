@@ -11,8 +11,8 @@ const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setselectedProduct] = useState({});
   function closeModal() {
-    setselectedProduct({});
     setIsOpen(false);
+    // setselectedProduct({});
   }
   function openModal(product) {
     setselectedProduct(product);
@@ -147,7 +147,8 @@ const MyProducts = () => {
                           closeModal={closeModal}
                           openModal={openModal}
                           data={selectedProduct}
-                          confirmText={"Confirm"}
+                          confirmMessage={"Are you sure to delete the following"}
+                          confirmButtonText={"Confirm"}
                         >
                           <FaTrashAlt
                             onClick={() => {

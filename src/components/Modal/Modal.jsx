@@ -8,7 +8,8 @@ export default function Modal({
   openModal,
   children,
   data,
-  confirmText,
+  confirmButtonText,
+  confirmMessage,
 }) {
   return (
     <>
@@ -24,7 +25,11 @@ export default function Modal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div
+              className={`fixed inset-0 bg-secondary-color ${
+                isOpen && "opacity-60"
+              } `}
+            />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -38,21 +43,22 @@ export default function Modal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    {data.name}
-                  </Dialog.Title>
+                <Dialog.Panel className="bg-secondary-color rounded-lg shadow-nm p-6 mx-4 md:mx-0 w-full md:w-2/3 lg:w-1/2">
+                  <div className="text-center">
+                    <h3 className="text-lg font-medium mb-2">
+                      {confirmMessage}
+                    </h3>
+                    <span className="mb-2 text-xl font-bold">{data?.name}</span>
+                    <p className="text-gray-500 mb-6">
+                      This action cannot be undone.
+                    </p>
 
-                  <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="w-full px-4 py-2 active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
                       onClick={closeModal}
                     >
-                      {confirmText}
+                      {confirmButtonText}
                     </button>
                   </div>
                 </Dialog.Panel>
