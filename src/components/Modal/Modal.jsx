@@ -49,17 +49,24 @@ export default function Modal({
                       {confirmMessage}
                     </h3>
                     <span className="mb-2 text-xl font-bold">{data?.name}</span>
-                    <p className="text-gray-500 mb-6">
+                    <p className="text-red-400 mb-6 ">
                       This action cannot be undone.
                     </p>
 
-                    <button
-                      type="button"
-                      className="w-full px-4 py-2 active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
-                      onClick={closeModal}
-                    >
-                      {confirmButtonText}
-                    </button>
+                    <div className="space-x-3">
+                      <button
+                      onClick={()=>setIsOpen(false)}
+                       className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200">
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
+                        onClick={closeModal}
+                      >
+                        {confirmButtonText}
+                      </button>
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

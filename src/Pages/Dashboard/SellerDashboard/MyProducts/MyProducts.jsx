@@ -6,18 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Dialog, Transition } from "@headlessui/react";
 import Modal from "../../../../components/Modal/Modal";
+import axios from "axios";
 
 const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setselectedProduct] = useState({});
-  function closeModal() {
-    setIsOpen(false);
-    // setselectedProduct({});
-  }
-  function openModal(product) {
-    setselectedProduct(product);
-    setIsOpen(true);
-  }
+
   const navigate = useNavigate();
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
@@ -33,12 +27,36 @@ const MyProducts = () => {
         },
       }).then((res) => res.json()),
   });
+
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    // refetch();
+    // console.log(products);
+  }, [refetch, products, selectedProduct]);
   const viewproduct = (data) => {
     console.log(data);
   };
+  const confirmModal = async () => {
+    setIsOpen(false);
+
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/seller_products/delete?id=${
+          selectedProduct?._id
+        }`
+      );
+      console.log(response);
+      if (response.data) {
+        refetch();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  function openModal(product) {
+    setselectedProduct(product);
+    setIsOpen(true);
+  }
   // console.log(products);
   return (
     <div className="min-h-screen py-10 px-5">
@@ -130,24 +148,28 @@ const MyProducts = () => {
                       <td>{product?.price}</td>
                       <td>{product?.stock}</td>
                       <td className="text-left">
-                        {product?.sizes.map((size, idx) => (
-                          <span
-                            key={size?.id}
-                            className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
-                          >
-                            {size.name}
-                          </span>
-                        ))}
+                        {product?.sizes.length === 0
+                          ? "No sizes avaiable"
+                          : product?.sizes.map((size, idx) => (
+                              <span
+                                key={size?.id}
+                                className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
+                              >
+                                {size.name}
+                              </span>
+                            ))}
                       </td>
                       <td className="space-x-2">
                         <FaEdit className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaEdit>
                         <Modal
                           isOpen={isOpen}
                           setIsOpen={setIsOpen}
-                          closeModal={closeModal}
+                          closeModal={confirmModal}
                           openModal={openModal}
                           data={selectedProduct}
-                          confirmMessage={"Are you sure to delete the following"}
+                          confirmMessage={
+                            "Are you sure to delete the following"
+                          }
                           confirmButtonText={"Confirm"}
                         >
                           <FaTrashAlt
@@ -158,7 +180,7 @@ const MyProducts = () => {
                             className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
                           ></FaTrashAlt>
                         </Modal>
-                        
+
                         <FaEye
                           onClick={() => {
                             navigate(`/products/product/${product._id}`, {

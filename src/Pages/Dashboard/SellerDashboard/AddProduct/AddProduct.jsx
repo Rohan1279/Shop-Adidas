@@ -260,7 +260,7 @@ const AddProduct = () => {
             brand: data?.brand ?? "No brand",
             stock: data.stock,
             promo_price: data.promo_price,
-            sizes: sizes,
+            sizes: sizes || "No sizes avaiable",
             imgId: imgId,
             img: imgUrl,
             googleFolderId: folderId,
@@ -295,12 +295,13 @@ const AddProduct = () => {
 
               if (result.acknowledged) {
                 console.log(
-                  "%Product Added successfully!",
+                  "%cProduct Added successfully!",
                   "color: blue; font-size: 24px;"
                 );
+
                 form.reset();
                 setIsLoading(false);
-                navigate("/dashboard/myproducts");
+                // navigate("/dashboard/myproducts");
               }
             });
         } catch (error) {
@@ -315,17 +316,17 @@ const AddProduct = () => {
     // console.log(selectedProductSize);
 
     const product_price = control._formValues.price;
-    const product_quantity = control._formValues.quantity;
+    const product_stock = control._formValues.stock;
 
     // remove input field data
     control._formValues.selectedProductSize?.map((size) => {
       size.price = product_price;
-      size.quantity = product_quantity;
+      size.stock = product_stock;
     });
     // remove input field value
     control._fields.selectedProductSize?.map((size) => {
       size.price._f.ref.value = product_price;
-      size.quantity._f.ref.value = product_quantity;
+      size.stock._f.ref.value = product_stock;
     });
   };
   return (
