@@ -125,7 +125,7 @@ const AddProduct = () => {
     const hour = ("0" + now.getHours()).slice(-2);
     const minute = ("0" + now.getMinutes()).slice(-2);
     const second = ("0" + now.getSeconds()).slice(-2);
-    let posted_on = `${day}-${month}-${year}`;
+    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}` ;
 
     return posted_on;
   };
@@ -231,25 +231,24 @@ const AddProduct = () => {
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
 
-      try {
-        //! Create a route to create a new folder
-        //? take username if user creates a profile with phone no and such...
-        const folderName = `${user?.email}`;
-        const response = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-          { folderName }
-        );
-        const folderId = response.data.folderId;
-        // Upload file
-        try {
-          imgFile.append("folderId", folderId);
-          const uploadResponse = await axios.post(
-            `${import.meta.env.VITE_SERVER_URL}/upload`,
-            imgFile
-          );
-          // console.log(uploadResponse.data);
-          const imgId = uploadResponse.data.fileId;
-          const imgUrl = uploadResponse.data.imgUrl;
+      // try {
+      //   // Create a route to create a new folder
+      //   //? take username if user creates a profile with phone no and such...
+      //   const folderName = `${user?.email}`;
+      //   const response = await axios.put(
+      //     `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+      //     { folderName }
+      //   );
+      //   const folderId = response.data.folderId;
+      //   // Upload file
+      //   try {
+      //     imgFile.append("folderId", folderId);
+      //     const uploadResponse = await axios.post(
+      //       `${import.meta.env.VITE_SERVER_URL}/upload`,
+      //       imgFile
+      //     );
+          // const imgId = uploadResponse.data.fileId;
+          // const imgUrl = uploadResponse.data.imgUrl;
           const product = {
             category_id: selectedCategory._id,
             category: selectedCategory.name,
@@ -261,9 +260,9 @@ const AddProduct = () => {
             stock: data.stock,
             promo_price: data.promo_price,
             sizes: sizes || "No sizes avaiable",
-            imgId: imgId,
-            img: imgUrl,
-            googleFolderId: folderId,
+            // imgId: imgId,
+            // img: imgUrl,
+            // googleFolderId: folderId,
             posted_on: getDate(),
             seller_phone: data.seller_phone,
             seller_id: user?.uid,
@@ -304,12 +303,13 @@ const AddProduct = () => {
                 // navigate("/dashboard/myproducts");
               }
             });
-        } catch (error) {
-          console.log(error);
-        }
-      } catch (e) {
-        console.log("error");
-      }
+
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // } catch (e) {
+      //   console.log("error");
+      // }
     }
   };
   const handleApply = () => {

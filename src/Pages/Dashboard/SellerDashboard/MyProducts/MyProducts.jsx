@@ -1,7 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../../contexts/ContextProvider";
 import { useQuery } from "@tanstack/react-query";
-import { FaEdit, FaEye, FaTrash, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Dialog, Transition } from "@headlessui/react";
@@ -11,34 +12,57 @@ import axios from "axios";
 const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setselectedProduct] = useState({});
-
   const navigate = useNavigate();
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
-  const url = `${import.meta.env.VITE_SERVER_URL}/seller_products?email=${
-    user?.email
-  }`;
-  const { data: products = [], refetch } = useQuery({
+  const [sortField, setSortField] = useState("posted_on");
+  const [sortingOrder, setsortingOrder] = useState(-1);
+  const [sortedProducts, setsortedProducts] = useState([]);
+
+  const {
+    data: products = [],
+    refetch,
+    isRefetching,
+  } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
-      fetch(url, {
-        headers: {
-          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-        },
-      }).then((res) => res.json()),
+      fetch(
+        `${import.meta.env.VITE_SERVER_URL}/seller_products?email=${
+          user?.email
+        }`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem(
+              "shop-adidas-token"
+            )}`,
+          },
+        }
+      ).then((res) => res.json()),
   });
 
   useEffect(() => {
     // refetch();
-    // console.log(products);
-  }, [refetch, products, selectedProduct]);
-  const viewproduct = (data) => {
-    console.log(data);
+    // console.log(`%c${url}`, "color: yellow; font-size: 24px;");
+    // console.log(`%c${isRefetching}`, "color: yellow; font-size: 24px;");
+    console.log("%cRe Rendered!", "color: yellow; font-size: 24px;");
+    setsortedProducts(products);
+  }, [products]);
+  // console.log(products);
+  const sortByDate = () => {
+    const dateSortedArray = [...products].sort(
+      (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
+    );
+    setsortedProducts(dateSortedArray);
+  };
+  const sortByPrice = () => {
+    const priceSortedArray = [...products].sort((a, b) => b.price - a.price);
+    setsortedProducts(priceSortedArray);
   };
   const confirmModal = async () => {
     setIsOpen(false);
 
     try {
+      // Delete the selected product
       const response = await axios.delete(
         `${import.meta.env.VITE_SERVER_URL}/seller_products/delete?id=${
           selectedProduct?._id
@@ -52,21 +76,29 @@ const MyProducts = () => {
       console.error(error);
     }
   };
-
   function openModal(product) {
     setselectedProduct(product);
     setIsOpen(true);
   }
   // console.log(products);
+
   return (
     <div className="min-h-screen py-10 px-5">
       <div className="flex flex-col max-w-7xl mx-auto mt-10">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="-my-2  sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-none">
+            <div
+              className={`shadow  border-b border-gray-200 sm:rounded-none ${
+                products.length === 0 && "blur-sm"
+              } `}
+            >
               <table className="min-w-full divide-y divide-gray-200 ">
                 <thead className="bg-gray-300/60 ">
-                  <tr className="text-center">
+                  <tr
+                    className={`text-center  
+                  ${products.length === 0 && "select-none"}
+                  `}
+                  >
                     <th
                       scope="col"
                       className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -81,9 +113,20 @@ const MyProducts = () => {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      // onClick={() => {
+                      //   setSortField("posted_on");
+                      //   setsortingOrder(1);
+                      // }}
+                      onClick={sortByDate}
+                      title="Sort by descending"
+                      className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
-                      Date
+                      <span>Date</span>
+                      {/* <TbSortAscending className="text-xl "></TbSortAscending> */}
+                      <TbSortDescending
+                        title="Sort by descending"
+                        className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"
+                      ></TbSortDescending>
                     </th>
                     <th
                       scope="col"
@@ -105,9 +148,15 @@ const MyProducts = () => {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      onClick={sortByPrice}
+                      title="Sort by descending"
+                      className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
-                      Price
+                      <span>Price</span>
+                      <TbSortDescending
+                        title="Sort by descending"
+                        className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"
+                      ></TbSortDescending>
                     </th>
                     <th
                       scope="col"
@@ -130,9 +179,14 @@ const MyProducts = () => {
                   </tr>
                 </thead>
                 <tbody className=" divide-y divide-gray-100  bg-secondary-color">
-                  {products?.map((product, idx) => (
-                    <tr key={product?._id} className="text-center h-16">
-                      <th className="text-sm font-light ">{idx + 1}</th>
+                  {sortedProducts?.map((product, idx) => (
+                    <tr
+                      key={product?._id}
+                      className="text-center h-16 hover:bg-gray-300/50 transition-all"
+                    >
+                      <th className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {idx + 1}
+                      </th>
                       <td>
                         <LazyLoadImage
                           effect="opacity"
@@ -141,25 +195,41 @@ const MyProducts = () => {
                           className="w-12 h-12 mx-auto"
                         />
                       </td>
-                      <td className="text-left">{product?.posted_on}</td>
-                      <td className="text-left">{product?.name}</td>
-                      <td>{product?.category}</td>
-                      <td>{product?.brand ?? "No brand"}</td>
-                      <td>{product?.price}</td>
-                      <td>{product?.stock}</td>
-                      <td className="text-left">
-                        {product?.sizes.length === 0
-                          ? "No sizes avaiable"
-                          : product?.sizes.map((size, idx) => (
-                              <span
-                                key={size?.id}
-                                className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
-                              >
-                                {size.name}
-                              </span>
-                            ))}
+                      <td className="text-left px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {product?.posted_on.split(" ")[0]}
                       </td>
-                      <td className="space-x-2">
+                      <td className="text-left px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {product?.name}
+                      </td>
+                      <td className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {product?.category}
+                      </td>
+                      <td className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {product?.brand ?? "No brand"}
+                      </td>
+                      <td className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {product?.price}
+                      </td>
+                      <td className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
+                        {product?.stock}
+                      </td>
+                      <td className="text-center">
+                        {product?.sizes.length === 0 ? (
+                          <span className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider ">
+                            No sizes avaiable
+                          </span>
+                        ) : (
+                          product?.sizes.map((size, idx) => (
+                            <span
+                              key={size?.id}
+                              className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
+                            >
+                              {size.name}
+                            </span>
+                          ))
+                        )}
+                      </td>
+                      <td className="space-x-2 px-3">
                         <FaEdit className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaEdit>
                         <Modal
                           isOpen={isOpen}
@@ -199,6 +269,11 @@ const MyProducts = () => {
             </div>
           </div>
         </div>
+        {products.length === 0 && (
+          <span className="text-center px-6 py-3  text-lg font-medium text-gray-500 uppercase tracking-wide">
+            Please add products to view details here
+          </span>
+        )}
       </div>
     </div>
   );

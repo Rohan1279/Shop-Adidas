@@ -26,13 +26,13 @@ export default function Modal({
             leaveTo="opacity-0"
           >
             <div
-              className={`fixed inset-0 bg-secondary-color ${
-                isOpen && "opacity-60"
+              className={`fixed inset-0 bg-secondary-color   ${
+                isOpen && "opacity-60 "
               } `}
             />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 overflow-y-auto backdrop-blur-sm">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
@@ -43,7 +43,7 @@ export default function Modal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="bg-secondary-color rounded-lg shadow-nm p-6 mx-4 md:mx-0 w-full md:w-2/3 lg:w-1/2">
+                <Dialog.Panel className="bg-secondary-color rounded-lg shadow-nm p-6 mx-4 md:mx-0 w-full md:w-2/3 lg:w-1/3">
                   <div className="text-center">
                     <h3 className="text-lg font-medium mb-2">
                       {confirmMessage}
