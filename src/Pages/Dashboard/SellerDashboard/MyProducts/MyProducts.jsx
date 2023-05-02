@@ -15,9 +15,6 @@ const MyProducts = () => {
   const navigate = useNavigate();
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
-  const [sortField, setSortField] = useState("posted_on");
-  const [sortingOrder, setsortingOrder] = useState(-1);
-  const [sortedProducts, setsortedProducts] = useState([]);
 
   const {
     data: products = [],
@@ -39,6 +36,8 @@ const MyProducts = () => {
         }
       ).then((res) => res.json()),
   });
+  const [sortedProducts, setsortedProducts] = useState(products);
+  const [dateAscending, setdateAscending] = useState(true);
 
   useEffect(() => {
     // refetch();
@@ -46,13 +45,29 @@ const MyProducts = () => {
     // console.log(`%c${isRefetching}`, "color: yellow; font-size: 24px;");
     console.log("%cRe Rendered!", "color: yellow; font-size: 24px;");
     setsortedProducts(products);
-  }, [products]);
+    if (!dateAscending) {
+      setsortedProducts(
+        [...products].sort(
+          (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
+        )
+      );
+    } else {
+      setsortedProducts(
+        [...products].sort(
+          (a, b) => new Date(a.posted_on) - new Date(b.posted_on)
+        )
+      );
+    }
+  }, [products, dateAscending]);
   // console.log(products);
   const sortByDate = () => {
+    if (!dateAscending) {
+    }
     const dateSortedArray = [...products].sort(
       (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
     );
     setsortedProducts(dateSortedArray);
+    setdateAscending(!dateAscending);
   };
   const sortByPrice = () => {
     const priceSortedArray = [...products].sort((a, b) => b.price - a.price);
@@ -117,16 +132,16 @@ const MyProducts = () => {
                       //   setSortField("posted_on");
                       //   setsortingOrder(1);
                       // }}
-                      onClick={sortByDate}
+                      onClick={() => setdateAscending(!dateAscending)}
                       title="Sort by descending"
                       className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
                       <span>Date</span>
-                      {/* <TbSortAscending className="text-xl "></TbSortAscending> */}
-                      <TbSortDescending
-                        title="Sort by descending"
-                        className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"
-                      ></TbSortDescending>
+                      {!dateAscending ? (
+                        <TbSortAscending className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortAscending>
+                      ) : (
+                        <TbSortDescending className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortDescending>
+                      )}
                     </th>
                     <th
                       scope="col"

@@ -6,7 +6,7 @@ import { FaImage, FaImages, FaTrash } from "react-icons/fa";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { FileUploader } from "react-drag-drop-files";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Compressor from "compressorjs";
 import axios from "axios";
 import InputField from "../../../../components/InputField/InputField";
@@ -104,6 +104,7 @@ const AddProduct = () => {
   const [imgURL, setImgURL] = useState("");
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
+  const [uploadError, setUploadError] = useState(false);
   const fileTypes = ["JPG", "WEBP"];
   const error = !selectedCategory;
   const getDate = () => {
@@ -125,7 +126,7 @@ const AddProduct = () => {
     const hour = ("0" + now.getHours()).slice(-2);
     const minute = ("0" + now.getMinutes()).slice(-2);
     const second = ("0" + now.getSeconds()).slice(-2);
-    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}` ;
+    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
 
     return posted_on;
   };
@@ -247,62 +248,70 @@ const AddProduct = () => {
       //       `${import.meta.env.VITE_SERVER_URL}/upload`,
       //       imgFile
       //     );
-          // const imgId = uploadResponse.data.fileId;
-          // const imgUrl = uploadResponse.data.imgUrl;
-          const product = {
-            category_id: selectedCategory._id,
-            category: selectedCategory.name,
-            description: data.description,
-            price: data.price,
-            name: data.name,
-            color: selectedColor.name ?? "No color information available",
-            brand: data?.brand ?? "No brand",
-            stock: data.stock,
-            promo_price: data.promo_price,
-            sizes: sizes || "No sizes avaiable",
-            // imgId: imgId,
-            // img: imgUrl,
-            // googleFolderId: folderId,
-            posted_on: getDate(),
-            seller_phone: data.seller_phone,
-            seller_id: user?.uid,
-            seller_name: user?.displayName,
-            seller_email: user?.email,
-            seller_default_image:
-              "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-            reviewsCount: 0,
-            ratings: 0.0,
-            isAdvertised: false,
-            isReported: false,
-            inStock: false,
-          };
-          console.log(product);
+      // const imgId = uploadResponse.data.fileId;
+      // const imgUrl = uploadResponse.data.imgUrl;
+      const product = {
+        category_id: selectedCategory._id,
+        category: selectedCategory.name,
+        description: data.description,
+        price: data.price,
+        name: data.name,
+        color: selectedColor.name ?? "No color information available",
+        brand: data?.brand ?? "No brand",
+        stock: data.stock,
+        promo_price: data.promo_price,
+        sizes: sizes || "No sizes avaiable",
+        // imgId: imgId,
+        // img: imgUrl,
+        // googleFolderId: folderId,
+        posted_on: getDate(),
+        seller_phone: data.seller_phone,
+        seller_id: user?.uid,
+        seller_name: user?.displayName,
+        seller_email: user?.email,
+        seller_default_image:
+          "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
+        reviewsCount: 0,
+        ratings: 0.0,
+        isAdvertised: false,
+        isReported: false,
+        inStock: false,
+      };
+      // console.log(product);
 
-          fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-              authorization: `bearer ${localStorage.getItem(
-                "shop-adidas-token"
-              )}`,
-            },
-            body: JSON.stringify({ ...product }),
-          })
-            .then((res) => res.json())
-            .then((result) => {
-              console.log(result);
-
-              if (result.acknowledged) {
-                console.log(
-                  "%cProduct Added successfully!",
-                  "color: blue; font-size: 24px;"
-                );
-
-                form.reset();
-                setIsLoading(false);
-                // navigate("/dashboard/myproducts");
-              }
-            });
+      fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+        },
+        body: JSON.stringify({ ...product }),
+      })
+        .then((res) => {
+         
+          if (!res.ok) {
+            setIsLoading(false);
+            setUploadError(true);
+            throw new Error(res.statusText);
+          }
+          return res.json();
+        })
+        .then((result) => {
+         
+          if (result.acknowledged) {
+            setUploadError(false);
+            console.log(
+              "%cProduct Added successfully!",
+              "color: blue; font-size: 24px;"
+            );
+            form.reset();
+            setIsLoading(false);
+            navigate("/dashboard/myproducts");
+          }
+        })
+        .catch((err) =>
+          console.log(`%c${err}`, "color: red; font-size: 24px;")
+        );
 
       //   } catch (error) {
       //     console.log(error);
@@ -793,6 +802,21 @@ const AddProduct = () => {
 
         <input type="submit" />
       </form> */}
+      {uploadError && (
+        <p className="text-center my-4 px-6 py-3  text-sm font-medium text-gray-500  tracking-wider">
+          Please{" "}
+          <span
+            onClick={() => {
+              logOut();
+              navigate("/login");
+            }}
+            className="inline-block text-blue-400 hover:underline  cursor-pointer "
+          >
+            login
+          </span>{" "}
+          again if error persists.
+        </p>
+      )}
     </div>
   );
 };
