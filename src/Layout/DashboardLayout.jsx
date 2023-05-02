@@ -46,14 +46,44 @@ const DashboardLayout = () => {
             ></FaBars>
           </Popover.Button>
 
+          <Tab.Group>
+            <Popover.Button className={""}>
+              {" "}
+              <FaChevronLeft className="text-sm "></FaChevronLeft>
+            </Popover.Button>
+            <Tab.List className={""}>
+              {routes.map((route, idx) => (
+                <Tab as={Fragment} key={idx}>
+                  {({ selected }) => (
+                    <Link to={route.route}>
+                      <button
+                        className={
+                          selected
+                            ? "bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block w-36 my-5"
+                            : "bg-primary-color text-gray-500 transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block w-36 my-5"
+                        }
+                      >
+                        <div className="flex justify-center items-center gap-x-2  min-w-max">
+                          {route.icon}
+                          {isDrawerOpen && <span>{route.name}</span>}
+                        </div>
+                      </button>
+                    </Link>
+                  )}
+                </Tab>
+              ))}
+            </Tab.List>
+            <Tab.Panels></Tab.Panels>
+          </Tab.Group>
+
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"
-            enterFrom="opacity-0 -translate-x-4"
+            enterFrom="opacity-0 -translate-x-8"
             enterTo="opacity-100 translate-x-0"
             leave="transition ease-in-out duration-150"
             leaveFrom="opacity-100 translate-x-0"
-            leaveTo="opacity-0 -translate-x-4"
+            leaveTo="opacity-0 -translate-x-8"
           >
             <Popover.Panel className="h-screen z-50 bg-secondary-color ">
               {(userRole === "Seller" || isSeller) && (
@@ -62,7 +92,7 @@ const DashboardLayout = () => {
                     !isDrawerOpen && "w-32 hidden"
                   } transition-all ease-linear duration-300`}
                 >
-                  <Tab.Group>
+                  {/* <Tab.Group>
                     <Popover.Button className={""}>
                       {" "}
                       <FaChevronLeft
@@ -94,7 +124,7 @@ const DashboardLayout = () => {
                     
                     </Tab.List>
                     <Tab.Panels></Tab.Panels>
-                  </Tab.Group>
+                  </Tab.Group> */}
                   {/* <NavLink
                     to={"/dashboard"}
                     className={({ isActive }) =>

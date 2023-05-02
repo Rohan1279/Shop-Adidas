@@ -15,7 +15,11 @@ export default function Modal({
     <>
       {children}
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsOpen(false)}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -55,9 +59,10 @@ export default function Modal({
 
                     <div className="space-x-3">
                       <button
-                      type="button"
-                      onClick={()=>setIsOpen(false)}
-                       className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200">
+                        type="button"
+                        onClick={() => setIsOpen(false)}
+                        className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
+                      >
                         Cancel
                       </button>
                       <button

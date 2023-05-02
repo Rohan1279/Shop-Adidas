@@ -38,44 +38,37 @@ const MyProducts = () => {
   });
   const [sortedProducts, setsortedProducts] = useState(products);
   const [dateAscending, setdateAscending] = useState(true);
+  const [priceAscending, setPriceAscending] = useState(true);
 
   useEffect(() => {
     // refetch();
-    // console.log(`%c${url}`, "color: yellow; font-size: 24px;");
     // console.log(`%c${isRefetching}`, "color: yellow; font-size: 24px;");
     console.log("%cRe Rendered!", "color: yellow; font-size: 24px;");
     setsortedProducts(products);
-    if (!dateAscending) {
-      setsortedProducts(
-        [...products].sort(
-          (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
+  }, [products]);
+  const sortByDate = async () => {
+    console.log(`sortByDate`);
+    dateAscending
+      ? setsortedProducts(
+          [...products].sort(
+            (a, b) => new Date(a.posted_on) - new Date(b.posted_on)
+          )
         )
-      );
-    } else {
-      setsortedProducts(
-        [...products].sort(
-          (a, b) => new Date(a.posted_on) - new Date(b.posted_on)
-        )
-      );
-    }
-  }, [products, dateAscending]);
-  // console.log(products);
-  const sortByDate = () => {
-    if (!dateAscending) {
-    }
-    const dateSortedArray = [...products].sort(
-      (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
-    );
-    setsortedProducts(dateSortedArray);
-    setdateAscending(!dateAscending);
+      : setsortedProducts(
+          [...products].sort(
+            (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
+          )
+        );
   };
   const sortByPrice = () => {
-    const priceSortedArray = [...products].sort((a, b) => b.price - a.price);
-    setsortedProducts(priceSortedArray);
+    console.log(`sortByPrice`);
+
+    priceAscending
+      ? setsortedProducts([...products].sort((a, b) => a.price - b.price))
+      : setsortedProducts([...products].sort((a, b) => b.price - a.price));
   };
   const confirmModal = async () => {
     setIsOpen(false);
-
     try {
       // Delete the selected product
       const response = await axios.delete(
@@ -110,7 +103,7 @@ const MyProducts = () => {
               <table className="min-w-full divide-y divide-gray-200 ">
                 <thead className="bg-gray-300/60 ">
                   <tr
-                    className={`text-center  
+                    className={`text-center select-none
                   ${products.length === 0 && "select-none"}
                   `}
                   >
@@ -132,15 +125,18 @@ const MyProducts = () => {
                       //   setSortField("posted_on");
                       //   setsortingOrder(1);
                       // }}
-                      onClick={() => setdateAscending(!dateAscending)}
+                      onClick={() => {
+                        sortByDate();
+                        setdateAscending(!dateAscending);
+                      }}
                       title="Sort by descending"
                       className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
                       <span>Date</span>
                       {!dateAscending ? (
-                        <TbSortAscending className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortAscending>
+                        <TbSortAscending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortAscending>
                       ) : (
-                        <TbSortDescending className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortDescending>
+                        <TbSortDescending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortDescending>
                       )}
                     </th>
                     <th
@@ -163,15 +159,19 @@ const MyProducts = () => {
                     </th>
                     <th
                       scope="col"
-                      onClick={sortByPrice}
+                      onClick={() => {
+                        sortByPrice();
+                        setPriceAscending(!priceAscending);
+                      }}
                       title="Sort by descending"
                       className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
                       <span>Price</span>
-                      <TbSortDescending
-                        title="Sort by descending"
-                        className="text-xl text-blue-900 hover:scale-105 transition-all font-extrabold cursor-pointer"
-                      ></TbSortDescending>
+                      {!priceAscending ? (
+                        <TbSortAscending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortAscending>
+                      ) : (
+                        <TbSortDescending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortDescending>
+                      )}
                     </th>
                     <th
                       scope="col"
