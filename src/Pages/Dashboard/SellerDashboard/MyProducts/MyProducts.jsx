@@ -81,6 +81,19 @@ const MyProducts = () => {
       console.log(response);
       if (response.data) {
         refetch();
+        // selectedProduct?.imgId
+        axios
+          .delete(
+            `${import.meta.env.VITE_SERVER_URL}/files/${selectedProduct?.imgId}`
+          )
+          .then(() => {
+            console.log(
+              `File with ID: ${selectedProduct?.imgId} has been deleted`
+            );
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       }
     } catch (error) {
       console.error(error);
@@ -245,7 +258,7 @@ const MyProducts = () => {
                           product?.sizes.map((size, idx) => (
                             <span
                               key={size?.id}
-                              className="inline-flex items-center border border-gray-400 gap-1.5 p-1 w-6  rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
+                              className=" items-center border border-gray-400 p-1 w-6 inline-block rounded-md text-xs text-center text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
                             >
                               {size.name}
                             </span>

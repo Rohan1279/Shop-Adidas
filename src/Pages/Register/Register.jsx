@@ -85,7 +85,7 @@ const Register = () => {
         setAuthToken(user);
         verifyEmail().then(() => {
           console.log(
-            "%cPlease email for verification",
+            "%Email sent for verification",
             "color: yellow; font-size: 24px;"
           );
           // navigate(from, { replace: true });
