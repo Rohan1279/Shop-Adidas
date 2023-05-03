@@ -231,94 +231,92 @@ const AddProduct = () => {
     }, []);
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
-
-      // try {
-      //   // Create a route to create a new folder
-      //   //? take username if user creates a profile with phone no and such...
-      //   const folderName = `${user?.email}`;
-      //   const response = await axios.put(
-      //     `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-      //     { folderName }
-      //   );
-      //   const folderId = response.data.folderId;
-      //   // Upload file
-      //   try {
-      //     imgFile.append("folderId", folderId);
-      //     const uploadResponse = await axios.post(
-      //       `${import.meta.env.VITE_SERVER_URL}/upload`,
-      //       imgFile
-      //     );
-      // const imgId = uploadResponse.data.fileId;
-      // const imgUrl = uploadResponse.data.imgUrl;
-      const product = {
-        category_id: selectedCategory._id,
-        category: selectedCategory.name,
-        description: data.description,
-        price: data.price,
-        name: data.name,
-        color: selectedColor.name ?? "No color information available",
-        brand: data?.brand ?? "No brand",
-        stock: data.stock,
-        promo_price: data.promo_price,
-        sizes: sizes || "No sizes avaiable",
-        // imgId: imgId,
-        // img: imgUrl,
-        // googleFolderId: folderId,
-        posted_on: getDate(),
-        seller_phone: data.seller_phone,
-        seller_id: user?.uid,
-        seller_name: user?.displayName,
-        seller_email: user?.email,
-        seller_default_image:
-          "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-        reviewsCount: 0,
-        ratings: 0.0,
-        isAdvertised: false,
-        isReported: false,
-        inStock: false,
-      };
-      // console.log(product);
-
-      fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-        },
-        body: JSON.stringify({ ...product }),
-      })
-        .then((res) => {
-         
-          if (!res.ok) {
-            setIsLoading(false);
-            setUploadError(true);
-            throw new Error(res.statusText);
-          }
-          return res.json();
-        })
-        .then((result) => {
-         
-          if (result.acknowledged) {
-            setUploadError(false);
-            console.log(
-              "%cProduct Added successfully!",
-              "color: blue; font-size: 24px;"
-            );
-            form.reset();
-            setIsLoading(false);
-            navigate("/dashboard/myproducts");
-          }
-        })
-        .catch((err) =>
-          console.log(`%c${err}`, "color: red; font-size: 24px;")
+      try {
+        // Create a route to create a new folder
+        //? take username if user creates a profile with phone no and such...
+        const folderName = `${user?.email}`;
+        const response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+          { folderName }
         );
+        const folderId = response.data.folderId;
+        // Upload file
+        try {
+          imgFile.append("folderId", folderId);
+          const uploadResponse = await axios.post(
+            `${import.meta.env.VITE_SERVER_URL}/upload`,
+            imgFile
+          );
+          const imgId = uploadResponse.data.fileId;
+          const imgUrl = uploadResponse.data.imgUrl;
+          const product = {
+            category_id: selectedCategory._id,
+            category: selectedCategory.name,
+            description: data.description,
+            price: data.price,
+            name: data.name,
+            color: selectedColor.name ?? "No color information available",
+            brand: data?.brand ?? "No brand",
+            stock: data.stock,
+            promo_price: data.promo_price,
+            sizes: sizes || "No sizes avaiable",
+            imgId: imgId,
+            img: imgUrl,
+            googleFolderId: folderId,
+            posted_on: getDate(),
+            seller_phone: data.seller_phone,
+            seller_id: user?.uid,
+            seller_name: user?.displayName,
+            seller_email: user?.email,
+            seller_default_image:
+              "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
+            reviewsCount: 0,
+            ratings: 0.0,
+            isAdvertised: false,
+            isReported: false,
+            inStock: false,
+          };
+          // console.log(product);
 
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // } catch (e) {
-      //   console.log("error");
-      // }
+          fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              authorization: `bearer ${localStorage.getItem(
+                "shop-adidas-token"
+              )}`,
+            },
+            body: JSON.stringify({ ...product }),
+          })
+            .then((res) => {
+              if (!res.ok) {
+                setIsLoading(false);
+                setUploadError(true);
+                throw new Error(res.statusText);
+              }
+              return res.json();
+            })
+            .then((result) => {
+              if (result.acknowledged) {
+                setUploadError(false);
+                console.log(
+                  "%cProduct Added successfully!",
+                  "color: blue; font-size: 24px;"
+                );
+                form.reset();
+                setIsLoading(false);
+                navigate("/dashboard/myproducts");
+              }
+            })
+            .catch((err) =>
+              console.log(`%c${err}`, "color: red; font-size: 24px;")
+            );
+        } catch (error) {
+          console.log(error);
+        }
+      } catch (e) {
+        console.log("error");
+      }
     }
   };
   const handleApply = () => {

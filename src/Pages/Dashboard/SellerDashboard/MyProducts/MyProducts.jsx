@@ -6,6 +6,8 @@ import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Dialog, Transition } from "@headlessui/react";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+
 import Modal from "../../../../components/Modal/Modal";
 import axios from "axios";
 
@@ -203,12 +205,18 @@ const MyProducts = () => {
                         {idx + 1}
                       </th>
                       <td>
-                        <LazyLoadImage
-                          effect="opacity"
-                          src={product?.img}
-                          alt=""
-                          className="w-12 h-12 mx-auto"
-                        />
+                        {product?.img && (
+                          <PhotoProvider>
+                            <PhotoView src={product?.img}>
+                              <LazyLoadImage
+                                effect="opacity"
+                                src={product?.img}
+                                alt=""
+                                className="w-12 h-12 mx-auto"
+                              />
+                            </PhotoView>
+                          </PhotoProvider>
+                        )}
                       </td>
                       <td className="text-left px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
                         {product?.posted_on.split(" ")[0]}
