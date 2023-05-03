@@ -22,6 +22,7 @@ const MyProducts = () => {
     data: products = [],
     refetch,
     isRefetching,
+    isLoading,  
   } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
@@ -43,23 +44,19 @@ const MyProducts = () => {
   const [priceAscending, setPriceAscending] = useState(true);
 
   useEffect(() => {
-    // refetch();
-    // console.log(`%c${isRefetching}`, "color: yellow; font-size: 24px;");
+    refetch();
     console.log("%cRe Rendered!", "color: yellow; font-size: 24px;");
     setsortedProducts(products);
-  }, [products]);
-  const sortByDate = async () => {
+    sortByDate()
+  }, [products,dateAscending]);
+  const sortByDate = () => {
     console.log(`sortByDate`);
     dateAscending
       ? setsortedProducts(
-          [...products].sort(
-            (a, b) => new Date(a.posted_on) - new Date(b.posted_on)
-          )
+          [...products].sort((a, b) =>  a.posted_on.localeCompare(b.posted_on))
         )
       : setsortedProducts(
-          [...products].sort(
-            (a, b) => new Date(b.posted_on) - new Date(a.posted_on)
-          )
+          [...products].sort((a, b) => b.posted_on.localeCompare(a.posted_on))
         );
   };
   const sortByPrice = () => {
@@ -82,18 +79,22 @@ const MyProducts = () => {
       if (response.data) {
         refetch();
         // selectedProduct?.imgId
-        axios
-          .delete(
-            `${import.meta.env.VITE_SERVER_URL}/files/${selectedProduct?.imgId}`
-          )
-          .then(() => {
-            console.log(
-              `File with ID: ${selectedProduct?.imgId} has been deleted`
-            );
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        if (selectedProduct?.img || selectedProduct?.id) {
+          axios
+            .delete(
+              `${import.meta.env.VITE_SERVER_URL}/files/${
+                selectedProduct?.imgId
+              }`
+            )
+            .then(() => {
+              console.log(
+                `File with ID: ${selectedProduct?.imgId} has been deleted`
+              );
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -141,7 +142,7 @@ const MyProducts = () => {
                       //   setsortingOrder(1);
                       // }}
                       onClick={() => {
-                        sortByDate();
+                        // sortByDate();
                         setdateAscending(!dateAscending);
                       }}
                       title="Sort by descending"
@@ -305,11 +306,12 @@ const MyProducts = () => {
             </div>
           </div>
         </div>
-        {products.length === 0 && (
+        {products.length === 0 && !isLoading && (
           <span className="text-center px-6 py-3  text-lg font-medium text-gray-500 uppercase tracking-wide">
             Please add products to view details here
           </span>
         )}
+        {isLoading && <div className="continuous-7 my-10 mx-auto"></div>}
       </div>
     </div>
   );

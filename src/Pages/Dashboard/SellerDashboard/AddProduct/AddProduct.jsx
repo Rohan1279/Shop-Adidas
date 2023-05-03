@@ -69,6 +69,7 @@ const pantsSizes = [
   { id: "4", name: "32", quantity: "", price: "" },
   { id: "5", name: "34", quantity: "", price: "" },
 ];
+
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
@@ -231,24 +232,39 @@ const AddProduct = () => {
     }, []);
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
-      try {
-        // Create a route to create a new folder
-        //? take username if user creates a profile with phone no and such...
-        const folderName = `${user?.email}`;
-        const response = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-          { folderName }
-        );
-        const folderId = response.data.folderId;
-        // Upload file
-        try {
-          imgFile.append("folderId", folderId);
-          const uploadResponse = await axios.post(
-            `${import.meta.env.VITE_SERVER_URL}/upload`,
-            imgFile
-          );
-          const imgId = uploadResponse.data.fileId;
-          const imgUrl = uploadResponse.data.imgUrl;
+
+      // try {
+      //   // Create a route to create a new folder
+      //   //? take username if user creates a profile with phone no and such...
+      //   const folderName = `${user?.email}`;
+      //   const response = await axios.put(
+      //     `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+      //     { folderName }
+      //   );
+      //   const folderId = response.data.folderId;
+      //   // Upload file
+      //   try {
+      //     imgFile.append("folderId", folderId);
+      //     // const config = {
+      //     //   onUploadProgress: function (progressEvent) {
+      //     //     const percentCompleted =
+      //     //       (progressEvent.loaded / progressEvent.total) * 100;
+      //     //     bar.setAttribute("value", percentCompleted);
+      //     //     bar.previousElementSibling.textContent = `${percentCompleted}%`;
+      //     //     if (percentCompleted === 100) {
+      //     //       bar.previousElementSibling.textContent = `Upload complete!`;
+      //     //     }
+      //     //   },
+      //     // };
+      //     // const bar = document.getElementById("progress-bar");
+      //     console.log(bar);
+      //     const uploadResponse = await axios.post(
+      //       `${import.meta.env.VITE_SERVER_URL}/upload`,
+      //       imgFile
+      //     );
+      //     const imgId = uploadResponse.data.fileId;
+      //     const imgUrl = uploadResponse.data.imgUrl;
+          // console.log(imgId, imgUrl);
           const product = {
             category_id: selectedCategory._id,
             category: selectedCategory.name,
@@ -260,9 +276,9 @@ const AddProduct = () => {
             stock: data.stock,
             promo_price: data.promo_price,
             sizes: sizes || "No sizes avaiable",
-            imgId: imgId,
-            img: imgUrl,
-            googleFolderId: folderId,
+            // imgId: imgId,
+            // img: imgUrl,
+            // googleFolderId: folderId,
             posted_on: getDate(),
             seller_phone: data.seller_phone,
             seller_id: user?.uid,
@@ -276,7 +292,6 @@ const AddProduct = () => {
             isReported: false,
             inStock: false,
           };
-          // console.log(product);
 
           fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
             method: "POST",
@@ -311,12 +326,12 @@ const AddProduct = () => {
             .catch((err) =>
               console.log(`%c${err}`, "color: red; font-size: 24px;")
             );
-        } catch (error) {
-          console.log(error);
-        }
-      } catch (e) {
-        console.log("error");
-      }
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // } catch (e) {
+      //   console.log("error");
+      // }
     }
   };
   const handleApply = () => {
@@ -765,10 +780,15 @@ const AddProduct = () => {
               disabled={error}
             ></textarea>
           </fieldset>
-
+          {/* <div>
+            <label htmlFor="progress-bar">0%</label>
+            <progress id="progress-bar" value={0} max={100}></progress>
+          </div> */}
           {isLoading ? (
             // <Loader />
-            <div className="continuous-7 my-10 mx-auto"></div>
+            <>
+              <div className="continuous-7 my-10 mx-auto"></div>
+            </>
           ) : (
             <input
               // disabled={error || selectedProductSize.length === 0 }
@@ -779,27 +799,6 @@ const AddProduct = () => {
           )}
         </div>
       </form>
-
-      {/* <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("firstName")} placeholder="First Name" />
-
-        {controlledFields.map((field, index) => {
-          return <input {...register(`fieldArray.${index}.name`)} />;
-        })}
-
-        <button
-          type="button"
-          onClick={() =>
-            append({
-              name: "bill",
-            })
-          }
-        >
-          Append
-        </button>
-
-        <input type="submit" />
-      </form> */}
       {uploadError && (
         <p className="text-center my-4 px-6 py-3  text-sm font-medium text-gray-500  tracking-wider">
           Please{" "}

@@ -10,7 +10,6 @@ export default function AddToCartModal({
   sizeError,
   setSizeError,
   handleAddToCart,
-  buttonClass,
 }) {
   let [isOpen, setIsOpen] = useState(false);
   // console.log(data);
@@ -21,12 +20,10 @@ export default function AddToCartModal({
         <button
           type="button"
           onClick={() => {
-            if (prevSize) {
-              prevSize ? handleAddToCart(data) : "";
-              !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
-            }
+            prevSize && handleAddToCart(data);
+            !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
           }}
-          className={`${buttonClass} mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
+          className={`w-1/2 mt-3 mx-auto block text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 active:shadow-nm-inset disabled:bg-gray-300`}
         >
           {modalButtonText}
         </button>
@@ -82,16 +79,16 @@ export default function AddToCartModal({
                   <div className="mt-2 md:flex justify-between  gap-x-4 ">
                     <div className="flex border-r border-zinc-500 items-ce">
                       <LazyLoadImage
-                        src={data?.img}
+                        src={data.img}
                         width={130}
                         effect={"opacity"}
                       ></LazyLoadImage>
                       {/* <img src={data.img} alt="" className="w-40" /> */}
                       <div className="px-2 leading-7  w-56">
-                        <p className="font-bold text-base ">{data?.name}</p>
+                        <p className="font-bold text-base ">{data.name}</p>
                         <p className=" ">Size: {prevSize}</p>
                         <p className="font-bold text-base">
-                          Price: ${data?.price}
+                          Price: ${data.price}
                         </p>
                         <p className="text-base">Quantity: 1</p>
                       </div>

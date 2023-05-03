@@ -59,14 +59,14 @@ export default function Modal({
 
                     <div className="space-x-3">
                       <button
-                        type="button"
+                        // type="button"
                         onClick={() => setIsOpen(false)}
                         className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
                       >
                         Cancel
                       </button>
                       <button
-                        type="submit"
+                        type="button"
                         className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
                         onClick={closeModal}
                       >
