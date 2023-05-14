@@ -90,7 +90,6 @@ const Register = () => {
           );
           // navigate(from, { replace: true });
           navigate("/");
-
         });
         // setCreatedUserEmail(user?.email);
         //   })
@@ -312,7 +311,14 @@ const Register = () => {
       <div className=" h-screen text-center">
         <p className="my-auto">Want to create a new account?</p>
         <p className="my-auto">
-          Please <button onClick={() => logOut()} className="hover:text-blue-400 hover:underline underline-offset-1">logout</button> first
+          Please{" "}
+          <button
+            onClick={() => logOut()}
+            className="hover:text-blue-400 hover:underline underline-offset-1"
+          >
+            logout
+          </button>{" "}
+          first
         </p>
       </div>
     );

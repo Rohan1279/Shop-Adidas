@@ -38,8 +38,9 @@ const Home = () => {
       enterTo="opacity-100"
     >
       <div className="px-5 min-h-screen">
-        <p className="px-6 pb-3  text-sm font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900 transition-all cursor-pointer animate-pulse">This project is currently work in progress...</p>
+        <p className="px-6 pb-3  text-sm font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900 transition-all animate-pulse select-none">This project is currently work in progress...</p>
         <Banner />
+        {/* <br className="border border-black"/> */}
       </div>
     </Transition>
   );

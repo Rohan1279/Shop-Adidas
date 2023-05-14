@@ -20,6 +20,7 @@ import MyProducts from "../Pages/Dashboard/SellerDashboard/MyProducts/MyProducts
 import MyBuyers from "../Pages/Dashboard/SellerDashboard/MyBuyers/MyBuyers";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Loader from "../components/Loader/Loader";
+import EditProduct from "../Pages/Dashboard/SellerDashboard/EditProduct/EditProduct";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,13 @@ const router = createBrowserRouter([
             <MyProducts />
           </SellerRoute>
         ),
+        children: [
+          {
+            path: "edit/:id",
+            // loader
+            element: <EditProduct />,
+          },
+        ],
       },
       {
         path: "mybuyers",

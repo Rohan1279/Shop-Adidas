@@ -29,58 +29,58 @@ const Login = () => {
     // setUserEmail(email);
 
     // check if user exist in database
-    fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data.user);
-        const userRole = data?.userRole;
-        //! record the start time
-        const startTime = new Date();
-        if (userRole) {
-          login(email, password)
-            .then((result) => {
-              //! record the end time
-              const endTime = new Date();
-              const responseTime = endTime - startTime; // calculate the response time
-              console.log(
-                `%cResponse time: ${responseTime}ms`,
-                "color: yellow; font-size: 24px;"
-              );
-              // console.log(result);
-              const user = {
-                ...result?.user,
-                userRole: data?.userRole,
-              };
-              // console.log(user);
-              setAuthToken(user, logOut);
-              // setUserEmail(user?.email);
-              // useRole(user?.email);
-              // console.log(isBuyer, isSeller);
-              console.log(
-                "%cLogin successfull!",
-                "color: green; font-size: 24px;"
-              );
-              toast.success("Login successfull");
+    toast.promise(
+      fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data.user);
+          const userRole = data?.userRole;
+          //! record the start time
+          const startTime = new Date();
+          if (userRole) {
+            login(email, password)
+              .then((result) => {
+                //! record the end time
+                const endTime = new Date();
+                const responseTime = endTime - startTime; // calculate the response time
+                const user = {
+                  ...result?.user,
+                  userRole: data?.userRole,
+                };
+                setAuthToken(user, logOut);
 
-              form.reset();
-              navigate(from, { replace: true });
+                // console.log(
+                //   "%cLogin successfull!",
+                //   "color: green; font-size: 24px;"
+                // );
+                // toast.success("Login successfull");
 
-              // console.log(isBuyer, isSeller);
-              // toast.success("Login successfull");
-            })
-            .catch((err) => {
-              console.log(err);
-              // toast.error(err.message);
-              // setIsLoading(false);
-            });
-        } else {
-          console.log(
-            "%cPlease create an account first!",
-            "color: red; font-size: 24px;"
-          );
-          setIsLoading(false);
-        }
-      });
+                form.reset();
+                navigate(from, { replace: true });
+
+                // console.log(isBuyer, isSeller);
+                // toast.success("Login successfull");
+              })
+              .catch((err) => {
+                console.log(err);
+                // toast.error(err.message);
+                // setIsLoading(false);
+              });
+          } else {
+            // console.log(
+            //   "%cPlease create an account first!",
+            //   "color: red; font-size: 24px;"
+            // );
+            setIsLoading(false);
+            toast.error("Please create an account first");
+          }
+        }),
+      {
+        loading: "Logging in",
+        success: "Login successfull",
+        error: "Error while login",
+      }
+    );
   };
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)

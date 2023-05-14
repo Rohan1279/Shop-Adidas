@@ -3,7 +3,7 @@ import { Context } from "../../../../contexts/ContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Dialog, Transition } from "@headlessui/react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
@@ -16,6 +16,7 @@ const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setselectedProduct] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
 
@@ -46,10 +47,10 @@ const MyProducts = () => {
 
   useEffect(() => {
     refetch();
-    console.log("%cRe Rendered!", "color: yellow; font-size: 24px;");
     setsortedProducts(products);
     sortByDate();
-  }, [products, dateAscending]);
+    console.log(location.pathname.includes("/dashboard/myproducts/edit/"));
+  }, [products, dateAscending, location]);
   const sortByDate = () => {
     console.log(`sortByDate`);
     dateAscending
@@ -105,11 +106,14 @@ const MyProducts = () => {
     setselectedProduct(product);
     setIsOpen(true);
   }
-  // console.log(products);
 
   return (
     <div className="min-h-screen py-10 px-5">
-      <div className="flex flex-col max-w-7xl mx-auto mt-10">
+      <div
+        className={`flex flex-col max-w-7xl mx-auto mt-10 ${
+          location.pathname.includes("/dashboard/myproducts/edit/") && "hidden"
+        }`}
+      >
         <div className="-my-2  sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             {/* <h1 className="py-3 text-4xl font-medium text-gray-500 uppercase tracking-wider">Products</h1> */}
@@ -270,7 +274,14 @@ const MyProducts = () => {
                       </td>
                       <td className="space-x-2">
                         <div className="flex flex-wrap gap-2 py-2 justify-center">
-                          <FaEdit className="active: bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaEdit>
+                          <FaEdit
+                            onClick={() => {
+                              navigate(`edit/${product._id}`, {
+                                state: product,
+                              });
+                            }}
+                            className="active: bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
+                          ></FaEdit>
                           <Modal
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}
@@ -310,16 +321,6 @@ const MyProducts = () => {
             </div>
           </div>
         </div>
-        <button
-          className="my-10 bg-blue-300 w-20 mx-auto h-14 rounded-md"
-          onClick={() => {
-            toast.loading("Login successfull");
-            toast.success("Login successfull");
-            toast.error("Login successfull");
-          }}
-        >
-          Open Toast
-        </button>
         {products.length === 0 && !isLoading && (
           <span className="text-center px-6 py-3 font-medium text-gray-500 uppercase tracking-wide">
             Please add products to view details here
@@ -327,6 +328,7 @@ const MyProducts = () => {
         )}
         {isLoading && <div className="continuous-7 my-10 mx-auto"></div>}
       </div>
+      <Outlet />
     </div>
   );
 };
