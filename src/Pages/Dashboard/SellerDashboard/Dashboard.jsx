@@ -75,7 +75,7 @@ const Dashboard = () => {
     }
   };
   return (
-    <div className="h-screen">
+    <div className="h-screen ">
       <h3 className="text-3xl text-center ">Dashboard Page</h3>
       {/* <span className="inline-flex items-center gap-1.5 py-1.5 pl-3 pr-2 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
         Badge

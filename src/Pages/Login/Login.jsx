@@ -6,6 +6,7 @@ import Loader from "../../components/Loader/Loader";
 import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
 import useRole from "../../hooks/useRole";
+import { toast } from "react-hot-toast";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -59,6 +60,8 @@ const Login = () => {
                 "%cLogin successfull!",
                 "color: green; font-size: 24px;"
               );
+              toast.success("Login successfull");
+
               form.reset();
               navigate(from, { replace: true });
 

@@ -12,7 +12,11 @@ const SellerRoute = ({ children }) => {
   // console.log(isSeller);
   const location = useLocation();
   if (loading || isSellerLoading) {
-    return <Loader />;
+    return (
+      <div className="w-full h-screen flex items-center justify-center  backdrop-blur-sm">
+        <Loader></Loader>
+      </div>
+    );
   }
   if (user && isSeller) {
     return children;

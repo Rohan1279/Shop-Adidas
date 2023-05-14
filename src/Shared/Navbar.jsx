@@ -120,7 +120,7 @@ const Navbar = () => {
                               user?.email ? (
                                 <NavLink
                                   onClick={() => setActive(!active)}
-                                  to={"/dashboard"}
+                                  to={"/dashboard/home"}
                                   className={({ isActive }) =>
                                     isActive
                                       ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
@@ -217,7 +217,7 @@ const Navbar = () => {
 
                 {(userRole === "Seller" || isSeller) && user?.email ? (
                   <NavLink
-                    to={"/dashboard"}
+                    to={"/dashboard/home"}
                     className={({ isActive }) =>
                       isActive
                         ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`

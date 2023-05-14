@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
 import {
+  FaArrowLeft,
   FaBars,
   FaBuyNLarge,
   FaCartPlus,
@@ -35,164 +36,109 @@ const DashboardLayout = () => {
   return (
     <div className="">
       <Navbar />
-      <div className="mt-16 flex max-h-full">
+      <div className="mt-16 flex max-h-full ">
         {/* //!DRAWER */}
-        <Popover className="relative z-50">
-          <Popover.Button className={"absolute left-5 "}>
-            {" "}
-            <FaBars
-              className=""
-              // onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-            ></FaBars>
-          </Popover.Button>
-
-          <Tab.Group>
-            <Popover.Button className={""}>
+        <div className="hidden md:block max-h-full shadow-xl px-5 pt-10">
+          {/* <Popover.Button className={""}>
               {" "}
               <FaChevronLeft className="text-sm "></FaChevronLeft>
-            </Popover.Button>
-            <Tab.List className={""}>
-              {routes.map((route, idx) => (
-                <Tab as={Fragment} key={idx}>
-                  {/* {({ selected }) => ( */}
-                  <NavLink to={route.route}
-                  className={({ isActive }) =>
-                  isActive
-                    ? `bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block `
-                    : "bg-primary-color text-gray-500 transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block "
-                }     
-                  >
-                    <button
-                    >
-                      <div className="flex justify-center items-center gap-x-2  min-w-max">
-                        {route.icon}
-                        {isDrawerOpen && <span>{route.name}</span>}
-                      </div>
-                    </button>
-                  </NavLink>
-                  {/*)} */}
-                </Tab>
-              ))}
-            </Tab.List>
-            <Tab.Panels></Tab.Panels>
-          </Tab.Group>
-
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 -translate-x-8"
-            enterTo="opacity-100 translate-x-0"
-            leave="transition ease-in-out duration-150"
-            leaveFrom="opacity-100 translate-x-0"
-            leaveTo="opacity-0 -translate-x-8"
-          >
-            <Popover.Panel className="h-screen z-50 bg-secondary-color ">
-              {(userRole === "Seller" || isSeller) && (
-                <div
-                  className={`w-fit text-left text-2xl bg-primary-color pt-20 px-5 space-y-5 absolute z-50 h-full  ${
-                    !isDrawerOpen && "w-32 hidden"
-                  } transition-all ease-linear duration-300`}
-                >
-                  {/* <Tab.Group>
-                    <Popover.Button className={""}>
-                      {" "}
-                      <FaChevronLeft
-                        className="text-sm "
-                       
-                      ></FaChevronLeft>
-                    </Popover.Button>
-                    <Tab.List className={""}>
-                      {routes.map((route, idx) => (
-                        <Tab as={Fragment} key={idx}>
-                          {({ selected }) => (
-                            <Link to={route.route}>
-                              <button
-                                className={
-                                  selected
-                                    ? "bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block w-36 my-5"
-                                    : "bg-primary-color text-gray-500 transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block w-36 my-5"
-                                }
-                              >
-                                <div className="flex justify-center items-center gap-x-2  min-w-max">
-                                  {route.icon}
-                                  {isDrawerOpen && <span>{route.name}</span>}
-                                </div>
-                              </button>
-                            </Link>
-                          )}
-                        </Tab>
-                      ))}
-                    
-                    </Tab.List>
-                    <Tab.Panels></Tab.Panels>
-                  </Tab.Group> */}
-                  {/* <NavLink
-                    to={"/dashboard"}
-                    className={({ isActive }) =>
-                      isActive
-                        ? `bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block `
-                        : "bg-primary-color text-gray-500 transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block "
-                    }
-                  >
-                    <div className="flex justify-center items-center gap-x-2 ">
-                      <FaHome></FaHome>
-                      {isDrawerOpen && <span>Dashboard</span>}
-                    </div>
-                  </NavLink> */}
-
-                  {/* <NavLink
-                    to={"addproduct"}
-                    className={({ isActive }) =>
-                      isActive
-                        ? `bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block `
-                        : "bg-primary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
-                    }
-                  >
-                    <div className="flex justify-center items-center gap-x-2 min-w-max">
-                      <FaCartPlus></FaCartPlus>
-                      {isDrawerOpen && <span>Add Product</span>}
-                    </div>
-                  </NavLink> */}
-                  {/* <NavLink
-                    to={"myproducts"}
-                    className={({ isActive }) =>
-                      isActive
-                        ? `bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block `
-                        : "bg-primary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
-                    }
-                  >
-                    <div className="flex justify-center items-center gap-x-2">
-                      <FaListAlt></FaListAlt>
-                      {isDrawerOpen && <span>My Products</span>}
-                    </div>
-                  </NavLink>
-                  <NavLink
-                    to={"mybuyers"}
-                    className={({ isActive }) =>
-                      isActive
-                        ? `bg-primary-color text-gray-800 shadow-nm-inset hover: transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block `
-                        : "bg-primary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
-                    }
-                  >
-                    <div className="flex justify-center items-center gap-x-2">
-                      <FaShopify></FaShopify>
-                      {isDrawerOpen && <span>My Buyers</span>}
-                    </div>
-                  </NavLink> */}
+            </Popover.Button> */}
+          <div>
+            <img
+              className="rounded-full border  bg-[#7fe7fc]/60"
+              src="https://cdn2.iconfinder.com/data/icons/male-avatars/256/avatars_accounts___man_male_people_person_hat_cap_baseball_cap_necklace_shirtless.png"
+              alt=""
+            />
+          </div>
+          {routes.map((route, idx) => (
+            <NavLink
+              key={idx}
+              to={route.route}
+              className={({ isActive }) =>
+                isActive
+                  ? `min-w-max w-52 text-center   mt-4 bg-[#] text-gray-800 shadow-nm-inset  transition-all hover:text-gray-800  py-2 rounded-md text-sm font-bold border border-zinc-300 block `
+                  : "min-w-max  w-52 text-center  mt-4 bg-[#] text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 block "
+              }
+            >
+              <button>
+                <div className="flex justify-center items-center gap-x-2 min-w-max">
+                  {route.icon}
+                  {isDrawerOpen && <span>{route.name}</span>}
                 </div>
-              )}
-            </Popover.Panel>
-          </Transition>
+              </button>
+            </NavLink>
+          ))}
+        </div>
+        <Popover className="block md:hidden relative z-40 ">
+          {({ open }) => (
+            <>
+              <Popover.Button className={"absolute left-5 z-10"}>
+                {" "}
+                {open ? (
+                  <FaArrowLeft></FaArrowLeft>
+                ) : (
+                  <FaBars
+                    className=""
+                    // onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                  ></FaBars>
+                )}
+              </Popover.Button>
+
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 -translate-x-8 "
+                enterTo="opacity-100 translate-x-0"
+                leave="transition ease-in-out duration-150"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 -translate-x-8"
+              >
+                <Popover.Panel className="h-screen z-50 ">
+                  {(userRole === "Seller" || isSeller) && (
+                    <div className="absolute min-h-screen   shadow-xl px-5 pt-10 bg-secondary-color">
+                      <div>
+                        <img
+                          className="rounded-full border  bg-[#7fe7fc]/60"
+                          src="https://cdn2.iconfinder.com/data/icons/male-avatars/256/avatars_accounts___man_male_people_person_hat_cap_baseball_cap_necklace_shirtless.png"
+                          alt=""
+                        />
+                      </div>
+                      {routes.map((route, idx) => (
+                        <NavLink
+                          key={idx}
+                          to={route.route}
+                          className={({ isActive }) =>
+                            isActive
+                              ? `min-w-max w-52 text-center   mt-4 bg-[#] text-gray-800 shadow-nm-inset  transition-all hover:text-gray-800  py-2 rounded-md text-sm font-bold border border-zinc-300 block `
+                              : "min-w-max  w-52 text-center  mt-4 bg-[#] text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 block "
+                          }
+                        >
+                          <button>
+                            <div className="flex justify-center items-center gap-x-2 min-w-max">
+                              {route.icon}
+                              {isDrawerOpen && <span>{route.name}</span>}
+                            </div>
+                          </button>
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </Popover.Panel>
+              </Transition>
+            </>
+          )}
         </Popover>
 
         <Suspense
           fallback={
-            <div className="w-full h-screen ">
+            <div className="w-full h-screen">
               <Loader></Loader>
             </div>
           }
         >
-          <div className={`transition-all w-full h-fit`}>
+          <div
+            className={`transition-all w-screen h-fit overflow-x-scroll z-0`}
+          >
             <Outlet />
           </div>
         </Suspense>

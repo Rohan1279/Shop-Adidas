@@ -10,6 +10,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import Modal from "../../../../components/Modal/Modal";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,7 @@ const MyProducts = () => {
     data: products = [],
     refetch,
     isRefetching,
-    isLoading,  
+    isLoading,
   } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
@@ -47,13 +48,13 @@ const MyProducts = () => {
     refetch();
     console.log("%cRe Rendered!", "color: yellow; font-size: 24px;");
     setsortedProducts(products);
-    sortByDate()
-  }, [products,dateAscending]);
+    sortByDate();
+  }, [products, dateAscending]);
   const sortByDate = () => {
     console.log(`sortByDate`);
     dateAscending
       ? setsortedProducts(
-          [...products].sort((a, b) =>  a.posted_on.localeCompare(b.posted_on))
+          [...products].sort((a, b) => a.posted_on.localeCompare(b.posted_on))
         )
       : setsortedProducts(
           [...products].sort((a, b) => b.posted_on.localeCompare(a.posted_on))
@@ -111,6 +112,7 @@ const MyProducts = () => {
       <div className="flex flex-col max-w-7xl mx-auto mt-10">
         <div className="-my-2  sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            {/* <h1 className="py-3 text-4xl font-medium text-gray-500 uppercase tracking-wider">Products</h1> */}
             <div
               className={`shadow  border-b border-gray-200 sm:rounded-none ${
                 products.length === 0 && "blur-sm"
@@ -169,7 +171,7 @@ const MyProducts = () => {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider "
                     >
                       Brand
                     </th>
@@ -250,9 +252,9 @@ const MyProducts = () => {
                       <td className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
                         {product?.stock}
                       </td>
-                      <td className="text-center">
+                      <td className=" ">
                         {product?.sizes.length === 0 ? (
-                          <span className="px-6 py-3  text-sm font-medium text-gray-700  tracking-wider ">
+                          <span className=" py-3 text-sm font-medium text-gray-700 tracking-wider text-justify">
                             No sizes avaiable
                           </span>
                         ) : (
@@ -266,38 +268,40 @@ const MyProducts = () => {
                           ))
                         )}
                       </td>
-                      <td className="space-x-2 px-3">
-                        <FaEdit className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaEdit>
-                        <Modal
-                          isOpen={isOpen}
-                          setIsOpen={setIsOpen}
-                          closeModal={confirmModal}
-                          openModal={openModal}
-                          data={selectedProduct}
-                          confirmMessage={
-                            "Are you sure to delete the following"
-                          }
-                          confirmButtonText={"Confirm"}
-                        >
-                          <FaTrashAlt
-                            onClick={() => {
-                              openModal(product);
-                              // viewproduct(product?._id);
-                            }}
-                            className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
-                          ></FaTrashAlt>
-                        </Modal>
+                      <td className="space-x-2">
+                        <div className="flex flex-wrap gap-2 py-2 justify-center">
+                          <FaEdit className="active: bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"></FaEdit>
+                          <Modal
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                            closeModal={confirmModal}
+                            openModal={openModal}
+                            data={selectedProduct}
+                            confirmMessage={
+                              "Are you sure to delete the following"
+                            }
+                            confirmButtonText={"Confirm"}
+                          >
+                            <FaTrashAlt
+                              onClick={() => {
+                                openModal(product);
+                                // viewproduct(product?._id);
+                              }}
+                              className="active: bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
+                            ></FaTrashAlt>
+                          </Modal>
 
-                        <FaEye
-                          onClick={() => {
-                            navigate(`/products/product/${product._id}`, {
-                              state: product,
-                            });
-                          }}
-                          className="inline-block bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
-                        >
-                          {/* <Link to={`/products/product/${product._id}`}></Link> */}
-                        </FaEye>
+                          <FaEye
+                            onClick={() => {
+                              navigate(`/products/product/${product._id}`, {
+                                state: product,
+                              });
+                            }}
+                            className="active: bg-secondary-color w-8 h-8 p-2 rounded-md shadow-nm  cursor-pointer active:shadow-nm-inset hover:brightness-95 transition-all"
+                          >
+                            {/* <Link to={`/products/product/${product._id}`}></Link> */}
+                          </FaEye>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -306,8 +310,18 @@ const MyProducts = () => {
             </div>
           </div>
         </div>
+        <button
+          className="my-10 bg-blue-300 w-20 mx-auto h-14 rounded-md"
+          onClick={() => {
+            toast.loading("Login successfull");
+            toast.success("Login successfull");
+            toast.error("Login successfull");
+          }}
+        >
+          Open Toast
+        </button>
         {products.length === 0 && !isLoading && (
-          <span className="text-center px-6 py-3  text-lg font-medium text-gray-500 uppercase tracking-wide">
+          <span className="text-center px-6 py-3 font-medium text-gray-500 uppercase tracking-wide">
             Please add products to view details here
           </span>
         )}

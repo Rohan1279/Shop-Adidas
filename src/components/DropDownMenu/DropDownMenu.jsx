@@ -46,7 +46,7 @@ const DropDownMenu = ({
                     className="inline-flex items-center border border-gray-400 gap-1.5  py-1.5 pl-3 pr-2 rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 m-1 hover:bg-gray-200/50 transition-all"
                   >
                     <span>{item.name}</span>
-                    {/* //! CROSS_BUTTON */}
+                    {/* //! CROSS_BUTTON */}w
                     <div
                       onClick={(e) => {
                         e.stopPropagation();

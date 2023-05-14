@@ -12,6 +12,7 @@ import axios from "axios";
 import InputField from "../../../../components/InputField/InputField";
 import { memo } from "react";
 import Button from "../../../../components/Button/Button";
+import { toast } from "react-hot-toast";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -264,68 +265,70 @@ const AddProduct = () => {
       //     );
       //     const imgId = uploadResponse.data.fileId;
       //     const imgUrl = uploadResponse.data.imgUrl;
-          // console.log(imgId, imgUrl);
-          const product = {
-            category_id: selectedCategory._id,
-            category: selectedCategory.name,
-            description: data.description,
-            price: data.price,
-            name: data.name,
-            color: selectedColor.name ?? "No color information available",
-            brand: data?.brand ?? "No brand",
-            stock: data.stock,
-            promo_price: data.promo_price,
-            sizes: sizes || "No sizes avaiable",
-            // imgId: imgId,
-            // img: imgUrl,
-            // googleFolderId: folderId,
-            posted_on: getDate(),
-            seller_phone: data.seller_phone,
-            seller_id: user?.uid,
-            seller_name: user?.displayName,
-            seller_email: user?.email,
-            seller_default_image:
-              "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-            reviewsCount: 0,
-            ratings: 0.0,
-            isAdvertised: false,
-            isReported: false,
-            inStock: false,
-          };
-
-          fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-              authorization: `bearer ${localStorage.getItem(
-                "shop-adidas-token"
-              )}`,
-            },
-            body: JSON.stringify({ ...product }),
+      // console.log(imgId, imgUrl);
+      const product = {
+        category_id: selectedCategory._id,
+        category: selectedCategory.name,
+        description: data.description,
+        price: data.price,
+        name: data.name,
+        color: selectedColor.name ?? "No color information available",
+        brand: data?.brand ?? "No brand",
+        stock: data.stock,
+        promo_price: data.promo_price,
+        sizes: sizes || "No sizes avaiable",
+        // imgId: imgId,
+        // img: imgUrl,
+        // googleFolderId: folderId,
+        posted_on: getDate(),
+        seller_phone: data.seller_phone,
+        seller_id: user?.uid,
+        seller_name: user?.displayName,
+        seller_email: user?.email,
+        seller_default_image:
+          "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
+        reviewsCount: 0,
+        ratings: 0.0,
+        isAdvertised: false,
+        isReported: false,
+        inStock: false,
+      };
+      toast.promise(
+        fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem(
+              "shop-adidas-token"
+            )}`,
+          },
+          body: JSON.stringify({ ...product }),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              setIsLoading(false);
+              setUploadError(true);
+              throw new Error(res.statusText);
+            }
+            return res.json();
           })
-            .then((res) => {
-              if (!res.ok) {
-                setIsLoading(false);
-                setUploadError(true);
-                throw new Error(res.statusText);
-              }
-              return res.json();
-            })
-            .then((result) => {
-              if (result.acknowledged) {
-                setUploadError(false);
-                console.log(
-                  "%cProduct Added successfully!",
-                  "color: blue; font-size: 24px;"
-                );
-                form.reset();
-                setIsLoading(false);
-                navigate("/dashboard/myproducts");
-              }
-            })
-            .catch((err) =>
-              console.log(`%c${err}`, "color: red; font-size: 24px;")
-            );
+          .then((result) => {
+            if (result.acknowledged) {
+              setUploadError(false);
+
+              // toast.success("Product Added successfully!");
+
+              form.reset();
+              setIsLoading(false);
+              navigate("/dashboard/myproducts");
+            }
+          })
+          .catch((err) => toast.error(error)),
+        {
+          loading: "Loading",
+          success: "Product Added successfully!",
+        }
+      );
       //   } catch (error) {
       //     console.log(error);
       //   }
@@ -792,6 +795,7 @@ const AddProduct = () => {
           ) : (
             <input
               // disabled={error || selectedProductSize.length === 0 }
+
               type="submit"
               value="Submit"
               className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
