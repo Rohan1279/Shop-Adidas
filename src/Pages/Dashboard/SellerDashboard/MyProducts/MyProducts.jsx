@@ -52,7 +52,7 @@ const MyProducts = () => {
     console.log(location.pathname.includes("/dashboard/myproducts/edit/"));
   }, [products, dateAscending, location]);
   const sortByDate = () => {
-    console.log(`sortByDate`);
+    // console.log(`sortByDate`);
     dateAscending
       ? setsortedProducts(
           [...products].sort((a, b) => a.posted_on.localeCompare(b.posted_on))
@@ -62,7 +62,7 @@ const MyProducts = () => {
         );
   };
   const sortByPrice = () => {
-    console.log(`sortByPrice`);
+    // console.log(`sortByPrice`);
 
     priceAscending
       ? setsortedProducts([...products].sort((a, b) => a.price - b.price))
@@ -232,7 +232,7 @@ const MyProducts = () => {
                                 effect="opacity"
                                 src={product?.img}
                                 alt=""
-                                className="w-12 h-12 mx-auto"
+                                className="w-12 h-12 mx-auto object-cover"
                               />
                             </PhotoView>
                           </PhotoProvider>

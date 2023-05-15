@@ -32,7 +32,7 @@ function App() {
                 error: {
                   className:
                     "bg-gray-100 shadow-nm px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider select-none",
-                  duration: 62000,
+                  duration: 1000,
                   style: {
                     padding: "16px",
                     color: "#e63946",

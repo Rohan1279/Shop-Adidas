@@ -15,7 +15,7 @@ const InputField = ({
   classes,
   pattern,
   aria_invalid,
-  getValues,
+  defaultValue,
 }) => {
   return (
     <div
@@ -35,7 +35,7 @@ const InputField = ({
         </span>
       )}
       <input
-        // defaultValue={getValues}
+        defaultValue={defaultValue}
         type={type}
         maxLength={maxLength}
         minLength={minLength}

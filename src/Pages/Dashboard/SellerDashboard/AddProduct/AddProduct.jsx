@@ -201,21 +201,6 @@ const AddProduct = () => {
     // setImgSizeError(false);
     const form = e.target;
 
-    // {
-    //   _id: 63c417a57229a7dca8c2092d,
-    //   category: Men's Sneakers,
-    //   category_id: 63bc18eb473f136f0720ce09,
-    //   seller: Adidas,
-    //   name: Forum 84 Low AEC Shoes,
-    //   price: 150,
-    //   description: ,
-    //   reviewsCount: 15,
-    //   ratings: 4.9,
-    //   img: https://assets.adidas.com/images/w_600,f_auto,q_auto/63acfb46b511445181c4ae6d0165f2e3_9366/Forum_84_Low_AEC_Shoes_White_HR0557_01_standard.jpg,
-    //   color: Cloud White / Red / Cloud White,
-    //   productLinkHref: https://www.adidas.com/us/forum-84-low-aec-shoes/HR0557.html
-    // }
-
     const filteredClothSize = selectedProductSize.map((size) => {
       const index = parseInt(size.id);
       return data.selectedProductSize[index];
@@ -234,107 +219,142 @@ const AddProduct = () => {
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
 
-      // try {
-      //   // Create a route to create a new folder
-      //   //? take username if user creates a profile with phone no and such...
-      //   const folderName = `${user?.email}`;
-      //   const response = await axios.put(
-      //     `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-      //     { folderName }
-      //   );
-      //   const folderId = response.data.folderId;
-      //   // Upload file
-      //   try {
-      //     imgFile.append("folderId", folderId);
-      //     // const config = {
-      //     //   onUploadProgress: function (progressEvent) {
-      //     //     const percentCompleted =
-      //     //       (progressEvent.loaded / progressEvent.total) * 100;
-      //     //     bar.setAttribute("value", percentCompleted);
-      //     //     bar.previousElementSibling.textContent = `${percentCompleted}%`;
-      //     //     if (percentCompleted === 100) {
-      //     //       bar.previousElementSibling.textContent = `Upload complete!`;
-      //     //     }
-      //     //   },
-      //     // };
-      //     // const bar = document.getElementById("progress-bar");
-      //     console.log(bar);
-      //     const uploadResponse = await axios.post(
-      //       `${import.meta.env.VITE_SERVER_URL}/upload`,
-      //       imgFile
-      //     );
-      //     const imgId = uploadResponse.data.fileId;
-      //     const imgUrl = uploadResponse.data.imgUrl;
-      // console.log(imgId, imgUrl);
-      const product = {
-        category_id: selectedCategory._id,
-        category: selectedCategory.name,
-        description: data.description,
-        price: data.price,
-        name: data.name,
-        color: selectedColor.name ?? "No color information available",
-        brand: data?.brand ?? "No brand",
-        stock: data.stock,
-        promo_price: data.promo_price,
-        sizes: sizes || "No sizes avaiable",
-        // imgId: imgId,
-        // img: imgUrl,
-        // googleFolderId: folderId,
-        posted_on: getDate(),
-        seller_phone: data.seller_phone,
-        seller_id: user?.uid,
-        seller_name: user?.displayName,
-        seller_email: user?.email,
-        seller_default_image:
-          "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-        reviewsCount: 0,
-        ratings: 0.0,
-        isAdvertised: false,
-        isReported: false,
-        inStock: false,
-      };
-      toast.promise(
-        fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            authorization: `bearer ${localStorage.getItem(
-              "shop-adidas-token"
-            )}`,
-          },
-          body: JSON.stringify({ ...product }),
-        })
-          .then((res) => {
-            if (!res.ok) {
-              setIsLoading(false);
-              setUploadError(true);
-              throw new Error(res.statusText);
-            }
-            return res.json();
-          })
-          .then((result) => {
-            if (result.acknowledged) {
-              setUploadError(false);
+      try {
+        // Create a route to create a new folder
+        //? take username if user creates a profile with phone no and such...
+        const folderName = `${user?.email}`;
+        const response = await axios.put(
+          `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+          { folderName }
+        );
+        const folderId = response.data.folderId;
+        // Upload file
+        try {
+          imgFile.append("folderId", folderId);
+          // const config = {
+          //   onUploadProgress: function (progressEvent) {
+          //     const percentCompleted =
+          //       (progressEvent.loaded / progressEvent.total) * 100;
+          //     bar.setAttribute("value", percentCompleted);
+          //     bar.previousElementSibling.textContent = `${percentCompleted}%`;
+          //     if (percentCompleted === 100) {
+          //       bar.previousElementSibling.textContent = `Upload complete!`;
+          //     }
+          //   },
+          // };
+          // const bar = document.getElementById("progress-bar");
+          const uploadResponse = await axios.post(
+            `${import.meta.env.VITE_SERVER_URL}/upload`,
+            imgFile
+          );
+          const imgId = uploadResponse.data.fileId;
+          const imgUrl = uploadResponse.data.imgUrl;
+          console.log(imgId, imgUrl);
+          const product = {
+            category_id: selectedCategory._id,
+            category: selectedCategory.name,
+            description: data.description,
+            price: data.price,
+            name: data.name,
+            color: /^\s*$/.test(selectedColor?.name)   // check if the string is only whitespace
+              ? "No color information available"
+              : selectedColor.name,
+            brand: /^\s*$/.test(data?.brand) ? "No brand" : data?.brand,
+            stock: data.stock,
+            promo_price: data.promo_price,
+            sizes: sizes || "No sizes avaiable",
+            imgId: imgId,
+            img: imgUrl,
+            googleFolderId: folderId,
+            posted_on: getDate(),
+            seller_phone: data.seller_phone,
+            seller_id: user?.uid,
+            seller_name: user?.displayName,
+            seller_email: user?.email,
+            seller_default_image:
+              "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
+            reviewsCount: 0,
+            ratings: 0.0,
+            isAdvertised: false,
+            isReported: false,
+            inStock: false,
+          };
+          // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+          //   method: "POST",
+          //   headers: {
+          //     "content-type": "application/json",
+          //     authorization: `bearer ${localStorage.getItem(
+          //       "shop-adidas-token"
+          //     )}`,
+          //   },
+          //   body: JSON.stringify({ ...product }),
+          // })
+          //   .then((res) => {
+          //     if (!res.ok) {
+          //       setIsLoading(false);
+          //       setUploadError(true);
+          //       throw new Error(res.statusText);
+          //     }
+          //     return res.json();
+          //   })
+          //   .then((result) => {
+          //     if (result.acknowledged) {
+          //       setUploadError(false);
 
-              // toast.success("Product Added successfully!");
+          //       // toast.success("Product Added successfully!");
 
-              form.reset();
-              setIsLoading(false);
-              navigate("/dashboard/myproducts");
+          //       form.reset();
+          //       setIsLoading(false);
+          //       navigate("/dashboard/myproducts");
+          //     }
+          //   })
+          //   .catch((err) => toast.error(err))
+          toast.promise(
+            fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                authorization: `bearer ${localStorage.getItem(
+                  "shop-adidas-token"
+                )}`,
+              },
+              body: JSON.stringify({ ...product }),
+            })
+              .then((res) => {
+                if (!res.ok) {
+                  setIsLoading(false);
+                  setUploadError(true);
+                  throw new Error(res.statusText);
+                }
+                return res.json();
+              })
+              .then((result) => {
+                if (result.acknowledged) {
+                  setUploadError(false);
+
+                  // toast.success("Product Added successfully!");
+
+                  form.reset();
+                  setIsLoading(false);
+                  navigate("/dashboard/myproducts");
+                }
+              })
+              .catch((err) => toast.error(err)),
+            {
+              loading: "Loading",
+              success: "Product Added successfully!",
             }
-          })
-          .catch((err) => toast.error(error)),
-        {
-          loading: "Loading",
-          success: "Product Added successfully!",
+          );
+        } catch (error) {
+          console.log(error);
+          setIsLoading(false);
+          // toast.error(e);
         }
-      );
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // } catch (e) {
-      //   console.log("error");
-      // }
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
+        toast.error(e.message);
+      }
     }
   };
   const handleApply = () => {
@@ -377,7 +397,7 @@ const AddProduct = () => {
               types={fileTypes}
               children={
                 <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8 ">
-                  <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-300 ">
+                  <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-200 ">
                     <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
                       <span>Drag and drop your</span>&nbsp;
                       <span>files anywhere or</span>

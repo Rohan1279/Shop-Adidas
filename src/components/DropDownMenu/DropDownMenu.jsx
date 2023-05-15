@@ -46,7 +46,7 @@ const DropDownMenu = ({
                     className="inline-flex items-center border border-gray-400 gap-1.5  py-1.5 pl-3 pr-2 rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 m-1 hover:bg-gray-200/50 transition-all"
                   >
                     <span>{item.name}</span>
-                    {/* //! CROSS_BUTTON */}w
+                    {/* //! CROSS_BUTTON */}
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
@@ -54,23 +54,6 @@ const DropDownMenu = ({
                           (obj) => obj.id !== item.id
                         );
                         setSelected(newSelected);
-                        // formControl._fields.selectedClothSize =
-                        //   formControl._fields.selectedClothSize.filter(
-                        //     (size, index) => size.name !== item.name
-                        //   );
-                        // formControl._formValues.selectedClothSize =
-                        //   formControl._formValues.selectedClothSize.filter(
-                        //     (size, index) => size.name !== item.name
-                        //   );
-                        // console.log(
-                        //   formControl._fields.selectedClothSize,
-                        //   formControl._formValues.selectedClothSize
-                        // );
-
-                        // formControl._fields.selectedClothSize[idx]?.price._f.ref.value = "0"
-                        // formControl._formValues.selectedClothSize[idx]?.price = "0"
-                        // formControl._fields.selectedClothSize[idx]?.quantity._f.ref.value = "0"
-                        // formControl._formValues.selectedClothSize[idx]?.quantity = "0"
                       }}
                       type="button"
                       className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full active:shadow-nm-inset border border-gray-400 hover:text-gray-900  ml-1"
@@ -115,6 +98,7 @@ const DropDownMenu = ({
             ) : (
               "Choose an option"
             )}
+            
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FaAngleDown
