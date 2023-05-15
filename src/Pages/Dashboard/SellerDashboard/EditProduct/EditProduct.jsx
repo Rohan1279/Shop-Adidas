@@ -69,7 +69,7 @@ const pantsSizes = [
 
 const EditProduct = () => {
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
   const navigate = useNavigate();
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
@@ -100,7 +100,8 @@ const EditProduct = () => {
   const [selectedColor, setSelectedColor] = useState(
     productColors.filter((color) => color.name === state?.color)[0]
   );
-  const [selectedProductSize, setSelectedProductSize] = useState([]);
+  const [selectedProductSize, setSelectedProductSize] = useState(state?.sizes);
+  // console.log(state?.sizes);
   const [selectedCategorySizes, setselectedCategorySizes] = useState([]);
   const [imgFile, setImgFile] = useState(null);
   const [isImgDropped, setIsImgDropped] = useState(false);
@@ -121,14 +122,15 @@ const EditProduct = () => {
     let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     return posted_on;
   };
+  console.log(state);
   useEffect(() => {
-    if (
-      !clothesCategories.includes(selectedCategory) ||
-      !footWearCategories.includes(selectedCategory) ||
-      !pantsCategories.includes(selectedCategory)
-    ) {
-      setSelectedProductSize([]);
-    }
+    // if (
+    //   !clothesCategories.includes(selectedCategory) ||
+    //   !footWearCategories.includes(selectedCategory) ||
+    //   !pantsCategories.includes(selectedCategory)
+    // ) {
+    //   setSelectedProductSize([]);
+    // }
     if (clothesCategories.includes(selectedCategory)) {
       setselectedCategorySizes(clothSizes);
     } else if (footWearCategories.includes(selectedCategory)) {
@@ -174,7 +176,7 @@ const EditProduct = () => {
       const index = parseInt(size.id);
       return data.selectedProductSize[index];
     });
-    // combine filtered cloth sizes with selected cloth sizes from form
+    // combine filtered cloth sizes with selectedData cloth sizes from form
     const sizes = selectedProductSize.reduce((acc, size, index) => {
       return [
         ...acc,
@@ -432,8 +434,8 @@ const EditProduct = () => {
                   </span>
                   <div className="w-full border-l border-l-gray-300 h-11">
                     <DropDownMenu
-                      selected={selectedCategory}
-                      setSelected={setSelectedCategory}
+                      selectedData={selectedCategory}
+                      setSelectedData={setSelectedCategory}
                       array={fixedCategories}
                       // setError={setError}
                     ></DropDownMenu>
@@ -447,8 +449,8 @@ const EditProduct = () => {
                   </span>
                   <div className="w-full border-l border-l-gray-300">
                     <DropDownMenu
-                      selected={selectedColor}
-                      setSelected={setSelectedColor}
+                      selectedData={selectedColor}
+                      setSelectedData={setSelectedColor}
                       array={productColors}
                     ></DropDownMenu>
                   </div>
@@ -505,8 +507,8 @@ const EditProduct = () => {
                           !pantsCategories.includes(selectedCategory))
                       }
                       multiple={true}
-                      selected={selectedProductSize}
-                      setSelected={setSelectedProductSize}
+                      selectedData={selectedProductSize}
+                      setSelectedData={setSelectedProductSize}
                       array={selectedCategorySizes}
                     ></DropDownMenu>
                   </div>
@@ -528,6 +530,7 @@ const EditProduct = () => {
                     error={error}
                     formErrors={errors}
                     aria_invalid={errors?.price ? "true" : "false"}
+                    defaultValue={state.price}
                   ></InputField>
                   {errors.price?.type === "min" && selectedCategory && (
                     <p role="alert" className="text-red-400 text-sm">
@@ -540,7 +543,7 @@ const EditProduct = () => {
                     </p>
                   )}
                 </div>
-                {/* //! PRODUCT_QUANTITY */}
+                {/* //! PRODUCT_STOCK */}
                 <div className="col-span-1">
                   <InputField
                     fieldName={"Stock"}
@@ -552,6 +555,7 @@ const EditProduct = () => {
                     required={false}
                     pattern={/^[1-9]\d*$/}
                     error={error}
+                    defaultValue={state?.stock}
                     aria_invalid={errors?.stock ? "true" : "false"}
                   ></InputField>
                   {errors.stock?.type === "min" && selectedCategory && (
@@ -580,6 +584,7 @@ const EditProduct = () => {
                     pattern={/^[1-9]\d*$/}
                     error={error}
                     formErrors={errors}
+                    defaultValue={state?.promo_price}
                     aria-invalid={errors?.promo_price ? "true" : "false"}
                   ></InputField>
                   {errors.promo_price?.type === "pattern" && (
@@ -758,6 +763,7 @@ const EditProduct = () => {
                 }`}
                 placeholder="Description about the product"
                 disabled={error}
+                defaultValue={state?.description}
               ></textarea>
             </fieldset>
             {/* <div>

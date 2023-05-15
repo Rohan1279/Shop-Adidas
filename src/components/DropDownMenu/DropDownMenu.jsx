@@ -5,20 +5,22 @@ import { HiCheck } from "react-icons/hi";
 
 const DropDownMenu = ({
   array,
-  selected,
-  setSelected,
+  selectedData,
+  setSelectedData,
   error,
   setError,
   multiple,
   formControl,
 }) => {
+  console.log(selectedData);
   return (
     <Listbox
-      value={selected}
-      onChange={setSelected}
+      value={selectedData}
+      onChange={setSelectedData}
       as={Fragment}
       disabled={error}
       multiple={multiple}
+      // defaultValue={selectedData}
     >
       <div className="relative">
         <Listbox.Button
@@ -33,8 +35,8 @@ const DropDownMenu = ({
               error && "text-gray-300 "
             }`}
           >
-            {multiple && selected?.length !== 0 ? (
-              selected
+            {multiple && selectedData?.length !== 0 ? (
+              selectedData
                 ?.sort((a, b) => {
                   // sort id wise
                   return parseInt(a.id) - parseInt(b.id);
@@ -50,10 +52,10 @@ const DropDownMenu = ({
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        const newSelected = selected.filter(
+                        const newSelected = selectedData.filter(
                           (obj) => obj.id !== item.id
                         );
-                        setSelected(newSelected);
+                        setSelectedData(newSelected);
                       }}
                       type="button"
                       className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full active:shadow-nm-inset border border-gray-400 hover:text-gray-900  ml-1"
@@ -71,7 +73,7 @@ const DropDownMenu = ({
                     </div>
                   </span>
                 ))
-            ) : multiple && selected?.length === 0 ? (
+            ) : multiple && selectedData?.length === 0 ? (
               <span
                 className={`text-sm text-gray-500 disabled:text-gray-300 ${
                   error && "text-gray-300"
@@ -79,26 +81,25 @@ const DropDownMenu = ({
               >
                 Choose an option
               </span>
-            ) : selected?.name ? (
+            ) : selectedData?.name ? (
               <span className="flex justify-start items-center gap-x-2">
-                {selected?.hex && (
+                {selectedData?.hex && (
                   <span
-                    style={{ backgroundColor: `${selected?.hex}` }}
+                    style={{ backgroundColor: `${selectedData?.hex}` }}
                     className={`w-4 h-4 rounded-sm`}
                   ></span>
                 )}
                 <span
                   className={`block truncate  ${
-                    selected ? "font-medium " : "font-normal"
+                    selectedData ? "font-medium " : "font-normal"
                   }`}
                 >
-                  {selected.name}
+                  {selectedData.name}
                 </span>
               </span>
             ) : (
               "Choose an option"
             )}
-            
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FaAngleDown
@@ -117,10 +118,8 @@ const DropDownMenu = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md   bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
-            {array.map((item) => (
+            {array.map((item, idx) => (
               <Listbox.Option
-                // disabled={error}
-                // onClick={() => setError(false)}
                 key={item.id}
                 className={({ active, selected }) =>
                   `relative focus:outline-none cursor-default select-none py-2 pl-10 pr-4 my-1  ${
@@ -130,7 +129,7 @@ const DropDownMenu = ({
                   } 
                   ${selected && "shadow-nm-inset rounded-md text-gray-900"} `
                 }
-                value={item}
+                value={multiple ? selectedData[idx] : item}
               >
                 {({ selected }) => (
                   <>
@@ -159,21 +158,6 @@ const DropDownMenu = ({
                     </span>
                   </>
                 )}
-                {/* {({ active, selected }) => (
-                  <li
-                    className={`${
-                      active ? "bg-blue-500 text-white" : "bg-white text-black"
-                    }`}
-                  >
-                    {selected && (
-                      <HiCheck
-                        className="h-5 w-5 text-black"
-                        aria-hidden="true"
-                      />
-                    )}
-                    {item.name}
-                  </li>
-                )} */}
               </Listbox.Option>
             ))}
           </Listbox.Options>

@@ -49,7 +49,7 @@ const MyProducts = () => {
     refetch();
     setsortedProducts(products);
     sortByDate();
-    console.log(location.pathname.includes("/dashboard/myproducts/edit/"));
+    // console.log(location.pathname.includes("/dashboard/myproducts/edit/"));
   }, [products, dateAscending, location]);
   const sortByDate = () => {
     // console.log(`sortByDate`);

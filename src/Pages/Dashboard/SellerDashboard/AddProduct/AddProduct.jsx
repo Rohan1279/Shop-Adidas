@@ -205,7 +205,7 @@ const AddProduct = () => {
       const index = parseInt(size.id);
       return data.selectedProductSize[index];
     });
-    // combine filtered cloth sizes with selected cloth sizes from form
+    // combine filtered cloth sizes with selectedData cloth sizes from form
     const sizes = selectedProductSize.reduce((acc, size, index) => {
       return [
         ...acc,
@@ -253,10 +253,12 @@ const AddProduct = () => {
           const product = {
             category_id: selectedCategory._id,
             category: selectedCategory.name,
-            description: data.description,
+            description: /^\s*$/.test(data?.description)
+              ? "No description available"
+              : data?.description,
             price: data.price,
             name: data.name,
-            color: /^\s*$/.test(selectedColor?.name)   // check if the string is only whitespace
+            color: /^\s*$/.test(selectedColor?.name) // check if the string is only whitespace
               ? "No color information available"
               : selectedColor.name,
             brand: /^\s*$/.test(data?.brand) ? "No brand" : data?.brand,
@@ -489,8 +491,8 @@ const AddProduct = () => {
                 </span>
                 <div className="w-full border-l border-l-gray-300 h-11">
                   <DropDownMenu
-                    selected={selectedCategory}
-                    setSelected={setSelectedCategory}
+                    selectedData={selectedCategory}
+                    setSelectedData={setSelectedCategory}
                     array={fixedCategories}
                     // setError={setError}
                   ></DropDownMenu>
@@ -504,8 +506,8 @@ const AddProduct = () => {
                 </span>
                 <div className="w-full border-l border-l-gray-300">
                   <DropDownMenu
-                    selected={selectedColor}
-                    setSelected={setSelectedColor}
+                    selectedData={selectedColor}
+                    setSelectedData={setSelectedColor}
                     array={productColors}
                   ></DropDownMenu>
                 </div>
@@ -562,8 +564,8 @@ const AddProduct = () => {
                         !pantsCategories.includes(selectedCategory))
                     }
                     multiple={true}
-                    selected={selectedProductSize}
-                    setSelected={setSelectedProductSize}
+                    selectedData={selectedProductSize}
+                    setSelectedData={setSelectedProductSize}
                     array={selectedCategorySizes}
                   ></DropDownMenu>
                 </div>
