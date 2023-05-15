@@ -122,7 +122,7 @@ const EditProduct = () => {
     let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     return posted_on;
   };
-  console.log(state);
+  // console.log(selectedProductSize);
   useEffect(() => {
     // if (
     //   !clothesCategories.includes(selectedCategory) ||
@@ -640,7 +640,7 @@ const EditProduct = () => {
                         <tr key={size.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-center font-medium text-gray-900">
-                              {size.name}
+                              {size?.name}
                             </div>
                           </td>
                           <td className="pr-2">
@@ -656,7 +656,7 @@ const EditProduct = () => {
                                 placeholder="price"
                                 min={1}
                                 {...register(
-                                  `selectedProductSize.${size.id}.price`,
+                                  `selectedProductSize.${size?.id}.price`,
                                   {
                                     required: true,
                                     pattern: /^[1-9]\d*$/,
@@ -703,7 +703,7 @@ const EditProduct = () => {
                                 placeholder="stock"
                                 min={1}
                                 {...register(
-                                  `selectedProductSize.${size.id}.stock`,
+                                  `selectedProductSize.${size?.id}.stock`,
                                   {
                                     required: true,
                                     pattern: /^[1-9]\d*$/,

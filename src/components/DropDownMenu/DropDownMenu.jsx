@@ -12,7 +12,8 @@ const DropDownMenu = ({
   multiple,
   formControl,
 }) => {
-  console.log(selectedData);
+  console.log("selectedData", selectedData);
+  console.log("array", array);
   return (
     <Listbox
       value={selectedData}
@@ -20,7 +21,7 @@ const DropDownMenu = ({
       as={Fragment}
       disabled={error}
       multiple={multiple}
-      // defaultValue={selectedData}
+      by="id" // to show default selected options for multiple selection
     >
       <div className="relative">
         <Listbox.Button
@@ -129,7 +130,7 @@ const DropDownMenu = ({
                   } 
                   ${selected && "shadow-nm-inset rounded-md text-gray-900"} `
                 }
-                value={multiple ? selectedData[idx] : item}
+                value={item}
               >
                 {({ selected }) => (
                   <>
