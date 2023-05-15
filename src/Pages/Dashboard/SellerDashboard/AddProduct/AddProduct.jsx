@@ -47,28 +47,28 @@ const productColors = [
   { id: 30, name: "Ochre", hex: "#CC7722" },
 ];
 const clothSizes = [
-  { id: "0", name: "XS", quantity: "", price: "" },
-  { id: "1", name: "S", quantity: "", price: "" },
-  { id: "2", name: "M", quantity: "", price: "" },
-  { id: "3", name: "L", quantity: "", price: "" },
-  { id: "4", name: "XL", quantity: "", price: "" },
-  { id: "5", name: "2XL", quantity: "", price: "" },
-  { id: "6", name: "3XL", quantity: "", price: "" },
+  { id: "0", name: "XS", stock: "", price: "" },
+  { id: "1", name: "S", stock: "", price: "" },
+  { id: "2", name: "M", stock: "", price: "" },
+  { id: "3", name: "L", stock: "", price: "" },
+  { id: "4", name: "XL", stock: "", price: "" },
+  { id: "5", name: "2XL", stock: "", price: "" },
+  { id: "6", name: "3XL", stock: "", price: "" },
 ];
 const footSizes = [
-  { id: "0", name: "39", quantity: "", price: "" },
-  { id: "1", name: "40", quantity: "", price: "" },
-  { id: "2", name: "41", quantity: "", price: "" },
-  { id: "3", name: "42", quantity: "", price: "" },
-  { id: "4", name: "43", quantity: "", price: "" },
-  { id: "5", name: "44", quantity: "", price: "" },
+  { id: "0", name: "39", stock: "", price: "" },
+  { id: "1", name: "40", stock: "", price: "" },
+  { id: "2", name: "41", stock: "", price: "" },
+  { id: "3", name: "42", stock: "", price: "" },
+  { id: "4", name: "43", stock: "", price: "" },
+  { id: "5", name: "44", stock: "", price: "" },
 ];
 const pantsSizes = [
-  { id: "1", name: "29", quantity: "", price: "" },
-  { id: "2", name: "30", quantity: "", price: "" },
-  { id: "3", name: "31", quantity: "", price: "" },
-  { id: "4", name: "32", quantity: "", price: "" },
-  { id: "5", name: "34", quantity: "", price: "" },
+  { id: "1", name: "29", stock: "", price: "" },
+  { id: "2", name: "30", stock: "", price: "" },
+  { id: "3", name: "31", stock: "", price: "" },
+  { id: "4", name: "32", stock: "", price: "" },
+  { id: "5", name: "34", stock: "", price: "" },
 ];
 
 const AddProduct = () => {
@@ -211,7 +211,7 @@ const AddProduct = () => {
         ...acc,
         {
           ...size,
-          quantity: filteredClothSize[index]?.quantity,
+          stock: filteredClothSize[index]?.stock,
           price: filteredClothSize[index]?.price,
         },
       ];
@@ -281,6 +281,8 @@ const AddProduct = () => {
             isReported: false,
             inStock: false,
           };
+          console.log(product);
+          // setIsLoading(false)
           // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
           //   method: "POST",
           //   headers: {
@@ -311,6 +313,7 @@ const AddProduct = () => {
           //     }
           //   })
           //   .catch((err) => toast.error(err))
+          // ! post using toast
           toast.promise(
             fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
               method: "POST",
@@ -599,7 +602,7 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
-              {/* //! PRODUCT_QUANTITY */}
+              {/* //! PRODUCT_STOCK */}
               <div className="col-span-1">
                 <InputField
                   fieldName={"Stock"}

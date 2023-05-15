@@ -12,8 +12,8 @@ const DropDownMenu = ({
   multiple,
   formControl,
 }) => {
-  console.log("selectedData", selectedData);
-  console.log("array", array);
+  // console.log("selectedData", selectedData);
+  // console.log("array", array);
   return (
     <Listbox
       value={selectedData}

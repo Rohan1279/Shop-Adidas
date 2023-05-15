@@ -27,7 +27,7 @@ const ProductDetail = () => {
     //   const updatedCart = [...cart];
     //   updatedCart[existingCartItemIndex] = {
     //     productId,
-    //     quantity: updatedCart[existingCartItemIndex]?.quantity + 1,
+    //     stock: updatedCart[existingCartItemIndex]?.stock + 1,
     //     size: prevSize?.innerText,
     //   };
     //   setCart(updatedCart);
@@ -35,7 +35,7 @@ const ProductDetail = () => {
     // } else {
     //   const updatedCart = [
     //     ...cart,
-    //     { productId, quantity: 1, size: prevSize?.innerText },
+    //     { productId, stock: 1, size: prevSize?.innerText },
     //   ];
     //   setCart(updatedCart);
     // addToDb(selectedProduct._id, prevSize?.innerText);
@@ -48,13 +48,13 @@ const ProductDetail = () => {
         existingProduct.size === prevSize?.innerText
     );
     if (exists) {
-      exists.quantity += 1;
+      exists.stock += 1;
       const rest = cart.filter(
         (existingPrduct) => existingPrduct._id !== selectedProduct._id
       );
       newCart = [...rest, exists];
     } else {
-      selectedProduct.quantity = 1;
+      selectedProduct.stock = 1;
       selectedProduct.size = prevSize?.innerText;
       newCart = [...cart, selectedProduct];
     }
