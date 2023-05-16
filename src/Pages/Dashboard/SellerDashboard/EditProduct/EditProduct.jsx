@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { FileUploader } from "react-drag-drop-files";
 import { toast } from "react-hot-toast";
 import { Context } from "../../../../contexts/ContextProvider";
-import { FaImages } from "react-icons/fa";
+import { FaExchangeAlt, FaImages, FaTrash } from "react-icons/fa";
 import InputField from "../../../../components/InputField/InputField";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import axios from "axios";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -103,9 +105,9 @@ const EditProduct = () => {
   const [selectedProductSize, setSelectedProductSize] = useState(state?.sizes);
   // console.log(state?.sizes);
   const [selectedCategorySizes, setselectedCategorySizes] = useState([]);
-  const [imgFile, setImgFile] = useState(null);
-  const [isImgDropped, setIsImgDropped] = useState(false);
-  const [imgURL, setImgURL] = useState("");
+  const [imgFile, setImgFile] = useState(state?.img);
+  const [isImgDropped, setIsImgDropped] = useState(true);
+  const [imgURL, setImgURL] = useState(state?.img);
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
   const [uploadError, setUploadError] = useState(false);
@@ -122,7 +124,7 @@ const EditProduct = () => {
     let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     return posted_on;
   };
-  // console.log(selectedProductSize);
+  // console.log(state);
   useEffect(() => {
     // if (
     //   !clothesCategories.includes(selectedCategory) ||
@@ -141,6 +143,7 @@ const EditProduct = () => {
       setselectedCategorySizes([]);
     }
   }, [selectedCategory]);
+  // compress the image file
   const handleChange = async (imgFile) => {
     setImgError(false);
     setImgURL(URL.createObjectURL(imgFile));
@@ -161,16 +164,16 @@ const EditProduct = () => {
       },
     });
   };
-
+  // check if file is dropped
   const handleFileDrop = () => {
     setIsImgDropped(true);
   };
-
+  // update funtion
   const handleUpdateProduct = async (data, e) => {
+    console.log(state?._id);
     if (!imgFile) {
       setImgError(true);
     }
-
     const form = e.target;
     const filteredClothSize = selectedProductSize.map((size) => {
       const index = parseInt(size.id);
@@ -187,102 +190,119 @@ const EditProduct = () => {
         },
       ];
     }, []);
+    console.log(imgFile, imgURL);
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
 
-      try {
-        // Create a route to create a new folder
-        //? take username if user creates a profile with phone no and such...
-        const folderName = `${user?.email}`;
-        const response = await axios.put(
-          `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-          { folderName }
-        );
-        const folderId = response.data.folderId;
-        // Upload file
-        try {
-          imgFile.append("folderId", folderId);
-          const uploadResponse = await axios.post(
-            `${import.meta.env.VITE_SERVER_URL}/upload`,
-            imgFile
-          );
-          const imgId = uploadResponse.data.fileId;
-          const imgUrl = uploadResponse.data.imgUrl;
-          // console.log(imgId, imgUrl);
-          const product = {
-            category_id: selectedCategory._id,
-            category: selectedCategory.name,
-            description: data.description,
-            price: data.price,
-            name: data.name,
-            color: selectedColor.name ?? "No color information available",
-            brand: data?.brand ?? "No brand",
-            stock: data.stock,
-            promo_price: data.promo_price,
-            sizes: sizes || "No sizes avaiable",
-            imgId: imgId,
-            img: imgUrl,
-            googleFolderId: folderId,
-            posted_on: getDate(),
-            seller_phone: data.seller_phone,
-            seller_id: user?.uid,
-            seller_name: user?.displayName,
-            seller_email: user?.email,
-            seller_default_image:
-              "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
-            reviewsCount: 0,
-            ratings: 0.0,
-            isAdvertised: false,
-            isReported: false,
-            inStock: false,
-          };
-
-          toast.promise(
-            fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-                authorization: `bearer ${localStorage.getItem(
-                  "shop-adidas-token"
-                )}`,
-              },
-              body: JSON.stringify({ ...product }),
-            })
-              .then((res) => {
-                if (!res.ok) {
-                  setIsLoading(false);
-                  setUploadError(true);
-                  throw new Error(res.statusText);
-                }
-                return res.json();
-              })
-              .then((result) => {
-                if (result.acknowledged) {
-                  setUploadError(false);
-
-                  // toast.success("Product Added successfully!");
-
-                  form.reset();
-                  setIsLoading(false);
-                  navigate("/dashboard/myproducts");
-                }
-              })
-              .catch((err) => toast.error(err)),
-            {
-              loading: "Loading",
-              success: "Product Added successfully!",
-            }
-          );
-        } catch (error) {
-          console.log(error);
-          setIsLoading(false);
-          // toast.error(e);
-        }
-      } catch (e) {
-        console.log(e);
-        setIsLoading(false);
-        toast.error(e.message);
-      }
+      // try {
+      //   // Create a route to create a new folder
+      //   //? take username if user creates a profile with phone no and such...
+      //   const folderName = `${user?.email}`;
+      //   const response = await axios.put(
+      //     `${import.meta.env.VITE_SERVER_URL}/createFolder`,
+      //     { folderName }
+      //   );
+      //   const folderId = response.data.folderId;
+      //   // Upload file
+      //   try {
+      //     imgFile.append("folderId", folderId);
+      //     const uploadResponse = await axios.post(
+      //       `${import.meta.env.VITE_SERVER_URL}/upload`,
+      //       imgFile
+      //     );
+      //     const imgId = uploadResponse.data.fileId;
+      //     const imgUrl = uploadResponse.data.imgUrl;
+      //     console.log(imgId, imgUrl);
+      const product = {
+        _id: state._id,
+        category_id: selectedCategory._id,
+        category: selectedCategory.name,
+        description: data.description,
+        price: data.price,
+        name: data.name,
+        color: selectedColor.name ?? "No color information available",
+        brand: data?.brand ?? "No brand",
+        stock: data.stock,
+        promo_price: data.promo_price,
+        sizes: sizes || "No sizes avaiable",
+        imgId: state?.imgId,
+        img: imgURL || state?.img,
+        googleFolderId: state?.googleFolderId,
+        posted_on: state?.posted_on,
+        seller_phone: data.seller_phone,
+        seller_id: user?.uid,
+        seller_name: user?.displayName,
+        seller_email: user?.email,
+        seller_default_image:
+          "https://static.vecteezy.com/system/resources/thumbnails/009/312/919/small/3d-render-cute-girl-sit-crossed-legs-hold-laptop-studying-at-home-png.png",
+        reviewsCount: 0,
+        ratings: 0.0,
+        isAdvertised: false,
+        isReported: false,
+        inStock: false,
+      };
+      console.log("Edited product", product);
+      // toast.promise(
+      fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+        },
+        body: JSON.stringify({ ...product }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            setIsLoading(false);
+            setUploadError(true);
+            throw new Error(res.statusText);
+          }
+          return res.json();
+        })
+        .then((result) => {
+          console.log(result);
+          // if (result.acknowledged) {
+          //   setUploadError(false);
+          //   form.reset();
+          //   setIsLoading(false);
+          //       toast.promise(
+          //         axios
+          //           .delete(
+          //             `${import.meta.env.VITE_SERVER_URL}/files/${
+          //               state?.imgId
+          //             }`
+          //           )
+          //           .then(() => {
+          //             // toast.success(
+          //             // );
+          //           })
+          //           .catch((err) => {
+          //             toast.error(err);
+          //           }),
+          //         {
+          //           loading: "Loading",
+          //           success: `File with ID: ${state?.imgId} has been deleted`,
+          //         }
+          //       );
+          //   // navigate("/dashboard/myproducts");
+          // }
+        })
+        .catch((err) => toast.error(err));
+      //   {
+      //     loading: "Loading",
+      //     success: "Product Updated successfully!",
+      //   }
+      // );
+      //   } catch (error) {
+      //     console.log(error);
+      //     setIsLoading(false);
+      //     // toast.error(e);
+      //   }
+      // } catch (e) {
+      //   console.log(e);
+      //   setIsLoading(false);
+      //   toast.error(e.message);
+      // }
     }
   };
   const handleApply = () => {
@@ -331,8 +351,7 @@ const EditProduct = () => {
                 handleChange={handleChange}
                 onDrop={handleFileDrop}
                 onSizeError={() => {
-                  // console.log("file size should be less than 2.00MB");
-                  toast.error("file size should be less than 2.00MB");
+                  console.log("file size should be less than 2.00MB");
                   // setImgError(false);
                   setImgSizeError(true);
                 }}
@@ -394,6 +413,120 @@ const EditProduct = () => {
                 </button>
               </div>
             )}
+            {/* {state?.img ? (
+              <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-400/50 ">
+                <h3 className="font-bold text-sm my-2">Your image file</h3>
+                <LazyLoadImage
+                  effect="opacity"
+                  src={state?.img}
+                  className={"rounded-md mx-auto w-full max-w-md shadow-md"}
+                ></LazyLoadImage>
+                <button
+                  onClick={() => {
+                    setImgFile(null);
+                    setImgURL(null);
+                    setIsImgDropped(false);
+                    setImgError(null);
+                    setImgSizeError(null);
+                    // if (state?.img) {
+                    //   toast.promise(
+                    //     axios
+                    //       .delete(
+                    //         `${import.meta.env.VITE_SERVER_URL}/files/${
+                    //           state?.imgId
+                    //         }`
+                    //       )
+                    //       .then(() => {
+                    //         // toast.success(
+                    //         // );
+                    //       })
+                    //       .catch((err) => {
+                    //         toast.error(err);
+                    //       }),
+                    //     {
+                    //       loading: "Loading",
+                    //       success: `File with ID: ${state?.imgId} has been deleted`,
+                    //     }
+                    //   );
+                    // }
+                  }}
+                  type="button"
+                  className="justify-center bg-secondary-color border border-zinc-300 
+                rounded-md shadow-nm active:shadow-nm-inset flex  items-center mx-auto 
+                w-1/2 h-10 my-2 gap-x-2 active:text-gray-500"
+                >
+                  <FaExchangeAlt></FaExchangeAlt>
+                  Change
+                </button>
+              </div>
+            ) : !isImgDropped && !imgFile ? (
+              <FileUploader
+                handleChange={handleChange}
+                onDrop={handleFileDrop}
+                onSizeError={() => {
+                  // console.log("file size should be less than 2.00MB");
+                  toast.error("file size should be less than 2.00MB");
+                  // setImgError(false);
+                  setImgSizeError(true);
+                }}
+                hoverTitle={" "}
+                maxSize={"2"}
+                name="file"
+                types={fileTypes}
+                children={
+                  <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8 ">
+                    <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-200 ">
+                      <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
+                        <span>Drag and drop your</span>&nbsp;
+                        <span>files anywhere or</span>
+                      </p>
+                      <button className="bg-secondary-color shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all flex justify-center items-center gap-x-1">
+                        Upload an image<FaImages></FaImages>
+                      </button>
+
+                      <span className="text-gray-500 text-sm mt-1">
+                        Max size: 2.00MB
+                      </span>
+                      {imgError && !imgSizeError && (
+                        <p className={`text-red-400 text-sm mt-2`}>
+                          Please attach an image file
+                        </p>
+                      )}
+                      {imgSizeError && (
+                        <p className="text-red-400 text-sm mt-2">
+                          File size should be less than 2.00MB
+                        </p>
+                      )}
+                    </header>
+                  </section>
+                }
+              />
+            ) : (
+              <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-400/50 ">
+                <h3 className="font-bold text-sm my-2">Your image file</h3>
+                <LazyLoadImage
+                  effect="opacity"
+                  src={imgURL}
+                  className={"rounded-md mx-auto w-full max-w-md shadow-md"}
+                ></LazyLoadImage>
+                <button
+                  onClick={() => {
+                    setImgFile(null);
+                    setImgURL(null);
+                    setIsImgDropped(false);
+                    setImgError(null);
+                    setImgSizeError(null);
+                  }}
+                  type="button"
+                  className="justify-center bg-secondary-color border border-zinc-300 
+              rounded-md shadow-nm active:shadow-nm-inset flex  items-center mx-auto 
+              w-1/2 h-10 my-2 gap-x-2 active:text-gray-500"
+                >
+                  <FaTrash></FaTrash>
+                  Remove
+                </button>
+              </div>
+            )} */}
           </div>
           <div className="col-span-1 flex-col space-y-5">
             <fieldset className=" border border-gray-400/50 p-5 rounded-md spay">
