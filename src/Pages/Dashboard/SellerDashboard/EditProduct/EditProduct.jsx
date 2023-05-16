@@ -11,6 +11,7 @@ import InputField from "../../../../components/InputField/InputField";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import axios from "axios";
+import Compressor from "compressorjs";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -106,7 +107,7 @@ const EditProduct = () => {
   // console.log(state?.sizes);
   const [selectedCategorySizes, setselectedCategorySizes] = useState([]);
   const [imgFile, setImgFile] = useState(state?.img);
-  const [isImgDropped, setIsImgDropped] = useState(true);
+  const [isImgDropped, setIsImgDropped] = useState(false);
   const [imgURL, setImgURL] = useState(state?.img);
   const [imgError, setImgError] = useState(null);
   const [imgSizeError, setImgSizeError] = useState(null);
@@ -121,8 +122,8 @@ const EditProduct = () => {
     const hour = ("0" + now.getHours()).slice(-2);
     const minute = ("0" + now.getMinutes()).slice(-2);
     const second = ("0" + now.getSeconds()).slice(-2);
-    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
-    return posted_on;
+    let edited_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+    return edited_on;
   };
   // console.log(state);
   useEffect(() => {
@@ -170,7 +171,7 @@ const EditProduct = () => {
   };
   // update funtion
   const handleUpdateProduct = async (data, e) => {
-    console.log(state?._id);
+    // console.log(selectedColor);
     if (!imgFile) {
       setImgError(true);
     }
@@ -190,29 +191,23 @@ const EditProduct = () => {
         },
       ];
     }, []);
-    console.log(imgFile, imgURL);
+    // console.log(imgFile, imgURL);
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
-
-      // try {
-      //   // Create a route to create a new folder
-      //   //? take username if user creates a profile with phone no and such...
-      //   const folderName = `${user?.email}`;
-      //   const response = await axios.put(
-      //     `${import.meta.env.VITE_SERVER_URL}/createFolder`,
-      //     { folderName }
-      //   );
-      //   const folderId = response.data.folderId;
-      //   // Upload file
-      //   try {
-      //     imgFile.append("folderId", folderId);
-      //     const uploadResponse = await axios.post(
-      //       `${import.meta.env.VITE_SERVER_URL}/upload`,
-      //       imgFile
-      //     );
-      //     const imgId = uploadResponse.data.fileId;
-      //     const imgUrl = uploadResponse.data.imgUrl;
-      //     console.log(imgId, imgUrl);
+      // Upload file
+      let newImgId = null;
+      let newImgUrl = null;
+      if (isImgDropped) {
+        //check if new image file is added
+        imgFile.append("folderId", state?.googleFolderId);
+        const uploadResponse = await axios.post(
+          `${import.meta.env.VITE_SERVER_URL}/upload`,
+          imgFile
+        );
+        newImgId = uploadResponse.data.fileId;
+        newImgUrl = uploadResponse.data.imgUrl;
+      }
+      // console.log(newImgId, newImgUrl);
       const product = {
         _id: state._id,
         category_id: selectedCategory._id,
@@ -220,15 +215,16 @@ const EditProduct = () => {
         description: data.description,
         price: data.price,
         name: data.name,
-        color: selectedColor.name ?? "No color information available",
+        color: selectedColor?.name ?? "No color information available",
         brand: data?.brand ?? "No brand",
         stock: data.stock,
         promo_price: data.promo_price,
         sizes: sizes || "No sizes avaiable",
-        imgId: state?.imgId,
-        img: imgURL || state?.img,
+        imgId: newImgId ?? state?.imgId,
+        img: newImgUrl ?? state?.img,
         googleFolderId: state?.googleFolderId,
         posted_on: state?.posted_on,
+        lastEdited: getDate(),
         seller_phone: data.seller_phone,
         seller_id: user?.uid,
         seller_name: user?.displayName,
@@ -242,67 +238,57 @@ const EditProduct = () => {
         inStock: false,
       };
       console.log("Edited product", product);
-      // toast.promise(
-      fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
-        },
-        body: JSON.stringify({ ...product }),
-      })
-        .then((res) => {
-          if (!res.ok) {
-            setIsLoading(false);
-            setUploadError(true);
-            throw new Error(res.statusText);
-          }
-          return res.json();
+      toast.promise(
+        fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem(
+              "shop-adidas-token"
+            )}`,
+          },
+          body: JSON.stringify({ ...product }),
         })
-        .then((result) => {
-          console.log(result);
-          // if (result.acknowledged) {
-          //   setUploadError(false);
-          //   form.reset();
-          //   setIsLoading(false);
-          //       toast.promise(
-          //         axios
-          //           .delete(
-          //             `${import.meta.env.VITE_SERVER_URL}/files/${
-          //               state?.imgId
-          //             }`
-          //           )
-          //           .then(() => {
-          //             // toast.success(
-          //             // );
-          //           })
-          //           .catch((err) => {
-          //             toast.error(err);
-          //           }),
-          //         {
-          //           loading: "Loading",
-          //           success: `File with ID: ${state?.imgId} has been deleted`,
-          //         }
-          //       );
-          //   // navigate("/dashboard/myproducts");
-          // }
-        })
-        .catch((err) => toast.error(err));
-      //   {
-      //     loading: "Loading",
-      //     success: "Product Updated successfully!",
-      //   }
-      // );
-      //   } catch (error) {
-      //     console.log(error);
-      //     setIsLoading(false);
-      //     // toast.error(e);
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      //   setIsLoading(false);
-      //   toast.error(e.message);
-      // }
+          .then((res) => {
+            if (!res.ok) {
+              setIsLoading(false);
+              setUploadError(true);
+              throw new Error(res.statusText);
+            }
+            return res.json();
+          })
+          .then((result) => {
+            console.log(result);
+            if (result.acknowledged) {
+              setUploadError(false);
+              form.reset();
+              setIsLoading(false);
+              toast.promise(
+                axios
+                  .delete(
+                    `${import.meta.env.VITE_SERVER_URL}/files/${state?.imgId}`
+                  )
+                  .then(() => {
+                    // toast.success(
+                    // );
+                  })
+                  .catch((err) => {
+                    toast.error(err);
+                  }),
+                {
+                  loading: "Loading",
+                  success: `File with ID: ${state?.imgId} has been deleted`,
+                }
+              );
+              navigate("/dashboard/myproducts");
+            }
+          })
+          .catch((err) => toast.error(err)),
+        {
+          loading: "Loading",
+          success: "Product Updated successfully!",
+        }
+      );
     }
   };
   const handleApply = () => {
