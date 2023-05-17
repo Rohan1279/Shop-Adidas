@@ -33,8 +33,11 @@ const MyProducts = () => {
   const {
     data: products = [],
     refetch,
-    isRefetching,
     isLoading,
+    isSuccess,
+    status,
+    isFetching
+
   } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
@@ -51,11 +54,13 @@ const MyProducts = () => {
         }
       ).then((res) => res.json()),
   });
-  let pages = Math.ceil(products[products.length-1]?.count / limit?.name);
+  let pages = Math.ceil(products[products.length - 1]?.count / limit?.name);
+  // console.log(pages);
   const [sortedProducts, setsortedProducts] = useState(products);
   const [dateAscending, setdateAscending] = useState(true);
   const [priceAscending, setPriceAscending] = useState(true);
 
+  console.log(isFetching);
   useEffect(() => {
     refetch();
     setsortedProducts(products);
@@ -66,18 +71,26 @@ const MyProducts = () => {
     // console.log(`sortByDate`);
     dateAscending
       ? setsortedProducts(
-          [...products]?.slice(0,-1).sort((a, b) => a.posted_on.localeCompare(b.posted_on))
+          [...products]
+            ?.slice(0, -1)
+            .sort((a, b) => a.posted_on.localeCompare(b.posted_on))
         )
       : setsortedProducts(
-          [...products]?.slice(0,-1).sort((a, b) => b.posted_on.localeCompare(a.posted_on))
+          [...products]
+            ?.slice(0, -1)
+            .sort((a, b) => b.posted_on.localeCompare(a.posted_on))
         );
   };
   const sortByPrice = () => {
     // console.log(`sortByPrice`);
 
     priceAscending
-      ? setsortedProducts([...products]?.slice(0,-1).sort((a, b) => a.price - b.price))
-      : setsortedProducts([...products]?.slice(0,-1).sort((a, b) => b.price - a.price));
+      ? setsortedProducts(
+          [...products]?.slice(0, -1).sort((a, b) => a.price - b.price)
+        )
+      : setsortedProducts(
+          [...products]?.slice(0, -1).sort((a, b) => b.price - a.price)
+        );
   };
   const confirmModal = async () => {
     setIsOpen(false);
@@ -250,7 +263,7 @@ const MyProducts = () => {
                         )}
                       </td>
                       <td className="text-left px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
-                        {product?.posted_on.split(" ")[0]}
+                        {product?.posted_on?.split(" ")[0]}
                       </td>
                       <td className="text-left px-6 py-3  text-sm font-medium text-gray-700  tracking-wider">
                         {product?.name}
@@ -268,12 +281,12 @@ const MyProducts = () => {
                         {product?.stock}
                       </td>
                       <td className=" ">
-                        {product?.sizes.length === 0 ? (
+                        {product?.sizes?.length === 0 ? (
                           <span className=" py-3 text-sm font-medium text-gray-700 tracking-wider text-justify">
                             No sizes avaiable
                           </span>
                         ) : (
-                          product?.sizes.map((size, idx) => (
+                          product?.sizes?.map((size, idx) => (
                             <span
                               key={size?.id}
                               className=" items-center border border-gray-400 p-1 w-6 inline-block rounded-md text-xs text-center text-gray-500 font-medium bg-gray-300/60 mx-1 hover:bg-gray-200/50 transition-all"
@@ -342,7 +355,7 @@ const MyProducts = () => {
         <div className="my-7 mx-auto flex w-full justify-center items-center gap-x-4">
           <p>Current page {currentPage}</p>
           <div className="">
-            {[...Array(pages).keys()].map((number) => (
+            {[...Array(pages ? pages : 0).keys()].map((number) => (
               <button
                 key={number}
                 onClick={() => {
