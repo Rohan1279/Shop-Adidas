@@ -72,7 +72,8 @@ const pantsSizes = [
 
 const EditProduct = () => {
   const { state } = useLocation();
-  // console.log(state);
+  const location = useLocation();
+  // console.log(location);
   const navigate = useNavigate();
   const { authInfo, categories } = useContext(Context);
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
@@ -125,7 +126,7 @@ const EditProduct = () => {
     let edited_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     return edited_on;
   };
-  // console.log(state);
+  console.log(state);
   useEffect(() => {
     // if (
     //   !clothesCategories.includes(selectedCategory) ||
@@ -238,31 +239,31 @@ const EditProduct = () => {
         inStock: false,
       };
       console.log("Edited product", product);
-      toast.promise(
-        fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-            authorization: `bearer ${localStorage.getItem(
-              "shop-adidas-token"
-            )}`,
-          },
-          body: JSON.stringify({ ...product }),
+
+      fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+        },
+        body: JSON.stringify({ ...product }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            setIsLoading(false);
+            setUploadError(true);
+            // toast.error(res.statusText);
+            throw new Error(res.statusText);
+          }
+          return res.json();
         })
-          .then((res) => {
-            if (!res.ok) {
-              setIsLoading(false);
-              setUploadError(true);
-              throw new Error(res.statusText);
-            }
-            return res.json();
-          })
-          .then((result) => {
-            console.log(result);
-            if (result.acknowledged) {
-              setUploadError(false);
-              form.reset();
-              setIsLoading(false);
+        .then((result) => {
+          // console.log(result);
+          if (result.acknowledged) {
+            setUploadError(false);
+            form.reset();
+            setIsLoading(false);
+            if (isImgDropped) {
               toast.promise(
                 axios
                   .delete(
@@ -273,22 +274,23 @@ const EditProduct = () => {
                     // );
                   })
                   .catch((err) => {
-                    toast.error(err);
+                    // toast.error(err.message);
                   }),
                 {
                   loading: "Loading",
                   success: `File with ID: ${state?.imgId} has been deleted`,
+                  error: (err) => `This just happened: ${err.toString()}`,
                 }
               );
-              navigate("/dashboard/myproducts");
             }
-          })
-          .catch((err) => toast.error(err)),
-        {
-          loading: "Loading",
-          success: "Product Updated successfully!",
-        }
-      );
+            toast.success("Product updated successfullt");
+            navigate("/dashboard/myproducts");
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+          // console.log(err);
+        });
     }
   };
   const handleApply = () => {
@@ -649,7 +651,7 @@ const EditProduct = () => {
                     error={error}
                     formErrors={errors}
                     aria_invalid={errors?.price ? "true" : "false"}
-                    defaultValue={state.price}
+                    defaultValue={state?.price}
                   ></InputField>
                   {errors.price?.type === "min" && selectedCategory && (
                     <p role="alert" className="text-red-400 text-sm">
@@ -895,16 +897,41 @@ const EditProduct = () => {
                 <div className="continuous-7 my-10 mx-auto"></div>
               </>
             ) : (
-              <input
-                // disabled={error || selectedProductSize.length === 0 }
-
-                type="submit"
-                value="Submit"
-                className="w-2/3 p-3 block mx-auto rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
-              />
+              <div className="flex gap-x-5 justify-center items-center">
+                <button
+                  className="w-1/3 p-3  rounded-md  bg-secondary-color text-black border border-zinc-300 active:text-black active:shadow-nm-inset cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
+                  type="button"
+                  onClick={() => navigate(-1)}
+                >
+                  Cancel
+                </button>
+                <input
+                  // disabled={error || selectedProductSize.length === 0 }
+                  type="submit"
+                  value="Save"
+                  className="w-1/3 p-3  rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
+                />
+              </div>
             )}
           </div>
         </form>
+        {uploadError && (
+          <p className="text-center my-4 px-6 py-3  text-sm font-medium text-gray-500  tracking-wider">
+            Please{" "}
+            <span
+              onClick={() => {
+                navigate("/login", {
+                  state: { ...state, from: location },
+                });
+                logOut();
+              }}
+              className="inline-block text-blue-400 hover:underline  cursor-pointer "
+            >
+              login
+            </span>{" "}
+            again if error persists.
+          </p>
+        )}
       </div>
     </Transition>
   );

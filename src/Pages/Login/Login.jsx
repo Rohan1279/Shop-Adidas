@@ -14,20 +14,19 @@ const Login = () => {
   const { authInfo } = useContext(Context);
   const { authenticateWithProvider, login, logOut, user } = authInfo;
   const [userEmail, setUserEmail] = useState("");
-  // const [isBuyer, isSeller] = useRole(userEmail);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const state = useLocation();
   const from = location.state?.from?.pathname || "/";
-  // console.log(userEmail);
+  console.log("location", location);
+  console.log("state", state);
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    // setUserEmail(email);
-
     // check if user exist in database
     toast.promise(
       fetch(`${import.meta.env.VITE_SERVER_URL}/user/${email}`)
@@ -56,7 +55,12 @@ const Login = () => {
                 // toast.success("Login successfull");
 
                 form.reset();
-                navigate(from, { replace: true });
+                navigate(from, {
+                  replace: true,
+                  state:
+                    location?.state?.from?.state?.from?.state || //from bavbar logout
+                    location?.state,  
+                });
 
                 // console.log(isBuyer, isSeller);
                 // toast.success("Login successfull");
@@ -161,7 +165,7 @@ const Login = () => {
           </div>
 
           <button
-            className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md "
+            className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md h-12"
             type="submit"
           >
             {isLoading ? <Loader></Loader> : "Login"}

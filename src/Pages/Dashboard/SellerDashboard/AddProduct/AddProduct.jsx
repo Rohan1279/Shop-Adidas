@@ -249,7 +249,7 @@ const AddProduct = () => {
           );
           const imgId = uploadResponse.data.fileId;
           const imgUrl = uploadResponse.data.imgUrl;
-          console.log(imgId, imgUrl);
+          console.log(imgId, imgUrl); 
           const product = {
             category_id: selectedCategory._id,
             category: selectedCategory.name,
