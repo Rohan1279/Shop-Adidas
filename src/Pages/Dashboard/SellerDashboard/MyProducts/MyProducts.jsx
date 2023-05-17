@@ -11,6 +11,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import Modal from "../../../../components/Modal/Modal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 
 const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,15 @@ const MyProducts = () => {
   const location = useLocation();
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [limit, setLimit] = useState(
+    [
+      { id: "0", name: 3 },
+      { id: "1", name: 5 },
+      { id: "2", name: 10 },
+    ][0]
+  );
 
   const {
     data: products = [],
@@ -31,7 +41,7 @@ const MyProducts = () => {
       fetch(
         `${import.meta.env.VITE_SERVER_URL}/seller_products?email=${
           user?.email
-        }`,
+        }&currentPage=${currentPage}&limit=${limit?.name}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem(
@@ -41,6 +51,7 @@ const MyProducts = () => {
         }
       ).then((res) => res.json()),
   });
+  let pages = Math.ceil(products[products.length-1]?.count / limit?.name);
   const [sortedProducts, setsortedProducts] = useState(products);
   const [dateAscending, setdateAscending] = useState(true);
   const [priceAscending, setPriceAscending] = useState(true);
@@ -50,23 +61,23 @@ const MyProducts = () => {
     setsortedProducts(products);
     sortByDate();
     // console.log(location.pathname.includes("/dashboard/myproducts/edit/"));
-  }, [products, dateAscending, location]);
+  }, [products, dateAscending, currentPage, limit]);
   const sortByDate = () => {
     // console.log(`sortByDate`);
     dateAscending
       ? setsortedProducts(
-          [...products].sort((a, b) => a.posted_on.localeCompare(b.posted_on))
+          [...products]?.slice(0,-1).sort((a, b) => a.posted_on.localeCompare(b.posted_on))
         )
       : setsortedProducts(
-          [...products].sort((a, b) => b.posted_on.localeCompare(a.posted_on))
+          [...products]?.slice(0,-1).sort((a, b) => b.posted_on.localeCompare(a.posted_on))
         );
   };
   const sortByPrice = () => {
     // console.log(`sortByPrice`);
 
     priceAscending
-      ? setsortedProducts([...products].sort((a, b) => a.price - b.price))
-      : setsortedProducts([...products].sort((a, b) => b.price - a.price));
+      ? setsortedProducts([...products]?.slice(0,-1).sort((a, b) => a.price - b.price))
+      : setsortedProducts([...products]?.slice(0,-1).sort((a, b) => b.price - a.price));
   };
   const confirmModal = async () => {
     setIsOpen(false);
@@ -90,7 +101,7 @@ const MyProducts = () => {
             )
             .then(() => {
               console.log(
-                `File with ID: ${selectedProduct?.imgId} has been deleted`
+                `Image with ID: ${selectedProduct?.imgId} has been deleted`
               );
             })
             .catch((err) => {
@@ -327,6 +338,42 @@ const MyProducts = () => {
           </span>
         )}
         {isLoading && <div className="continuous-7 my-10 mx-auto"></div>}
+        {/* //! PAGINATION */}
+        <div className="my-7 mx-auto flex w-full justify-center items-center gap-x-4">
+          <p>Current page {currentPage}</p>
+          <div className="">
+            {[...Array(pages).keys()].map((number) => (
+              <button
+                key={number}
+                onClick={() => {
+                  setCurrentPage(number);
+                }}
+                className={`mx-2 bg-secondary-color border border-zinc-300 px-4 py-2 rounded-md active:shadow-nm-inset transition-all ${
+                  currentPage === number && "shadow-nm-inset"
+                }`}
+              >
+                {number}
+              </button>
+            ))}
+          </div>
+          <div className="w-36 flex items-center border border-gray-300 rounded-md pl-2  bg-gray-300/60">
+            <span className="mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+              Limit
+            </span>
+            <div className="w-full border-l border-l-gray-300 ">
+              <DropDownMenu
+                array={[
+                  { id: "0", name: 3 },
+                  { id: "1", name: 5 },
+                  { id: "2", name: 10 },
+                ]}
+                multiple={false}
+                selectedData={limit}
+                setSelectedData={setLimit}
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <Outlet />
     </div>

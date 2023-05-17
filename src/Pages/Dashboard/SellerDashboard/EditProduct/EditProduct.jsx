@@ -264,24 +264,6 @@ const EditProduct = () => {
             form.reset();
             setIsLoading(false);
             if (isImgDropped) {
-              toast.promise(
-                axios
-                  .delete(
-                    `${import.meta.env.VITE_SERVER_URL}/files/${state?.imgId}`
-                  )
-                  .then(() => {
-                    // toast.success(
-                    // );
-                  })
-                  .catch((err) => {
-                    // toast.error(err.message);
-                  }),
-                {
-                  loading: "Loading",
-                  success: `File with ID: ${state?.imgId} has been deleted`,
-                  error: (err) => `This just happened: ${err.toString()}`,
-                }
-              );
             }
             toast.success("Product updated successfullt");
             navigate("/dashboard/myproducts");
@@ -320,7 +302,7 @@ const EditProduct = () => {
     >
       <div className="w-full  min-h-screen ">
         <div
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/dashboard/myproducts")}
           className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer "
         >
           <BackButton classes={"text-lg"}></BackButton>
@@ -384,12 +366,32 @@ const EditProduct = () => {
                   className={"rounded-md mx-auto w-full max-w-md shadow-md"}
                 ></LazyLoadImage>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     setImgFile(null);
                     setImgURL(null);
                     setIsImgDropped(false);
                     setImgError(null);
                     setImgSizeError(null);
+                    toast.promise(
+                      axios
+                        .delete(
+                          `${import.meta.env.VITE_SERVER_URL}/files/${
+                            state?.imgId
+                          }`
+                        )
+                        .then(() => {
+                          // toast.success(
+                          // );
+                        })
+                        .catch((err) => {
+                          // toast.error(err.message);
+                        }),
+                      {
+                        loading: "Loading",
+                        success: `Image with ID: ${state?.imgId} has been deleted`,
+                        error: (err) => `This just happened: ${err.toString()}`,
+                      }
+                    );
                   }}
                   type="button"
                   className="justify-center bg-secondary-color border border-zinc-300 
@@ -901,7 +903,7 @@ const EditProduct = () => {
                 <button
                   className="w-1/3 p-3  rounded-md  bg-secondary-color text-black border border-zinc-300 active:text-black active:shadow-nm-inset cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
                   type="button"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/dashboard/myproducts")}
                 >
                   Cancel
                 </button>
