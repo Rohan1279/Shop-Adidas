@@ -1,7 +1,15 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Context } from "../../../../contexts/ContextProvider";
 import { useQuery } from "@tanstack/react-query";
-import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
+import {
+  FaBackspace,
+  FaBackward,
+  FaEdit,
+  FaEye,
+  FaForward,
+  FaTrashAlt,
+} from "react-icons/fa";
+import { IoCaretBack, IoCaretForward } from "react-icons/io5";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -21,6 +29,8 @@ const MyProducts = () => {
   const { authInfo } = useContext(Context);
   const { user } = authInfo;
 
+  const [dateOrder, setdateOrder] = useState(1); // ascending
+  const [priceOrder, setPriceOrder] = useState(-1); // descending
   const [currentPage, setCurrentPage] = useState(0);
   const [limit, setLimit] = useState(
     [
@@ -36,15 +46,16 @@ const MyProducts = () => {
     isLoading,
     isSuccess,
     status,
-    isFetching
-
+    isFetching,
   } = useQuery({
     queryKey: ["products", user?.email],
     queryFn: () =>
       fetch(
         `${import.meta.env.VITE_SERVER_URL}/seller_products?email=${
           user?.email
-        }&currentPage=${currentPage}&limit=${limit?.name}`,
+        }&currentPage=${currentPage}&limit=${
+          limit?.name
+        }&dateOrder=${dateOrder}&priceOrder=${priceOrder}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem(
@@ -55,43 +66,10 @@ const MyProducts = () => {
       ).then((res) => res.json()),
   });
   let pages = Math.ceil(products[products.length - 1]?.count / limit?.name);
-  // console.log(pages);
-  const [sortedProducts, setsortedProducts] = useState(products);
-  const [dateAscending, setdateAscending] = useState(true);
-  const [priceAscending, setPriceAscending] = useState(true);
-
-  console.log(isFetching);
   useEffect(() => {
     refetch();
-    setsortedProducts(products);
-    sortByDate();
-    // console.log(location.pathname.includes("/dashboard/myproducts/edit/"));
-  }, [products, dateAscending, currentPage, limit]);
-  const sortByDate = () => {
-    // console.log(`sortByDate`);
-    dateAscending
-      ? setsortedProducts(
-          [...products]
-            ?.slice(0, -1)
-            .sort((a, b) => a.posted_on.localeCompare(b.posted_on))
-        )
-      : setsortedProducts(
-          [...products]
-            ?.slice(0, -1)
-            .sort((a, b) => b.posted_on.localeCompare(a.posted_on))
-        );
-  };
-  const sortByPrice = () => {
-    // console.log(`sortByPrice`);
-
-    priceAscending
-      ? setsortedProducts(
-          [...products]?.slice(0, -1).sort((a, b) => a.price - b.price)
-        )
-      : setsortedProducts(
-          [...products]?.slice(0, -1).sort((a, b) => b.price - a.price)
-        );
-  };
+  }, [products, priceOrder, dateOrder, currentPage, limit]);
+  console.log(currentPage, pages);
   const confirmModal = async () => {
     setIsOpen(false);
     try {
@@ -167,19 +145,22 @@ const MyProducts = () => {
                     </th>
                     <th
                       scope="col"
-                      // onClick={() => {
-                      //   setSortField("posted_on");
-                      //   setsortingOrder(1);
-                      // }}
                       onClick={() => {
-                        // sortByDate();
-                        setdateAscending(!dateAscending);
+                        if (dateOrder === -1) {
+                          setPriceOrder(-1);
+                          setdateOrder(1);
+                          setCurrentPage(0);
+                        } else {
+                          setPriceOrder(1);
+                          setdateOrder(-1);
+                          setCurrentPage(0);
+                        }
                       }}
                       title="Sort by descending"
                       className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
                       <span>Date</span>
-                      {!dateAscending ? (
+                      {!dateOrder ? (
                         <TbSortAscending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortAscending>
                       ) : (
                         <TbSortDescending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortDescending>
@@ -206,14 +187,21 @@ const MyProducts = () => {
                     <th
                       scope="col"
                       onClick={() => {
-                        sortByPrice();
-                        setPriceAscending(!priceAscending);
+                        if (priceOrder === -1) {
+                          setdateOrder(-1);
+                          setPriceOrder(1);
+                          setCurrentPage(0);
+                        } else {
+                          setdateOrder(1);
+                          setPriceOrder(-1);
+                          setCurrentPage(0);
+                        }
                       }}
                       title="Sort by descending"
                       className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center justify-evenly hover:text-blue-900   transition-all cursor-pointer"
                     >
                       <span>Price</span>
-                      {!priceAscending ? (
+                      {!priceOrder ? (
                         <TbSortAscending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortAscending>
                       ) : (
                         <TbSortDescending className="text-xl text-blue-800 hover:scale-105 transition-all font-extrabold cursor-pointer"></TbSortDescending>
@@ -240,7 +228,7 @@ const MyProducts = () => {
                   </tr>
                 </thead>
                 <tbody className=" divide-y divide-gray-100  bg-secondary-color">
-                  {sortedProducts?.map((product, idx) => (
+                  {[...products]?.slice(0, -1)?.map((product, idx) => (
                     <tr
                       key={product?._id}
                       className="text-center h-16 hover:bg-gray-300/50 transition-all"
@@ -252,11 +240,17 @@ const MyProducts = () => {
                         {product?.img && (
                           <PhotoProvider>
                             <PhotoView src={product?.img}>
-                              <LazyLoadImage
+                              {/* <LazyLoadImage
                                 effect="opacity"
                                 src={product?.img}
                                 alt=""
                                 className="w-12 h-12 mx-auto object-cover"
+                              /> */}
+                              <img
+                                src={product?.img}
+                                className="w-12 h-12 mx-auto object-cover"
+                                loading="lazy"
+                                alt="product image"
                               />
                             </PhotoView>
                           </PhotoProvider>
@@ -353,21 +347,36 @@ const MyProducts = () => {
         {isLoading && <div className="continuous-7 my-10 mx-auto"></div>}
         {/* //! PAGINATION */}
         <div className="my-7 mx-auto flex w-full justify-center items-center gap-x-4">
-          <p>Current page {currentPage}</p>
-          <div className="">
+          <div className="flex justify-center items-center">
+            <IoCaretBack
+              onClick={() => {
+                if (currentPage > 0) {
+                  setCurrentPage(currentPage - 1);
+                } else return;
+              }}
+              className="text-2xl  text-sky-300 bg-secondary-color mx-2 rounded-md active:shadow-nm-inset transition-all border border-zinc-300 w-7 h-7"
+            />
             {[...Array(pages ? pages : 0).keys()].map((number) => (
               <button
                 key={number}
                 onClick={() => {
                   setCurrentPage(number);
                 }}
-                className={`mx-2 bg-secondary-color border border-zinc-300 px-4 py-2 rounded-md active:shadow-nm-inset transition-all ${
+                className={`mx-2 bg-secondary-color border border-zinc-300 px-4 py-2 rounded-md active:shadow-nm-inset transition-all select-none ${
                   currentPage === number && "shadow-nm-inset"
                 }`}
               >
-                {number}
+                {number + 1}
               </button>
             ))}
+            <IoCaretForward
+              onClick={() => {
+                if (currentPage < pages - 1) {
+                  setCurrentPage(currentPage + 1);
+                } else return;
+              }}
+              className="text-2xl text-sky-300 bg-secondary-color mx-2 rounded-md active:shadow-nm-inset transition-all border border-zinc-300 w-7 h-7"
+            />
           </div>
           <div className="w-36 flex items-center border border-gray-300 rounded-md pl-2  bg-gray-300/60">
             <span className="mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
