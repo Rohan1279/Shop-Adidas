@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../../../../components/BackButton/BackButton";
 import { Transition } from "@headlessui/react";
@@ -12,6 +12,7 @@ import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import axios from "axios";
 import Compressor from "compressorjs";
+import { dataLoader } from "../../../../utils/dataLoader";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -69,24 +70,81 @@ const pantsSizes = [
   { id: "4", name: "32", stock: "", price: "" },
   { id: "5", name: "34", stock: "", price: "" },
 ];
-
+// const categories = [
+//   {
+//     _id: "63c3afa0bdcbcbf3434dcc74",
+//     id: "0",
+//     name: "All Products",
+//     img: "https://i.ibb.co/0yr5nx6/resize-16737983561617336874allproductscover.jpg",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce09",
+//     id: "1",
+//     name: "Men's Sneaker",
+//     img: "https://cdn.shopify.com/s/files/1/2287/9679/products/1_1765574a-7ac4-48ad-9708-3c8c01246abd_1024x1024.jpg?v=1672130085",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce0a",
+//     id: "2",
+//     name: "Men's Pants",
+//     img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/daacaf04752147979c40ad3200623de7_9366/Tiro_Track_Pants_Black_HB4107_21_model.jpg",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce0b",
+//     id: "3",
+//     name: "Outdoor & Hiking",
+//     img: "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/6853ac5565a9407bae19ac080120d9d7_9366/Superstar_Boots_Red_FZ2642_01_standard.jpg",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce0c",
+//     id: "4",
+//     name: "Bags & Backpacks",
+//     img: "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/a520df1b51384c00af9caca100489f04_9366/Trefoil_Backpack_Black_EX6752_01_standard.jpg",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce0d",
+//     id: "5",
+//     name: "Hats",
+//     img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/bca74353cd9c4dd88e2faaca0119c702_9366/BASEBALL_3-STRIPES_TWILL_CAP_Black_FK0894_01_standard.jpg",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce0e",
+//     id: "6",
+//     name: "Earphones",
+//     img: "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/c697ceddb0c2469aaa2eaa7101121d10_9366/RPT-01_Sport_On-Ear_Headphones_Black_CM5015_01_standard.jpg",
+//   },
+//   {
+//     _id: "63bc18eb473f136f0720ce0f",
+//     id: "7",
+//     name: "Bottle",
+//     img: "https://ishop.com.bd/wp-content/uploads/2021/04/1-928.jpg",
+//   },
+//   {
+//     _id: "63bc3b28b6f03d51602c9462",
+//     id: "8",
+//     name: "T-Shirts & Tops",
+//     img: "https://assets.adidas.com/images/w_383,h_383,f_auto,q_auto,fl_lossy,c_fill,g_auto/22e21c736b9042cda230adaa00a35bf0_9366/inspired-short-sleeve-tee.jpg",
+//   },
+// ];
 const EditProduct = () => {
   const { state } = useLocation();
   const location = useLocation();
   // console.log(location);
   const navigate = useNavigate();
   const { authInfo, categories } = useContext(Context);
+  // const { categories } = dataLoader();
+
   const { logOut, user, isBuyer, isSeller, userRole } = authInfo;
-  const fixedCategories = categories.filter((category) => category.id !== "0");
-  const clothesCategories = fixedCategories.filter((category) =>
+  const fixedCategories = categories?.filter((category) => category.id !== "0");
+  const clothesCategories = fixedCategories?.filter((category) =>
     // add category id here
-    [8].includes(parseInt(category.id))
+    [8].includes(parseInt(category?.id))
   );
-  const footWearCategories = fixedCategories.filter((category) =>
+  const footWearCategories = fixedCategories?.filter((category) =>
     // add category id here
     [1, 3].includes(parseInt(category.id))
   );
-  const pantsCategories = fixedCategories.filter((category) =>
+  const pantsCategories = fixedCategories?.filter((category) =>
     // add category id here
     [2].includes(parseInt(category.id))
   );
@@ -99,7 +157,9 @@ const EditProduct = () => {
     control,
   } = useForm();
   const [selectedCategory, setSelectedCategory] = useState(
-    fixedCategories.filter((category) => category._id === state?.category_id)[0]
+    fixedCategories?.filter(
+      (category) => category._id === state?.category_id
+    )[0]
   );
   const [selectedColor, setSelectedColor] = useState(
     productColors.filter((color) => color.name === state?.color)[0]
@@ -187,13 +247,13 @@ const EditProduct = () => {
         ...acc,
         {
           ...size,
-          stock: filteredClothSize[index]?.stock,
-          price: filteredClothSize[index]?.price,
+          stock: parseInt(filteredClothSize[index]?.stock),
+          price: parseInt(filteredClothSize[index]?.price),
         },
       ];
     }, []);
-    // console.log(imgFile, imgURL);
-    if (imgFile && imgURL && data && selectedCategory) {
+    // if (imgFile && imgURL && data && selectedCategory) {
+    if (data && selectedCategory) {
       setIsLoading(true);
       // Upload file
       let newImgId = null;
@@ -214,11 +274,11 @@ const EditProduct = () => {
         category_id: selectedCategory._id,
         category: selectedCategory.name,
         description: data.description,
-        price: data.price,
+        price: parseInt(data.price),
         name: data.name,
         color: selectedColor?.name ?? "No color information available",
         brand: data?.brand ?? "No brand",
-        stock: data.stock,
+        stock: parseInt(data?.stock),
         promo_price: data.promo_price,
         sizes: sizes || "No sizes avaiable",
         imgId: newImgId ?? state?.imgId,
@@ -300,22 +360,22 @@ const EditProduct = () => {
       enterFrom="opacity-0"
       enterTo="opacity-100"
     >
-      <div className="w-full  min-h-screen ">
+      <div className="min-h-screen  w-full ">
         <div
           onClick={() => navigate("/dashboard/myproducts")}
-          className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer "
+          className="flex cursor-pointer items-center gap-x-2 font-semibold hover:underline "
         >
           <BackButton classes={"text-lg"}></BackButton>
           <p>Back</p>
         </div>
-        <h1 className="px-6 py-3  text-4xl text-center font-medium text-gray-500 tracking-wider flex items-center justify-evenly transition-all ">
+        <h1 className="flex items-center  justify-evenly px-6 py-3 text-center text-4xl font-medium tracking-wider text-gray-500 transition-all ">
           Edit Product
         </h1>
         <form
           onSubmit={handleSubmit(handleUpdateProduct)}
           className=" mx-auto mt-10 max-w-7xl "
         >
-          <div className={` h-fit mb-5 ${imgError && "animate-shake"}`}>
+          <div className={` mb-5 h-fit ${imgError && "animate-shake"}`}>
             {!isImgDropped && !imgFile ? (
               <FileUploader
                 handleChange={handleChange}
@@ -330,26 +390,26 @@ const EditProduct = () => {
                 name="file"
                 types={fileTypes}
                 children={
-                  <section className="bg-gray-300/20 flex flex-col p-1 overflow-auto rounded-md border-dashed border-2 border-zinc-400/50 focus:outline-none mb-8 ">
-                    <header className="flex flex-col items-center justify-center py-12 text-base transition  ease-in-out transform bg-inherit  rounded-md hover:bg-gray-200 ">
-                      <p className="flex flex-wrap justify-center mb-3 text-base leading-7 text-blueGray-500">
+                  <section className="mb-8 flex flex-col overflow-auto rounded-md border-2 border-dashed border-zinc-400/50 bg-gray-300/20 p-1 focus:outline-none ">
+                    <header className="flex transform flex-col items-center justify-center rounded-md bg-inherit  py-12 text-base transition  ease-in-out hover:bg-gray-200 ">
+                      <p className="text-blueGray-500 mb-3 flex flex-wrap justify-center text-base leading-7">
                         <span>Drag and drop your</span>&nbsp;
                         <span>files anywhere or</span>
                       </p>
-                      <button className="bg-secondary-color shadow-nm px-3 py-2 rounded-md active:shadow-nm-inset border border-zinc-300 transition-all flex justify-center items-center gap-x-1">
+                      <button className="flex items-center justify-center gap-x-1 rounded-md border border-zinc-300 bg-secondary-color px-3 py-2 shadow-nm transition-all active:shadow-nm-inset">
                         Upload an image<FaImages></FaImages>
                       </button>
 
-                      <span className="text-gray-500 text-sm mt-1">
+                      <span className="mt-1 text-sm text-gray-500">
                         Max size: 2.00MB
                       </span>
                       {imgError && !imgSizeError && (
-                        <p className={`text-red-400 text-sm mt-2`}>
+                        <p className={`mt-2 text-sm text-red-400`}>
                           Please attach an image file
                         </p>
                       )}
                       {imgSizeError && (
-                        <p className="text-red-400 text-sm mt-2">
+                        <p className="mt-2 text-sm text-red-400">
                           File size should be less than 2.00MB
                         </p>
                       )}
@@ -358,12 +418,12 @@ const EditProduct = () => {
                 }
               />
             ) : (
-              <div className="text-center border-2 border-dashed rounded-md p-2 border-zinc-400/50 ">
-                <h3 className="font-bold text-sm my-2">Your image file</h3>
+              <div className="rounded-md border-2 border-dashed border-zinc-400/50 p-2 text-center ">
+                <h3 className="my-2 text-sm font-bold">Your image file</h3>
                 <LazyLoadImage
                   effect="opacity"
                   src={imgURL}
-                  className={"rounded-md mx-auto w-full max-w-md shadow-md"}
+                  className={"mx-auto w-full max-w-md rounded-md shadow-md"}
                 ></LazyLoadImage>
                 <button
                   onClick={async () => {
@@ -394,9 +454,9 @@ const EditProduct = () => {
                     );
                   }}
                   type="button"
-                  className="justify-center bg-secondary-color border border-zinc-300 
-                rounded-md shadow-nm active:shadow-nm-inset flex  items-center mx-auto 
-                w-1/2 h-10 my-2 gap-x-2 active:text-gray-500"
+                  className="mx-auto my-2 flex h-10 
+                w-1/2 items-center justify-center gap-x-2  rounded-md border 
+                border-zinc-300 bg-secondary-color shadow-nm active:text-gray-500 active:shadow-nm-inset"
                 >
                   <FaTrash></FaTrash>
                   Remove
@@ -519,8 +579,8 @@ const EditProduct = () => {
             )} */}
           </div>
           <div className="col-span-1 flex-col space-y-5">
-            <fieldset className=" border border-gray-400/50 p-5 rounded-md spay">
-              <legend className="px-2 bg-secondary-color  rounded-md">
+            <fieldset className=" spay rounded-md border border-gray-400/50 p-5">
+              <legend className="rounded-md bg-secondary-color  px-2">
                 Product Information
               </legend>
               {/* //! PRODUCT_NAME  */}
@@ -537,12 +597,12 @@ const EditProduct = () => {
                   required={true}
                 ></InputField>
                 {errors.name?.type === "required" && (
-                  <p role="alert" className="text-red-400 text-sm">
+                  <p role="alert" className="text-sm text-red-400">
                     Product name must be included
                   </p>
                 )}
                 {errors.name?.type === "minLength" && (
-                  <p role="alert" className="text-red-400 text-sm">
+                  <p role="alert" className="text-sm text-red-400">
                     Should be more than 10 characters
                   </p>
                 )}
@@ -551,11 +611,11 @@ const EditProduct = () => {
               <div className="gap-x-2 space-y-5 lg:space-y-5">
                 {/* //! CATEGORY  */}
 
-                <div className="col-span-1  flex items-center border border-gray-300 rounded-md pl-2   bg-gray-300/60">
-                  <span className="mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                <div className="col-span-1  flex items-center rounded-md border border-gray-300 bg-gray-300/60   pl-2">
+                  <span className="mr-3  text-center text-xs font-medium uppercase tracking-wider text-gray-500">
                     Category
                   </span>
-                  <div className="w-full border-l border-l-gray-300 h-11">
+                  <div className="h-11 w-full border-l border-l-gray-300">
                     <DropDownMenu
                       selectedData={selectedCategory}
                       setSelectedData={setSelectedCategory}
@@ -566,8 +626,8 @@ const EditProduct = () => {
                 </div>
 
                 {/* //! PRODUCT_COLOR */}
-                <div className="col-span-1 flex items-center border border-gray-300 rounded-md pl-2  bg-gray-300/60 ">
-                  <span className="mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                <div className="col-span-1 flex items-center rounded-md border border-gray-300 bg-gray-300/60  pl-2 ">
+                  <span className="mr-3  text-center text-xs font-medium uppercase tracking-wider text-gray-500">
                     Color
                   </span>
                   <div className="w-full border-l border-l-gray-300">
@@ -591,27 +651,27 @@ const EditProduct = () => {
                   required={false}
                 ></InputField>
                 {errors.name?.type === "minLength" && (
-                  <p role="alert" className="text-red-400 text-sm">
+                  <p role="alert" className="text-sm text-red-400">
                     Should be more than 10 characters
                   </p>
                 )}
               </div>
             </fieldset>
             <fieldset
-              className={`border border-gray-400/50 p-5 rounded-md ${
+              className={`rounded-md border border-gray-400/50 p-5 ${
                 error && "text-zinc-300"
               }`}
             >
-              <legend className={`px-2 bg-secondary-color  rounded-md`}>
+              <legend className={`rounded-md bg-secondary-color  px-2`}>
                 Sizes, Price, Stock
               </legend>
 
               {/* //! PRODUCT_SIZE*/}
-              <div className="lg:flex items-start gap-x-2 mb-5">
-                <div className="flex items-center w-full border rounded-md border-gray-300 bg-gray-300/60 pl-2 mb-5 lg:mb-0">
+              <div className="mb-5 items-start gap-x-2 lg:flex">
+                <div className="mb-5 flex w-full items-center rounded-md border border-gray-300 bg-gray-300/60 pl-2 lg:mb-0">
                   {" "}
                   <span
-                    className={`mr-3  text-xs font-medium text-gray-500 uppercase tracking-wider text-center ${
+                    className={`mr-3  text-center text-xs font-medium uppercase tracking-wider text-gray-500 ${
                       !clothesCategories.includes(selectedCategory) &&
                       !footWearCategories.includes(selectedCategory) &&
                       !pantsCategories.includes(selectedCategory) &&
@@ -638,7 +698,7 @@ const EditProduct = () => {
                 </div>
               </div>
 
-              <div className="lg:grid grid-cols-4 gap-x-2 space-y-5 lg:space-y-0">
+              <div className="grid-cols-4 gap-x-2 space-y-5 lg:grid lg:space-y-0">
                 {/* //! PRODUCT_PRICE*/}
                 <div className={` ${error && "text-gray-300"} col-span-1`}>
                   <InputField
@@ -656,12 +716,12 @@ const EditProduct = () => {
                     defaultValue={state?.price}
                   ></InputField>
                   {errors.price?.type === "min" && selectedCategory && (
-                    <p role="alert" className="text-red-400 text-sm">
+                    <p role="alert" className="text-sm text-red-400">
                       Please enter a valid input
                     </p>
                   )}
                   {errors.price?.type === "required" && selectedCategory && (
-                    <p role="alert" className="text-red-400 text-sm">
+                    <p role="alert" className="text-sm text-red-400">
                       Price must be included
                     </p>
                   )}
@@ -682,19 +742,19 @@ const EditProduct = () => {
                     aria_invalid={errors?.stock ? "true" : "false"}
                   ></InputField>
                   {errors.stock?.type === "min" && selectedCategory && (
-                    <p role="alert" className="text-red-400 text-sm">
+                    <p role="alert" className="text-sm text-red-400">
                       Please enter a valid input
                     </p>
                   )}
                   {errors.stock?.type === "required" && selectedCategory && (
-                    <p role="alert" className="text-red-400 text-sm">
+                    <p role="alert" className="text-sm text-red-400">
                       Price must be included
                     </p>
                   )}
                 </div>
                 {/* //! PRODUCT_PROMOTIONAL_PRICE*/}
                 <div
-                  className={`${error && "text-gray-300"} text-sm col-span-1`}
+                  className={`${error && "text-gray-300"} col-span-1 text-sm`}
                 >
                   <InputField
                     fieldName={"Promo Price"}
@@ -711,7 +771,7 @@ const EditProduct = () => {
                     aria-invalid={errors?.promo_price ? "true" : "false"}
                   ></InputField>
                   {errors.promo_price?.type === "pattern" && (
-                    <p role="alert" className="text-red-400 text-sm">
+                    <p role="alert" className="text-sm text-red-400">
                       Please enter a valid input
                     </p>
                   )}
@@ -722,7 +782,7 @@ const EditProduct = () => {
                     type="button"
                     className={`${
                       error ? "bg-secondary-color" : "bg-blue-50/50"
-                    } p-2 border border-zinc-300 active:shadow-nm-inset transition-all rounded-md w-full `}
+                    } w-full rounded-md border border-zinc-300 p-2 transition-all active:shadow-nm-inset `}
                   >
                     Apply to all
                   </button>
@@ -730,30 +790,30 @@ const EditProduct = () => {
               </div>
               {/* // ! TABLE */}
               {selectedCategory && selectedProductSize.length > 0 && (
-                <table className="min-w-full divide-y divide-gray-200 mt-5 border border-gray-300/60 ">
+                <table className="mt-5 min-w-full divide-y divide-gray-200 border border-gray-300/60 ">
                   <thead className="bg-gray-300/60 ">
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
+                        className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500"
                       >
                         Size
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
+                        className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500"
                       >
                         Price
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
+                        className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500"
                       >
                         Stock
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-secondary-color divide-y divide-gray-300/80 ">
+                  <tbody className="divide-y divide-gray-300/80 bg-secondary-color ">
                     {selectedProductSize
                       ?.sort((a, b) => {
                         // sort id wise
@@ -761,14 +821,14 @@ const EditProduct = () => {
                       })
                       .map((size, idx) => (
                         <tr key={size.id}>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-center font-medium text-gray-900">
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <div className="text-center text-sm font-medium text-gray-900">
                               {size?.name}
                             </div>
                           </td>
                           <td className="pr-2">
                             <div
-                              className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
+                              className={` rounded-md border border-gray-300  bg-gray-300/60 ${
                                 error && "border-gray-300/50"
                               }`}
                             >
@@ -789,7 +849,7 @@ const EditProduct = () => {
                                 aria-invalid={
                                   errors?.sizePrice ? "true" : "false"
                                 }
-                                className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
+                                className="w-full rounded-md bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none "
                                 disabled={error}
                               />
                             </div>
@@ -798,7 +858,7 @@ const EditProduct = () => {
                               selectedCategory && (
                                 <p
                                   role="alert"
-                                  className="text-red-400 text-sm"
+                                  className="text-sm text-red-400"
                                 >
                                   Please enter a valid input
                                 </p>
@@ -807,15 +867,15 @@ const EditProduct = () => {
                               selectedCategory && (
                                 <p
                                   role="alert"
-                                  className="text-red-400 text-sm"
+                                  className="text-sm text-red-400"
                                 >
                                   Price must be included
                                 </p>
                               )}
                           </td>
-                          <td className="py-2 whitespace-nowrap px-2">
+                          <td className="whitespace-nowrap py-2 px-2">
                             <div
-                              className={` border border-gray-300 rounded-md  bg-gray-300/60 ${
+                              className={` rounded-md border border-gray-300  bg-gray-300/60 ${
                                 error && "border-gray-300/50 "
                               }`}
                             >
@@ -836,7 +896,7 @@ const EditProduct = () => {
                                 aria-invalid={
                                   errors?.sizeQuantity ? "true" : "false"
                                 }
-                                className="focus:outline-none w-full bg-secondary-color p-3 text-sm  focus:shadow-nm-inset rounded-md text-center "
+                                className="w-full rounded-md bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none "
                                 disabled={error}
                               />
                             </div>
@@ -845,7 +905,7 @@ const EditProduct = () => {
                               selectedCategory && (
                                 <p
                                   role="alert"
-                                  className="text-red-400 text-sm"
+                                  className="text-sm text-red-400"
                                 >
                                   Please enter a valid input
                                 </p>
@@ -854,7 +914,7 @@ const EditProduct = () => {
                               selectedCategory && (
                                 <p
                                   role="alert"
-                                  className="text-red-400 text-sm"
+                                  className="text-sm text-red-400"
                                 >
                                   stock must be included
                                 </p>
@@ -868,11 +928,11 @@ const EditProduct = () => {
             </fieldset>
 
             <fieldset
-              className={`border border-gray-400/50 p-5 rounded-md ${
+              className={`rounded-md border border-gray-400/50 p-5 ${
                 error && "text-zinc-300"
               }`}
             >
-              <legend className={`px-2 bg-secondary-color  rounded-md`}>
+              <legend className={`rounded-md bg-secondary-color  px-2`}>
                 DESCRIPTION
               </legend>
               {/* //! PRODUCT_DESCRIPTION*/}
@@ -880,9 +940,9 @@ const EditProduct = () => {
                 {...register("description")}
                 rows="5"
                 style={{ resize: "none" }}
-                className={`w-full bg-secondary-color border border-zinc-300 focus:outline-none  focus:shadow-nm-inset rounded-md p-2 text-center text-sm ${
+                className={`w-full rounded-md border border-zinc-300 bg-secondary-color  p-2 text-center text-sm focus:shadow-nm-inset focus:outline-none ${
                   error &&
-                  "text-gray-300 border-gray-300/50 disabled:placeholder:text-gray-300"
+                  "border-gray-300/50 text-gray-300 disabled:placeholder:text-gray-300"
                 }`}
                 placeholder="Description about the product"
                 disabled={error}
@@ -899,9 +959,9 @@ const EditProduct = () => {
                 <div className="continuous-7 my-10 mx-auto"></div>
               </>
             ) : (
-              <div className="flex gap-x-5 justify-center items-center">
+              <div className="flex items-center justify-center gap-x-5">
                 <button
-                  className="w-1/3 p-3  rounded-md  bg-secondary-color text-black border border-zinc-300 active:text-black active:shadow-nm-inset cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
+                  className="w-1/3 cursor-pointer  rounded-md  border border-zinc-300 bg-secondary-color p-3 text-black transition-all active:scale-95 active:text-black active:shadow-nm-inset disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
                   type="button"
                   onClick={() => navigate("/dashboard/myproducts")}
                 >
@@ -911,14 +971,14 @@ const EditProduct = () => {
                   // disabled={error || selectedProductSize.length === 0 }
                   type="submit"
                   value="Save"
-                  className="w-1/3 p-3  rounded-md  bg-blue-400 text-white shadow-md shadow-blue-300 active:text-black cursor-pointer active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
+                  className="w-1/3 cursor-pointer  rounded-md  bg-blue-400 p-3 text-white shadow-md shadow-blue-300 transition-all active:scale-95 active:text-black disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
                 />
               </div>
             )}
           </div>
         </form>
         {uploadError && (
-          <p className="text-center my-4 px-6 py-3  text-sm font-medium text-gray-500  tracking-wider">
+          <p className="my-4 px-6 py-3 text-center  text-sm font-medium tracking-wider  text-gray-500">
             Please{" "}
             <span
               onClick={() => {
@@ -927,7 +987,7 @@ const EditProduct = () => {
                 });
                 logOut();
               }}
-              className="inline-block text-blue-400 hover:underline  cursor-pointer "
+              className="inline-block cursor-pointer text-blue-400  hover:underline "
             >
               login
             </span>{" "}
@@ -939,4 +999,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default memo(EditProduct);

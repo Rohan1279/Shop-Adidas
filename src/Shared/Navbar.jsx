@@ -24,9 +24,9 @@ const Navbar = () => {
 
   const [active, setActive] = useState(false);
   return (
-    <nav className="bg-secondary-color fixed top-0 w-full z-10 ">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8  relative z-30">
-        <div className="relative h-16 flex items-center justify-between">
+    <nav className="fixed top-0 z-10 w-full bg-secondary-color ">
+      <div className="relative z-30 mx-auto max-w-7xl px-2  sm:px-6 lg:px-8">
+        <div className="relative flex h-16 items-center justify-between">
           {/* <!-- Mobile menu button--> */}
           {/* <!-- Mobile menu, show/hide based on menu state. --> */}
           <div className="h-6 overflow-hidden sm:hidden">
@@ -48,7 +48,7 @@ const Navbar = () => {
                     >
                       <HiBars3BottomLeft
                         onClick={() => setActive(!active)}
-                        className="text-2xl hover:text-opacity-100 active:scale-90 transition-all"
+                        className="text-2xl transition-all hover:text-opacity-100 active:scale-90"
                       ></HiBars3BottomLeft>
                     </Transition>
 
@@ -63,7 +63,7 @@ const Navbar = () => {
                     >
                       <HiOutlineXMark
                         onClick={() => setActive(!active)}
-                        className="text-2xl hover:text-opacity-100  active:scale-90 transition-all"
+                        className="text-2xl transition-all  hover:text-opacity-100 active:scale-90"
                       ></HiOutlineXMark>
                     </Transition>
                   </Popover.Button>
@@ -77,10 +77,10 @@ const Navbar = () => {
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 translate-y-1"
                   >
-                    <Popover.Panel className="absolute left-0 z-10 top-16 w-screen max-w-sm  sm:px-0 lg:max-w-3xl">
+                    <Popover.Panel className="absolute left-0 top-16 z-10 w-screen max-w-sm  sm:px-0 lg:max-w-3xl">
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
                         <div className="relative grid gap-8 bg-white lg:grid-cols-2 ">
-                          <div className="sm:hidden bg-secondary-color h-fit z-10">
+                          <div className="z-10 h-fit bg-secondary-color sm:hidden">
                             <div className="space-y-1 px-2 pt-2 pb-3 ">
                               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                               <NavLink
@@ -88,8 +88,8 @@ const Navbar = () => {
                                 to={"/"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                                    ? `block rounded-md border  border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 shadow-nm-inset transition-all hover:text-gray-800`
+                                    : "block rounded-md  border border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                                 }
                               >
                                 Home
@@ -99,8 +99,8 @@ const Navbar = () => {
                                 to={"/products"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                                    ? `block rounded-md border  border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 shadow-nm-inset transition-all hover:text-gray-800`
+                                    : "block rounded-md  border border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                                 }
                               >
                                 Products
@@ -123,8 +123,8 @@ const Navbar = () => {
                                   to={"/dashboard/home"}
                                   className={({ isActive }) =>
                                     isActive
-                                      ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                                      : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                                      ? `block rounded-md border  border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 shadow-nm-inset transition-all hover:text-gray-800`
+                                      : "block rounded-md  border border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                                   }
                                 >
                                   Dashboard
@@ -137,15 +137,15 @@ const Navbar = () => {
                                 to={"/cart"}
                                 className={({ isActive }) =>
                                   isActive
-                                    ? `bg-secondary-color text-gray-500 shadow-nm-inset  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block`
-                                    : "bg-secondary-color text-gray-500  transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300 block"
+                                    ? `block rounded-md border  border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 shadow-nm-inset transition-all hover:text-gray-800`
+                                    : "block rounded-md  border border-zinc-300 bg-secondary-color px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                                 }
                               >
                                 {/* <div className="flex space-x-2 rounded-md">
                                   <HiShoppingCart className="text-xl"></HiShoppingCart>
                                   <span className="text-sm">Cart</span>
                                 </div> */}
-                                <div className="flex space-x-2 justify- items-center">
+                                <div className="justify- flex items-center space-x-2">
                                   {/* <HiShoppingCart className="text-xl"></HiShoppingCart> */}
                                   <img
                                     src="https://cdn4.iconfinder.com/data/icons/smooth-3d-for-online-stores/512/shopping-basket.png"
@@ -165,30 +165,30 @@ const Navbar = () => {
               )}
             </Popover>
           </div>
-          <div className="flex lg:flex-1">
+          <div className="flex items-center gap-x-2 lg:flex-1">
             <img
-              className="block h-8 w-auto lg:hidden"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              className="block h-12 w-auto lg:hidden "
+              src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
               alt="Your Company"
             />
             <img
-              className="hidden h-8 w-auto lg:block"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              className="hidden h-12 w-auto lg:block "
+              src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
               alt="Your Company"
             />
           </div>
           {/* //! DESKTOP_NAVBAR */}
           <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block ">
-              <div className="flex space-x-4 justify-center items-center">
+              <div className="flex items-center justify-center space-x-4">
                 {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                 {/* //! add active navlink */}
                 <NavLink
                   to={"/"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
-                      : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
+                      ? ` rounded-md  border border-zinc-300 px-3 py-2 text-sm font-medium text-gray-800 shadow-nm-inset transition-all`
+                      : "rounded-md  border  border-zinc-300 px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                   }
                   //   className="text-gray-500 hover:shadow-nm transition-all hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300"
                 >
@@ -198,8 +198,8 @@ const Navbar = () => {
                   to={"/products"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
-                      : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
+                      ? ` rounded-md  border border-zinc-300 px-3 py-2 text-sm font-medium text-gray-800 shadow-nm-inset transition-all`
+                      : "rounded-md  border  border-zinc-300 px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                   }
                 >
                   Products
@@ -220,8 +220,8 @@ const Navbar = () => {
                     to={"/dashboard/home"}
                     className={({ isActive }) =>
                       isActive
-                        ? ` shadow-nm-inset  transition-all text-gray-800 px-3 py-2 rounded-md text-sm font-medium border border-zinc-300`
-                        : "text-gray-500  transition-all  px-3 py-2 hover:text-gray-800 rounded-md text-sm font-medium border border-zinc-300"
+                        ? ` rounded-md  border border-zinc-300 px-3 py-2 text-sm font-medium text-gray-800 shadow-nm-inset transition-all`
+                        : "rounded-md  border  border-zinc-300 px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800"
                     }
                   >
                     Dashboard
@@ -233,11 +233,11 @@ const Navbar = () => {
                   to={"/cart"}
                   className={({ isActive }) =>
                     isActive
-                      ? ` shadow-nm-inset transition-all text-gray-800 px-2 py-1 rounded-md text-sm font-medium border border-zinc-300`
-                      : "shadow-nm text-gray-500  transition-all  px-2 py-1 hover:text-gray-800 rounded-md  text-sm font-medium border border-zinc-300"
+                      ? ` rounded-md border border-zinc-300 px-2 py-1 text-sm font-medium text-gray-800 shadow-nm-inset transition-all`
+                      : "rounded-md border  border-zinc-300  px-2 py-1 text-sm font-medium  text-gray-500 shadow-nm transition-all hover:text-gray-800"
                   }
                 >
-                  <div className="flex space-x-2 justify-center items-center">
+                  <div className="flex items-center justify-center space-x-2">
                     {/* <HiShoppingCart className="text-xl"></HiShoppingCart> */}
                     <img
                       src="https://cdn4.iconfinder.com/data/icons/smooth-3d-for-online-stores/512/shopping-basket.png"
@@ -269,7 +269,7 @@ const Navbar = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute top-20 right-0 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none p-2 z-50">
+                <Menu.Items className="absolute top-20 right-0 z-50 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color p-2 shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1">
                     {user && (
                       <Link to={"/"}>
@@ -278,8 +278,8 @@ const Navbar = () => {
                             <button
                               className={`${
                                 active ? "" : "text-gray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
-                          mt-1 border border-zinc-300 transition-all mb-1`}
+                              } group mt-1 mb-1 flex w-full items-center rounded-md border border-zinc-300
+                          px-2 py-2 text-sm transition-all active:shadow-nm-inset`}
                             >
                               Profile
                             </button>
@@ -292,7 +292,7 @@ const Navbar = () => {
                         <button
                           className={`${
                             active ? "" : "text-gray-500"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mb-1 border border-zinc-300 transition-all`}
+                          } group mb-1 flex w-full items-center rounded-md border border-zinc-300 px-2 py-2 text-sm transition-all active:shadow-nm-inset`}
                         >
                           Wishlist
                         </button>
@@ -308,8 +308,8 @@ const Navbar = () => {
                               onClick={() => logOut()}
                               className={`${
                                 active ? "" : "text-gray-500"
-                              } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset
-                        mt-1 border border-zinc-300 transition-all`}
+                              } group mt-1 flex w-full items-center rounded-md border border-zinc-300 px-2
+                        py-2 text-sm transition-all active:shadow-nm-inset`}
                             >
                               Logout
                             </button>
@@ -325,7 +325,7 @@ const Navbar = () => {
                                 <button
                                   className={`${
                                     active ? "" : "text-gray-500"
-                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm active:shadow-nm-inset mt-1 border border-zinc-300 transition-all`}
+                                  } group mt-1 flex w-full items-center rounded-md border border-zinc-300 px-2 py-2 text-sm transition-all active:shadow-nm-inset`}
                                 >
                                   Login
                                 </button>

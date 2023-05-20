@@ -47,13 +47,13 @@ export default function Modal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="bg-secondary-color rounded-lg shadow-nm p-6 mx-4 md:mx-0 w-full md:w-2/3 lg:w-1/3">
+                <Dialog.Panel className="mx-4 w-full rounded-lg bg-secondary-color p-6 shadow-nm md:mx-0 md:w-2/3 lg:w-1/3">
                   <div className="text-center">
-                    <h3 className="text-lg font-medium mb-2">
+                    <h3 className="mb-2 text-lg font-medium">
                       {confirmMessage}
                     </h3>
                     <span className="mb-2 text-xl font-bold">{data?.name}</span>
-                    <p className="text-red-400 mb-6 text-sm font-medium tracking-wider ">
+                    <p className="mb-6 text-sm font-medium tracking-wider text-red-400 ">
                       (This action cannot be undone)
                     </p>
 
@@ -61,13 +61,13 @@ export default function Modal({
                       <button
                         // type="button"
                         onClick={() => setIsOpen(false)}
-                        className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
+                        className="w-1/3 rounded-md border border-gray-300 px-4 py-2 shadow-nm  transition-colors duration-200 active:shadow-nm-inset"
                       >
                         Cancel
                       </button>
                       <button
                         type="button"
-                        className="w-1/3 px-4 py-2 shadow-nm active:shadow-nm-inset border border-gray-300  rounded-md transition-colors duration-200"
+                        className="w-1/3 rounded-md border border-gray-300 px-4 py-2 shadow-nm  transition-colors duration-200 active:shadow-nm-inset"
                         onClick={closeModal}
                       >
                         {confirmButtonText}

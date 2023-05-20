@@ -9,24 +9,24 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import { Transition } from "@headlessui/react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import Loader from "../../components/Loader/Loader";
+import { dataLoader } from "../../utils/dataLoader";
 
 //! add pagination feature
 const Products = () => {
-  const { products, categories, isSuccess, isFetching } = useContext(Context);
-  const fixedCategories = categories.filter((category) => category.id !== "0");
+  // const { products, categories, isSuccess, isFetching,isLoading } = useContext(Context);
+  const { products, categories, isSuccess,  isLoading } =
+    dataLoader();
+  const fixedCategories = categories?.filter((category) => category.id !== "0");
+  console.log(fixedCategories);
 
-  const [categoryProducts, setCategoryProducts] = useState(
-    products.slice(0, 10)
-  );
+  const [categoryProducts, setCategoryProducts] = useState([]);
   const [prevCategory, setPrevCategory] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  // }, [products]);
-  // if (products.length < 1) {
-  //   setIsLoading(true);
-  // }
+  useEffect(() => {
+    setCategoryProducts(products?.slice(0, 10));
+  }, [products]);
 
   const handleFilterProducts = (e, id) => {
     setPrevCategory(e);
@@ -63,48 +63,53 @@ const Products = () => {
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
-      {isLoading ? (
-        <div className="h-screen bg-red-400 w-fit">
-          <Loader></Loader>
-        </div>
-      ) : (
-        <div className="px-1">
-          <h1 className="text-center text-5xl my-10">All Products</h1>
-          <div className="flex flex-wrap justify-between items-center my-8 w-full ">
-            {fixedCategories?.map((category) => (
-              <button
-                key={category._id}
-                className={`w-44 border-slate-300 mx-auto my-1 p-2 border bg-inherit shadow-nm active:shadow-nm-inset transition-all`}
-                onClick={(e) => {
-                  handleFilterProducts(e, category._id);
-                }}
+      <div className="min-h-screen px-1">
+        <h1 className="my-10 text-center text-5xl">All Products</h1>
+        <div className="my-8 flex w-full flex-wrap items-center justify-between ">
+          {fixedCategories?.map((category) => (
+            <button
+              key={category._id}
+              className={`mx-auto my-1 w-44 border border-slate-300 bg-inherit p-2 shadow-nm transition-all active:shadow-nm-inset`}
+              onClick={(e) => {
+                handleFilterProducts(e, category._id);
+              }}
 
-                // handler={handleCurrentSize}
-              >
-                {category.name}
-              </button>
-              //    <Button
-              //    key={category.id}
-              //    data={category}
-              //    handler={handleFilterProducts}
-              //    classes={"w-44 border-slate-300 mx-auto my-1"}
-              //  >
-              //    {category.name}
-              //  </Button>
-            ))}
-          </div>
-          <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 transition-all">
-            {categoryProducts?.map((product) => (
+              // handler={handleCurrentSize}
+            >
+              {category.name}
+            </button>
+            //    <Button
+            //    key={category.id}
+            //    data={category}
+            //    handler={handleFilterProducts}
+            //    classes={"w-44 border-slate-300 mx-auto my-1"}
+            //  >
+            //    {category.name}
+            //  </Button>
+          ))}
+        </div>
+        <div className=" grid grid-cols-1 gap-1 transition-all md:grid-cols-3 lg:grid-cols-4">
+          {isLoading ? (
+            <div className="flex h-screen w-screen items-start justify-center">
+              {/* <Loader></Loader> */}
+              <img
+                src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
+                alt=""
+                className="animate-pulse "
+              />
+            </div>
+          ) : (
+            categoryProducts?.map((product) => (
               <ProductCard
                 handler={handleBrowseProduct}
                 key={product._id}
                 data={product}
                 classes={"text-lg"}
               ></ProductCard>
-            ))}
-          </div>
+            ))
+          )}
         </div>
-      )}
+      </div>
     </Transition>
   );
 };

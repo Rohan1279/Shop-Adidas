@@ -131,13 +131,13 @@ const DashboardLayout = () => {
 
         <Suspense
           fallback={
-            <div className="w-full h-screen">
+            <div className="w-full h-screen flex items-center">
               <Loader></Loader>
             </div>
           }
         >
           <div
-            className={`transition-all w-screen h-fit overflow-x-scroll z-0`}
+            className={`w-screen overflow-x-scroll  z-0 transition-all duration-300 ease-in-out`}
           >
             <Outlet />
           </div>

@@ -88,16 +88,17 @@ const ContextProvider = ({ children }) => {
   // }
   // const [cart, setCart] = useState(initialCart);
 
-  if (isLoading) {
-    return <h2 className="text-4xl text-center rotating-dots">Loading</h2>;
-  } else
+  // if (isLoading) {
+  //   return <h2 className="text-4xl text-center rotating-dots">Loading</h2>;
+  // } else
     return (
       <Context.Provider
         value={{
           products,
           categories,
-          isSuccess,
-          isFetching,
+          isLoading,
+          // isSuccess,
+          // isFetching,
           authInfo,
         }}
       >

@@ -11,16 +11,20 @@ import Cart from "../Pages/Cart/Cart";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import SellerRoute from "./SellerRoute/SellerRoute";
-// import AddProduct from "../Pages/Dashboard/SellerDashboard/AddProduct/AddProduct";
+
 const AddProduct = lazy(() =>
   import("../Pages/Dashboard/SellerDashboard/AddProduct/AddProduct")
 );
+const MyProducts = lazy(() =>
+  import("../Pages/Dashboard/SellerDashboard/MyProducts/MyProducts")
+);
+const EditProduct = lazy(() =>
+  import("../Pages/Dashboard/SellerDashboard/EditProduct/EditProduct")
+);
 
-import MyProducts from "../Pages/Dashboard/SellerDashboard/MyProducts/MyProducts";
 import MyBuyers from "../Pages/Dashboard/SellerDashboard/MyBuyers/MyBuyers";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Loader from "../components/Loader/Loader";
-import EditProduct from "../Pages/Dashboard/SellerDashboard/EditProduct/EditProduct";
 
 const router = createBrowserRouter([
   {

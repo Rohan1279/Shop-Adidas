@@ -13,13 +13,14 @@ const SellerRoute = ({ children }) => {
   const location = useLocation();
   if (loading || isSellerLoading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center  backdrop-blur-sm">
+      <div className="flex h-screen w-full items-center justify-center  backdrop-blur-sm ">
         <Loader></Loader>
       </div>
     );
   }
   if (user && isSeller) {
-    return children;
+    return <div className="">{children}</div>;
+    // return children
   }
   return <Navigate to={"/login"} state={{ from: location }} replace></Navigate>;
 };

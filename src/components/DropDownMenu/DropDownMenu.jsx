@@ -119,7 +119,7 @@ const DropDownMenu = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md   bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
-            {array.map((item, idx) => (
+            {array?.map((item, idx) => (
               <Listbox.Option
                 key={item.id}
                 className={({ active, selected }) =>

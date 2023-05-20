@@ -9,9 +9,11 @@ import Button from "../../../components/Button/Button";
 import DelayedFadeInComponent from "../../../components/DelayedComponent/DelayedComponent";
 import { Context } from "../../../contexts/ContextProvider";
 import "./Banner.css";
+import { dataLoader } from "../../../utils/dataLoader";
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const { categories, products } = useContext(Context);
+  // const { categories, products } = useContext(Context);
+  const { products, categories, isSuccess, isFetching } = dataLoader();
   // console.log(categories);
 
   const bannerImageRef = useRef();
