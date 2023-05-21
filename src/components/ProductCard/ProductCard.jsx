@@ -20,7 +20,7 @@ const ProductCard = ({ classes, data, handler }) => {
       onMouseEnter={() => setIsHovered(!isHovered)}
       onMouseLeave={() => setIsHovered(!isHovered)}
       onClick={() => handler(data._id)}
-      className="group relative block bg-black cursor-pointer overflow-hidden "
+      className="group relative block cursor-pointer overflow-hidden bg-black "
     >
       <LazyLoadImage
         effect="opacity"

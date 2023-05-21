@@ -959,7 +959,7 @@ const EditProduct = () => {
                 <div className="continuous-7 my-10 mx-auto"></div>
               </>
             ) : (
-              <div className="flex items-center justify-center gap-x-5">
+              <div className="flex items-center justify-center gap-x-5 space-x-5">
                 <button
                   className="w-1/3 cursor-pointer  rounded-md  border border-zinc-300 bg-secondary-color p-3 text-black transition-all active:scale-95 active:text-black active:shadow-nm-inset disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
                   type="button"

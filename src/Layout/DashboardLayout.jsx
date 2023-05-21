@@ -19,8 +19,6 @@ import { HiXMark } from "react-icons/hi2";
 import Loader from "../components/Loader/Loader";
 import { Popover, Tab, Transition } from "@headlessui/react";
 import Footer from "../Shared/Footer";
-import Desclaimer from "../Shared/Disclaimer";
-import Disclaimer from "../Shared/Disclaimer";
 
 const DashboardLayout = () => {
   const { authInfo } = useContext(Context);
@@ -146,7 +144,6 @@ const DashboardLayout = () => {
           </div>
         </Suspense>
       </div>
-      <Disclaimer/>
       {/* <Footer /> */}
     </div>
   );

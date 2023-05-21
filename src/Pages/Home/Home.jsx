@@ -9,7 +9,6 @@ import { Context } from "../../contexts/ContextProvider";
 const Home = () => {
   const [loaded, setLoaded] = useState(false);
   const { categories, isLoading } = useContext(Context);
-  console.log(isLoading);
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll("img", "div"));

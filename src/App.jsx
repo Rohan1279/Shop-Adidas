@@ -5,6 +5,7 @@ import "./App.css";
 import ContextProvider from "./contexts/ContextProvider";
 import router from "./Routes/routes";
 import { Toaster } from "react-hot-toast";
+import Disclaimer from "./Shared/Disclaimer";
 
 function App() {
   const queryClient = new QueryClient();
@@ -39,11 +40,11 @@ function App() {
                     backdropFilter: "",
                   },
                 },
-                
               }}
             ></Toaster>
           </ContextProvider>
         </QueryClientProvider>
+        <Disclaimer />
       </React.StrictMode>
     </div>
   );
