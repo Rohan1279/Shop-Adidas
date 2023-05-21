@@ -88,6 +88,7 @@ const Login = () => {
   const handleAuthenticate = (provider) => {
     authenticateWithProvider(provider)
       .then((result) => {
+        toast.success("Login successfull");
         fetch(`${import.meta.env.VITE_SERVER_URL}/user/${result?.user?.email}`)
           .then((res) => res.json())
           .then((data) => {
@@ -98,10 +99,17 @@ const Login = () => {
               userRole,
             };
             setAuthToken(user, logOut);
+            navigate(from, {
+              replace: true,
+              state:
+                location?.state?.from?.state?.from?.state || //from bavbar logout
+                location?.state,
+            });
           });
       })
       .catch((err) => {
         console.log(err);
+        // toast.error(err.message);
       });
   };
   return (
