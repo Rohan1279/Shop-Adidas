@@ -12,8 +12,8 @@ import "./Banner.css";
 import { dataLoader } from "../../../utils/dataLoader";
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
-  // const { categories, products } = useContext(Context);
-  const { products, categories, isSuccess, isFetching } = dataLoader();
+  const { categories, products, isLoading } = useContext(Context);
+  // const { products, categories, isSuccess, isFetching } = dataLoader();
   // console.log(categories);
 
   const bannerImageRef = useRef();
@@ -37,8 +37,8 @@ const Banner = () => {
   };
   return (
     <LazyLoadComponent>
-      <div className="md:flex justify-center items-center w-auto gap-x-1 transition-all ">
-        <div className="w-auto mb-10 md:mb-0 relative bg-gradient-to-br from-white to-zinc-500">
+      <div className="w-auto items-center justify-center gap-x-1 transition-all md:flex ">
+        <div className="relative mb-10 w-auto bg-gradient-to-br from-white to-zinc-500 md:mb-0">
           <img
             onLoad={(e) => setBannerImageInitialHeight(e.target.clientHeight)}
             id="banner-image"
@@ -47,13 +47,11 @@ const Banner = () => {
             alt=""
             className="relative opacity-50"
           />
-          <div className="absolute inset-y-0 inset-x-0 mx-auto my-auto  font-extrabold text-white w-3/4 h-fit text-center md:text-left ">
-            <h2 className="w-full mb-4 text-3xl sm:text-5xl">
+          <div className="absolute inset-y-0 inset-x-0 mx-auto my-auto  h-fit w-3/4 text-center font-extrabold text-white md:text-left ">
+            <h2 className="mb-4 w-full text-3xl sm:text-5xl">
               We are Shop Adidas{" "}
             </h2>
-            <p className="text-black">
-              Lorem, ipsum dolor sit amet consectetur adipisicing.
-            </p>
+            <p className="text-black">Elevate Your Style with Confidence!</p>
             <Link to={"/products"}>
               <Button
                 classes={
@@ -72,7 +70,7 @@ const Banner = () => {
             height: `${bannerImageInitialHeight}px`,
           }}
           id="category-section"
-          className={`sm:grid grid-cols-2 sm:gap-y-[80%] md:gap-y-[48%] lg:gap-y-[48%] gap-x-2 overflow-scroll overflow-x-auto px-2`}
+          className={`grid-cols-2 gap-x-2 overflow-scroll overflow-x-auto px-2 sm:grid sm:gap-y-[80%] md:gap-y-[48%] lg:gap-y-[48%]`}
         >
           {categories?.map((category) => (
             <BannerCard
