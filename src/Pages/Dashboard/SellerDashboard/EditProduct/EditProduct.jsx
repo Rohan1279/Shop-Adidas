@@ -789,7 +789,7 @@ const EditProduct = () => {
                 </div>
               </div>
               {/* // ! TABLE */}
-              {selectedCategory && selectedProductSize.length > 0 && (
+              {selectedCategory && selectedProductSize?.length > 0 && (
                 <table className="mt-5 min-w-full divide-y divide-gray-200 border border-gray-300/60 ">
                   <thead className="bg-gray-300/60 ">
                     <tr>
