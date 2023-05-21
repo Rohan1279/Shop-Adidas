@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const [active, setActive] = useState(false);
   return (
-    <nav className="fixed top-0 z-10 w-full bg-secondary-color ">
+    <nav className="fixed top-0 z-50 w-full bg-secondary-color ">
       <div className="relative z-30 mx-auto max-w-7xl px-2  sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* <!-- Mobile menu button--> */}
@@ -77,11 +77,11 @@ const Navbar = () => {
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 translate-y-1"
                   >
-                    <Popover.Panel className="absolute left-0 top-16 z-10 w-screen max-w-sm  sm:px-0 lg:max-w-3xl">
+                    <Popover.Panel className="absolute left-0 top-16 z-10 w-screen max-w-sm  sm:px-0 lg:max-w-3xl ">
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
                         <div className="relative grid gap-8 bg-white lg:grid-cols-2 ">
-                          <div className="z-10 h-fit bg-secondary-color sm:hidden">
-                            <div className="space-y-1 px-2 pt-2 pb-3 ">
+                          <div className="z-20 h-fit bg-secondary-color sm:hidden">
+                            <div className="space-y-1 px-2 pt-2 pb-3 z-50">
                               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                               <NavLink
                                 onClick={() => setActive(!active)}
@@ -269,7 +269,7 @@ const Navbar = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute top-20 right-0 z-50 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color p-2 shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute top-20 right-0  z-50 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-secondary-color p-2 shadow-nm ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1">
                     {user && (
                       <Link to={"/"}>
