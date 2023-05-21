@@ -347,25 +347,14 @@ const MyProducts = () => {
                             }}
                             className="active: h-8 w-8 cursor-pointer rounded-md bg-secondary-color p-2 shadow-nm transition-all hover:brightness-95 active:shadow-nm-inset"
                           ></FaEdit>
-                          <Modal
-                            isOpen={isOpen}
-                            setIsOpen={setIsOpen}
-                            closeModal={confirmModal}
-                            openModal={openModal}
-                            data={selectedProduct}
-                            confirmMessage={
-                              "Are you sure to delete the following"
-                            }
-                            confirmButtonText={"Confirm"}
-                          >
-                            <FaTrashAlt
-                              onClick={() => {
-                                openModal(product);
-                                // viewproduct(product?._id);
-                              }}
-                              className="active: h-8 w-8 cursor-pointer rounded-md bg-secondary-color p-2  shadow-nm transition-all hover:brightness-95 active:shadow-nm-inset"
-                            ></FaTrashAlt>
-                          </Modal>
+
+                          <FaTrashAlt
+                            onClick={() => {
+                              openModal(product);
+                              // viewproduct(product?._id);
+                            }}
+                            className="active: h-8 w-8 cursor-pointer rounded-md bg-secondary-color p-2  shadow-nm transition-all hover:brightness-95 active:shadow-nm-inset"
+                          ></FaTrashAlt>
 
                           <FaEye
                             onClick={() => {
@@ -466,6 +455,15 @@ const MyProducts = () => {
         </div>
       </div>
       <Outlet />
+      <Modal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        closeModal={confirmModal}
+        openModal={openModal}
+        data={selectedProduct}
+        confirmMessage={"Are you sure to delete the following"}
+        confirmButtonText={"Confirm"}
+      ></Modal>
     </div>
   );
 };

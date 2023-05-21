@@ -76,57 +76,57 @@ const ProductDetail = () => {
 
   return (
     // ! use carousal for all products of the category
-    <div className="px-5 h-screen overflow-auto py-10  ">
+    <div className="h-screen overflow-auto px-5 py-10  ">
       <div
         onClick={() => navigate(-1)}
-        className="flex items-center gap-x-2 font-semibold hover:underline cursor-pointer "
+        className="flex cursor-pointer items-center gap-x-2 font-semibold hover:underline "
       >
         <BackButton classes={"text-lg"}></BackButton>
         <p>Back</p>
       </div>
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
-      <div className="md:grid grid-cols-2 justify-center items-start ">
+      <div className="grid-cols-2 items-start justify-center md:grid ">
         <img
           src={state?.img}
           alt=""
-          className="w-full md:w-[75%] max-w-xl mb-5 shadow-nm rounded-xl mx-auto"
+          className="mx-auto mb-5 w-full max-w-xl rounded-xl shadow-nm md:w-[75%]"
           loading="lazy"
         />
-        <div className="shadow-nm rounded-md p-7 h-fit transition-all duration-700">
+        <div className="h-fit rounded-md p-7 shadow-nm transition-all duration-700">
           <section className=" sticky top-0">
-            <div className="flex justify-between mb-2">
+            <div className="mb-2 flex justify-between">
               <p className="text-lg">{state?.category}</p>
-              <div className="flex items-center justify-center gap-x-2 mb-5">
+              <div className="mb-5 flex items-center justify-center gap-x-2">
                 <div className="flex">
                   <HiStar></HiStar>
                   <HiStar></HiStar>
                   <HiStar></HiStar>
                   <HiStar></HiStar>
                 </div>
-                <p className="font-semibold hover:underline cursor-pointer text-lg">
+                <p className="cursor-pointer text-lg font-semibold hover:underline">
                   {state?.reviewsCount} Reviews
                 </p>
               </div>
             </div>
             <div
               className={
-                "w-full my-3 mx-auto block bg-primary-color text-green-500 font-extrabold  transition-all py-2 rounded-md text-sm  border border-zinc-300 text-center"
+                "my-3 mx-auto block w-full rounded-md border border-zinc-300  bg-primary-color py-2 text-center text-sm  font-extrabold text-green-500 transition-all"
               }
             >
               In stock
             </div>
-            <h2 className="text-4xl font-extrabold mb-5">{state?.name}</h2>
-            <p className="font-bold mb-2">${state?.price}</p>
+            <h2 className="mb-5 text-4xl font-extrabold">{state?.name}</h2>
+            <p className="mb-2 font-bold">${state?.price}</p>
             <p className="mb-3">
               {state?.color ? state.color : "No colors available"}
             </p>
             <Disclosure>
-              <hr className="border border-gray-300 mb-2" />
+              <hr className="mb-2 border border-gray-300" />
 
               <Disclosure.Button
                 onClick={() => setOpen(!open)}
                 className={
-                  "w-full flex justify-between items-center gap-x-2 font-semibold"
+                  "flex w-full items-center justify-between gap-x-2 font-semibold"
                 }
               >
                 <span>Description</span>
@@ -147,18 +147,18 @@ const ProductDetail = () => {
                 </Disclosure.Panel>
               </Transition>
             </Disclosure>
-            <hr className="border border-gray-300 mt-2" />
+            <hr className="mt-2 border border-gray-300" />
 
             <p className="my-3 font-semibold">Sizes</p>
             <div
               className={`${
                 sizeError && "animate-shake"
-              } duration-100  flex flex-wrap`}
+              } flex  flex-wrap duration-100`}
             >
               {sizes.map((size) => (
                 <div key={size}>
                   <button
-                    className={`w-16 text-gray-500 transition-all py-2 rounded- text-sm font-medium border border-zinc-300 `}
+                    className={`rounded- w-16 border border-zinc-300 py-2 text-sm font-medium text-gray-500 transition-all `}
                     onClick={(e) => {
                       handleCurrentSize(e);
                     }}

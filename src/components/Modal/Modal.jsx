@@ -11,12 +11,13 @@ export default function Modal({
   confirmButtonText,
   confirmMessage,
 }) {
+  console.log(isOpen);
   return (
     <>
-      {children}
+      {/* {children} */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
-          as="div"
+          open={isOpen}
           className="relative z-10"
           onClose={() => setIsOpen(false)}
         >
@@ -30,13 +31,13 @@ export default function Modal({
             leaveTo="opacity-0"
           >
             <div
-              className={`fixed inset-0 bg-secondary-color   ${
-                isOpen && "opacity-60 "
-              } `}
+              className={`fixed inset-0 bg-secondary-color  
+               ${isOpen && "opacity-60 "} 
+              `}
             />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto backdrop-blur-sm">
+          <div className="fixed inset-0 backdrop-blur-sm">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
