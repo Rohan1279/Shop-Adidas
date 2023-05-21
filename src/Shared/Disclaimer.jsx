@@ -4,7 +4,6 @@ import { HiArrowDown, HiOutlineXMark } from "react-icons/hi2";
 
 export default function Disclaimer() {
   const [isOpen, setIsOpen] = useState(true);
-  console.log(isOpen);
   return (
     <div
       className={` fixed bottom-0  mt-24  flex justify-between bg-gray-300 md:h-fit`}

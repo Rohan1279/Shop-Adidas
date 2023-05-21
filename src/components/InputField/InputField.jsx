@@ -19,7 +19,7 @@ const InputField = ({
 }) => {
   return (
     <div
-      className={`flex items-center border border-gray-300 rounded-md pl-2 bg-gray-300/60 ${
+      className={`flex items-center rounded-md border border-gray-300 bg-gray-300/60 pl-2 ${
         error && "border-gray-300/50"
       }`}
     >
@@ -28,7 +28,7 @@ const InputField = ({
         <span
           className={`mr-3 min-w-max ${
             !error &&
-            " text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
+            " text-center text-xs font-medium uppercase tracking-wider text-gray-500 "
           }`}
         >
           {fieldName}{" "}
@@ -48,7 +48,7 @@ const InputField = ({
           min: `${min}`,
         })}
         aria-invalid={aria_invalid}
-        className="focus:outline-none w-full bg-secondary-color p-3 border-l border-l-gray-300 text-sm  focus:shadow-nm-inset rounded-r-md text-center disabled:placeholder:text-gray-300 "
+        className="w-full rounded-r-md border-l border-l-gray-300 bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
         disabled={error}
       />
     </div>

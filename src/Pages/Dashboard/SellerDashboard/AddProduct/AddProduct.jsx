@@ -71,62 +71,7 @@ const pantsSizes = [
   { id: "4", name: "32", stock: "", price: "" },
   { id: "5", name: "34", stock: "", price: "" },
 ];
-// const categories = [
-//   {
-//     _id: "63c3afa0bdcbcbf3434dcc74",
-//     id: "0",
-//     name: "All Products",
-//     img: "https://i.ibb.co/0yr5nx6/resize-16737983561617336874allproductscover.jpg",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce09",
-//     id: "1",
-//     name: "Men's Sneaker",
-//     img: "https://cdn.shopify.com/s/files/1/2287/9679/products/1_1765574a-7ac4-48ad-9708-3c8c01246abd_1024x1024.jpg?v=1672130085",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce0a",
-//     id: "2",
-//     name: "Men's Pants",
-//     img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/daacaf04752147979c40ad3200623de7_9366/Tiro_Track_Pants_Black_HB4107_21_model.jpg",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce0b",
-//     id: "3",
-//     name: "Outdoor & Hiking",
-//     img: "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/6853ac5565a9407bae19ac080120d9d7_9366/Superstar_Boots_Red_FZ2642_01_standard.jpg",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce0c",
-//     id: "4",
-//     name: "Bags & Backpacks",
-//     img: "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/a520df1b51384c00af9caca100489f04_9366/Trefoil_Backpack_Black_EX6752_01_standard.jpg",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce0d",
-//     id: "5",
-//     name: "Hats",
-//     img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/bca74353cd9c4dd88e2faaca0119c702_9366/BASEBALL_3-STRIPES_TWILL_CAP_Black_FK0894_01_standard.jpg",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce0e",
-//     id: "6",
-//     name: "Earphones",
-//     img: "https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/c697ceddb0c2469aaa2eaa7101121d10_9366/RPT-01_Sport_On-Ear_Headphones_Black_CM5015_01_standard.jpg",
-//   },
-//   {
-//     _id: "63bc18eb473f136f0720ce0f",
-//     id: "7",
-//     name: "Bottle",
-//     img: "https://ishop.com.bd/wp-content/uploads/2021/04/1-928.jpg",
-//   },
-//   {
-//     _id: "63bc3b28b6f03d51602c9462",
-//     id: "8",
-//     name: "T-Shirts & Tops",
-//     img: "https://assets.adidas.com/images/w_383,h_383,f_auto,q_auto,fl_lossy,c_fill,g_auto/22e21c736b9042cda230adaa00a35bf0_9366/inspired-short-sleeve-tee.jpg",
-//   },
-// ];
+
 const AddProduct = () => {
   const { authInfo, categories } = useContext(Context);
   // const { categories } = dataLoader();

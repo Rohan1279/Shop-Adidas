@@ -11,7 +11,6 @@ export default function Modal({
   confirmButtonText,
   confirmMessage,
 }) {
-  console.log(isOpen);
   return (
     <>
       {/* {children} */}

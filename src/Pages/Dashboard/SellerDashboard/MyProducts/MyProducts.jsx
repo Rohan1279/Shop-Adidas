@@ -21,6 +21,8 @@ import Modal from "../../../../components/Modal/Modal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
+import InputField from "../../../../components/InputField/InputField";
+import { useForm } from "react-hook-form";
 
 const MyProducts = () => {
   let [isOpen, setIsOpen] = useState(false);
@@ -30,10 +32,11 @@ const MyProducts = () => {
   const location = useLocation();
   const { authInfo } = useContext(Context);
   const { user, logOut } = authInfo;
-
+  const { register, handleSubmit, control } = useForm();
   const [dateOrder, setdateOrder] = useState(1);
   const [priceOrder, setPriceOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(
     [
       { id: "0", name: "3 rows" },
@@ -50,6 +53,7 @@ const MyProducts = () => {
   } else if (dateOrder === null) {
     sortOrder.priceOrder = priceOrder;
   }
+  // console.log(search);
 
   const {
     data: products = [],
@@ -64,7 +68,7 @@ const MyProducts = () => {
           user?.email
         }&currentPage=${currentPage}&limit=${parseInt(
           limit?.name
-        )}&dateOrder=${dateOrder}&priceOrder=${priceOrder}`,
+        )}&dateOrder=${dateOrder}&priceOrder=${priceOrder}&search=${search}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem(
@@ -81,7 +85,7 @@ const MyProducts = () => {
   );
   useEffect(() => {
     refetch();
-  }, [products, priceOrder, dateOrder, currentPage, limit, location]);
+  }, [products, priceOrder, dateOrder, currentPage, limit, location, search]);
   // useEffect(() => {
   //   setCurrentPage(0);
   // }, [limit, priceOrder, dateOrder]);
@@ -139,22 +143,48 @@ const MyProducts = () => {
 
   return (
     <div className="min-h-screen py-10 px-5  transition-all duration-300 ease-in-out">
-      <div className=" flex items-center justify-center">
-        <button
-          onClick={() => refetch()}
-          className="flex items-center justify-center gap-x-3 rounded-md border border-zinc-300 bg-secondary-color px-3 py-2 transition-all active:shadow-nm-inset"
-        >
-          Refresh <FaRedo></FaRedo>{" "}
-        </button>
-      </div>
       <div
-        className={`mx-auto mt-10 flex max-w-7xl flex-col ${
+        className={`mx-auto mt-5 flex max-w-7xl flex-col ${
           location.pathname.includes("/dashboard/myproducts/edit/") && "hidden"
         }`}
       >
         <div className="-my-2 sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            {/* <h1 className="py-3 text-4xl font-medium text-gray-500 uppercase tracking-wider">Products</h1> */}
+            {/* //! ACTION BAR */}
+            <div className="mb-5 flex items-center justify-between">
+              <button
+                onClick={() => {
+                  refetch();
+                  setSearch("");
+                }}
+                className="flex items-center justify-between gap-x-3 rounded-md border border-zinc-300 bg-secondary-color  px-6 py-3
+          text-sm font-medium uppercase tracking-wider text-gray-500 transition-all active:shadow-nm-inset
+          "
+              >
+                Refresh <FaRedo></FaRedo>{" "}
+              </button>
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex items-center rounded-md border border-gray-300 border-gray-300/50 bg-gray-300/60 pl-2"
+              >
+                <span
+                  className={`&& "  "
+                    } mr-3 min-w-max text-center text-xs font-medium uppercase tracking-wider
+                  text-gray-500`}
+                >
+                  Search
+                </span>
+
+                <input
+                  onChange={(e) => setSearch(e.target.value)}
+                  type={"text"}
+                  placeholder={"search a product"}
+                  className="w-full rounded-r-md border-l border-l-gray-300 bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
+                  disabled={products?.length === 0}
+                />
+              </form>
+            </div>
+            {/* // ! PRODUCTS TABLE */}
             <div
               className={`border-b  border-gray-200 shadow sm:rounded-none  ${
                 products.count === 0 && "blur-sm"
@@ -173,12 +203,12 @@ const MyProducts = () => {
                     >
                       No.
                     </th>
-                    <th
+                    {/* <th
                       scope="col"
                       className="px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500"
                     >
                       Image
-                    </th>
+                    </th> */}
                     <th
                       scope="col"
                       onClick={() => {
@@ -280,19 +310,13 @@ const MyProducts = () => {
                       key={product?._id}
                       className="h-16 text-center transition-all hover:bg-gray-300/50"
                     >
-                      <th className="px-6 py-3  text-sm font-medium tracking-wider  text-gray-700">
+                      <td className="px-6 py-3  text-sm font-medium tracking-wider  text-gray-700">
                         {idx + 1}
-                      </th>
-                      <td>
+                      </td>
+                      {/* <td>
                         {product?.img && (
                           <PhotoProvider>
                             <PhotoView src={product?.img}>
-                              {/* <LazyLoadImage
-                                effect="opacity"
-                                src={product?.img}
-                                alt=""
-                                className="w-12 h-12 mx-auto object-cover"
-                              /> */}
                               <img
                                 src={product?.img}
                                 className="mx-auto h-12 w-12 object-cover"
@@ -302,7 +326,7 @@ const MyProducts = () => {
                             </PhotoView>
                           </PhotoProvider>
                         )}
-                      </td>
+                      </td> */}
                       <td className="px-6 py-3 text-left  text-sm font-medium tracking-wider  text-gray-700">
                         {product?.posted_on?.split(" ")[0]}
                       </td>
