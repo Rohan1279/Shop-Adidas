@@ -1,30 +1,28 @@
-import React, { Fragment, memo, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  memo,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { Context } from "../../../../contexts/ContextProvider";
 import { useQuery } from "@tanstack/react-query";
-import {
-  FaBackspace,
-  FaBackward,
-  FaEdit,
-  FaEye,
-  FaForward,
-  FaRedo,
-  FaTrashAlt,
-} from "react-icons/fa";
+import { FaEdit, FaEye, FaRedo, FaTrashAlt } from "react-icons/fa";
 import { IoCaretBack, IoCaretForward } from "react-icons/io5";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Dialog, Transition } from "@headlessui/react";
-import { PhotoProvider, PhotoView } from "react-photo-view";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import Modal from "../../../../components/Modal/Modal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
-import InputField from "../../../../components/InputField/InputField";
-import { useForm } from "react-hook-form";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import { Switch } from "@headlessui/react";
 
 const MyProducts = () => {
+  const [isImageEnabled, setisImageEnabled] = useState(false);
+
   let [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setselectedProduct] = useState({});
   const [deleteError, setDeleteError] = useState(false);
@@ -32,7 +30,6 @@ const MyProducts = () => {
   const location = useLocation();
   const { authInfo } = useContext(Context);
   const { user, logOut } = authInfo;
-  const { register, handleSubmit, control } = useForm();
   const [dateOrder, setdateOrder] = useState(1);
   const [priceOrder, setPriceOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -163,6 +160,35 @@ const MyProducts = () => {
               >
                 Refresh <FaRedo></FaRedo>{" "}
               </button>
+              <div className="flex items-center justify-center ">
+                <p
+                  className="px-6 py-3
+          text-sm font-medium uppercase tracking-wider text-gray-500 "
+                >
+                  Images
+                </p>
+
+                <Switch
+                  checked={isImageEnabled}
+                  onChange={setisImageEnabled}
+                  className={`${
+                    isImageEnabled
+                      ? ""
+                      : ""
+                  } relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
+                >
+                  <span
+                    className={`${
+                      isImageEnabled
+                        ? "translate-x-5 shadow-nm"
+                        : "translate-x-0 shadow-nm"
+                    } inline-block h-4 w-4 transform rounded-full bg-slate-200  transition-all duration-200 `}
+                  />
+                </Switch>
+              </div>
+              <button onClick={() => dispatch({ column: "ratings" })}>
+                Ratings
+              </button>
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="flex items-center rounded-md border border-gray-300 border-gray-300/50 bg-gray-300/60 pl-2"
@@ -203,12 +229,14 @@ const MyProducts = () => {
                     >
                       No.
                     </th>
-                    {/* <th
+                    <th
                       scope="col"
-                      className="px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500"
+                      className={`px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500 ${
+                        !isImageEnabled && "hidden"
+                      }`}
                     >
                       Image
-                    </th> */}
+                    </th>
                     <th
                       scope="col"
                       onClick={() => {
@@ -313,20 +341,20 @@ const MyProducts = () => {
                       <td className="px-6 py-3  text-sm font-medium tracking-wider  text-gray-700">
                         {idx + 1}
                       </td>
-                      {/* <td>
+                      <td className={` ${!isImageEnabled && "hidden"} `}>
                         {product?.img && (
                           <PhotoProvider>
                             <PhotoView src={product?.img}>
                               <img
                                 src={product?.img}
-                                className="mx-auto h-12 w-12 object-cover"
+                                className={`mx-auto h-12 w-12 object-cover`}
                                 loading="lazy"
                                 alt="product image"
                               />
                             </PhotoView>
                           </PhotoProvider>
                         )}
-                      </td> */}
+                      </td>
                       <td className="px-6 py-3 text-left  text-sm font-medium tracking-wider  text-gray-700">
                         {product?.posted_on?.split(" ")[0]}
                       </td>
