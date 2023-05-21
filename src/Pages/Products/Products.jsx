@@ -63,7 +63,7 @@ const Products = () => {
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
-      <div className="min-h-screen px-1">
+      <div className="min-h-screen px-1 pb-20">
         <h1 className="my-10 text-center text-5xl">All Products</h1>
         <div className="my-8 flex w-full flex-wrap items-center justify-between ">
           {fixedCategories?.map((category) => (
