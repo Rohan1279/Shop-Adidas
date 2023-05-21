@@ -5,7 +5,7 @@ export default function Disclaimer() {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div
-      className={`px- mt-24 flex h-12 justify-center bg-slate-300 ${
+      className={`px- mt-24 flex h-fit justify-center bg-slate-300 ${
         !isOpen && "hidden"
       }`}
     >
@@ -21,7 +21,7 @@ export default function Disclaimer() {
       </p>
       <div
         onClick={() => setIsOpen(false)}
-        className="grid h-full w-24 items-center justify-center transition-all hover:bg-slate-200"
+        className="grid px-5 w-24 items-center justify-center transition-all hover:bg-slate-200"
       >
         <HiOutlineXMark className="text-xl  text-gray-600"></HiOutlineXMark>
       </div>
