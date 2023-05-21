@@ -18,6 +18,9 @@ import {
 import { HiXMark } from "react-icons/hi2";
 import Loader from "../components/Loader/Loader";
 import { Popover, Tab, Transition } from "@headlessui/react";
+import Footer from "../Shared/Footer";
+import Desclaimer from "../Shared/Disclaimer";
+import Disclaimer from "../Shared/Disclaimer";
 
 const DashboardLayout = () => {
   const { authInfo } = useContext(Context);
@@ -38,7 +41,7 @@ const DashboardLayout = () => {
       <Navbar />
       <div className="mt-16 flex max-h-full ">
         {/* //!DRAWER */}
-        <div className="hidden md:block max-h-full shadow-xl px-5 pt-10">
+        <div className="hidden max-h-full px-5 pt-10 shadow-xl md:block">
           {/* <Popover.Button className={""}>
               {" "}
               <FaChevronLeft className="text-sm "></FaChevronLeft>
@@ -56,12 +59,12 @@ const DashboardLayout = () => {
               to={route.route}
               className={({ isActive }) =>
                 isActive
-                  ? `min-w-max w-52 text-center   mt-4 bg-[#] text-gray-800 shadow-nm-inset  transition-all hover:text-gray-800  py-2 rounded-md text-sm font-bold border border-zinc-300 block `
-                  : "min-w-max  w-52 text-center  mt-4 bg-[#] text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 block "
+                  ? `mt-4 block w-52   min-w-max rounded-md border border-zinc-300  bg-[#] py-2  text-center text-sm font-bold text-gray-800 shadow-nm-inset transition-all hover:text-gray-800 `
+                  : "mt-4  block w-52  min-w-max rounded-md border border-zinc-300 bg-[#]  py-2 text-center text-sm font-medium text-gray-500 transition-all hover:text-gray-800 "
               }
             >
               <button>
-                <div className="flex justify-center items-center gap-x-2 min-w-max">
+                <div className="flex min-w-max items-center justify-center gap-x-2">
                   {route.icon}
                   {isDrawerOpen && <span>{route.name}</span>}
                 </div>
@@ -69,7 +72,7 @@ const DashboardLayout = () => {
             </NavLink>
           ))}
         </div>
-        <Popover className="block md:hidden relative z-40 ">
+        <Popover className="relative z-40 block md:hidden ">
           {({ open }) => (
             <>
               <Popover.Button className={"absolute left-5 z-10"}>
@@ -93,9 +96,9 @@ const DashboardLayout = () => {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 -translate-x-8"
               >
-                <Popover.Panel className="h-screen z-50 ">
+                <Popover.Panel className="z-50 h-screen ">
                   {(userRole === "Seller" || isSeller) && (
-                    <div className="absolute min-h-screen   shadow-xl px-5 pt-10 bg-secondary-color">
+                    <div className="absolute min-h-screen   bg-secondary-color px-5 pt-10 shadow-xl">
                       <div>
                         <img
                           className="rounded-full border  bg-[#7fe7fc]/60"
@@ -109,12 +112,12 @@ const DashboardLayout = () => {
                           to={route.route}
                           className={({ isActive }) =>
                             isActive
-                              ? `min-w-max w-52 text-center   mt-4 bg-[#] text-gray-800 shadow-nm-inset  transition-all hover:text-gray-800  py-2 rounded-md text-sm font-bold border border-zinc-300 block `
-                              : "min-w-max  w-52 text-center  mt-4 bg-[#] text-gray-500 transition-all hover:text-gray-800  py-2 rounded-md text-sm font-medium border border-zinc-300 block "
+                              ? `mt-4 block w-52   min-w-max rounded-md border border-zinc-300  bg-[#] py-2  text-center text-sm font-bold text-gray-800 shadow-nm-inset transition-all hover:text-gray-800 `
+                              : "mt-4  block w-52  min-w-max rounded-md border border-zinc-300 bg-[#]  py-2 text-center text-sm font-medium text-gray-500 transition-all hover:text-gray-800 "
                           }
                         >
                           <button>
-                            <div className="flex justify-center items-center gap-x-2 min-w-max">
+                            <div className="flex min-w-max items-center justify-center gap-x-2">
                               {route.icon}
                               {isDrawerOpen && <span>{route.name}</span>}
                             </div>
@@ -131,18 +134,20 @@ const DashboardLayout = () => {
 
         <Suspense
           fallback={
-            <div className="w-full h-screen flex items-center">
+            <div className="flex h-screen w-full items-center">
               <Loader></Loader>
             </div>
           }
         >
           <div
-            className={`w-screen overflow-x-scroll  z-0 transition-all duration-300 ease-in-out`}
+            className={`z-0 w-screen  overflow-x-scroll transition-all duration-300 ease-in-out`}
           >
             <Outlet />
           </div>
         </Suspense>
       </div>
+      <Disclaimer/>
+      {/* <Footer /> */}
     </div>
   );
 };

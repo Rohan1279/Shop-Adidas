@@ -4,6 +4,8 @@ import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
 import { dataLoader } from "../utils/dataLoader";
 import { getStoredCart } from "../utils/fakeDB";
+import Footer from "../Shared/Footer";
+import Disclaimer from "../Shared/Disclaimer";
 export const CartContext = createContext();
 const Main = () => {
   const { products } = dataLoader();
@@ -24,9 +26,12 @@ const Main = () => {
 
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
-      <div className="bg-secondary-color relative pt-24 h-fit">
+      <div className="relative h-fit bg-secondary-color pt-24">
         <Navbar />
         <Outlet />
+        <Disclaimer />
+
+        {/* <Footer /> */}
       </div>
     </CartContext.Provider>
   );
