@@ -87,6 +87,7 @@ const MyProducts = () => {
   //   setCurrentPage(0);
   // }, [limit, priceOrder, dateOrder]);
 
+  console.log(products);
   const confirmModal = async () => {
     setIsOpen(false);
     try {
@@ -160,35 +161,58 @@ const MyProducts = () => {
               >
                 Refresh <FaRedo></FaRedo>{" "}
               </button>
-              <div className="flex items-center justify-center ">
-                <p
-                  className="px-6 py-3
-          text-sm font-medium uppercase tracking-wider text-gray-500 "
-                >
-                  Images
-                </p>
-
-                <Switch
-                  checked={isImageEnabled}
-                  onChange={setisImageEnabled}
-                  className={`${
-                    isImageEnabled
-                      ? ""
-                      : ""
-                  } relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
-                >
-                  <span
+              <div
+                className="flex items-center justify-between gap-x-3 rounded-md border border-zinc-300 bg-secondary-color  px-6 py-0
+          text-sm font-medium uppercase tracking-wider text-gray-500"
+              >
+                <div className="flex items-center justify-center ">
+                  <Switch
+                    checked={isImageEnabled}
+                    onChange={setisImageEnabled}
                     className={`${
-                      isImageEnabled
-                        ? "translate-x-5 shadow-nm"
-                        : "translate-x-0 shadow-nm"
-                    } inline-block h-4 w-4 transform rounded-full bg-slate-200  transition-all duration-200 `}
-                  />
-                </Switch>
+                      isImageEnabled ? "" : ""
+                    } relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
+                  >
+                    <span
+                      className={`${
+                        isImageEnabled
+                          ? "translate-x-5 shadow-nm"
+                          : "translate-x-0 shadow-nm"
+                      } inline-block h-4 w-4 transform rounded-full bg-slate-200  transition-all duration-200 `}
+                    />
+                  </Switch>
+                  <p
+                    className="py-3 px-3
+          text-sm font-medium uppercase tracking-wider text-gray-500 "
+                  >
+                    Images
+                  </p>
+                </div>
+                <div className="flex items-center justify-center ">
+                  <Switch
+                    checked={isImageEnabled}
+                    onChange={setisImageEnabled}
+                    className={`${
+                      isImageEnabled ? "" : ""
+                    } relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
+                  >
+                    <span
+                      className={`${
+                        isImageEnabled
+                          ? "translate-x-5 shadow-nm"
+                          : "translate-x-0 shadow-nm"
+                      } inline-block h-4 w-4 transform rounded-full bg-slate-200  transition-all duration-200 `}
+                    />
+                  </Switch>
+                  <p
+                    className="py-3 px-3
+          text-sm font-medium uppercase tracking-wider text-gray-500 "
+                  >
+                    Ratings
+                  </p>
+                </div>
               </div>
-              <button onClick={() => dispatch({ column: "ratings" })}>
-                Ratings
-              </button>
+
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="flex items-center rounded-md border border-gray-300 border-gray-300/50 bg-gray-300/60 pl-2"
@@ -213,14 +237,20 @@ const MyProducts = () => {
             {/* // ! PRODUCTS TABLE */}
             <div
               className={`border-b  border-gray-200 shadow sm:rounded-none  ${
-                products.count === 0 && "blur-sm"
+                products[products.length - 1]?.count === 0 &&
+                !search &&
+                "blur-sm"
               } `}
             >
               <table className="min-w-full divide-y divide-gray-200 ">
                 <thead className="bg-gray-300/60 ">
                   <tr
                     className={`select-none text-center
-                  ${products.count === 0 && "select-none"}
+                  ${
+                    products[products.length - 1]?.count === 0 &&
+                    !search &&
+                    "select-none"
+                  }
                   `}
                   >
                     <th
@@ -232,8 +262,8 @@ const MyProducts = () => {
                     <th
                       scope="col"
                       className={`px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500 ${
-                        !isImageEnabled && "hidden"
-                      }`}
+                        !isImageEnabled ? "hidden" : "visible"
+                      } transition-all`}
                     >
                       Image
                     </th>
@@ -341,7 +371,11 @@ const MyProducts = () => {
                       <td className="px-6 py-3  text-sm font-medium tracking-wider  text-gray-700">
                         {idx + 1}
                       </td>
-                      <td className={` ${!isImageEnabled && "hidden"} `}>
+                      <td
+                        className={` ${
+                          !isImageEnabled ? "hidden" : "visible"
+                        } transition-all`}
+                      >
                         {product?.img && (
                           <PhotoProvider>
                             <PhotoView src={product?.img}>
@@ -424,10 +458,25 @@ const MyProducts = () => {
                   ))}
                 </tbody>
               </table>
+              {search ? (
+                <>
+                <hr className="mx-auto w-11/12 border border-zinc-300" />
+                
+                <p className="px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500 ">
+                  Showing{" "}
+                  {parseInt(limit?.name) < products[products.length - 1]?.count
+                    ? parseInt(limit?.name)
+                    : products[products.length - 1]?.count}{" "}
+                  of {products[products.length - 1]?.count} results
+                </p>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
-        {products.count === 0 && !isLoading && (
+        {products[products.length - 1]?.count === 0 && !search && (
           <span className="px-6 py-3 text-center font-medium uppercase tracking-wide text-gray-500">
             Please add products to view details here
           </span>
