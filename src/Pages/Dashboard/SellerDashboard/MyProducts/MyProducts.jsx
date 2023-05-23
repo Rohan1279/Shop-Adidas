@@ -88,8 +88,12 @@ const MyProducts = () => {
   // useEffect(() => {
   //   setCurrentPage(0);
   // }, [limit, priceOrder, dateOrder]);
+  console.log("isFetching", isFetching);
+  // console.log(products);
+  console.log("dateOrder", parseInt(dateOrder));
+  console.log("priceOrder", parseInt(priceOrder));
+  console.log("ratingsOrder", parseInt(ratingsOrder));
 
-  console.log(products);
   const confirmModal = async () => {
     setIsOpen(false);
     try {
@@ -294,10 +298,12 @@ const MyProducts = () => {
                       onClick={() => {
                         if (dateOrder === -1) {
                           setPriceOrder(null);
+                          setRatingsOrder(null);
                           setdateOrder(1);
                           setCurrentPage(0);
                         } else {
                           setPriceOrder(null);
+                          setRatingsOrder(null);
                           setdateOrder(-1);
                           setCurrentPage(0);
                         }
@@ -306,7 +312,7 @@ const MyProducts = () => {
                       className="flex cursor-pointer items-center justify-evenly px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 transition-all hover:text-blue-900"
                     >
                       <span>Date</span>
-                      {isFetching && !priceOrder ? (
+                      {isFetching && !priceOrder && !ratingsOrder ? (
                         <div
                           className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
@@ -340,10 +346,12 @@ const MyProducts = () => {
                       onClick={() => {
                         if (priceOrder === -1) {
                           setdateOrder(null);
+                          setRatingsOrder(null);
                           setPriceOrder(1);
                           setCurrentPage(0);
                         } else {
                           setdateOrder(null);
+                          setRatingsOrder(null);
                           setPriceOrder(-1);
                           setCurrentPage(0);
                         }
@@ -352,7 +360,7 @@ const MyProducts = () => {
                       className="flex cursor-pointer  items-center justify-evenly px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500   transition-all hover:text-blue-900"
                     >
                       <span>Price</span>
-                      {isFetching && !dateOrder ? (
+                      {isFetching && !dateOrder && !ratingsOrder ? (
                         <div
                           className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
@@ -396,7 +404,7 @@ const MyProducts = () => {
                       } transition-all`}
                     >
                       <span>Ratings</span>
-                      {isFetching ? (
+                      {isFetching && !dateOrder && !priceOrder ? (
                         <div
                           className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
