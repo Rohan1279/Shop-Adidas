@@ -22,6 +22,8 @@ import { Switch } from "@headlessui/react";
 
 const MyProducts = () => {
   const [isImageEnabled, setisImageEnabled] = useState(false);
+  const [isRatingEnabled, setIsRatingEnabled] = useState(false);
+  const [isReviewCountEnabled, setIsReviewCountEnabled] = useState(false);
 
   let [isOpen, setIsOpen] = useState(false);
   const [selectedProduct, setselectedProduct] = useState({});
@@ -32,6 +34,7 @@ const MyProducts = () => {
   const { user, logOut } = authInfo;
   const [dateOrder, setdateOrder] = useState(1);
   const [priceOrder, setPriceOrder] = useState(null);
+  const [ratingsOrder, setRatingsOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(
@@ -41,16 +44,6 @@ const MyProducts = () => {
       { id: "2", name: "10 rows" },
     ][2]
   );
-  const sortOrder = {
-    // priceOrder: priceOrder,
-    // dateOrder: dateOrder,
-  };
-  if (priceOrder === null) {
-    sortOrder.dateOrder = dateOrder;
-  } else if (dateOrder === null) {
-    sortOrder.priceOrder = priceOrder;
-  }
-  // console.log(search);
 
   const {
     data: products = [],
@@ -65,7 +58,7 @@ const MyProducts = () => {
           user?.email
         }&currentPage=${currentPage}&limit=${parseInt(
           limit?.name
-        )}&dateOrder=${dateOrder}&priceOrder=${priceOrder}&search=${search}`,
+        )}&dateOrder=${dateOrder}&priceOrder=${priceOrder}&ratingsOrder=${ratingsOrder}&search=${search}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem(
@@ -82,7 +75,16 @@ const MyProducts = () => {
   );
   useEffect(() => {
     refetch();
-  }, [products, priceOrder, dateOrder, currentPage, limit, location, search]);
+  }, [
+    products,
+    priceOrder,
+    dateOrder,
+    ratingsOrder,
+    currentPage,
+    limit,
+    location,
+    search,
+  ]);
   // useEffect(() => {
   //   setCurrentPage(0);
   // }, [limit, priceOrder, dateOrder]);
@@ -162,16 +164,14 @@ const MyProducts = () => {
                 Refresh <FaRedo></FaRedo>{" "}
               </button>
               <div
-                className="flex items-center justify-between gap-x-3 rounded-md border border-zinc-300 bg-secondary-color  px-6 py-0
+                className="bgred flex items-center justify-between gap-x-3 rounded-md border border-zinc-300 bg-secondary-color  px-6 py-0
           text-sm font-medium uppercase tracking-wider text-gray-500"
               >
                 <div className="flex items-center justify-center ">
                   <Switch
                     checked={isImageEnabled}
                     onChange={setisImageEnabled}
-                    className={`${
-                      isImageEnabled ? "" : ""
-                    } relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
+                    className={`relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
                   >
                     <span
                       className={`${
@@ -190,15 +190,13 @@ const MyProducts = () => {
                 </div>
                 <div className="flex items-center justify-center ">
                   <Switch
-                    checked={isImageEnabled}
-                    onChange={setisImageEnabled}
-                    className={`${
-                      isImageEnabled ? "" : ""
-                    } relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
+                    checked={isRatingEnabled}
+                    onChange={setIsRatingEnabled}
+                    className={` relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
                   >
                     <span
                       className={`${
-                        isImageEnabled
+                        isRatingEnabled
                           ? "translate-x-5 shadow-nm"
                           : "translate-x-0 shadow-nm"
                       } inline-block h-4 w-4 transform rounded-full bg-slate-200  transition-all duration-200 `}
@@ -209,6 +207,27 @@ const MyProducts = () => {
           text-sm font-medium uppercase tracking-wider text-gray-500 "
                   >
                     Ratings
+                  </p>
+                </div>
+                <div className="flex items-center justify-center ">
+                  <Switch
+                    checked={isReviewCountEnabled}
+                    onChange={setIsReviewCountEnabled}
+                    className={` relative inline-flex h-4 w-9 items-center rounded-full shadow-nm-inset transition-all duration-200`}
+                  >
+                    <span
+                      className={`${
+                        isReviewCountEnabled
+                          ? "translate-x-5 shadow-nm"
+                          : "translate-x-0 shadow-nm"
+                      } inline-block h-4 w-4 transform rounded-full bg-slate-200  transition-all duration-200 `}
+                    />
+                  </Switch>
+                  <p
+                    className="py-3 px-3
+          text-sm font-medium uppercase tracking-wider text-gray-500 "
+                  >
+                    Reviews
                   </p>
                 </div>
               </div>
@@ -226,7 +245,10 @@ const MyProducts = () => {
                 </span>
 
                 <input
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setCurrentPage(0);
+                    setSearch(e.target.value);
+                  }}
                   type={"text"}
                   placeholder={"search a product"}
                   className="w-full rounded-r-md border-l border-l-gray-300 bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
@@ -286,7 +308,7 @@ const MyProducts = () => {
                       <span>Date</span>
                       {isFetching && !priceOrder ? (
                         <div
-                          className="inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
                         ></div>
                       ) : dateOrder === -1 ? (
@@ -330,10 +352,9 @@ const MyProducts = () => {
                       className="flex cursor-pointer  items-center justify-evenly px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500   transition-all hover:text-blue-900"
                     >
                       <span>Price</span>
-
                       {isFetching && !dateOrder ? (
                         <div
-                          className="inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
                         ></div>
                       ) : priceOrder === -1 ? (
@@ -353,6 +374,46 @@ const MyProducts = () => {
                       className="px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500"
                     >
                       Variant
+                    </th>
+                    <th
+                      scope="col"
+                      onClick={() => {
+                        if (ratingsOrder === -1) {
+                          setPriceOrder(null);
+                          setdateOrder(null);
+                          setRatingsOrder(1);
+                          setCurrentPage(0);
+                        } else {
+                          setPriceOrder(null);
+                          setdateOrder(null);
+                          setRatingsOrder(-1);
+                          setCurrentPage(0);
+                        }
+                      }}
+                      // title="Sort by descending"
+                      className={`flex cursor-pointer items-center justify-evenly px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 transition-all hover:text-blue-900 ${
+                        !isRatingEnabled ? "hidden" : "visible"
+                      } transition-all`}
+                    >
+                      <span>Ratings</span>
+                      {isFetching ? (
+                        <div
+                          className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                          role="status"
+                        ></div>
+                      ) : ratingsOrder === -1 ? (
+                        <TbSortAscending className="cursor-pointer text-xl font-extrabold text-blue-800 transition-all hover:scale-105"></TbSortAscending>
+                      ) : (
+                        <TbSortDescending className="cursor-pointer text-xl font-extrabold text-blue-800 transition-all hover:scale-105"></TbSortDescending>
+                      )}
+                    </th>
+                    <th
+                      scope="col"
+                      className={`px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500  ${
+                        !isReviewCountEnabled ? "hidden" : "visible"
+                      } transition-all `}
+                    >
+                      Reviews
                     </th>
                     <th
                       scope="col"
@@ -407,6 +468,7 @@ const MyProducts = () => {
                       <td className="px-6 py-3  text-sm font-medium tracking-wider  text-gray-700">
                         {product?.stock}
                       </td>
+
                       <td className=" ">
                         {product?.sizes?.length === 0 ? (
                           <span className=" py-3 text-justify text-sm font-medium tracking-wider text-gray-700">
@@ -422,6 +484,26 @@ const MyProducts = () => {
                             </span>
                           ))
                         )}
+                      </td>
+                      <td
+                        className={`px-6 py-3  text-sm font-medium tracking-wider  text-gray-700
+                        ${
+                          !isRatingEnabled ? "hidden" : "visible"
+                        } transition-all
+                        
+                        `}
+                      >
+                        {product?.ratings}
+                      </td>
+                      <td
+                        className={`px-6 py-3  text-sm font-medium tracking-wider  text-gray-700
+                        ${
+                          !isReviewCountEnabled ? "hidden" : "visible"
+                        } transition-all
+                        
+                        `}
+                      >
+                        {product?.reviewsCount}
                       </td>
                       <td className="space-x-2">
                         <div className="flex flex-wrap justify-center gap-2 py-2">
@@ -460,15 +542,16 @@ const MyProducts = () => {
               </table>
               {search ? (
                 <>
-                <hr className="mx-auto w-11/12 border border-zinc-300" />
-                
-                <p className="px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500 ">
-                  Showing{" "}
-                  {parseInt(limit?.name) < products[products.length - 1]?.count
-                    ? parseInt(limit?.name)
-                    : products[products.length - 1]?.count}{" "}
-                  of {products[products.length - 1]?.count} results
-                </p>
+                  <hr className="mx-auto w-11/12 border border-zinc-300" />
+
+                  <p className="px-6 py-3  text-xs font-medium uppercase tracking-wider text-gray-500 ">
+                    Showing{" "}
+                    {parseInt(limit?.name) <
+                    products[products.length - 1]?.count
+                      ? parseInt(limit?.name)
+                      : products[products.length - 1]?.count}{" "}
+                    of {products[products.length - 1]?.count} results
+                  </p>
                 </>
               ) : (
                 ""
