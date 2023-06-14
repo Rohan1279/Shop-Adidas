@@ -312,7 +312,7 @@ const MyProducts = () => {
                       className="flex cursor-pointer items-center justify-evenly px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 transition-all hover:text-blue-900"
                     >
                       <span>Date</span>
-                      {isFetching && !priceOrder && !ratingsOrder ? (
+                      {isFetching && dateOrder ? (
                         <div
                           className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
@@ -360,7 +360,7 @@ const MyProducts = () => {
                       className="flex cursor-pointer  items-center justify-evenly px-6 py-3 text-xs font-medium uppercase tracking-wider text-gray-500   transition-all hover:text-blue-900"
                     >
                       <span>Price</span>
-                      {isFetching && !dateOrder && !ratingsOrder ? (
+                      {isFetching && priceOrder ? (
                         <div
                           className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
@@ -404,7 +404,7 @@ const MyProducts = () => {
                       } transition-all`}
                     >
                       <span>Ratings</span>
-                      {isFetching && !dateOrder && !priceOrder ? (
+                      {isFetching && ratingsOrder ? (
                         <div
                           className="ml-1 inline-block h-3 w-3 animate-spin rounded-full border border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                           role="status"
