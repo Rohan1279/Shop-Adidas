@@ -92,10 +92,16 @@ const ProductDetail = () => {
           className="mx-auto mb-5 w-full max-w-xl rounded-xl shadow-nm md:w-[75%]"
           loading="lazy"
         />
-        <div className="h-fit rounded-md p-7 shadow-nm transition-all duration-700">
-          <section className=" sticky top-0">
+        <div className="h-fit rounded-md p-7 shadow-nm transition-all duration-700 w-4/5">
+          <section className=" sticky top-0 ">
+            <h2 className="mb-5 text-4xl font-extrabold">{state?.name}</h2>
+            <p className="mb-2 font-bold">${state?.price}</p>
+
             <div className="mb-2 flex justify-between">
-              <p className="text-lg">{state?.category}</p>
+
+              <p className=" text-lg font-medium tracking-wider  text-gray-700">
+                {state?.category}
+              </p>
               <div className="mb-5 flex items-center justify-center gap-x-2">
                 <div className="flex">
                   <HiStar></HiStar>
@@ -103,20 +109,24 @@ const ProductDetail = () => {
                   <HiStar></HiStar>
                   <HiStar></HiStar>
                 </div>
-                <p className="cursor-pointer text-lg font-semibold hover:underline">
+                <p className="cursor-pointer text-lg font-semibold hover:underline ">
                   {state?.reviewsCount} Reviews
                 </p>
               </div>
             </div>
-            <div
-              className={
-                "my-3 mx-auto block w-full rounded-md border border-zinc-300  bg-primary-color py-2 text-center text-sm  font-extrabold text-green-500 transition-all"
-              }
-            >
-              In stock
+            <div className="flex justify-between items-center my-3">
+              <p
+                className={
+                  " w-3/4 rounded-md border border-zinc-300 py-2 h-10 text-center text-sm  font-extrabold text-green-500 transition-all"
+                }
+              >
+                In stock
+              </p>
+              <button className="border w-1/4 border-zinc-300 ml-2 rounded-md px-3 h-10 flex justify-center items-center">
+                <img src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png" className="w-7 h-7" alt="" />
+                <p className="  text-gray-700 text-lg ml-2">Contact Seller</p>
+              </button>
             </div>
-            <h2 className="mb-5 text-4xl font-extrabold">{state?.name}</h2>
-            <p className="mb-2 font-bold">${state?.price}</p>
             <p className="mb-3">
               {state?.color ? state.color : "No colors available"}
             </p>
@@ -129,7 +139,9 @@ const ProductDetail = () => {
                   "flex w-full items-center justify-between gap-x-2 font-semibold"
                 }
               >
-                <span>Description</span>
+                <span className=" font-medium tracking-wide  text-gray-700">
+                  Description
+                </span>
                 <HiChevronDown
                   className={`${open ? "rotate-180 transform" : ""} h-5 w-5 `}
                 ></HiChevronDown>
