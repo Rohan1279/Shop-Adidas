@@ -25,7 +25,7 @@ const Main = () => {
 
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
-      <div className="relative h-fit bg-secondary-color pt-24">
+      <div className="relative h-fit bg-secondary-color  ">
         <Navbar />
         <Outlet />
 
