@@ -14,8 +14,7 @@ import { dataLoader } from "../../utils/dataLoader";
 //! add pagination feature
 const Products = () => {
   // const { products, categories, isSuccess, isFetching,isLoading } = useContext(Context);
-  const { products, categories, isSuccess,  isLoading } =
-    dataLoader();
+  const { products, categories, isSuccess, isLoading } = dataLoader();
   const fixedCategories = categories?.filter((category) => category.id !== "0");
   console.log(fixedCategories);
 
@@ -63,8 +62,10 @@ const Products = () => {
       leaveTo="opacity-0"
     >
       {/* Your content goes here*/}
-      <div className="min-h-screen px-1 pb-20">
-        <h1 className="my-10 text-center text-5xl">All Products</h1>
+      <div className="min-h-screen px-1 py-20">
+        <h1 className="my-10 text-center   text-7xl font-medium tracking-wider  text-gray-600 ">
+          All Products
+        </h1>
         <div className="my-8 flex w-full flex-wrap items-center justify-between ">
           {fixedCategories?.map((category) => (
             <button

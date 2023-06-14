@@ -167,12 +167,12 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-x-2 lg:flex-1">
             <img
-              className="block h-12 w-auto lg:hidden "
+              className="block h-10 w-auto lg:hidden rounded-lg bg-sky-300/70"
               src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
               alt="Your Company"
             />
             <img
-              className="hidden h-12 w-auto lg:block "
+              className="hidden h-10 w-auto lg:block rounded-lg bg-sky-300/70"
               src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
               alt="Your Company"
             />

@@ -76,7 +76,7 @@ const ProductDetail = () => {
 
   return (
     // ! use carousal for all products of the category
-    <div className="relative overflow-auto px-5 pb-16">
+    <div className="relative overflow-auto px-5 pb-16 ">
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
       <div className="mt-9 justify-center lg:grid  lg:grid-cols-7 ">
         <img
@@ -87,12 +87,12 @@ const ProductDetail = () => {
         />
         <div
           onClick={() => navigate(-1)}
-          className="fixed left-10 top-20 flex cursor-pointer items-center gap-x-2 font-semibold hover:underline"
+          className="left-10 top-20 flex cursor-pointer items-center gap-x-2 py-5 font-semibold hover:underline md:fixed md:py-0"
         >
           <BackButton classes={"text-lg"}></BackButton>
           <p>Back</p>
         </div>
-        <div className="col-span-3 h-fit px-20 pt-20 transition-all duration-700 ">
+        <div className="col-span-3 h-fit transition-all duration-700 md:px-20 md:pt-20 ">
           <section className="">
             <h2 className="mb-5 text-4xl font-extrabold ">{state?.name}</h2>
             <p className="mb-2 font-bold">${state?.price}</p>
@@ -123,19 +123,35 @@ const ProductDetail = () => {
               >
                 In stock
               </p>
-              <button className="col-span-2 ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 ">
+              <button className="col-span-2 ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset">
                 <img
                   src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
                   className="h-7 w-7"
                   alt=""
                 />
-                <p className="  ml-2 text-lg text-gray-700">Contact Seller</p>
+                <p className="  ml-2 text-lg text-gray-700 ">Contact Seller</p>
               </button>
             </div>
-            <p className="mb-3 text-base text-zinc-700">
+            <div className="flex items-center justify-start gap-x-2 ">
+              <img
+                src="https://cdn3d.iconscout.com/3d/premium/thumb/palette-with-paints-4025851-3338212@0.png"
+                alt=""
+                className="h-7 w-7 select-none"
+              />
+              <p className="text-base font-bold">Color</p>
+            </div>
+            <p className="mt-1">
+              {" "}
               {state?.color ? state.color : "No colors available"}
             </p>
-            <p className="my-3 font-semibold">Sizes</p>
+            <div className="my-3 flex items-center justify-start gap-x-2">
+              <img
+                src="https://cdn0.iconfinder.com/data/icons/small-things/100/small-stuff-20151014-go-17-256.png"
+                alt=""
+                className="h-5 w-5 select-none"
+              />
+              <p className="text-base font-bold">Sizes</p>
+            </div>
             <div
               className={`${
                 sizeError && "animate-shake"
