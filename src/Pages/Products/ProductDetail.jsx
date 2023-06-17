@@ -92,7 +92,7 @@ const ProductDetail = () => {
           <BackButton classes={"text-lg"}></BackButton>
           <p>Back</p>
         </div>
-        <div className="col-span-3 h-fit transition-all duration-700 md:px-20 md:pt-20 ">
+        <div className="col-span-3 h-fit transition-all duration-700 md:px-16 md:pt-16 ">
           <section className="">
             <h2 className="mb-5 text-4xl font-extrabold ">{state?.name}</h2>
             <p className="mb-2 font-bold">${state?.price}</p>
@@ -129,33 +129,33 @@ const ProductDetail = () => {
                   className="h-7 w-7"
                   alt=""
                 />
-                <p className="  ml-2 text-lg text-gray-700 ">Contact Seller</p>
+                <p className="ml-2 text-lg text-gray-700">Contact Seller</p>
               </button>
             </div>
-            <div className="flex items-center justify-start gap-x-2 ">
+            <div className="flex items-center justify-start gap-x-2 my-4">
               <img
-                src="https://cdn3d.iconscout.com/3d/premium/thumb/palette-with-paints-4025851-3338212@0.png"
+                src="https://cdn2.iconfinder.com/data/icons/stationery-glyph-black/614/3414_-_Color_Pallete-64.png"
                 alt=""
-                className="h-7 w-7 select-none"
+                className="h-5 w-5 select-none"
               />
-              <p className="text-base font-bold">Color</p>
+              <p className="text-base font-light">Color</p>
+              <p className="ml-2 text-sm tracking-wider text-zinc-700">
+                {" "}
+                {state?.color ? state.color : "No colors available"}
+              </p>
             </div>
-            <p className="mt-1">
-              {" "}
-              {state?.color ? state.color : "No colors available"}
-            </p>
-            <div className="my-3 flex items-center justify-start gap-x-2">
+            <div className="mt-4 flex items-center justify-start gap-x-2">
               <img
                 src="https://cdn0.iconfinder.com/data/icons/small-things/100/small-stuff-20151014-go-17-256.png"
                 alt=""
                 className="h-5 w-5 select-none"
               />
-              <p className="text-base font-bold">Sizes</p>
+              <p className="text-base font-light">Sizes</p>
             </div>
             <div
               className={`${
                 sizeError && "animate-shake"
-              } flex  flex-wrap duration-100`}
+              } flex  flex-wrap duration-100 mt-2`}
             >
               {sizes.map((size) => (
                 <div key={size}>

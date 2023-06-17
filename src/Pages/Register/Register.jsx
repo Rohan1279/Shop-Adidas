@@ -129,11 +129,11 @@ const Register = () => {
       <div className="h-fit lg:h-screen">
         <form
           onSubmit={handleRegister}
-          className="max-w-sm min-w-fit mx-auto my-20 p-8 rounded-xl shadow-nm relative"
+          className="relative mx-auto my-20 min-w-fit max-w-sm rounded-xl p-8 shadow-nm"
         >
           <LazyLoadImage
             src="https://cdn1.iconfinder.com/data/icons/3d-front-color/256/boy-front-color.png"
-            className="absolute -top-20 left-0 right-0  bg-secondary-color shadow-nm mx-auto w-40 rounded-full"
+            className="absolute -top-20 left-0 right-0  mx-auto w-40 rounded-full bg-secondary-color shadow-nm"
           ></LazyLoadImage>
           <div className="pt-16">
             <h1 className="text-center text-3xl font-extrabold ">
@@ -141,7 +141,7 @@ const Register = () => {
             </h1>
             {/* //! EMAIL // */}
             {/* <span className="">Your email</span> */}
-            <div className="flex items-center border border-gray-300 rounded-full pl-2  overflow-hidden my-6">
+            <div className="my-6 flex items-center overflow-hidden rounded-full border  border-gray-300 pl-2">
               {/* <FaVoicemail className=""></FaVoicemail> */}
               <img
                 src="https://cdn0.iconfinder.com/data/icons/chat-64/512/mail.png"
@@ -153,13 +153,13 @@ const Register = () => {
                 type="email"
                 placeholder="example@gmail.com"
                 name="email"
-                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
+                className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2 focus:shadow-nm-inset focus:outline-none"
                 required
               />
             </div>
             {/* //! NAME // */}
             {/* <span>Your name</span> */}
-            <div className="flex  items-center border border-gray-300 rounded-full pl-2  overflow-hidden mb-6">
+            <div className="mb-6  flex items-center overflow-hidden rounded-full border  border-gray-300 pl-2">
               {/* <FaVoicemail className=""></FaVoicemail> */}
               <img
                 src="https://cdn3.iconfinder.com/data/icons/school-and-education-113/256/name_card.png"
@@ -170,13 +170,13 @@ const Register = () => {
                 type="text"
                 placeholder="your name"
                 name="name"
-                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
+                className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2 focus:shadow-nm-inset focus:outline-none"
                 // required
               />
             </div>
             {/* //! PASSWORD // */}
             {/* <span className="">Password</span> */}
-            <div className="flex mb-6 items-center border border-gray-300 rounded-full pl-2  overflow-hidden">
+            <div className="mb-6 flex items-center overflow-hidden rounded-full border border-gray-300  pl-2">
               {/* <FaVoicemail className=""></FaVoicemail> */}
               <img
                 src="https://cdn0.iconfinder.com/data/icons/keys-and-locks-16/256/Key_Car_1_Front.png"
@@ -187,12 +187,12 @@ const Register = () => {
                 type="password"
                 name="password"
                 placeholder="password"
-                className="border-l border-l-gray-300 focus:outline-none w-full bg-secondary-color p-2 rounded-r-full focus:shadow-nm-inset"
+                className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2 focus:shadow-nm-inset focus:outline-none"
                 required
               />
             </div>
             {/* //! ROLE // */}
-            <h2 className="text-center my-3 ">Choose your role</h2>
+            <h2 className="my-3 text-center ">Choose your role</h2>
             <RadioButton
               roles={roles}
               userRole={userRole}
@@ -252,7 +252,7 @@ const Register = () => {
               <input
                 type="submit"
                 value="Register"
-                className="mx-auto bg-zinc-600 text-white border border-gray-300 p-2 text-xl active:scale-95 transition-all w-full rounded-md mt-6 "
+                className="mx-auto mt-6 w-full rounded-md border border-gray-300 bg-zinc-600 p-2 text-xl text-white transition-all active:scale-95 "
               />
               {/* <button
               onClick={handleRegister}
@@ -262,12 +262,12 @@ const Register = () => {
             </button> */}
             </div>
 
-            <div className="flex justify-center items-center space-x-5 my-3 text-zinc-600 text-sm">
-              <hr className=" border-gray-400 w-20" />
+            <div className="my-3 flex items-center justify-center space-x-5 text-sm text-zinc-600">
+              <hr className=" w-20 border-gray-400" />
               <p>OR</p>
-              <hr className=" border-gray-400 w-20" />
+              <hr className=" w-20 border-gray-400" />
             </div>
-            <div className="flex justify-center space-x-3  mb-3">
+            <div className="mb-3 flex justify-center  space-x-3">
               {/* <FaGoogle
               onClick={() => handleAuthenticate(googleProvider)}
               className="text-6xl bg-secondary-color shadow-nm p-2 rounded-full mx-auto active:shadow-nm-inset"
@@ -276,12 +276,12 @@ const Register = () => {
                 onClick={() => handleAuthenticate(googleProvider)}
                 src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media_search___google_logo_engine_software.png"
                 alt=""
-                className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full active:shadow-nm-inset"
+                className="h-12 w-12 rounded-full bg-secondary-color p-2 shadow-nm active:shadow-nm-inset"
               />
               <img
                 src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media___facebook_logo_social_network_media_online.png"
                 alt=""
-                className="w-12 h-12 bg-secondary-color shadow-nm p-2 rounded-full active:shadow-nm-inset"
+                className="h-12 w-12 rounded-full bg-secondary-color p-2 shadow-nm active:shadow-nm-inset"
               />
             </div>
             {/* <div className=" mt-6 ">
@@ -293,11 +293,11 @@ const Register = () => {
               )}
             </button>
           </div> */}
-            <p className=" text-center text-zinc-600 text-sm">
+            <p className=" text-center text-sm text-zinc-600">
               Already a user?{" "}
               <Link
                 to={"/login"}
-                className="text-zinc-900 font-bold hover:underline"
+                className="font-bold text-zinc-900 hover:underline"
               >
                 Login
               </Link>
@@ -314,7 +314,7 @@ const Register = () => {
           Please{" "}
           <button
             onClick={() => logOut()}
-            className="hover:text-blue-400 hover:underline underline-offset-1"
+            className="underline-offset-1 hover:text-blue-400 hover:underline"
           >
             logout
           </button>{" "}

@@ -235,7 +235,7 @@ const MyProducts = () => {
                   </p>
                 </div>
               </div>
-
+              {/* //! SEARCH */}
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="flex items-center rounded-md border border-gray-300 border-gray-300/50 bg-gray-300/60 pl-2"
@@ -589,7 +589,7 @@ const MyProducts = () => {
         )}
         {/* //! PAGINATION */}
         <div className="my-7 mx-auto flex w-full items-center justify-center gap-x-4 pb-32">
-          <div className="flex items-center justify-center">
+          <div className="flex-wrap items-center justify-center space-y-3">
             <IoCaretBack
               onClick={() => {
                 if (currentPage > 0) {
@@ -627,7 +627,7 @@ const MyProducts = () => {
             />
           </div>
 
-          <div className="flex w-44 items-center rounded-md border border-gray-300 bg-gray-300/60 pl-2 ">
+          <div className="flex w-44 items-center rounded-md border border-gray-300 bg-gray-300/60 pl-2">
             <span className="mr-3  text-center text-xs font-medium uppercase tracking-wider text-gray-500">
               Limit
             </span>

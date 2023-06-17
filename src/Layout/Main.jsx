@@ -5,6 +5,7 @@ import Navbar from "../Shared/Navbar";
 import { dataLoader } from "../utils/dataLoader";
 import { getStoredCart } from "../utils/fakeDB";
 import Footer from "../Shared/Footer";
+import Chat from "../Shared/Chat/Chat";
 export const CartContext = createContext();
 const Main = () => {
   const { products } = dataLoader();
@@ -28,7 +29,7 @@ const Main = () => {
       <div className="relative h-fit bg-secondary-color  ">
         <Navbar />
         <Outlet />
-
+        <Chat />
       </div>
     </CartContext.Provider>
   );
