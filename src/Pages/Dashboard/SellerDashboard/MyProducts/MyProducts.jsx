@@ -589,7 +589,7 @@ const MyProducts = () => {
         )}
         {/* //! PAGINATION */}
         <div className="my-7 mx-auto flex w-full items-center justify-center gap-x-4 pb-32">
-          <div className="flex-wrap items-center justify-center space-y-3">
+          <div className="flex items-center justify-center space-y-3">
             <IoCaretBack
               onClick={() => {
                 if (currentPage > 0) {
