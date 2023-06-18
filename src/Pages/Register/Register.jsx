@@ -126,10 +126,10 @@ const Register = () => {
 
   if (!user?.email) {
     return (
-      <div className="h-fit lg:h-screen">
+      <div className="py-40 lg:h-screen">
         <form
           onSubmit={handleRegister}
-          className="relative mx-auto my-20 min-w-fit max-w-sm rounded-xl p-8 shadow-nm"
+          className="relative mx-auto  min-w-fit max-w-sm rounded-xl p-8 shadow-nm"
         >
           <LazyLoadImage
             src="https://cdn1.iconfinder.com/data/icons/3d-front-color/256/boy-front-color.png"

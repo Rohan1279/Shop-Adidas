@@ -109,14 +109,14 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        // toast.error(err.message);
+        // toast.error(err.message); hi 
       });
   };
   return (
-    <div className="h-screen ">
+    <div className="h-screen pt-36">
       <form
         onSubmit={handleLogin}
-        className="relative mx-auto my-20 min-w-fit max-w-sm rounded-xl shadow-nm"
+        className="relative mx-auto min-w-fit max-w-sm rounded-xl shadow-nm"
       >
         <LazyLoadImage
           src="https://cdn1.iconfinder.com/data/icons/3d-front-color/256/boy-front-color.png"
