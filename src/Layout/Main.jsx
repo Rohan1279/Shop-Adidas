@@ -6,7 +6,11 @@ import { dataLoader } from "../utils/dataLoader";
 import { getStoredCart } from "../utils/fakeDB";
 import Footer from "../Shared/Footer";
 import Chat from "../Shared/Chat/Chat";
+import { io } from "socket.io-client";
+
 export const CartContext = createContext();
+const socket = io.connect("http://localhost:5001");
+
 const Main = () => {
   const { products } = dataLoader();
   // console.log(products);
@@ -29,7 +33,7 @@ const Main = () => {
       <div className="relative h-fit bg-secondary-color  ">
         <Navbar />
         <Outlet />
-        <Chat />
+        <Chat socket={socket} />
       </div>
     </CartContext.Provider>
   );
