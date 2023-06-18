@@ -1,19 +1,21 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
-import { GrEmoji, GrAttachment } from "react-icons/gr";
+import { GrEmoji, GrAttachment, GrSend } from "react-icons/gr";
 import { IoIosAttach } from "react-icons/io";
 
 // const socket = io.connect("http://localhost:5001");
 function Chat({ socket }) {
   const { authInfo } = useContext(Context);
   const { user, isBuyer, isSeller, userRole } = authInfo;
-  const [showChat, setShowChat] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  // ! SOCKET.IO
+  const [showChat, setShowChat] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
+  // console.log(currentMessage);
 
-  // console.log(socket);
-  // console.log(user);
   const product = location?.state;
   const seller = {
     seller: product?.seller,
@@ -24,7 +26,7 @@ function Chat({ socket }) {
     seller_phone: product?.seller_phone,
   };
   const seller_room = product?.seller_email; //replace with seller_id
-  console.log(seller);
+  // console.log(user);
 
   const joinroom = () => {
     setShowChat((prev) => !prev);
@@ -34,6 +36,41 @@ function Chat({ socket }) {
       // setShowChat(true);
     }
   };
+  const sendMessage = async () => {
+    function formatAMPM(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var strTime = hours + ":" + minutes + " " + ampm;
+      return strTime;
+    }
+    if (currentMessage !== "") {
+      const messageData = {
+        room: seller_room,
+        author: user?.email,
+        message: currentMessage,
+        time: formatAMPM(new Date()),
+      };
+      await socket.emit("send_message", messageData);
+      setMessageList((list) => [...list, messageData]);
+      setCurrentMessage("");
+    }
+  };
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      // console.log(data);
+
+      setMessageList((list) => [...list, data]);
+      console.log(messageList);
+    });
+    return () => socket.removeListener("receive_message");
+  }, [socket]);
+  // messageList?.map((messageContent) => console.log(messageContent?.message));
+  // console.log(messageList);
+
   return (
     <div
       className={`fixed bottom-8 right-8  ${
@@ -91,23 +128,65 @@ function Chat({ socket }) {
                   </p>
                 </div>
               </div>
+              {/* //! MESSAGE */}
+              <div className="h-full ">
+                {messageList?.map((messageContent, idx) => {
+                  return (
+                    <div className={` px-5`}>
+                      <div
+                        className={`w-fit ${
+                          user?.email === messageContent?.author
+                            ? "ml-auto"
+                            : "  "
+                        }`}
+                      >
+                        <p
+                          className={`w-fit  max-w-xs break-all rounded-t-2xl px-3 py-1  text-sm font-medium tracking-wider text-gray-500 ${
+                            user?.email === messageContent?.author
+                              ? "ml-auto rounded-bl-2xl bg-violet-200"
+                              : "rounded-br-2xl bg-blue-200"
+                          }`}
+                        >
+                          {messageContent?.message}
+                        </p>
+                        <div className=" text-xs  text-gray-400">
+                          <p className={``}>{messageContent?.time}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
               {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
               <div className="mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
                 <div className="flex items-center justify-center ">
                   <input
                     type={"text"}
                     placeholder={"type a message"}
-                    // className="mr-auto w-2/3 max-w-full bg-red-200 "
+                    value={currentMessage}
+                    onChange={(e) => {
+                      setCurrentMessage(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      e.key === "Enter" && sendMessage();
+                      // e.target.reset();
+                    }}
                     className="relative w-full rounded-full bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
                   />
-                  <div className="absolute right-5">
-                    <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
-                      <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
+                  {currentMessage ? (
+                    <button onClick={sendMessage} className="absolute right-6">
+                      <GrSend></GrSend>
                     </button>
-                    <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
-                      <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
-                    </button>
-                  </div>
+                  ) : (
+                    <div className="absolute right-5">
+                      <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                        <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
+                      </button>
+                      <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                        <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
