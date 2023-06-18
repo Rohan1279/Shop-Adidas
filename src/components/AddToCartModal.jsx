@@ -79,16 +79,16 @@ export default function AddToCartModal({
                   <div className="mt-2 justify-between gap-x-4  md:flex ">
                     <div className="items-ce flex border-r border-zinc-500">
                       <LazyLoadImage
-                        src={data.img}
+                        src={data?.img}
                         width={130}
                         effect={"opacity"}
                       ></LazyLoadImage>
                       {/* <img src={data.img} alt="" className="w-40" /> */}
                       <div className="w-56 px-2  leading-7">
-                        <p className="text-base font-bold ">{data.name}</p>
+                        <p className="text-base font-bold ">{data?.name}</p>
                         <p className=" ">Size: {prevSize}</p>
                         <p className="text-base font-bold">
-                          Price: ${data.price}
+                          Price: ${data?.price}
                         </p>
                         <p className="text-base">Quantity: 1</p>
                       </div>
