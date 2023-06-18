@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
 import { GrEmoji, GrAttachment } from "react-icons/gr";
+import { IoIosAttach } from "react-icons/io";
 
 // const socket = io.connect("http://localhost:5001");
 function Chat({ socket }) {
@@ -56,7 +57,7 @@ function Chat({ socket }) {
         </div>
         {/* //! CHAT BOX */}
         <div
-          className={`absolute bottom-20  right-0 h-[32rem]  w-96 rounded-xl bg-primary-color shadow-nm ${
+          className={`absolute bottom-20 right-0 h-[32rem]  w-96 rounded-xl   bg-primary-color  shadow-nm ${
             !showChat && "hidden"
           } overflow-hidden `}
         >
@@ -68,39 +69,45 @@ function Chat({ socket }) {
               Login/Register
             </button>
           ) : (
-            <div className="">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+              className="h-full "
+            >
               {" "}
-              <div className="flex w-full items-center justify-start gap-x-2 bg-primary-color pl-2 pt-2 pb-2 shadow-md">
+              <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-md">
                 <img
                   src={seller?.seller_default_image}
                   alt=""
                   className="h-10 w-10 rounded-full bg-yellow-200"
                 />
                 <div className="">
-                  <p className="">{seller?.seller_name}</p>
+                  <p className="text-sm">{seller?.seller_name}</p>
                   <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                     Active status
                   </p>
                 </div>
               </div>
-              <div className="absolute bottom-0 mb-2  w-full rounded-full border border-gray-300 py-1 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300 ">
+              {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
+              <div className="mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
                 <div className="flex items-center justify-center ">
                   <input
-                    // onChange={(e) => {
-                    //   setCurrentPage(0);
-                    //   setSearch(e.target.value);
-                    // }}
                     type={"text"}
                     placeholder={"type a message"}
-                    className="mr-auto w-2/3 bg-inherit "
-                    // disabled={products?.length === 0}
+                    // className="mr-auto w-2/3 max-w-full bg-red-200 "
+                    className="relative w-full rounded-full bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
                   />
-                  <button className="h-8 w-8 rounded-full shadow-nm">
-                    <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
-                  </button>
-                  <button className="ml-2 h-8 w-8 rounded-full shadow-nm">
-                    <GrAttachment className="mx-auto text-lg text-red-500"></GrAttachment>
-                  </button>
+                  <div className="absolute right-5">
+                    <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                      <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
+                    </button>
+                    <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                      <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
