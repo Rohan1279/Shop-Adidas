@@ -118,53 +118,49 @@ function Chat({ socket }) {
         </div>
         {/* //! CHAT BOX */}
         <Transition
-            show={showChat}
-            enter="transition-all duration-300"
-            enterFrom="translate-y-10"
-            enterTo="translate-y-0"
-            leave="transition-all duration-1000"
-            leaveFrom="translate-y-0"
-            leaveTo="translate-y-10"
-          >
-         
-        <div
-          className={`absolute bottom-20 right-0 h-[32rem]  w-96 rounded-xl   bg-primary-color  shadow-nm ${
-            !showChat && "hidden"
-          } overflow-hidden `}
+          show={showChat}
+          enter="transition-all duration-300"
+          enterFrom="translate-y-10 opacity-0"
+          enterTo="translate-y-0  opacity-100"
+          leave="transition-all duration-300 "
+          leaveFrom="translate-y-10  opacity-100"
+          leaveTo="translate-y-5  opacity-0"
         >
-          {!user && !user?.uid ? (
-            <button
-              onClick={() => navigate("/login")}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
-            >
-              Login/Register
-            </button>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-              className="h-full "
-            >
-              {" "}
-              <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-md">
-                <img
-                  src={seller?.seller_default_image}
-                  alt=""
-                  className="h-10 w-10 rounded-full bg-yellow-200"
-                />
-                <div className="">
-                  <p className="text-sm">{seller?.seller_name}</p>
-                  <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                    Active status
-                  </p>
+          <div
+            className={`absolute bottom-20 right-0 h-[32rem] w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
+          >
+            {!user && !user?.uid ? (
+              <button
+                onClick={() => navigate("/login")}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
+              >
+                Login/Register
+              </button>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+                className="h-full "
+              >
+                {" "}
+                <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-md">
+                  <img
+                    src={seller?.seller_default_image}
+                    alt=""
+                    className="h-10 w-10 rounded-full bg-yellow-200"
+                  />
+                  <div className="">
+                    <p className="text-sm">{seller?.seller_name}</p>
+                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      Active status
+                    </p>
+                  </div>
                 </div>
-              </div>
-              {/* //! MESSAGE */}
-              <div className="h-full ">
-                <ScrollToBottom className="mx-auto h-[180px] max-w-xl  overflow-scroll bg-blue-100/50">
+                {/* //! MESSAGE */}
+                <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
                   {messageList?.map((messageContent) => (
                     <div className={` px-5`}>
                       <div
@@ -175,11 +171,11 @@ function Chat({ socket }) {
                         }`}
                       >
                         <p
-                          className={`w-fit  max-w-xs break-all rounded-t-2xl px-3 py-1  text-sm font-medium tracking-wider text-gray-500 ${
+                          className={`w-fit  max-w-xs break-all rounded-full  px-3  py-1 text-sm font-thin tracking-wider text-gray-500 ${
                             user?.email === messageContent?.author
-                              ? "ml-auto rounded-bl-2xl bg-violet-200"
-                              : "rounded-br-2xl bg-blue-200"
-                          }`}
+                              ? "ml-auto bg-secondary-color"
+                              : ""
+                          } border border-gray-300`}
                         >
                           {messageContent?.message}
                         </p>
@@ -190,43 +186,45 @@ function Chat({ socket }) {
                     </div>
                   ))}
                 </ScrollToBottom>
-              </div>
-              {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
-              <div className="absolute bottom-0 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
-                <div className="flex items-center justify-center ">
-                  <input
-                    type={"text"}
-                    placeholder={"type a message"}
-                    value={currentMessage}
-                    onChange={(e) => {
-                      setCurrentMessage(e.target.value);
-                    }}
-                    onKeyDown={(e) => {
-                      e.key === "Enter" && sendMessage();
-                      // e.target.reset();
-                    }}
-                    className="relative w-full rounded-full bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
-                  />
-                  {currentMessage ? (
-                    <button onClick={sendMessage} className="absolute right-6">
-                      <GrSend></GrSend>
-                    </button>
-                  ) : (
-                    <div className="absolute right-5">
-                      <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
-                        <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
+                {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
+                <div className="sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
+                  <div className="flex items-center justify-center ">
+                    <input
+                      type={"text"}
+                      placeholder={"type a message"}
+                      value={currentMessage}
+                      onChange={(e) => {
+                        setCurrentMessage(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        e.key === "Enter" && sendMessage();
+                        // e.target.reset();
+                      }}
+                      className="relative w-full rounded-full bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
+                    />
+                    {currentMessage ? (
+                      <button
+                        onClick={sendMessage}
+                        className="absolute right-6"
+                      >
+                        <GrSend></GrSend>
                       </button>
-                      <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
-                        <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
-                      </button>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="absolute right-5">
+                        <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                          <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
+                        </button>
+                        <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                          <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-          </Transition>
+            )}
+          </div>
+        </Transition>
       </div>
     </div>
   );
