@@ -7,6 +7,16 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import { Transition } from "@headlessui/react";
 
 // const socket = io.connect("http://localhost:5001");
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  var strTime = hours + ":" + minutes + " " + ampm;
+  return strTime;
+}
 function Chat({ socket }) {
   const { authInfo } = useContext(Context);
   const { user, isBuyer, isSeller, userRole } = authInfo;
@@ -16,7 +26,18 @@ function Chat({ socket }) {
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-  // console.log(currentMessage);
+  useEffect(() => {
+    socket.on("chat_history", (chats) => {
+      console.log(chats);
+      setMessageList(chats);
+    });
+    socket.on("receive_message", (data) => {
+      // console.log(data);
+      setMessageList((list) => [...list, data]);
+      console.log(data);
+    });
+    return () => socket.removeListener("receive_message");
+  }, [socket, currentMessage]);
 
   const product = location?.state;
   const seller = {
@@ -32,23 +53,12 @@ function Chat({ socket }) {
 
   const joinroom = () => {
     setShowChat((prev) => !prev);
-    console.log("here");
     if (user?.uid && seller_room) {
       socket.emit("join_room", seller_room);
       // setShowChat(true);
     }
   };
   const sendMessage = async () => {
-    function formatAMPM(date) {
-      var hours = date.getHours();
-      var minutes = date.getMinutes();
-      var ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      var strTime = hours + ":" + minutes + " " + ampm;
-      return strTime;
-    }
     if (currentMessage !== "") {
       const messageData = {
         room: seller_room,
@@ -61,15 +71,7 @@ function Chat({ socket }) {
       setCurrentMessage("");
     }
   };
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      // console.log(data);
 
-      setMessageList((list) => [...list, data]);
-      console.log(messageList);
-    });
-    return () => socket.removeListener("receive_message");
-  }, [socket]);
   // messageList?.map((messageContent) => console.log(messageContent?.message));
   // console.log(messageList);
 
@@ -146,7 +148,7 @@ function Chat({ socket }) {
                 className="h-full "
               >
                 {" "}
-                <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-md">
+                <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm">
                   <img
                     src={seller?.seller_default_image}
                     alt=""
@@ -161,8 +163,8 @@ function Chat({ socket }) {
                 </div>
                 {/* //! MESSAGE */}
                 <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
-                  {messageList?.map((messageContent) => (
-                    <div className={` px-5`}>
+                  {messageList?.map((messageContent, idx) => (
+                    <div key={idx} className={`px-5`}>
                       <div
                         className={`w-fit ${
                           user?.email === messageContent?.author
@@ -171,7 +173,7 @@ function Chat({ socket }) {
                         }`}
                       >
                         <p
-                          className={`w-fit  max-w-xs break-all rounded-full  px-3  py-1 text-sm font-thin tracking-wider text-gray-500 ${
+                          className={`mt-2  w-fit max-w-xs break-all  rounded-full  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
                             user?.email === messageContent?.author
                               ? "ml-auto bg-secondary-color"
                               : ""
@@ -180,7 +182,15 @@ function Chat({ socket }) {
                           {messageContent?.message}
                         </p>
                         <div className=" text-xs  text-gray-400">
-                          <p className={``}>{messageContent?.time}</p>
+                          <p
+                            className={`${
+                              user?.email === messageContent?.author
+                                ? "pr-2 text-right"
+                                : "pl-2"
+                            }`}
+                          >
+                            {messageContent?.time}
+                          </p>
                         </div>
                       </div>
                     </div>

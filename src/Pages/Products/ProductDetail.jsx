@@ -76,7 +76,7 @@ const ProductDetail = () => {
 
   return (
     // ! use carousal for all products of the category
-    <div className="relative overflow-auto px-5 pb-16 ">
+    <div className="relative overflow-auto px-5 pb-16 min-h-screen">
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
       <div className="mt-9 justify-center lg:grid  lg:grid-cols-7 ">
         <img
