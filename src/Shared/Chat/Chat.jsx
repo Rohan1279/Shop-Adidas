@@ -132,32 +132,30 @@ function Chat({ socket }) {
               {/* //! MESSAGE */}
               <div className="h-full bg-red-400">
                 <ScrollToBottom className="mx-auto h-[180px] max-w-xl  overflow-scroll bg-blue-100/50">
-                  {messageList?.map((messageContent, idx) => {
-                    return (
-                      <div className={` px-5`}>
-                        <div
-                          className={`w-fit ${
+                  {messageList?.map((messageContent) => (
+                    <div className={` px-5`}>
+                      <div
+                        className={`w-fit ${
+                          user?.email === messageContent?.author
+                            ? "ml-auto"
+                            : "  "
+                        }`}
+                      >
+                        <p
+                          className={`w-fit  max-w-xs break-all rounded-t-2xl px-3 py-1  text-sm font-medium tracking-wider text-gray-500 ${
                             user?.email === messageContent?.author
-                              ? "ml-auto"
-                              : "  "
+                              ? "ml-auto rounded-bl-2xl bg-violet-200"
+                              : "rounded-br-2xl bg-blue-200"
                           }`}
                         >
-                          <p
-                            className={`w-fit  max-w-xs break-all rounded-t-2xl px-3 py-1  text-sm font-medium tracking-wider text-gray-500 ${
-                              user?.email === messageContent?.author
-                                ? "ml-auto rounded-bl-2xl bg-violet-200"
-                                : "rounded-br-2xl bg-blue-200"
-                            }`}
-                          >
-                            {messageContent?.message}
-                          </p>
-                          <div className=" text-xs  text-gray-400">
-                            <p className={``}>{messageContent?.time}</p>
-                          </div>
+                          {messageContent?.message}
+                        </p>
+                        <div className=" text-xs  text-gray-400">
+                          <p className={``}>{messageContent?.time}</p>
                         </div>
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </ScrollToBottom>
               </div>
               {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
