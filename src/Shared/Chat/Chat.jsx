@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
-import { GrEmoji, GrAttachment, GrSend } from "react-icons/gr";
+import { GrEmoji, GrAttachment, GrSend, GrDown } from "react-icons/gr";
 import { IoIosAttach } from "react-icons/io";
 import ScrollToBottom from "react-scroll-to-bottom";
+import { Transition } from "@headlessui/react";
 
 // const socket = io.connect("http://localhost:5001");
 function Chat({ socket }) {
@@ -85,13 +86,35 @@ function Chat({ socket }) {
       <div className="relative ">
         <div
           onClick={() => joinroom()}
-          className={`rounded-full bg-primary-color p-2 shadow-nm active:shadow-nm-inset `}
+          className={`realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
         >
-          <img
-            src="https://img.icons8.com/?size=512&id=3OmLPsSUeBdX&format=png"
-            alt=""
-            className="h-12 w-12 "
-          />
+          <Transition
+            show={!showChat}
+            enter="transition-all duration-300 "
+            enterFrom="-translate-y-5"
+            enterTo="translate-y-0 "
+            leave="transition-all duration-300"
+            leaveFrom="translate-y-0"
+            leaveTo="-translate-y-10 "
+          >
+            <img
+              src="https://img.icons8.com/?size=512&id=3OmLPsSUeBdX&format=png"
+              alt=""
+              className="absolute "
+            />
+          </Transition>
+          {/* <GrDown className="mx-auto mt-2"></GrDown> */}
+          <Transition
+            show={showChat}
+            enter="transition-all duration-300"
+            enterFrom="translate-y-10"
+            enterTo="translate-y-0"
+            leave="transition-all duration-300"
+            leaveFrom="translate-y-0"
+            leaveTo="translate-y-10"
+          >
+            <GrDown className="absolute translate-x-1/2 translate-y-1/2"></GrDown>
+          </Transition>
         </div>
         {/* //! CHAT BOX */}
         <div
@@ -130,7 +153,7 @@ function Chat({ socket }) {
                 </div>
               </div>
               {/* //! MESSAGE */}
-              <div className="h-full bg-red-400">
+              <div className="h-full ">
                 <ScrollToBottom className="mx-auto h-[180px] max-w-xl  overflow-scroll bg-blue-100/50">
                   {messageList?.map((messageContent) => (
                     <div className={` px-5`}>
