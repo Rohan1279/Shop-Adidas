@@ -100,7 +100,7 @@ function Chat({ socket }) {
             <img
               src="https://img.icons8.com/?size=512&id=3OmLPsSUeBdX&format=png"
               alt=""
-              className="absolute "
+              className="absolute w-8"
             />
           </Transition>
           {/* <GrDown className="mx-auto mt-2"></GrDown> */}
@@ -117,6 +117,16 @@ function Chat({ socket }) {
           </Transition>
         </div>
         {/* //! CHAT BOX */}
+        <Transition
+            show={showChat}
+            enter="transition-all duration-300"
+            enterFrom="translate-y-10"
+            enterTo="translate-y-0"
+            leave="transition-all duration-1000"
+            leaveFrom="translate-y-0"
+            leaveTo="translate-y-10"
+          >
+         
         <div
           className={`absolute bottom-20 right-0 h-[32rem]  w-96 rounded-xl   bg-primary-color  shadow-nm ${
             !showChat && "hidden"
@@ -216,6 +226,7 @@ function Chat({ socket }) {
             </div>
           )}
         </div>
+          </Transition>
       </div>
     </div>
   );
