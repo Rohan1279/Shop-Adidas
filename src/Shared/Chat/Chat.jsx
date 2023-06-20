@@ -58,6 +58,7 @@ function Chat({ socket }) {
     }
   });
   useEffect(() => {
+    console.log(messageList);
     if (user?.email) {
       setMessageList((prevMessageList) => ({
         ...prevMessageList,
@@ -66,7 +67,7 @@ function Chat({ socket }) {
       }));
     }
     socket.on("chat_history", (chats) => {
-      console.log(chats[0]);
+      // console.log(chats[0]);
       setMessageList(chats[0]);
     });
     socket.on("receive_message", (data) => {
