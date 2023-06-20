@@ -54,7 +54,7 @@ const DashboardLayout = () => {
               to={route.route}
               className={({ isActive }) =>
                 isActive
-                  ? `mt-4 block w-52   min-w-max rounded-md border border-zinc-300  bg-[#] py-2  text-center text-sm font-bold text-gray-800 shadow-nm-inset transition-all hover:text-gray-800 `
+                  ? `mt-4 block w-52   min-w-max rounded-md border border-zinc-300  bg-[#] py-2  text-center text-sm font-semibold text-gray-700 shadow-nm-inset transition-all hover:text-gray-800 `
                   : "mt-4  block w-52  min-w-max rounded-md border border-zinc-300 bg-[#]  py-2 text-center text-sm font-medium text-gray-500 transition-all hover:text-gray-800 "
               }
             >

@@ -26,6 +26,21 @@ function Chat({ socket }) {
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+
+  window.addEventListener("keydown", function (event) {
+    if (showChat && event?.key === "Escape") {
+      setShowChat(!showChat);
+    }
+  });
+  window.addEventListener("mousedown", (e) => {
+    if (e.target.closest(".chat-box")) {
+      // when clicked inside
+      return;
+    } else {
+      // when clicked outsid
+      setShowChat(false);
+    }
+  });
   useEffect(() => {
     socket.on("chat_history", (chats) => {
       console.log(chats);
@@ -85,10 +100,11 @@ function Chat({ socket }) {
           : "hidden"
       }`}
     >
-      <div className="relative ">
+      <div className="relative chat-box">
+        {/* //! CHAT BUTTON */}
         <div
           onClick={() => joinroom()}
-          className={`realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
+          className={`chat-button realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
         >
           <Transition
             show={!showChat}
@@ -129,7 +145,7 @@ function Chat({ socket }) {
           leaveTo="translate-y-5  opacity-0"
         >
           <div
-            className={`absolute bottom-20 right-0 h-[32rem] w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
+            className={` absolute bottom-20 right-0 h-[32rem] w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
           >
             {!user && !user?.uid ? (
               <button
