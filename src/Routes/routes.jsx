@@ -25,6 +25,7 @@ const EditProduct = lazy(() =>
 import MyBuyers from "../Pages/Dashboard/SellerDashboard/MyBuyers/MyBuyers";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Loader from "../components/Loader/Loader";
+import Messages from "../Pages/Dashboard/SellerDashboard/Messages/Messages";
 
 const router = createBrowserRouter([
   {
@@ -111,6 +112,14 @@ const router = createBrowserRouter([
         element: (
           <SellerRoute>
             <MyBuyers />
+          </SellerRoute>
+        ),
+      },
+      {
+        path: "messages",
+        element: (
+          <SellerRoute>
+            <Messages />
           </SellerRoute>
         ),
       },

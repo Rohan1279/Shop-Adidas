@@ -5,15 +5,11 @@ import Navbar from "../Shared/Navbar";
 import {
   FaArrowLeft,
   FaBars,
-  FaBuyNLarge,
-  FaCartPlus,
-  FaChevronLeft,
-  FaClosedCaptioning,
   FaHome,
   FaListAlt,
+  FaMailBulk,
   FaPlus,
   FaShopify,
-  FaXbox,
 } from "react-icons/fa";
 import { HiXMark } from "react-icons/hi2";
 import Loader from "../components/Loader/Loader";
@@ -33,6 +29,7 @@ const DashboardLayout = () => {
     },
     { name: "My Products", route: "myproducts", icon: <FaListAlt></FaListAlt> },
     { name: "My Buyers", route: "mybuyers", icon: <FaShopify></FaShopify> },
+    { name: "Messages", route: "messages", icon: <FaMailBulk></FaMailBulk> },
   ];
   return (
     <div className="">

@@ -164,7 +164,7 @@ function Chat({ socket }) {
                 {/* //! MESSAGE */}
                 <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
                   {messageList?.map((messageContent, idx) => (
-                    <div key={idx} className={`px-5`}>
+                    <div key={idx} className={`px-3`}>
                       <div
                         className={`w-fit ${
                           user?.email === messageContent?.author
@@ -172,15 +172,32 @@ function Chat({ socket }) {
                             : "  "
                         }`}
                       >
-                        <p
-                          className={`mt-2  w-fit max-w-xs break-all  rounded-full  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
-                            user?.email === messageContent?.author
-                              ? "ml-auto bg-secondary-color"
+                        <div
+                          className={` ${
+                            user?.email !== messageContent?.author
+                              ? "flex items-end justify-center"
                               : ""
-                          } border border-gray-300`}
+                          }`}
                         >
-                          {messageContent?.message}
-                        </p>
+                          <img
+                            src={seller?.seller_default_image}
+                            alt=""
+                            className={`h-4 w-4 rounded-full bg-yellow-200 ${
+                              user?.email !== messageContent?.author
+                                ? "block"
+                                : "hidden"
+                            }`}
+                          />
+                          <p
+                            className={`mt-2  w-fit max-w-xs   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
+                              user?.email === messageContent?.author
+                                ? "ml-auto bg-secondary-color"
+                                : ""
+                            } border border-gray-300`}
+                          >
+                            {messageContent?.message}
+                          </p>
+                        </div>
                         <div className=" text-xs  text-gray-400">
                           <p
                             className={`${
