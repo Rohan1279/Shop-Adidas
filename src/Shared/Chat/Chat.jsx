@@ -22,10 +22,26 @@ function Chat({ socket }) {
   const { user, isBuyer, isSeller, userRole } = authInfo;
   const location = useLocation();
   const navigate = useNavigate();
+  const product = location?.state;
+  const seller = {
+    seller: product?.seller,
+    seller_default_image: product?.seller_default_image,
+    seller_email: product?.seller_email,
+    seller_id: product?.seller_id,
+    seller_name: product?.seller_name,
+    seller_phone: product?.seller_phone,
+  };
+  const seller_room = product?.seller_email; //replace with seller_id
   // ! SOCKET.IO
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState({
+    buyer: user?.email,
+    buyer_image: user?.photoURL || "",
+    room: seller_room,
+    seller_image: seller?.seller_default_image,
+    messages: [],
+  });
 
   window.addEventListener("keydown", function (event) {
     if (showChat && event?.key === "Escape") {
@@ -42,28 +58,20 @@ function Chat({ socket }) {
     }
   });
   useEffect(() => {
-    socket.on("chat_history", (chats) => {
-      console.log(chats);
-      setMessageList(chats);
-    });
-    socket.on("receive_message", (data) => {
-      // console.log(data);
-      setMessageList((list) => [...list, data]);
-      console.log(data);
-    });
-    return () => socket.removeListener("receive_message");
+    console.log(messageList);
+
+    // socket.on("chat_history", (chats) => {
+    //   console.log(chats);
+    //   setMessageList(chats);
+    // });
+    // socket.on("receive_message", (data) => {
+    //   // console.log(data);
+    //   setMessageList((list) => [...list, data]);
+    //   console.log(data);
+    // });
+    // return () => socket.removeListener("receive_message");
   }, [socket, currentMessage]);
 
-  const product = location?.state;
-  const seller = {
-    seller: product?.seller,
-    seller_default_image: product?.seller_default_image,
-    seller_email: product?.seller_email,
-    seller_id: product?.seller_id,
-    seller_name: product?.seller_name,
-    seller_phone: product?.seller_phone,
-  };
-  const seller_room = product?.seller_email; //replace with seller_id
   // console.log(user);
 
   const joinroom = () => {
@@ -76,13 +84,18 @@ function Chat({ socket }) {
   const sendMessage = async () => {
     if (currentMessage !== "") {
       const messageData = {
-        room: seller_room,
         author: user?.email,
-        message: currentMessage,
         time: formatAMPM(new Date()),
+        message: currentMessage,
       };
-      await socket.emit("send_message", messageData);
-      setMessageList((list) => [...list, messageData]);
+      // await socket.emit("send_message", messageData);
+
+      // Update the messageList state by adding messageData to the messages array
+      setMessageList((prevMessageList) => ({
+        ...prevMessageList,
+        messages: [...prevMessageList.messages, messageData],
+      }));
+      console.log(messageList);
       setCurrentMessage("");
     }
   };
@@ -100,7 +113,7 @@ function Chat({ socket }) {
           : "hidden"
       }`}
     >
-      <div className="relative chat-box">
+      <div className="chat-box relative">
         {/* //! CHAT BUTTON */}
         <div
           onClick={() => joinroom()}
@@ -179,7 +192,7 @@ function Chat({ socket }) {
                 </div>
                 {/* //! MESSAGE */}
                 <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
-                  {messageList?.map((messageContent, idx) => (
+                  {messageList?.messages?.map((messageContent, idx) => (
                     <div key={idx} className={`px-3`}>
                       <div
                         className={`w-fit ${
@@ -279,3 +292,35 @@ export default Chat;
 // margin: auto;
 // width: 50%;
 // padding: 10px;
+
+{
+  /* 
+    
+    
+
+  _id: "6490b69e27f9731331206b70",
+  buyer: "bipil14415@meidecn.com",
+  buyer_image : "",
+  room: "adidas@adidas.com",
+  seller_image : "",
+  messages: [
+     {
+      author: "bipil14415@meidecn.com",
+      time: "2:12 AM",
+      messgae : "asdasdsad"
+     },
+     {
+      author: "bipil14415@meidecn.com",
+      time: "2:12 AM",
+      messgae : "asdasdsad"
+     },
+     {
+      author: "bipil14415@meidecn.com",
+      time: "2:12 AM",
+      messgae : "asdasdsad"
+     },
+  ],
+
+    
+    */
+}
