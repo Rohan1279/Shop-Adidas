@@ -36,8 +36,8 @@ function Chat({ socket }) {
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState({
-    buyer: user?.email,
-    buyer_image: user?.photoURL || "",
+    buyer: "",
+    buyer_image: "",
     room: seller_room,
     seller_image: seller?.seller_default_image,
     messages: [],
@@ -58,19 +58,24 @@ function Chat({ socket }) {
     }
   });
   useEffect(() => {
-    console.log(messageList);
-
-    // socket.on("chat_history", (chats) => {
-    //   console.log(chats);
-    //   setMessageList(chats);
-    // });
-    // socket.on("receive_message", (data) => {
-    //   // console.log(data);
-    //   setMessageList((list) => [...list, data]);
-    //   console.log(data);
-    // });
-    // return () => socket.removeListener("receive_message");
-  }, [socket, currentMessage]);
+    if (user?.email) {
+      setMessageList((prevMessageList) => ({
+        ...prevMessageList,
+        buyer: user?.email,
+        buyer_image: user?.photoURL || "",
+      }));
+    }
+    socket.on("chat_history", (chats) => {
+      console.log(chats[0]);
+      setMessageList(chats[0]);
+    });
+    socket.on("receive_message", (data) => {
+      // console.log(data);
+      setMessageList(data);
+      console.log(data);
+    });
+    return () => socket.removeListener("receive_message");
+  }, [socket, currentMessage, user]);
 
   // console.log(user);
 
@@ -88,14 +93,15 @@ function Chat({ socket }) {
         time: formatAMPM(new Date()),
         message: currentMessage,
       };
-      // await socket.emit("send_message", messageData);
+      const updatedMessageList = {
+        ...messageList,
+        messages: [...messageList.messages, messageData],
+      };
+      setMessageList(updatedMessageList);
+      await socket.emit("send_message", updatedMessageList);
+      console.log(updatedMessageList);
 
-      // Update the messageList state by adding messageData to the messages array
-      setMessageList((prevMessageList) => ({
-        ...prevMessageList,
-        messages: [...prevMessageList.messages, messageData],
-      }));
-      console.log(messageList);
+      // await socket.emit("send_message", messageList);
       setCurrentMessage("");
     }
   };
