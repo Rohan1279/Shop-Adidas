@@ -12,6 +12,8 @@
   /* neumorphism background color */
   --primary-color: #e6e7ee;
   --secondary-color: #e0e5ec;
+  /* --primary-color: #0b0b0c; */
+  /* --secondary-color: #0e0f0f; */
   font-family: "Poppins", sans-serif;
 }
 * {

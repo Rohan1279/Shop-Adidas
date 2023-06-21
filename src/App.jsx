@@ -44,7 +44,7 @@ function App() {
             ></Toaster>
           </ContextProvider>
         </QueryClientProvider>
-        <Disclaimer />
+        {/* <Disclaimer /> */}
       </React.StrictMode>
     </div>
   );

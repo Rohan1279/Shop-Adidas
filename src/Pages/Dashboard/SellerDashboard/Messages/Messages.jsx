@@ -61,98 +61,144 @@ export default function Messages() {
     //   setCurrentMessage("");
     // }
   };
-
+  // console.log(user);
   return (
-    <div className="min-h-screen py-10 px-5">
-      {messageList?.map((messageContent) => (
-        <div key={messageContent?._id} className="">
+    <div className="flex h-screen gap-x-10 bg-secondary-color px-20 pb-32 pt-8">
+      <div className="flex flex-col bg-violet-300">
+      {/* <button className=" w-60 bg-red-300 px-4 py-4 drop-shadow-sm">Search</button> */}
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex items-center bg-yellow-200 h-14 px-2"
+        >
+          {/* <span
+            className={`&& "  "
+                    } mr-3 min-w-max text-center text-xs font-medium uppercase tracking-wider
+                  text-gray-500`}
+          >
+            Search
+          </span> */}
+
+          <input
+            onChange={(e) => {
+              // setSearch(e.target.value);
+            }}
+            type={"text"}
+            placeholder={"search a product"}
+            className=" rounded-md  bg-secondary-color w-full bg-red-300 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 p-3"
+            // disabled={products?.length === 0}
+          />
+        </form>
+        {messageList?.map((messageContent) => (
           <button
+            key={messageContent?._id}
             onClick={() =>
               joinroom(messageContent?.room, messageContent?.buyer)
             }
-            className="my-3 w-60 bg-red-300 px-4 py-3"
+            className="border border-zinc-500 w-60 bg-red-300 px-4 py-3"
           >
             {messageContent?.buyer}
           </button>
+        ))}
+      </div>
+      <div className="w-full bg-blue-400 ">
+        {/* //! CHAT BOX */}
+        <div className="flex w-full items-center justify-start gap-x-2  bg-green-300 pl-2 p-2  shadow-sm ">
+          <img
+            src={
+              user?.displayURL ||
+              "https://img.icons8.com/?size=512&id=13042&format=png"
+            } // TODO: add user displayURL
+            alt=""
+            className="h-10 w-10 rounded-full bg-yellow-200"
+          />
+          <div className="">
+            <p className="text-sm">{user?.email}</p>
+            {/* // TODO: add user displayName*/}
+
+            <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+              Active status
+            </p>
+          </div>
         </div>
-      ))}
-      {/* //! CHAT BOX */}
-      <ScrollToBottom className="mx-auto mb-auto  h-screen w-full  overflow-scroll bg-blue-400 pb-3">
-        {messageList[0]?.messages?.map((messageContent, idx) => (
-          <div key={idx} className={`px-3`}>
-            <div
-              className={`w-fit ${
-                user?.email === messageContent?.author ? "ml-auto" : "  "
-              }`}
-            >
+        <ScrollToBottom className=" mx-auto mb-auto  w-full  overflow-scroll  pb-3">
+          {messageList[0]?.messages?.map((messageContent, idx) => (
+            <div key={idx} className={`px-3`}>
               <div
-                className={` ${
-                  user?.email !== messageContent?.author
-                    ? "flex items-end justify-center"
-                    : ""
+                className={`w-fit ${
+                  user?.email === messageContent?.author ? "ml-auto" : "  "
                 }`}
               >
-                <img
-                  // src={seller?.seller_default_image}
-                  alt=""
-                  className={`h-4 w-4 rounded-full bg-yellow-200 ${
-                    user?.email !== messageContent?.author ? "block" : "hidden"
-                  }`}
-                />
-                <p
-                  className={`mt-2  w-fit max-w-xs   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
-                    user?.email === messageContent?.author
-                      ? "ml-auto bg-secondary-color"
+                <div
+                  className={` ${
+                    user?.email !== messageContent?.author
+                      ? "flex items-end justify-center"
                       : ""
-                  } border border-gray-300`}
-                >
-                  {messageContent?.message}
-                </p>
-              </div>
-              <div className=" text-xs  text-gray-400">
-                <p
-                  className={`${
-                    user?.email === messageContent?.author
-                      ? "pr-2 text-right"
-                      : "pl-2"
                   }`}
                 >
-                  {messageContent?.time}
-                </p>
+                  <img
+                    // src={seller?.seller_default_image}
+                    alt=""
+                    className={`h-4 w-4 rounded-full bg-yellow-200 ${
+                      user?.email !== messageContent?.author
+                        ? "block"
+                        : "hidden"
+                    }`}
+                  />
+                  <p
+                    className={`mt-2  w-fit max-w-xs   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
+                      user?.email === messageContent?.author
+                        ? "ml-auto bg-secondary-color"
+                        : ""
+                    } border border-gray-300`}
+                  >
+                    {messageContent?.message}
+                  </p>
+                </div>
+                <div className=" text-xs  text-gray-400">
+                  <p
+                    className={`${
+                      user?.email === messageContent?.author
+                        ? "pr-2 text-right"
+                        : "pl-2"
+                    }`}
+                  >
+                    {messageContent?.time}
+                  </p>
+                </div>
               </div>
             </div>
+          ))}
+        </ScrollToBottom>
+        <div className="sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
+          <div className="flex items-center justify-center ">
+            <input
+              type={"text"}
+              placeholder={"type a message"}
+              value={currentMessage}
+              onChange={(e) => {
+                setCurrentMessage(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                e.key === "Enter" && sendMessage();
+                // e.target.reset();
+              }}
+              className="relative w-full rounded-full bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
+            />
+            {currentMessage ? (
+              <button onClick={sendMessage} className="absolute right-6">
+                <GrSend></GrSend>
+              </button>
+            ) : (
+              <div className="absolute right-5">
+                <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                  <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
+                </button>
+                <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
+                  <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
+                </button>
+              </div>
+            )}
           </div>
-        ))}
-      </ScrollToBottom>
-      <div className="sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
-        <div className="flex items-center justify-center ">
-          <input
-            type={"text"}
-            placeholder={"type a message"}
-            value={currentMessage}
-            onChange={(e) => {
-              setCurrentMessage(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              e.key === "Enter" && sendMessage();
-              // e.target.reset();
-            }}
-            className="relative w-full rounded-full bg-secondary-color p-3 text-center  text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
-          />
-          {currentMessage ? (
-            <button onClick={sendMessage} className="absolute right-6">
-              <GrSend></GrSend>
-            </button>
-          ) : (
-            <div className="absolute right-5">
-              <button className=" h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
-                <GrEmoji className="mx-auto text-lg text-zinc-500"></GrEmoji>
-              </button>
-              <button className=" ml-2 h-7 w-7 rounded-full shadow-nm active:shadow-nm-inset">
-                <IoIosAttach className="mx-auto text-lg text-zinc-500"></IoIosAttach>
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>
