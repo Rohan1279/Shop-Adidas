@@ -20,21 +20,33 @@ export default function Messages() {
   const { user, isBuyer, isSeller, userRole } = authInfo;
   const seller_room = user?.email; //replace with seller_id
   const [messageList, setMessageList] = useState([]);
+  const [buyersList, setBuyersList] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [currentRoom, setCurrentRoom] = useState("");
   const [messages, setMessages] = useState("");
-  console.log(messageList);
+  console.log(currentRoom);
   useEffect(() => {
     if (user?.email) {
       fetch(
         `${import.meta.env.VITE_SERVER_URL}/seller/messages?room=${user?.email}`
       )
         .then((res) => res.json())
-        .then((data) => setMessageList(data));
+        .then((data) => {
+          const extractedData = data.map((obj) => {
+            return {
+              _id: obj._id,
+              buyer: obj.buyer,
+              room: obj.room,
+              buyer_image: obj.buyer_image,
+            };
+          });
+          setBuyersList(extractedData);
+          // console.log(extractedData);
+        });
     }
 
     socket.on("chat_history", (chats) => {
-      console.log(chats[0]);
+      // console.log(chats[0]);
       setMessageList(chats);
     });
   }, [user]);
@@ -64,11 +76,12 @@ export default function Messages() {
   // console.log(user);
   return (
     <div className="flex h-screen gap-x-10 bg-secondary-color px-20 pb-32 pt-8">
-      <div className="flex flex-col bg-violet-300">
-      {/* <button className=" w-60 bg-red-300 px-4 py-4 drop-shadow-sm">Search</button> */}
+      <div className="flex w-96 flex-col overflow-scroll rounded-lg shadow-nm">
+        {/* <button className=" w-60 bg-red-300 px-4 py-4 drop-shadow-sm">Search</button> */}
+        {/* //! SEARCH BOX */}
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="flex items-center bg-yellow-200 h-14 px-2"
+          className=" flex h-14 items-center bg-primary-color px-2 shadow-sm"
         >
           {/* <span
             className={`&& "  "
@@ -84,25 +97,37 @@ export default function Messages() {
             }}
             type={"text"}
             placeholder={"search a product"}
-            className=" rounded-md  bg-secondary-color w-full bg-red-300 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 p-3"
+            className=" w-full rounded-full border border-zinc-300 bg-secondary-color p-2 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
             // disabled={products?.length === 0}
           />
         </form>
-        {messageList?.map((messageContent) => (
-          <button
-            key={messageContent?._id}
+        {buyersList?.map((content) => (
+          <div
+            key={content?._id}
             onClick={() =>
-              joinroom(messageContent?.room, messageContent?.buyer)
+              joinroom(content?.room, content?.buyer)
             }
-            className="border border-zinc-500 w-60 bg-red-300 px-4 py-3"
+            className="w-full cursor-pointer border border-zinc-300 px-4 py-3 hover:brightness-90"
           >
-            {messageContent?.buyer}
-          </button>
+            <div className="flex items-center justify-start gap-x-2">
+              <img
+                src={
+                  content?.buyer_image ||
+                  "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
+                }
+                alt=""
+                className="h-8 w-8 rounded-full "
+              />
+              <p className=" text-sm font-thin tracking-wider text-gray-500">
+                {content?.buyer}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
-      <div className="w-full bg-blue-400 ">
+      <div className="w-full overflow-hidden rounded-lg bg-secondary-color shadow-nm ">
         {/* //! CHAT BOX */}
-        <div className="flex w-full items-center justify-start gap-x-2  bg-green-300 pl-2 p-2  shadow-sm ">
+        <div className="flex w-full items-center justify-start gap-x-2  bg-sky-300/70 p-2 pl-2  shadow-sm ">
           <img
             src={
               user?.displayURL ||
@@ -136,7 +161,10 @@ export default function Messages() {
                   }`}
                 >
                   <img
-                    // src={seller?.seller_default_image}
+                    src={
+                      messageContent?.buyer_image ||
+                      "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
+                    }
                     alt=""
                     className={`h-4 w-4 rounded-full bg-yellow-200 ${
                       user?.email !== messageContent?.author
