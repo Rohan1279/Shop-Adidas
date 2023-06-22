@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { GrEmoji, GrSend } from "react-icons/gr";
 import { IoIosAttach } from "react-icons/io";
+import { useQuery } from "@tanstack/react-query";
 function formatAMPM(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
@@ -20,33 +21,46 @@ export default function Messages() {
   const { user, isBuyer, isSeller, userRole } = authInfo;
   const seller_room = user?.email; //replace with seller_id
   const [messageList, setMessageList] = useState([]);
-  const [buyersList, setBuyersList] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [currentRoom, setCurrentRoom] = useState("");
   const [messages, setMessages] = useState("");
+  const { data: buyersList = [] } = useQuery({
+    queryKey: ["buyersList", user?.email],
+    queryFn: () => {
+      if (user?.email) {
+        return  fetch(
+          `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${
+            user?.email
+          }`
+        ).then((res) => res.json());
+      }
+    },
+  });
   console.log(currentRoom);
-  useEffect(() => {
-    if (user?.email) {
-      fetch(
-        `${import.meta.env.VITE_SERVER_URL}/seller/messages?room=${user?.email}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setBuyersList(data);
-          console.log(data);
-        });
-    }
-    // socket.on("chat_history", (chats) => {
-    //   console.log(chats[0]);
-    //   setMessageList(chats);
-    // });
-  }, []);
-  // const joinroom = (room, buyer) => {
-  //   if (user?.email && room) {
-  //     setCurrentRoom(room);
-  //     socket.emit("join_room", { room, buyer });
+
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     fetch(
+  //       `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${user?.email}`
+  //     )
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setBuyersList(data);
+  //         console.log(data);
+  //       });
   //   }
-  // };
+  //   // socket.on("chat_history", (chats) => {
+  //   //   console.log(chats[0]);
+  //   //   setMessageList(chats);
+  //   // });
+  // }, []);
+ 
+  const joinroom = (room, buyer) => {
+    if (user?.email && room) {
+      setCurrentRoom(buyer);
+      // socket.emit("join_room", { room, buyer });
+    }
+  };
   const sendMessage = async () => {
     // if (currentMessage !== "") {
     //   const messageData = {
@@ -92,23 +106,23 @@ export default function Messages() {
             // disabled={products?.length === 0}
           />
         </form>
-        {buyersList?.map((content) => (
+        {buyersList?.map((buyer) => (
           <div
-            key={content?._id}
-            onClick={() => joinroom(content?.room, content?.buyer)}
+            key={buyer?._id}
+            onClick={() => joinroom(buyer?.room, buyer)}
             className="w-full cursor-pointer border border-zinc-300 px-4 py-3 hover:brightness-90"
           >
             <div className="flex items-center justify-start gap-x-2">
               <img
                 src={
-                  content?.buyer_image ||
+                  buyer?.buyer_image ||
                   "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
                 }
                 alt=""
                 className="h-8 w-8 rounded-full "
               />
               <p className=" text-sm font-thin tracking-wider text-gray-500">
-                {content?.buyer}
+                {buyer?.buyer}
               </p>
             </div>
           </div>
@@ -119,14 +133,14 @@ export default function Messages() {
         <div className="flex w-full items-center justify-start gap-x-2  bg-sky-300/70 p-2 pl-2  shadow-sm ">
           <img
             src={
-              user?.displayURL ||
+              currentRoom?.buyer_image ||
               "https://img.icons8.com/?size=512&id=13042&format=png"
             } // TODO: add user displayURL
             alt=""
             className="h-10 w-10 rounded-full bg-yellow-200"
           />
           <div className="">
-            <p className="text-sm">{user?.email}</p>
+            <p className="text-sm">{currentRoom?.buyer}</p>
             {/* // TODO: add user displayName*/}
 
             <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
