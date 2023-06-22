@@ -28,7 +28,7 @@ export default function Messages() {
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
       if (user?.email) {
-        return  fetch(
+        return fetch(
           `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${
             user?.email
           }`
@@ -54,11 +54,12 @@ export default function Messages() {
   //   //   setMessageList(chats);
   //   // });
   // }, []);
- 
-  const joinroom = (room, buyer) => {
-    if (user?.email && room) {
+
+  const joinroom = (buyer) => {
+    if (user?.email && buyer?.room) {
       setCurrentRoom(buyer);
-      // socket.emit("join_room", { room, buyer });
+      console.log(buyer);
+      socket.emit("join_room", { room: user?.email, buyer: buyer.buyer });
     }
   };
   const sendMessage = async () => {
@@ -109,7 +110,7 @@ export default function Messages() {
         {buyersList?.map((buyer) => (
           <div
             key={buyer?._id}
-            onClick={() => joinroom(buyer?.room, buyer)}
+            onClick={() => joinroom(buyer)}
             className="w-full cursor-pointer border border-zinc-300 px-4 py-3 hover:brightness-90"
           >
             <div className="flex items-center justify-start gap-x-2">
@@ -135,13 +136,13 @@ export default function Messages() {
             src={
               currentRoom?.buyer_image ||
               "https://img.icons8.com/?size=512&id=13042&format=png"
-            } // TODO: add user displayURL
+            } // TODO: add buyer displayURL
             alt=""
             className="h-10 w-10 rounded-full bg-yellow-200"
           />
           <div className="">
             <p className="text-sm">{currentRoom?.buyer}</p>
-            {/* // TODO: add user displayName*/}
+            {/* // TODO: add buyer displayName*/}
 
             <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
               Active status

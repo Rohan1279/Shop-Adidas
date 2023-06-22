@@ -30,8 +30,8 @@ function Chat({ socket }) {
     seller_id: product?.seller_id,
     seller_name: product?.seller_name,
     seller_phone: product?.seller_phone,
+    seller_email: product?.seller_email, //replace with seller_id
   };
-  const seller_room = product?.seller_email; //replace with seller_id
   // ! SOCKET.IO
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
@@ -77,10 +77,15 @@ function Chat({ socket }) {
 
   // console.log(user);
 
-  const joinroom = (room, buyer) => {
+  const joinroom = () => {
     setShowChat((prev) => !prev);
-    if (user?.uid && seller_room) {
-      socket.emit("join_room", { room: seller_room, buyer: user?.email });
+    console.log(user.uid);
+    if (user.uid && seller.seller_email) {
+      console.log("here");
+      socket.emit("join_room", {
+        room: seller?.seller_email,
+        buyer: user?.email,
+      });
       // setShowChat(true);
     }
   };
@@ -120,7 +125,7 @@ function Chat({ socket }) {
       <div className="chat-box relative">
         {/* //! CHAT BUTTON */}
         <div
-          onClick={() => joinroom(seller_room, user?.email)}
+          onClick={joinroom}
           className={`chat-button realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
         >
           <Transition
