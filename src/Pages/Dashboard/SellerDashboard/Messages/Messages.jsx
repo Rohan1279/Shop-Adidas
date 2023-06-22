@@ -32,30 +32,21 @@ export default function Messages() {
       )
         .then((res) => res.json())
         .then((data) => {
-          const extractedData = data.map((obj) => {
-            return {
-              _id: obj._id,
-              buyer: obj.buyer,
-              room: obj.room,
-              buyer_image: obj.buyer_image,
-            };
-          });
-          setBuyersList(extractedData);
-          // console.log(extractedData);
+          setBuyersList(data);
+          console.log(data);
         });
     }
-
-    socket.on("chat_history", (chats) => {
-      // console.log(chats[0]);
-      setMessageList(chats);
-    });
-  }, [user]);
-  const joinroom = (room, buyer) => {
-    if (user?.email && room) {
-      setCurrentRoom(room);
-      socket.emit("join_room", { room, buyer });
-    }
-  };
+    // socket.on("chat_history", (chats) => {
+    //   console.log(chats[0]);
+    //   setMessageList(chats);
+    // });
+  }, []);
+  // const joinroom = (room, buyer) => {
+  //   if (user?.email && room) {
+  //     setCurrentRoom(room);
+  //     socket.emit("join_room", { room, buyer });
+  //   }
+  // };
   const sendMessage = async () => {
     // if (currentMessage !== "") {
     //   const messageData = {
@@ -104,9 +95,7 @@ export default function Messages() {
         {buyersList?.map((content) => (
           <div
             key={content?._id}
-            onClick={() =>
-              joinroom(content?.room, content?.buyer)
-            }
+            onClick={() => joinroom(content?.room, content?.buyer)}
             className="w-full cursor-pointer border border-zinc-300 px-4 py-3 hover:brightness-90"
           >
             <div className="flex items-center justify-start gap-x-2">
@@ -125,7 +114,7 @@ export default function Messages() {
           </div>
         ))}
       </div>
-      <div className="w-full overflow-hidden rounded-lg bg-secondary-color shadow-nm ">
+      <div className="relative w-full overflow-hidden rounded-lg bg-secondary-color shadow-nm ">
         {/* //! CHAT BOX */}
         <div className="flex w-full items-center justify-start gap-x-2  bg-sky-300/70 p-2 pl-2  shadow-sm ">
           <img
@@ -197,7 +186,7 @@ export default function Messages() {
             </div>
           ))}
         </ScrollToBottom>
-        <div className="sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
+        <div className="absolute right-1/2 bottom-0 mb-3 w-[95%] translate-x-1/2 rounded-full border border-gray-300 bg-secondary-color ">
           <div className="flex items-center justify-center ">
             <input
               type={"text"}

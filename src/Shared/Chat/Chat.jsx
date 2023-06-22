@@ -35,13 +35,7 @@ function Chat({ socket }) {
   // ! SOCKET.IO
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [messageList, setMessageList] = useState({
-    buyer: "",
-    buyer_image: "",
-    room: seller_room,
-    seller_image: seller?.seller_default_image,
-    messages: [],
-  });
+  const [messageList, setMessageList] = useState([]);
 
   window.addEventListener("keydown", function (event) {
     if (showChat && event?.key === "Escape") {
@@ -57,17 +51,20 @@ function Chat({ socket }) {
       setShowChat(false);
     }
   });
+  console.log(messageList);
   useEffect(() => {
-    console.log(messageList);
-    if (user?.email) {
-      setMessageList((prevMessageList) => ({
-        ...prevMessageList,
-        buyer: user?.email,
-        buyer_image: user?.photoURL || "",
-      }));
-    }
+    // if (user?.email) {
+    //   setMessageList((prevMessageList) => ({
+    //     ...prevMessageList,
+    //     buyer: user?.email,
+    //     buyer_image: user?.photoURL || "",
+    //     room: seller_room,
+    //     seller_image: seller?.seller_default_image,
+    //     messages: messageList,
+    //   }));
+    // }
     socket.on("chat_history", (chats) => {
-      // console.log(chats[0]);
+      console.log(chats[0]);
       setMessageList(chats[0]);
     });
     socket.on("receive_message", (data) => {
@@ -75,15 +72,15 @@ function Chat({ socket }) {
       setMessageList(data);
       console.log(data);
     });
-    return () => socket.removeListener("receive_message");
-  }, [socket, currentMessage, user]);
+    // return () => socket.removeListener("receive_message");
+  }, [location, showChat]);
 
   // console.log(user);
 
-  const joinroom = () => {
+  const joinroom = (room, buyer) => {
     setShowChat((prev) => !prev);
     if (user?.uid && seller_room) {
-      socket.emit("join_room", seller_room);
+      socket.emit("join_room", { room: seller_room, buyer: user?.email });
       // setShowChat(true);
     }
   };
@@ -123,7 +120,7 @@ function Chat({ socket }) {
       <div className="chat-box relative">
         {/* //! CHAT BUTTON */}
         <div
-          onClick={() => joinroom()}
+          onClick={() => joinroom(seller_room, user?.email)}
           className={`chat-button realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
         >
           <Transition
@@ -199,7 +196,7 @@ function Chat({ socket }) {
                 </div>
                 {/* //! MESSAGE */}
                 <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
-                  {messageList?.messages?.map((messageContent, idx) => (
+                  {messageList[0]?.messages?.map((messageContent, idx) => (
                     <div key={idx} className={`px-3`}>
                       <div
                         className={`w-fit ${
