@@ -26,11 +26,10 @@ function Chat({ socket }) {
   const seller = {
     seller: product?.seller,
     seller_default_image: product?.seller_default_image,
-    seller_email: product?.seller_email,
+    seller_email: product?.seller_email, //replace with seller_id
     seller_id: product?.seller_id,
     seller_name: product?.seller_name,
     seller_phone: product?.seller_phone,
-    seller_email: product?.seller_email, //replace with seller_id
   };
   // ! SOCKET.IO
   const [showChat, setShowChat] = useState(false);
@@ -79,12 +78,12 @@ function Chat({ socket }) {
 
   const joinroom = () => {
     setShowChat((prev) => !prev);
-    console.log(user.uid);
-    if (user.uid && seller.seller_email) {
-      console.log("here");
+    // console.log(user.uid);
+    const room = seller?.seller_email + "+" + user?.email;
+    console.log(room);
+    if (user.uid && seller?.seller_email) {
       socket.emit("join_room", {
-        room: seller?.seller_email,
-        buyer: user?.email,
+        room: room,
       });
       // setShowChat(true);
     }
@@ -201,7 +200,7 @@ function Chat({ socket }) {
                 </div>
                 {/* //! MESSAGE */}
                 <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
-                  {messageList[0]?.messages?.map((messageContent, idx) => (
+                  {messageList?.messages?.map((messageContent, idx) => (
                     <div key={idx} className={`px-3`}>
                       <div
                         className={`w-fit ${

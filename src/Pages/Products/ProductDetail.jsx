@@ -76,7 +76,7 @@ const ProductDetail = () => {
 
   return (
     // ! use carousal for all products of the category
-    <div className="relative overflow-auto px-5 pb-16 min-h-screen">
+    <div className="relative min-h-screen overflow-auto px-5 pb-16">
       {/* <BannerCard data={state} classes={"text-lg"}></BannerCard> */}
       <div className="mt-9 justify-center lg:grid  lg:grid-cols-7 ">
         <img
@@ -132,7 +132,7 @@ const ProductDetail = () => {
                 <p className="ml-2 text-lg text-gray-700">Contact Seller</p>
               </button>
             </div>
-            <div className="flex items-center justify-start gap-x-2 my-4">
+            <div className="my-4 flex items-center justify-start gap-x-2">
               <img
                 src="https://cdn2.iconfinder.com/data/icons/stationery-glyph-black/614/3414_-_Color_Pallete-64.png"
                 alt=""
@@ -155,7 +155,7 @@ const ProductDetail = () => {
             <div
               className={`${
                 sizeError && "animate-shake"
-              } flex  flex-wrap duration-100 mt-2`}
+              } mt-2  flex flex-wrap duration-100`}
             >
               {sizes.map((size) => (
                 <div key={size}>

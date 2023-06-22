@@ -29,55 +29,60 @@ export default function Messages() {
     queryFn: () => {
       if (user?.email) {
         return fetch(
-          `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${
+          `${import.meta.env.VITE_SERVER_URL}/seller/messages?seller=${
             user?.email
           }`
         ).then((res) => res.json());
+        // .then((data) => setCurrentRoom());
       }
     },
   });
-  console.log(currentRoom);
 
-  // useEffect(() => {
-  //   if (user?.email) {
-  //     fetch(
-  //       `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${user?.email}`
-  //     )
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setBuyersList(data);
-  //         console.log(data);
-  //       });
-  //   }
-  //   // socket.on("chat_history", (chats) => {
-  //   //   console.log(chats[0]);
-  //   //   setMessageList(chats);
-  //   // });
-  // }, []);
+  console.log(currentRoom);
+  useEffect(() => {
+    // if (user?.email) {
+    //   fetch(
+    //     `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${user?.email}`
+    //   )
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       setBuyersList(data);
+    //       console.log(data);
+    //     });
+    // }
+    // socket.on("chat_history", (chats) => {
+    //   console.log(chats[0]);
+    //   setMessageList(chats);
+    // });
+  }, [currentRoom]);
 
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
-      setCurrentRoom(buyer);
-      console.log(buyer);
-      socket.emit("join_room", { room: user?.email, buyer: buyer.buyer });
+      setCurrentRoom(buyer?.room);
+      console.log(buyer?.room);
+      socket.emit("join_room", { room: buyer?.room });
+      socket.on("chat_history", (chats) => {
+        console.log(chats[0]);
+        setMessageList(chats);
+      });
     }
   };
   const sendMessage = async () => {
-    // if (currentMessage !== "") {
-    //   const messageData = {
-    //     author: user?.email,
-    //     time: formatAMPM(new Date()),
-    //     message: currentMessage,
-    //   };
-    //   const updatedMessageList = {
-    //     ...messageList,
-    //     messages: [...messageList.messages, messageData],
-    //   };
-    //   setMessageList(updatedMessageList);
-    //   await socket.emit("send_message", updatedMessageList);
-    //   console.log(updatedMessageList);
-    //   setCurrentMessage("");
-    // }
+    if (currentMessage !== "") {
+      const messageData = {
+        author: user?.email,
+        time: formatAMPM(new Date()),
+        message: currentMessage,
+      };
+      const updatedMessageList = {
+        ...messageList,
+        messages: [...messageList.messages, messageData],
+      };
+      setMessageList(updatedMessageList);
+      await socket.emit("send_message", updatedMessageList);
+      console.log(updatedMessageList);
+      setCurrentMessage("");
+    }
   };
   // console.log(user);
   return (
