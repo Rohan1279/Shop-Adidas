@@ -16,7 +16,7 @@ const Products = () => {
   // const { products, categories, isSuccess, isFetching,isLoading } = useContext(Context);
   const { products, categories, isSuccess, isLoading } = dataLoader();
   const fixedCategories = categories?.filter((category) => category.id !== "0");
-  console.log(fixedCategories);
+  // console.log(fixedCategories);
 
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [prevCategory, setPrevCategory] = useState(null);

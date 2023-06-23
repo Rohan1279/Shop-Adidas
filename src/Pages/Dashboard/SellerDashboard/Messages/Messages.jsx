@@ -20,10 +20,11 @@ export default function Messages() {
   const { authInfo } = useContext(Context);
   const { user, isBuyer, isSeller, userRole } = authInfo;
   const seller_room = user?.email; //replace with seller_id
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState({});
   const [currentMessage, setCurrentMessage] = useState("");
   const [currentRoom, setCurrentRoom] = useState("");
   const [messages, setMessages] = useState("");
+
   const { data: buyersList = [] } = useQuery({
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
@@ -38,8 +39,8 @@ export default function Messages() {
     },
   });
 
-  console.log(currentRoom);
   useEffect(() => {
+    console.log(buyersList);
     // if (user?.email) {
     //   fetch(
     //     `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${user?.email}`
@@ -50,21 +51,26 @@ export default function Messages() {
     //       console.log(data);
     //     });
     // }
-    // socket.on("chat_history", (chats) => {
-    //   console.log(chats[0]);
-    //   setMessageList(chats);
-    // });
-  }, [currentRoom]);
+    socket.on("chat_history", (chats) => {
+      // console.log(chats[0]);
+      setMessageList(chats[0]);
+    });
+    socket.on("receive_message", (data) => {
+      console.log(data);
+      setMessageList(data);
+      // console.log(data);
+    });
+  }, [socket]);
 
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
-      setCurrentRoom(buyer?.room);
+      setCurrentRoom(buyer);
       console.log(buyer?.room);
       socket.emit("join_room", { room: buyer?.room });
-      socket.on("chat_history", (chats) => {
-        console.log(chats[0]);
-        setMessageList(chats);
-      });
+      // socket.on("chat_history", (chats) => {
+      //   // console.log(chats[0]);
+      //   setMessageList(chats[0]);
+      // });
     }
   };
   const sendMessage = async () => {
@@ -134,9 +140,9 @@ export default function Messages() {
           </div>
         ))}
       </div>
-      <div className="relative w-full overflow-hidden rounded-lg bg-secondary-color shadow-nm ">
+      <ScrollToBottom className="relative w-full overflow-hidden rounded-lg shadow-nm py-16">
         {/* //! CHAT BOX */}
-        <div className="flex w-full items-center justify-start gap-x-2  bg-sky-300/70 p-2 pl-2  shadow-sm ">
+        <div className="absolute top-0 flex w-full items-center justify-start gap-x-2  bg-sky-300 p-2 pl-2 shadow-sm">
           <img
             src={
               currentRoom?.buyer_image ||
@@ -154,8 +160,8 @@ export default function Messages() {
             </p>
           </div>
         </div>
-        <ScrollToBottom className=" mx-auto mb-auto  w-full  overflow-scroll  pb-3">
-          {messageList[0]?.messages?.map((messageContent, idx) => (
+        <div className=" mx-auto mb-auto  w-full  overflow-scroll bg-secondary-color">
+          {messageList?.messages?.map((messageContent, idx) => (
             <div key={idx} className={`px-3`}>
               <div
                 className={`w-fit ${
@@ -205,7 +211,7 @@ export default function Messages() {
               </div>
             </div>
           ))}
-        </ScrollToBottom>
+        </div>
         <div className="absolute right-1/2 bottom-0 mb-3 w-[95%] translate-x-1/2 rounded-full border border-gray-300 bg-secondary-color ">
           <div className="flex items-center justify-center ">
             <input
@@ -237,7 +243,7 @@ export default function Messages() {
             )}
           </div>
         </div>
-      </div>
+      </ScrollToBottom>
     </div>
   );
 }

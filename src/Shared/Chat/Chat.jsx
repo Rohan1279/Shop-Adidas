@@ -34,7 +34,7 @@ function Chat({ socket }) {
   // ! SOCKET.IO
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
+  let [messageList, setMessageList] = useState({});
 
   window.addEventListener("keydown", function (event) {
     if (showChat && event?.key === "Escape") {
@@ -50,20 +50,12 @@ function Chat({ socket }) {
       setShowChat(false);
     }
   });
-  console.log(messageList);
+  // console.log(messageList);
   useEffect(() => {
-    // if (user?.email) {
-    //   setMessageList((prevMessageList) => ({
-    //     ...prevMessageList,
-    //     buyer: user?.email,
-    //     buyer_image: user?.photoURL || "",
-    //     room: seller_room,
-    //     seller_image: seller?.seller_default_image,
-    //     messages: messageList,
-    //   }));
-    // }
+    console.log(messageList);
+
     socket.on("chat_history", (chats) => {
-      console.log(chats[0]);
+      // console.log("chat_history", chats.length);
       setMessageList(chats[0]);
     });
     socket.on("receive_message", (data) => {
@@ -71,16 +63,38 @@ function Chat({ socket }) {
       setMessageList(data);
       console.log(data);
     });
+    if (
+      !messageList &&
+      user?.email &&
+      location?.pathname.includes("/products/product")
+    ) {
+      console.log("no chat history");
+      setMessageList((prevMessageList) => ({
+        ...prevMessageList,
+        buyer: user?.email,
+        buyer_image:
+          user?.photoURL ||
+          "https://img.icons8.com/?size=512&id=13042&format=png",
+        room: seller?.seller_email + "+" + user?.email,
+        seller: seller?.seller_email,
+        seller_image: seller?.seller_default_image,
+        messages: [],
+      }));
+    }
+
     // return () => socket.removeListener("receive_message");
-  }, [location, showChat]);
+  }, [location, showChat, product, messageList]);
 
   // console.log(user);
 
   const joinroom = () => {
+    // if (location?.pathname.includes("/products/product") && showChat) {
+    //   console.log(messageList);8
+    // }
+
     setShowChat((prev) => !prev);
-    // console.log(user.uid);
     const room = seller?.seller_email + "+" + user?.email;
-    console.log(room);
+    // console.log(room);
     if (user.uid && seller?.seller_email) {
       socket.emit("join_room", {
         room: room,
@@ -89,6 +103,7 @@ function Chat({ socket }) {
     }
   };
   const sendMessage = async () => {
+    console.log(messageList);
     if (currentMessage !== "") {
       const messageData = {
         author: user?.email,
