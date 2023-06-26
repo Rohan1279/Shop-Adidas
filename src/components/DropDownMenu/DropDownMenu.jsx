@@ -26,7 +26,7 @@ const DropDownMenu = ({
       <div className="relative">
         <Listbox.Button
           className={({ open }) =>
-            `relative w-full cursor-default min-h-min rounded-r-md bg-secondary-color py-3 pl-2  focus:ring-0 text-left   text-sm  ${
+            `relative min-h-min w-full cursor-default rounded-r-md bg-secondary-color py-3 pl-2  text-left text-sm   focus:ring-0  ${
               !error && "active:shadow-nm-inset"
             } ${open && "shadow-nm-inset"} `
           }
@@ -46,7 +46,7 @@ const DropDownMenu = ({
                   // <span className="bg-red-300 mx-1">{item.name}</span>
                   <span
                     key={item.id}
-                    className="inline-flex items-center border border-gray-400 gap-1.5  py-1.5 pl-3 pr-2 rounded-md text-xs text-gray-500 font-medium bg-gray-300/60 m-1 hover:bg-gray-200/50 transition-all"
+                    className="m-1 inline-flex items-center gap-1.5 rounded-md  border border-gray-400 bg-gray-300/60 py-1.5 pl-3 pr-2 text-xs font-medium text-gray-500 transition-all hover:bg-gray-200/50"
                   >
                     <span>{item.name}</span>
                     {/* //! CROSS_BUTTON */}
@@ -59,7 +59,7 @@ const DropDownMenu = ({
                         setSelectedData(newSelected);
                       }}
                       type="button"
-                      className="flex-shrink-0 h-4 w-4 inline-flex items-center justify-center rounded-full active:shadow-nm-inset border border-gray-400 hover:text-gray-900  ml-1"
+                      className="ml-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border border-gray-400 hover:text-gray-900  active:shadow-nm-inset"
                     >
                       <svg
                         className="h-4 w-4"
@@ -83,11 +83,11 @@ const DropDownMenu = ({
                 Choose an option
               </span>
             ) : selectedData?.name ? (
-              <span className="flex justify-start items-center gap-x-2">
+              <span className="flex items-center justify-start gap-x-2">
                 {selectedData?.hex && (
                   <span
                     style={{ backgroundColor: `${selectedData?.hex}` }}
-                    className={`w-4 h-4 rounded-sm`}
+                    className={`h-4 w-4 rounded-sm`}
                   ></span>
                 )}
                 <span
@@ -118,17 +118,17 @@ const DropDownMenu = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className=" absolute max-h-60 w-full overflow-auto rounded-b-md   bg-secondary-color shadow-nm py-1  focus:outline-none sm:text-sm z-50 mt-1 px-1">
+          <Listbox.Options className=" absolute z-50 mt-1 max-h-60 w-full   overflow-auto rounded-b-md bg-secondary-color  py-1 px-1 shadow-nm focus:outline-none sm:text-sm">
             {array?.map((item, idx) => (
               <Listbox.Option
                 key={item.id}
                 className={({ active, selected }) =>
-                  `relative focus:outline-none cursor-default select-none py-2 pl-10 pr-4 my-1  ${
+                  `relative my-1 cursor-default select-none py-2 pl-10 pr-4 focus:outline-none  ${
                     active
-                      ? "text-gray-900 shadow-nm-inset rounded-md"
+                      ? "rounded-md text-gray-900 shadow-nm-inset"
                       : "text-gray-500"
                   } 
-                  ${selected && "shadow-nm-inset rounded-md text-gray-900"} `
+                  ${selected && "rounded-md text-gray-900 shadow-nm-inset"} `
                 }
                 value={item}
               >
@@ -142,11 +142,11 @@ const DropDownMenu = ({
                         />
                       </span>
                     ) : null}
-                    <span className="flex justify-start items-center gap-x-2">
+                    <span className="flex items-center justify-start gap-x-2">
                       {item?.hex && (
                         <span
                           style={{ backgroundColor: `${item?.hex}` }}
-                          className={`w-4 h-4 rounded-sm mr-2`}
+                          className={`mr-2 h-4 w-4 rounded-sm`}
                         ></span>
                       )}
                       <span
