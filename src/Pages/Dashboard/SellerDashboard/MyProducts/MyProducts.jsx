@@ -146,7 +146,7 @@ const MyProducts = () => {
   }
 
   return (
-    <div className="min-h-screen py-10 px-5  transition-all duration-300 ease-in-out">
+    <div className="min-h-screen pt-20 px-5  transition-all duration-300 ease-in-out">
       <div
         className={`mx-auto mt-5 flex max-w-7xl flex-col ${
           location.pathname.includes("/dashboard/myproducts/edit/") && "hidden"

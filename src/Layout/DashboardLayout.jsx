@@ -34,9 +34,9 @@ const DashboardLayout = () => {
   return (
     <div className="">
       <Navbar />
-      <div className="mt-16 flex max-h-full ">
+      <div className=" flex max-h-full ">
         {/* //!DRAWER */}
-        <div className="hidden max-h-full px-5 pt-10 shadow-xl md:block  bg-secondary-color">
+        <div className="hidden max-h-full px-5 pt-20 shadow-xl md:block  bg-secondary-color">
           {/* <Popover.Button className={""}>
               {" "}
               <FaChevronLeft className="text-sm "></FaChevronLeft>

@@ -241,7 +241,7 @@ function Chat({ socket }) {
                             }`}
                           />
                           <p
-                            className={`mt-2  w-fit max-w-xs   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
+                            className={`mt-2 break-all w-fit max-w-xs   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
                               user?.email === messageContent?.author
                                 ? "ml-auto bg-secondary-color"
                                 : ""
