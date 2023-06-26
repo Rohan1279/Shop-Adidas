@@ -245,7 +245,7 @@ export default function Messages() {
                           leaveFrom="opacity-100 scale-100"
                           leaveTo="opacity-0 scale-95"
                         >
-                          <Dialog.Panel className="mx-4 w-full rounded-lg bg-secondary-color p-6 shadow-nm md:mx-0 md:w-2/3 lg:w-1/3">
+                          <Dialog.Panel className="mx-4 w-full rounded-lg bg-secondary-color p-6 shadow-nm md:mx-0 md:w-1/4 lg:w-1/4">
                             <div className="text-center">
                               <div className="flex w-full items-center justify-between">
                                 <p className="text-center text-xs font-thin tracking-wider text-gray-500 ">
@@ -256,12 +256,46 @@ export default function Messages() {
                                 </button>
                               </div>
                               <img
-                                className="h-24 w-24"
+                                className="mx-auto mt-10 mb-5 h-32 w-32 rounded-full bg-yellow-300"
                                 src={
                                   "https://img.icons8.com/?size=512&id=13042&format=png"
                                 }
                                 alt=""
                               />
+                              <p className="text-center text-2xl font-thin tracking-wider text-gray-500 ">
+                                John Doe
+                              </p>
+                              <p className="text-center text-xs font-thin tracking-wider text-gray-500 ">
+                                {currentBuyer?.email}
+                              </p>
+                              <span className="text-center text-xs font-thin tracking-wider text-lime-600 ">
+                                Last active: 2m ago
+                              </span>
+                              <div className="my-5 mx-7 text-left text-sm font-thin tracking-wider text-gray-500 ">
+                                <p className="flex flex-row my-2">
+                                  <span className="basis-2/5">Address:</span>{" "}
+                                  <span className="basis-3/5">
+                                    3611 Buck Drive, West Valley City, Utah
+                                  </span>
+                                </p>
+                                <p className="flex flex-row my-2">
+                                  <span className="basis-2/5">
+                                    Delivery address:
+                                  </span>
+                                  <span className="basis-3/5">
+                                    3611 Buck Drive, West Valley City, Utah
+                                  </span>
+                                </p>
+                                <p className="flex flex-row my-2">
+                                  <span className="basis-2/5 ">Contact:</span>{" "}
+                                  <span className="basis-auto ">
+                                    +8801234567891
+                                  </span>
+                                </p>
+                              </div>
+                              <button className="rounded-md border border-zinc-300 px-3 py-2 active:shadow-nm-inset text-sm text-zinc-700">
+                                Block Contact
+                              </button>
                             </div>
                           </Dialog.Panel>
                         </Transition.Child>
