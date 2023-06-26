@@ -25,7 +25,7 @@ export default function Messages() {
   const [currentRoom, setCurrentRoom] = useState("");
   const [messages, setMessages] = useState("");
 
-  const { data: buyersList = [] } = useQuery({
+  const { data: buyersList = [], isInitialLoading } = useQuery({
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
       if (user?.email) {
@@ -33,14 +33,21 @@ export default function Messages() {
           `${import.meta.env.VITE_SERVER_URL}/seller/messages?seller=${
             user?.email
           }`
-        ).then((res) => res.json());
-        // .then((data) => setCurrentRoom());
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            // console.log(buyersList);
+            // setCurrentRoom(buyersList[0]?.room);
+            // socket.emit("join_room", { room: buyersList[0]?.room });
+            return data;
+          });
       }
     },
   });
 
   useEffect(() => {
-    console.log(buyersList);
+    // console.log(buyersList);
+    
     // if (user?.email) {
     //   fetch(
     //     `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${user?.email}`
@@ -51,26 +58,27 @@ export default function Messages() {
     //       console.log(data);
     //     });
     // }
-    socket.on("chat_history", (chats) => {
-      // console.log(chats[0]);
-      setMessageList(chats[0]);
-    });
+    // socket.on("chat_history", (chats) => {
+    //   console.log(chats[0]);
+    //   setMessageList(chats[0]);
+    // });
     socket.on("receive_message", (data) => {
       console.log(data);
       setMessageList(data);
       // console.log(data);
     });
+    // return () => socket.removeListener("join_room");
   }, [socket]);
 
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
       setCurrentRoom(buyer);
       console.log(buyer?.room);
-      socket.emit("join_room", { room: buyer?.room });
-      // socket.on("chat_history", (chats) => {
-      //   // console.log(chats[0]);
-      //   setMessageList(chats[0]);
-      // });
+      socket.emit("join_room/seller", { room: buyer?.room });
+      socket.on("chat_history/seller", (chats) => {
+        // console.log(chats[0]);
+        setMessageList(chats[0]);
+      });
     }
   };
   const sendMessage = async () => {
@@ -140,7 +148,7 @@ export default function Messages() {
           </div>
         ))}
       </div>
-      <ScrollToBottom className="relative w-full overflow-hidden rounded-lg shadow-nm py-16">
+      <ScrollToBottom className="relative w-full overflow-hidden rounded-lg py-16 shadow-nm">
         {/* //! CHAT BOX */}
         <div className="absolute top-0 flex w-full items-center justify-start gap-x-2  bg-sky-300 p-2 pl-2 shadow-sm">
           <img

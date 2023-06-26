@@ -54,7 +54,7 @@ function Chat({ socket }) {
   useEffect(() => {
     console.log(messageList);
 
-    socket.on("chat_history", (chats) => {
+    socket.on("chat_history/buyer", (chats) => {
       // console.log("chat_history", chats.length);
       setMessageList(chats[0]);
     });
@@ -96,7 +96,7 @@ function Chat({ socket }) {
     const room = seller?.seller_email + "+" + user?.email;
     // console.log(room);
     if (user.uid && seller?.seller_email) {
-      socket.emit("join_room", {
+      socket.emit("join_room/buyer", {
         room: room,
       });
       // setShowChat(true);

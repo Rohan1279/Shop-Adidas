@@ -39,7 +39,7 @@ const Home = () => {
       enterFrom="opacity-0"
       enterTo="opacity-100"
     >
-      <div className="min-h-screen px-5">
+      <div className="min-h-screen px-5 pt-20">
         <p className="flex animate-pulse  select-none items-center justify-evenly px-6 pb-3 text-sm font-medium uppercase tracking-wider text-gray-500 transition-all hover:text-blue-900">
           This project is currently work in progress...
         </p>

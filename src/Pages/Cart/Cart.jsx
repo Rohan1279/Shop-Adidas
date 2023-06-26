@@ -24,7 +24,7 @@ const Cart = () => {
     // toast.warning("Product removed", { autoClose: 500 });
   };
   return (
-    <div className="h-screen md:flex justify-center gap-x-36 mt-10">
+    <div className="h-screen md:flex justify-center gap-x-36 mt-10 pt-20">
       <div className="overflow-scroll ">
         <h2 className="text-3xl font-extrabold text-center lg:text-left">
           Your Cart
