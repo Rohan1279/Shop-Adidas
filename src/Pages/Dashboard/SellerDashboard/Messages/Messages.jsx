@@ -1,13 +1,13 @@
 import { io } from "socket.io-client";
 import { Context } from "../../../../contexts/ContextProvider";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { GrEmoji, GrSend } from "react-icons/gr";
 import { FiSend } from "react-icons/fi";
 import { FaEllipsisV } from "react-icons/fa";
 import { IoIosAttach } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
-import { Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
@@ -32,6 +32,8 @@ export default function Messages() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isReportModalOpen, setIsReportedModalOpen] = useState(false);
   const [isClearChatModalOpen, setIsClearChatModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [currentBuyer, setCurrentBuyer] = useState({});
   const { data: buyersList = [], isInitialLoading } = useQuery({
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
@@ -44,7 +46,7 @@ export default function Messages() {
       }
     },
   });
-
+  console.log(currentBuyer);
   useEffect(() => {
     // if (user?.email) {
     //   fetch(
@@ -71,7 +73,8 @@ export default function Messages() {
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
       setCurrentRoom(buyer);
-      console.log(buyer);
+      setCurrentBuyer({});
+      // console.log(buyer);
       socket.emit("join_room/seller", { room: buyer?.room });
       socket.on("chat_history/seller", (chats) => {
         // console.log(chats[0]);
@@ -103,6 +106,21 @@ export default function Messages() {
   const handleConfirmClearChat = () => {
     setIsClearChatModalOpen(false);
     toast.success("Conversation cleared successfully!");
+  };
+  const handleViewBuyer = () => {
+    console.log(currentRoom?.buyer);
+    fetch(
+      `${import.meta.env.VITE_SERVER_URL}/seller/buyerDetail?email=${
+        currentRoom?.buyer
+      }`,
+      {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => setCurrentBuyer(data?.user));
   };
   return (
     <div className=" min-h-screen px-32 pt-28">
@@ -179,7 +197,9 @@ export default function Messages() {
             {/* //! dropdown menu */}
             <FaEllipsisV
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="absolute right-5 text-zinc-700"
+              className={`absolute right-5 text-zinc-700 ${
+                Object.keys(currentRoom).length === 0 && "hidden"
+              }`}
             ></FaEllipsisV>
 
             <Transition
@@ -192,7 +212,72 @@ export default function Messages() {
               leaveTo="opacity-0 scale-95"
             >
               <div className="absolute right-0 z-50 mt-4 w-48 overflow-hidden rounded-lg bg-secondary-color shadow-lg">
-                <button className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+                {/* //! VIEW CONTACT MODAL STARTS*/}
+                <Transition appear show={isDetailModalOpen} as={Fragment}>
+                  <Dialog
+                    open={isDetailModalOpen}
+                    className="relative z-10"
+                    onClose={() => setIsDetailModalOpen(false)}
+                  >
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <div
+                        className={`fixed inset-0 bg-secondary-color ${
+                          isDetailModalOpen && "opacity-60 "
+                        }`}
+                      />
+                    </Transition.Child>
+                    <div className="fixed inset-0 backdrop-blur-sm">
+                      <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0 scale-95"
+                          enterTo="opacity-100 scale-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100 scale-100"
+                          leaveTo="opacity-0 scale-95"
+                        >
+                          <Dialog.Panel className="mx-4 w-full rounded-lg bg-secondary-color p-6 shadow-nm md:mx-0 md:w-2/3 lg:w-1/3">
+                            <div className="text-center">
+                              <div className="flex w-full items-center justify-between">
+                                <p className="text-center text-xs font-thin tracking-wider text-gray-500 ">
+                                  Active Status
+                                </p>
+                                <button className="h-6 w-6 rounded-full text-gray-500 shadow-nm">
+                                  X
+                                </button>
+                              </div>
+                              <img
+                                className="h-24 w-24"
+                                src={
+                                  "https://img.icons8.com/?size=512&id=13042&format=png"
+                                }
+                                alt=""
+                              />
+                            </div>
+                          </Dialog.Panel>
+                        </Transition.Child>
+                      </div>
+                    </div>
+                  </Dialog>
+                </Transition>
+
+                {/* //! VIEW CONTACT MODAL ENDS*/}
+                <button
+                  onClick={() => {
+                    setIsDetailModalOpen(!isDetailModalOpen);
+                    handleViewBuyer();
+                  }}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                >
                   View contact
                 </button>
 
@@ -211,9 +296,6 @@ export default function Messages() {
                 >
                   Clear chat
                 </button>
-
-
-
 
                 <Modal
                   isOpen={isReportModalOpen}
@@ -254,8 +336,8 @@ export default function Messages() {
                   className="h-24 w-24"
                   alt=""
                 />
-                <p className="text-base font-thin tracking-wider text-gray-500 ">
-                  Select a buyer to continue conversation
+                <p className="text-center text-base font-thin tracking-wider text-gray-500 ">
+                  Select a customer to continue conversation
                 </p>
               </div>
             </Transition>
@@ -297,7 +379,7 @@ export default function Messages() {
                       />
                       <p
                         style={{ wordBreak: "break-all" }}
-                        className={`mt-2 w-fit max-w-xs  rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
+                        className={`mt-2 w-fit max-w-md  rounded-3xl  px-3 py-2 text-sm font-thin tracking-wider text-gray-500 ${
                           user?.email === messageContent?.author
                             ? "ml-auto bg-secondary-color"
                             : ""
