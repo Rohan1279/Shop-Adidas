@@ -9,7 +9,7 @@ import Chat from "../Shared/Chat/Chat";
 import { io } from "socket.io-client";
 
 export const CartContext = createContext();
-const socket = io.connect("http://localhost:5001");
+const socket = io.connect("http://localhost:5000");
 
 const Main = () => {
   const { products } = dataLoader();

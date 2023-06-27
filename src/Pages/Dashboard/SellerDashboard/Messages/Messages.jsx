@@ -11,7 +11,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
-const socket = io.connect("http://localhost:5001");
+const socket = io.connect("http://localhost:5000");
 
 function formatAMPM(date) {
   var hours = date.getHours();
@@ -157,12 +157,12 @@ export default function Messages() {
                   <p className=" text-sm font-thin tracking-wider text-gray-600">
                     {buyer?.buyer}
                   </p>
-                  <p className=" flex text-xs font-thin tracking-wider text-gray-400">
+                  <div className=" flex text-xs font-thin tracking-wider text-gray-400">
                     <p className=" mr-1">
                       {buyer?.messages.author === user?.email ? "You:" : ""}
                     </p>
                     <p className="w-24 truncate ">{buyer?.messages?.message}</p>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
