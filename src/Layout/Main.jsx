@@ -9,8 +9,8 @@ import Chat from "../Shared/Chat/Chat";
 import { io } from "socket.io-client";
 
 export const CartContext = createContext();
+// console.log(import.meta.env.VITE_SERVER_URL);
 const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
-
 const Main = () => {
   const { products } = dataLoader();
   // console.log(products);
