@@ -11,7 +11,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
+
 
 function formatAMPM(date) {
   var hours = date.getHours();
