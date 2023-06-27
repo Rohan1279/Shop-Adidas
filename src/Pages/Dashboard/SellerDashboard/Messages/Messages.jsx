@@ -3,7 +3,7 @@ import { Context } from "../../../../contexts/ContextProvider";
 import { Fragment, useContext, useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { GrEmoji, GrSend } from "react-icons/gr";
-import { FiSend } from "react-icons/fi";
+import { FiSend, FiMenu } from "react-icons/fi";
 import { FaEllipsisV } from "react-icons/fa";
 import { IoIosAttach } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
@@ -47,22 +47,7 @@ export default function Messages() {
       }
     },
   });
-
   useEffect(() => {
-    // if (user?.email) {
-    //   fetch(
-    //     `${import.meta.env.VITE_SERVER_URL}/seller/messages?buyers=${user?.email}`
-    //   )
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       setBuyersList(data);
-    //       console.log(data);
-    //     });
-    // }
-    // socket.on("chat_history", (chats) => {
-    //   console.log(chats[0]);
-    //   setMessageList(chats[0]);
-    // });
     socket.on("receive_message", (data) => {
       // console.log(data);
       refetch();
@@ -140,26 +125,17 @@ export default function Messages() {
   return (
     <div className=" min-h-screen px-32 pt-28">
       <div className="flex gap-x-7">
-        <div className="flex h-[48rem] w-96 flex-col overflow-scroll rounded-lg shadow-nm ">
-          {/* <button className=" w-60 bg-red-300 px-4 py-4 drop-shadow-sm">Search</button> */}
+        {/* //! BUYERS' LIST */}
+        <div className="h-[48rem] w-96 flex-col overflow-scroll rounded-lg shadow-nm md:hidden lg:flex ">
           {/* //! SEARCH BOX */}
           <form
             onSubmit={(e) => e.preventDefault()}
             className=" flex h-14 items-center bg-primary-color px-2 shadow-sm"
           >
-            {/* <span
-            className={`&& "  "
-                    } mr-3 min-w-max text-center text-xs font-medium uppercase tracking-wider
-                  text-gray-500`}
-          >
-            Search
-          </span> */}
-
             <input
               type={"text"}
               placeholder={"search a product"}
               className=" w-full rounded-full border border-zinc-300 bg-secondary-color p-2 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
-              // disabled={products?.length === 0}
             />
           </form>
           {buyersList?.map((buyer, idx) => (
@@ -186,7 +162,6 @@ export default function Messages() {
                       {buyer?.messages.author === user?.email ? "You:" : ""}
                     </p>
                     <p className="w-24 truncate ">{buyer?.messages?.message}</p>
-                    {/* <p className="">{buyer?.messages?.message.length > 1 && buyer?.messages?.message.slice(0,9) + "..."}</p> */}
                   </p>
                 </div>
               </div>
@@ -198,6 +173,9 @@ export default function Messages() {
           {/* //! CHAT BOX */}
           <div className="absolute top-0 z-50 flex w-full items-center justify-between  bg-sky-300 p-2 pl-2 shadow-sm">
             <div className="flex  items-center justify-start gap-x-2">
+              <button>
+                <FiMenu className="hover:text-gray-600 active:text-gray-600 md:hidden lg:block"></FiMenu>
+              </button>
               <img
                 src={
                   currentRoom?.buyer_image ||
