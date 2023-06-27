@@ -11,6 +11,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
+const socket = io.connect("http://localhost:5001");
+
 function formatAMPM(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
@@ -22,7 +24,6 @@ function formatAMPM(date) {
   return strTime;
 }
 export default function Messages() {
-  const socket = io.connect("http://localhost:5001");
   const { authInfo } = useContext(Context);
   const { user, isBuyer, isSeller, userRole } = authInfo;
   const seller_room = user?.email; //replace with seller_id
@@ -34,7 +35,7 @@ export default function Messages() {
   const [isClearChatModalOpen, setIsClearChatModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [currentBuyer, setCurrentBuyer] = useState({});
-  const { data: buyersList = [], isInitialLoading } = useQuery({
+  const { data: buyersList = [], refetch } = useQuery({
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
       if (user?.email) {
@@ -46,6 +47,7 @@ export default function Messages() {
       }
     },
   });
+
   useEffect(() => {
     // if (user?.email) {
     //   fetch(
@@ -62,11 +64,11 @@ export default function Messages() {
     //   setMessageList(chats[0]);
     // });
     socket.on("receive_message", (data) => {
-      console.log(data);
-      setMessageList(data);
       // console.log(data);
+      refetch();
+      setMessageList(data);
     });
-    // return () => socket.removeListener("join_room");
+    return () => socket.off("receive_message");
   }, []);
   useEffect(() => {
     setIsDropdownOpen(false);
@@ -137,7 +139,7 @@ export default function Messages() {
   });
   return (
     <div className=" min-h-screen px-32 pt-28">
-      <div className="flex gap-x-10">
+      <div className="flex gap-x-7">
         <div className="flex h-[48rem] w-96 flex-col overflow-scroll rounded-lg shadow-nm ">
           {/* <button className=" w-60 bg-red-300 px-4 py-4 drop-shadow-sm">Search</button> */}
           {/* //! SEARCH BOX */}
@@ -154,9 +156,6 @@ export default function Messages() {
           </span> */}
 
             <input
-              onChange={(e) => {
-                // setSearch(e.target.value);
-              }}
               type={"text"}
               placeholder={"search a product"}
               className=" w-full rounded-full border border-zinc-300 bg-secondary-color p-2 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
@@ -178,9 +177,18 @@ export default function Messages() {
                   alt=""
                   className="h-8 w-8 rounded-full "
                 />
-                <p className=" text-sm font-thin tracking-wider text-gray-500">
-                  {buyer?.buyer}
-                </p>
+                <div>
+                  <p className=" text-sm font-thin tracking-wider text-gray-600">
+                    {buyer?.buyer}
+                  </p>
+                  <p className=" flex text-xs font-thin tracking-wider text-gray-400">
+                    <p className=" mr-1">
+                      {buyer?.messages.author === user?.email ? "You:" : ""}
+                    </p>
+                    <p className="w-24 truncate ">{buyer?.messages?.message}</p>
+                    {/* <p className="">{buyer?.messages?.message.length > 1 && buyer?.messages?.message.slice(0,9) + "..."}</p> */}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
