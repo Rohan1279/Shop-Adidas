@@ -46,7 +46,6 @@ export default function Messages() {
       }
     },
   });
-  console.log(currentBuyer);
   useEffect(() => {
     // if (user?.email) {
     //   fetch(
@@ -69,6 +68,9 @@ export default function Messages() {
     });
     // return () => socket.removeListener("join_room");
   }, []);
+  useEffect(() => {
+    setIsDropdownOpen(false);
+  }, [currentRoom]);
 
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
@@ -122,6 +124,17 @@ export default function Messages() {
       .then((res) => res.json())
       .then((data) => setCurrentBuyer(data?.user));
   };
+  window.addEventListener("mousedown", (e) => {
+    if (e.target.closest(".dropdown")) {
+      // when clicked inside
+      return;
+    } else {
+      // when clicked outside
+      if (!e.target.closest(".dropdown-button")) {
+        setIsDropdownOpen(false);
+      }
+    }
+  });
   return (
     <div className=" min-h-screen px-32 pt-28">
       <div className="flex gap-x-10">
@@ -150,9 +163,9 @@ export default function Messages() {
               // disabled={products?.length === 0}
             />
           </form>
-          {buyersList?.map((buyer) => (
+          {buyersList?.map((buyer, idx) => (
             <div
-              key={buyer?._id}
+              key={idx}
               onClick={() => joinroom(buyer)}
               className="w-full cursor-pointer border border-zinc-300 px-4 py-3 hover:brightness-90"
             >
@@ -196,8 +209,8 @@ export default function Messages() {
             </div>
             {/* //! dropdown menu */}
             <FaEllipsisV
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className={`absolute right-5 text-zinc-700 ${
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
+              className={`dropdown-button absolute right-5 select-none rounded-full p-2 text-3xl text-zinc-600 transition-all hover:bg-blue-200/50 active:scale-90 ${
                 Object.keys(currentRoom).length === 0 && "hidden"
               }`}
             ></FaEllipsisV>
@@ -211,7 +224,7 @@ export default function Messages() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="absolute right-0 z-50 mt-4 w-48 overflow-hidden rounded-lg bg-secondary-color shadow-lg">
+              <div className="dropdown absolute  right-0 z-50 mt-4 w-48 select-none overflow-hidden rounded-lg bg-secondary-color shadow-lg">
                 {/* //! VIEW CONTACT MODAL STARTS*/}
                 <Transition appear show={isDetailModalOpen} as={Fragment}>
                   <Dialog
@@ -230,11 +243,11 @@ export default function Messages() {
                     >
                       <div
                         className={`fixed inset-0 bg-secondary-color ${
-                          isDetailModalOpen && "opacity-60 "
+                          isDetailModalOpen && "opacity-40 "
                         }`}
                       />
                     </Transition.Child>
-                    <div className="fixed inset-0 backdrop-blur-sm">
+                    <div className="fixed inset-0 backdrop-blur-xl">
                       <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Transition.Child
                           as={Fragment}
@@ -272,13 +285,13 @@ export default function Messages() {
                                 Last active: 2m ago
                               </span>
                               <div className="my-5 mx-7 text-left text-sm font-thin tracking-wider text-gray-500 ">
-                                <p className="flex flex-row my-2">
+                                <p className="my-2 flex flex-row">
                                   <span className="basis-2/5">Address:</span>{" "}
                                   <span className="basis-3/5">
                                     3611 Buck Drive, West Valley City, Utah
                                   </span>
                                 </p>
-                                <p className="flex flex-row my-2">
+                                <p className="my-2 flex flex-row">
                                   <span className="basis-2/5">
                                     Delivery address:
                                   </span>
@@ -286,14 +299,14 @@ export default function Messages() {
                                     3611 Buck Drive, West Valley City, Utah
                                   </span>
                                 </p>
-                                <p className="flex flex-row my-2">
+                                <p className="my-2 flex flex-row">
                                   <span className="basis-2/5 ">Contact:</span>{" "}
                                   <span className="basis-auto ">
                                     +8801234567891
                                   </span>
                                 </p>
                               </div>
-                              <button className="rounded-md border border-zinc-300 px-3 py-2 active:shadow-nm-inset text-sm text-zinc-700">
+                              <button className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-700 active:shadow-nm-inset">
                                 Block Contact
                               </button>
                             </div>
@@ -349,7 +362,7 @@ export default function Messages() {
             </Transition>
           </div>
 
-          <div className=" mx-auto mb-auto  w-full  overflow-scroll bg-secondary-color">
+          <div className=" mx-auto mt-14 mb-auto  w-full  overflow-scroll bg-secondary-color">
             <Transition
               show={Object.keys(currentRoom).length === 0}
               appear={true}
@@ -377,6 +390,7 @@ export default function Messages() {
             </Transition>
             {messageList?.messages?.map((messageContent, idx) => (
               <Transition
+                key={idx}
                 show={Object.keys(currentRoom).length !== 0}
                 appear={true}
                 enter="transition-all duration-300"
@@ -386,7 +400,7 @@ export default function Messages() {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0 "
               >
-                <div key={idx} className={`px-3 `}>
+                <div className={`X px-3`}>
                   <div
                     className={`w-fit ${
                       user?.email === messageContent?.author ? "ml-auto" : "  "
@@ -440,7 +454,7 @@ export default function Messages() {
           </div>
           <div
             className={`absolute right-1/2 bottom-0 mb-3 w-[95%] translate-x-1/2 rounded-full border border-gray-300 bg-secondary-color ${
-              !currentRoom && "hidden"
+              Object.keys(currentRoom).length === 0 && "hidden"
             }`}
           >
             <div className="flex items-center justify-center ">

@@ -46,7 +46,7 @@ function Chat({ socket }) {
       // when clicked inside
       return;
     } else {
-      // when clicked outsid
+      // when clicked outside
       setShowChat(false);
     }
   });
