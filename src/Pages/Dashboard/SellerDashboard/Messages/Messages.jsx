@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
+import Loader from "../../../../components/Loader/Loader";
 const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
 
 function formatAMPM(date) {
@@ -34,6 +35,7 @@ export default function Messages() {
   const [isClearChatModalOpen, setIsClearChatModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [currentBuyer, setCurrentBuyer] = useState({});
+  const [isChatLoading, setIsChatLoading] = useState(false);
   const { data: buyersList = [], refetch } = useQuery({
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
@@ -46,6 +48,8 @@ export default function Messages() {
         // .then((data) => console.log(data));
       }
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: "always",
   });
   console.log("currentRoom", currentRoom?.room);
   useEffect(() => {
@@ -64,11 +68,13 @@ export default function Messages() {
 
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
+      setIsChatLoading(true)
       setCurrentRoom(buyer);
       setCurrentBuyer({});
       socket.emit("join_room/seller", { room: buyer?.room });
       socket.on("chat_history/seller", (chats) => {
         setMessageList(chats[0]);
+        setIsChatLoading(false)
       });
     }
   };
@@ -143,9 +149,11 @@ export default function Messages() {
             <div
               key={idx}
               onClick={() => joinroom(buyer)}
-              className="w-full cursor-pointer border border-zinc-300 px-4 py-3 hover:brightness-90"
+              className={`w-full cursor-pointer px-4 py-3  hover:bg-zinc-300 ${
+                currentRoom?.room === buyer?.room ? "bg-zinc-300" : ""
+              } `}
             >
-              <div className="flex items-center justify-start gap-x-2">
+              <div className="flex items-center justify-start gap-x-2 ">
                 <img
                   src={
                     buyer?.buyer_image ||
@@ -159,8 +167,12 @@ export default function Messages() {
                     {buyer?.buyer}
                   </p>
                   <div className="flex text-xs font-thin tracking-wider text-gray-400">
-                    <p className="mr-1">                
-                      {buyer?.messages.author === user?.email ? "You:" : ""}
+                    <p className="">
+                      {buyer?.messages.author === user?.email ? (
+                        <span className="mr-1">You:</span>
+                      ) : (
+                        ""
+                      )}
                     </p>
                     <p className="w-24 truncate ">{buyer?.messages?.message}</p>
                   </div>
@@ -349,96 +361,104 @@ export default function Messages() {
             </Transition>
           </div>
 
-          <div className=" mx-auto mt-14 mb-auto  w-full  overflow-scroll bg-secondary-color">
-            <Transition
-              show={Object.keys(currentRoom).length === 0}
-              appear={true}
-              enter="transition-all duration-500 "
-              enterFrom="opacity-0 "
-              enterTo="opacity-100 "
-              leave="transition-all duration-500 "
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div
-                className={` absolute left-1/2 top-1/2  flex  -translate-y-1/2 -translate-x-1/2 select-none flex-col items-center  justify-center ${
-                  Object.keys(currentRoom).length !== 0 && "hidden"
-                }`}
-              >
-                <img
-                  src="https://img.icons8.com/?size=512&id=13724&format=png"
-                  className="h-24 w-24"
-                  alt=""
-                />
-                <p className="text-center text-base font-thin tracking-wider text-gray-500 ">
-                  Select a customer to continue conversation
-                </p>
-              </div>
-            </Transition>
-            {messageList?.messages?.map((messageContent, idx) => (
+          {isChatLoading ? (
+            <div className="flex h-screen w-full items-center">
+              <Loader></Loader>
+            </div>
+          ) : (
+            <div className=" mx-auto mt-14 mb-auto  w-full  overflow-scroll bg-secondary-color">
               <Transition
-                key={idx}
-                show={Object.keys(currentRoom).length !== 0}
+                show={Object.keys(currentRoom).length === 0}
                 appear={true}
-                enter="transition-all duration-300"
+                enter="transition-all duration-500 "
                 enterFrom="opacity-0 "
-                enterTo="opacity-100"
-                leave="transition-all duration-300"
+                enterTo="opacity-100 "
+                leave="transition-all duration-500 "
                 leaveFrom="opacity-100"
-                leaveTo="opacity-0 "
+                leaveTo="opacity-0"
               >
-                <div className={`X px-3`}>
-                  <div
-                    className={`w-fit ${
-                      user?.email === messageContent?.author ? "ml-auto" : "  "
-                    }`}
-                  >
-                    <div
-                      className={` ${
-                        user?.email !== messageContent?.author
-                          ? "flex items-end justify-center"
-                          : ""
-                      }`}
-                    >
-                      <img
-                        src={
-                          messageContent?.buyer_image ||
-                          "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
-                        }
-                        alt=""
-                        className={`h-4 w-4 rounded-full bg-yellow-200 ${
-                          user?.email !== messageContent?.author
-                            ? "block"
-                            : "hidden"
-                        }`}
-                      />
-                      <p
-                        style={{ wordBreak: "break-all" }}
-                        className={`mt-2 w-fit max-w-md  rounded-3xl  px-3 py-2 text-sm font-thin tracking-wider text-gray-500 ${
-                          user?.email === messageContent?.author
-                            ? "ml-auto bg-secondary-color"
-                            : ""
-                        } border border-gray-300`}
-                      >
-                        {messageContent?.message}
-                      </p>
-                    </div>
-                    <div className=" text-xs  text-gray-400">
-                      <p
-                        className={`${
-                          user?.email === messageContent?.author
-                            ? "pr-2 text-right"
-                            : "pl-2"
-                        }`}
-                      >
-                        {messageContent?.time}
-                      </p>
-                    </div>
-                  </div>
+                <div
+                  className={` absolute left-1/2 top-1/2  flex  -translate-y-1/2 -translate-x-1/2 select-none flex-col items-center  justify-center ${
+                    Object.keys(currentRoom).length !== 0 && "hidden"
+                  }`}
+                >
+                  <img
+                    src="https://img.icons8.com/?size=512&id=13724&format=png"
+                    className="h-24 w-24"
+                    alt=""
+                  />
+                  <p className="text-center text-base font-thin tracking-wider text-gray-500 ">
+                    Select a customer to continue conversation
+                  </p>
                 </div>
               </Transition>
-            ))}
-          </div>
+              {messageList?.messages?.map((messageContent, idx) => (
+                <Transition
+                  key={idx}
+                  show={Object.keys(currentRoom).length !== 0}
+                  appear={true}
+                  enter="transition-all duration-300"
+                  enterFrom="opacity-0 "
+                  enterTo="opacity-100"
+                  leave="transition-all duration-300"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0 "
+                >
+                  <div className={`X px-3`}>
+                    <div
+                      className={`w-fit ${
+                        user?.email === messageContent?.author
+                          ? "ml-auto"
+                          : "  "
+                      }`}
+                    >
+                      <div
+                        className={` ${
+                          user?.email !== messageContent?.author
+                            ? "flex items-end justify-center"
+                            : ""
+                        }`}
+                      >
+                        <img
+                          src={
+                            messageContent?.buyer_image ||
+                            "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
+                          }
+                          alt=""
+                          className={`h-4 w-4 rounded-full bg-yellow-200 ${
+                            user?.email !== messageContent?.author
+                              ? "block"
+                              : "hidden"
+                          }`}
+                        />
+                        <p
+                          style={{ wordBreak: "break-all" }}
+                          className={`mt-2 w-fit max-w-md  rounded-3xl  px-3 py-2 text-sm font-thin tracking-wider text-gray-500 ${
+                            user?.email === messageContent?.author
+                              ? "ml-auto bg-secondary-color"
+                              : ""
+                          } border border-gray-300`}
+                        >
+                          {messageContent?.message}
+                        </p>
+                      </div>
+                      <div className=" text-xs  text-gray-400">
+                        <p
+                          className={`${
+                            user?.email === messageContent?.author
+                              ? "pr-2 text-right"
+                              : "pl-2"
+                          }`}
+                        >
+                          {messageContent?.time}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Transition>
+              ))}
+            </div>
+          )}
           <div
             className={`absolute right-1/2 bottom-0 mb-3 w-[95%] translate-x-1/2 rounded-full border border-gray-300 bg-secondary-color ${
               Object.keys(currentRoom).length === 0 && "hidden"
