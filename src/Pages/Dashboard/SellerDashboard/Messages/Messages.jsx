@@ -8,11 +8,9 @@ import { FaEllipsisV } from "react-icons/fa";
 import { IoIosAttach } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, Transition } from "@headlessui/react";
-import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
 const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
-
 
 function formatAMPM(date) {
   var hours = date.getHours();
@@ -45,14 +43,18 @@ export default function Messages() {
             user?.email
           }`
         ).then((res) => res.json());
+        // .then((data) => console.log(data));
       }
     },
   });
+  console.log("currentRoom", currentRoom?.room);
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      // console.log(data);
+      console.log("receive_message", data?.room);
       refetch();
-      setMessageList(data);
+      if (data?.room === currentRoom?.room) {
+        setMessageList(data);
+      }
     });
     return () => socket.off("receive_message");
   }, []);
@@ -64,10 +66,8 @@ export default function Messages() {
     if (user?.email && buyer?.room) {
       setCurrentRoom(buyer);
       setCurrentBuyer({});
-      // console.log(buyer);
       socket.emit("join_room/seller", { room: buyer?.room });
       socket.on("chat_history/seller", (chats) => {
-        // console.log(chats[0]);
         setMessageList(chats[0]);
       });
     }
@@ -158,8 +158,8 @@ export default function Messages() {
                   <p className=" text-sm font-thin tracking-wider text-gray-600">
                     {buyer?.buyer}
                   </p>
-                  <div className=" flex text-xs font-thin tracking-wider text-gray-400">
-                    <p className=" mr-1">
+                  <div className="flex text-xs font-thin tracking-wider text-gray-400">
+                    <p className="mr-1">                
                       {buyer?.messages.author === user?.email ? "You:" : ""}
                     </p>
                     <p className="w-24 truncate ">{buyer?.messages?.message}</p>
