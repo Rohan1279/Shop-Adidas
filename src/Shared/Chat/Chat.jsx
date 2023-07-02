@@ -1,7 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
-import { GrEmoji, GrAttachment, GrSend, GrDown } from "react-icons/gr";
+import {
+  GrEmoji,
+  GrAttachment,
+  GrSend,
+  GrDown,
+  GrFormPrevious,
+} from "react-icons/gr";
 import { IoIosAttach } from "react-icons/io";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { Transition } from "@headlessui/react";
@@ -229,30 +235,50 @@ function Chat({ socket }) {
               >
                 {" "}
                 {/* //! SELLER INFO */}
-                {/* <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm">
-                  <img
+                <div
+                  className={`flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm
+                 ${isSellerListVisible && "hidden"}
+                `}
+                >
+                    <div className=" flex flex-row items-center justify-between">
+                    <button
+                      onClick={() => {
+                        setIsSellerListVisible(true);
+                      }}
+                      className=""
+                    >
+                      <GrFormPrevious className={`text-2xl ml-3 mr-1`}></GrFormPrevious>
+                    </button>
+                    <img
                     src={seller?.seller_default_image}
                     alt=""
                     className="h-10 w-10 rounded-full bg-yellow-200"
                   />
+                  </div>
+                  
                   <div className="">
                     <p className="text-sm">{seller?.seller_name}</p>
                     <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                       Active status
                     </p>
                   </div>
-                </div> */}
+                </div>
                 {/* //! SELLER LIST */}
-                <div className={` bg-primary-color  `}>
-                  <div className="flex items-center justify-evenly">
+                <div
+                  className={` bg-primary-color  ${
+                    !isSellerListVisible && "hidden"
+                  } `}
+                >
+                  <div className="mx-4 flex flex-row items-center justify-between">
                     <button
                       onClick={() => {
                         setIsSellerListVisible(true);
                       }}
+                      className=""
                     >
-                      Back
+                      <GrFormPrevious className={`text-lg`}></GrFormPrevious>
                     </button>
-                    <p className="py-2 text-center text-lg  font-medium tracking-wide  text-gray-500  shadow-sm">
+                    <p className="basis-full  py-2 text-center text-lg  font-medium tracking-wide  text-gray-500  shadow-sm">
                       Messages
                     </p>
                   </div>
