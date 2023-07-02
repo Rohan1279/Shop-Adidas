@@ -362,7 +362,7 @@ export default function Messages() {
           </div>
 
           {isChatLoading ? (
-            <div className="flex h-screen w-full items-center">
+            <div className="flex h-screen w-full items-center justify-center">
               <Loader></Loader>
             </div>
           ) : (

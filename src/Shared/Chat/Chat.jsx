@@ -5,6 +5,7 @@ import { GrEmoji, GrAttachment, GrSend, GrDown } from "react-icons/gr";
 import { IoIosAttach } from "react-icons/io";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { Transition } from "@headlessui/react";
+import { useQuery } from "@tanstack/react-query";
 
 // const socket = io.connect("http://localhost:5001");
 function formatAMPM(date) {
@@ -50,7 +51,26 @@ function Chat({ socket }) {
       setShowChat(false);
     }
   });
-  // console.log(messageList);
+  const { data: sellerList = [], refetch } = useQuery({
+    queryKey: ["sellerList", user?.email],
+    queryFn: () => {
+      if (user?.email) {
+        return fetch(
+          `${import.meta.env.VITE_SERVER_URL}/buyer/messages?buyer=${
+            user?.email
+          }`
+        ).then((res) => res.json());
+      } else {
+        return []; // Add a default return value when user?.email is falsy
+      }
+    },
+    staleTime: Infinity,
+    refetchOnWindowFocus: "always",
+  });
+  const [currentRoom, setCurrentRoom] = useState({});
+
+  console.log(sellerList);
+
   useEffect(() => {
     console.log(messageList);
 
@@ -87,7 +107,7 @@ function Chat({ socket }) {
 
   // console.log(user);
 
-  const joinroom = () => {
+  const joinroom = (seller) => {
     // if (location?.pathname.includes("/products/product") && showChat) {
     //   console.log(messageList);8
     // }
@@ -139,7 +159,7 @@ function Chat({ socket }) {
       <div className="chat-box relative">
         {/* //! CHAT BUTTON */}
         <div
-          onClick={joinroom}
+          onClick={() => setShowChat((prev) => !prev)}
           className={`chat-button realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
         >
           <Transition
@@ -200,7 +220,8 @@ function Chat({ socket }) {
                 className="h-full "
               >
                 {" "}
-                <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm">
+                {/* //! BUYER INFO */}
+                {/* <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm">
                   <img
                     src={seller?.seller_default_image}
                     alt=""
@@ -212,6 +233,59 @@ function Chat({ socket }) {
                       Active status
                     </p>
                   </div>
+                </div> */}
+                <div className=" bg-primary-color py-2  shadow-sm">
+                  <p className="text-center text-lg font-medium  tracking-wide text-gray-500">
+                    Messages
+                  </p>
+                  {sellerList?.length !== 0 ? (
+                    sellerList?.map((seller, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => joinroom(seller)}
+                        className={`w-full cursor-pointer px-4 py-3  hover:bg-zinc-300 ${
+                          currentRoom?.room === seller?.room
+                            ? "bg-zinc-300"
+                            : ""
+                        } `}
+                      >
+                        <div className="flex items-center justify-start gap-x-2 ">
+                          <img
+                            src={
+                              seller?.seller_image ||
+                              "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
+                            }
+                            alt=""
+                            className="h-8 w-8 rounded-full "
+                          />
+                          <div>
+                            <p className=" text-sm font-thin tracking-wider text-gray-600">
+                              {seller?.seller}
+                            </p>
+                            <div className="flex text-xs font-thin tracking-wider text-gray-400">
+                              <p className="">
+                                {seller?.messages.author === user?.email ? (
+                                  <span className="mr-1">You:</span>
+                                ) : (
+                                  ""
+                                )}
+                              </p>
+                              <p className="w-24 truncate ">
+                                {seller?.messages?.message}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
+                    >
+                      Login/Register
+                    </button>
+                  )}
                 </div>
                 {/* //! MESSAGE */}
                 <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
@@ -241,7 +315,7 @@ function Chat({ socket }) {
                             }`}
                           />
                           <p
-                            className={`mt-2 break-all w-fit max-w-xs   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
+                            className={`mt-2 w-fit max-w-xs break-all   rounded-3xl  px-3 py-1 text-sm font-thin tracking-wider text-gray-500 ${
                               user?.email === messageContent?.author
                                 ? "ml-auto bg-secondary-color"
                                 : ""
