@@ -36,6 +36,8 @@ function Chat({ socket }) {
   const [showChat, setShowChat] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
   let [messageList, setMessageList] = useState({});
+  const [currentRoom, setCurrentRoom] = useState({});
+  const [isSellerListVisible, setIsSellerListVisible] = useState(true);
 
   window.addEventListener("keydown", function (event) {
     if (showChat && event?.key === "Escape") {
@@ -67,9 +69,30 @@ function Chat({ socket }) {
     staleTime: Infinity,
     refetchOnWindowFocus: "always",
   });
-  const [currentRoom, setCurrentRoom] = useState({});
 
-  console.log(sellerList);
+  //! JOIN ROOM
+  const joinroom = (seller) => {
+    // if (location?.pathname.includes("/products/product") && showChat) {
+    //   console.log(messageList);8
+    // }
+
+    // console.log(seller);
+    setIsSellerListVisible(false);
+    if (user.email) {
+      if (seller?.room) {
+        setCurrentRoom(seller);
+        // setCurrentBuyer({});
+        socket.emit("join_room/buyer", { room: seller?.room });
+      } else {
+        const room = seller?.seller_email + "+" + user?.email;
+        socket.emit("join_room/buyer", {
+          room: room,
+        });
+      }
+    }
+  };
+
+  console.log(currentRoom);
 
   useEffect(() => {
     console.log(messageList);
@@ -106,22 +129,7 @@ function Chat({ socket }) {
   }, [location, showChat, product, messageList]);
 
   // console.log(user);
-
-  const joinroom = (seller) => {
-    // if (location?.pathname.includes("/products/product") && showChat) {
-    //   console.log(messageList);8
-    // }
-
-    setShowChat((prev) => !prev);
-    const room = seller?.seller_email + "+" + user?.email;
-    // console.log(room);
-    if (user.uid && seller?.seller_email) {
-      socket.emit("join_room/buyer", {
-        room: room,
-      });
-      // setShowChat(true);
-    }
-  };
+  //! SEND MESSAGE
   const sendMessage = async () => {
     console.log(messageList);
     if (currentMessage !== "") {
@@ -220,7 +228,7 @@ function Chat({ socket }) {
                 className="h-full "
               >
                 {" "}
-                {/* //! BUYER INFO */}
+                {/* //! SELLER INFO */}
                 {/* <div className="flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm">
                   <img
                     src={seller?.seller_default_image}
@@ -234,20 +242,35 @@ function Chat({ socket }) {
                     </p>
                   </div>
                 </div> */}
-                <div className=" bg-primary-color py-2  shadow-sm">
-                  <p className="text-center text-lg font-medium  tracking-wide text-gray-500">
-                    Messages
-                  </p>
+                {/* //! SELLER LIST */}
+                <div className={` bg-primary-color  `}>
+                  <div className="flex items-center justify-evenly">
+                    <button
+                      onClick={() => {
+                        setIsSellerListVisible(true);
+                      }}
+                    >
+                      Back
+                    </button>
+                    <p className="py-2 text-center text-lg  font-medium tracking-wide  text-gray-500  shadow-sm">
+                      Messages
+                    </p>
+                  </div>
                   {sellerList?.length !== 0 ? (
                     sellerList?.map((seller, idx) => (
                       <div
                         key={idx}
                         onClick={() => joinroom(seller)}
-                        className={`w-full cursor-pointer px-4 py-3  hover:bg-zinc-300 ${
+                        className={`w-full cursor-pointer px-4 py-3  hover:bg-zinc-300
+                        
+                        ${!isSellerListVisible && "hidden"}
+                        ${
                           currentRoom?.room === seller?.room
                             ? "bg-zinc-300"
                             : ""
-                        } `}
+                        } 
+                       
+                        `}
                       >
                         <div className="flex items-center justify-start gap-x-2 ">
                           <img
@@ -279,16 +302,30 @@ function Chat({ socket }) {
                       </div>
                     ))
                   ) : (
-                    <button
+                    <div
                       onClick={() => navigate("/login")}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md "
                     >
-                      Login/Register
-                    </button>
+                      You have no messages
+                    </div>
                   )}
                 </div>
                 {/* //! MESSAGE */}
-                <ScrollToBottom className="mx-auto mb-auto  w-full  overflow-scroll pb-3 ">
+                {/* <Transition
+                  show={!isSellerListVisible}
+                  enter="transition-opacity duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-300"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >  
+                </Transition> */}
+                <ScrollToBottom
+                  className={`${
+                    isSellerListVisible && "hidden"
+                  } mx-auto mb-auto  w-full  translate-x-0 transform overflow-scroll pb-3 transition-transform duration-500 ease-in-out `}
+                >
                   {messageList?.messages?.map((messageContent, idx) => (
                     <div key={idx} className={`px-3`}>
                       <div

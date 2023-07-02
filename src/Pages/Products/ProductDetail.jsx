@@ -16,7 +16,7 @@ const ProductDetail = () => {
   const [prevSize, setPrevSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
-  console.log(state);
+  // console.log(state);
   // console.log(prevSize?.innerText);
   const handleAddToCart = (selectedProduct) => {
     // const productId = selectedProduct.id;
@@ -129,7 +129,9 @@ const ProductDetail = () => {
                   className="h-7 w-7"
                   alt=""
                 />
-                <p className="ml-2 text-lg text-gray-700">Contact Seller</p>
+                <p 
+                // onClick={()=> set} //! showChat enables
+                className="ml-2 text-lg text-gray-700">Contact Seller</p>
               </button>
             </div>
             <div className="my-4 flex items-center justify-start gap-x-2">
