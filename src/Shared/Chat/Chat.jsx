@@ -98,10 +98,9 @@ function Chat({ socket }) {
     }
   };
 
-  console.log(currentRoom);
-
   useEffect(() => {
-    console.log(messageList);
+    // console.log(messageList);
+    console.log(currentRoom);
 
     socket.on("chat_history/buyer", (chats) => {
       // console.log("chat_history", chats.length);
@@ -114,8 +113,8 @@ function Chat({ socket }) {
     });
     if (
       !messageList &&
-      user?.email 
-      && location?.pathname.includes("/products/product")
+      user?.email &&
+      location?.pathname.includes("/products/product")
     ) {
       console.log("no chat history");
       setMessageList((prevMessageList) => ({
@@ -240,22 +239,25 @@ function Chat({ socket }) {
                  ${isSellerListVisible && "hidden"}
                 `}
                 >
-                    <div className=" flex flex-row items-center justify-between">
+                  <div className=" flex flex-row items-center justify-between">
                     <button
                       onClick={() => {
                         setIsSellerListVisible(true);
+                        setCurrentRoom({});
                       }}
                       className=""
                     >
-                      <GrFormPrevious className={`text-2xl ml-3 mr-1`}></GrFormPrevious>
+                      <GrFormPrevious
+                        className={`ml-3 mr-1 text-2xl`}
+                      ></GrFormPrevious>
                     </button>
                     <img
-                    src={currentRoom?.seller_image}
-                    alt=""
-                    className="h-10 w-10 rounded-full bg-yellow-200"
-                  />
+                      src={currentRoom?.seller_image}
+                      alt=""
+                      className="h-10 w-10 rounded-full bg-yellow-200"
+                    />
                   </div>
-                  
+
                   <div className="">
                     <p className="text-sm">{currentRoom?.seller}</p>
                     <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
@@ -274,11 +276,11 @@ function Chat({ socket }) {
                       onClick={() => {
                         setIsSellerListVisible(true);
                       }}
-                      className=""
+                      className={` ${isSellerListVisible && "hidden"}`}
                     >
                       <GrFormPrevious className={`text-lg`}></GrFormPrevious>
                     </button>
-                    <p className="basis-full  py-2 text-center text-lg  font-medium tracking-wide  text-gray-500  shadow-sm">
+                    <p className="basis-full  py-2 text-center text-lg  font-medium tracking-wide  text-gray-700  shadow-sm">
                       Messages
                     </p>
                   </div>
@@ -291,11 +293,11 @@ function Chat({ socket }) {
                         
                         ${!isSellerListVisible && "hidden"}
                         ${
-                          currentRoom?.room === seller?.room
-                            ? "bg-zinc-300"
+                          Object.keys(currentRoom).length !== 0
+                            ? currentRoom?.room === seller?.room &&
+                              "bg-zinc-300"
                             : ""
                         } 
-                       
                         `}
                       >
                         <div className="flex items-center justify-start gap-x-2 ">
@@ -305,7 +307,7 @@ function Chat({ socket }) {
                               "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
                             }
                             alt=""
-                            className="h-8 w-8 rounded-full "
+                            className="h-10 w-10 rounded-full bg-yellow-200"
                           />
                           <div>
                             <p className=" text-sm font-thin tracking-wider text-gray-600">
