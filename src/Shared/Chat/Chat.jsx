@@ -114,8 +114,8 @@ function Chat({ socket }) {
     });
     if (
       !messageList &&
-      user?.email &&
-      location?.pathname.includes("/products/product")
+      user?.email 
+      && location?.pathname.includes("/products/product")
     ) {
       console.log("no chat history");
       setMessageList((prevMessageList) => ({
@@ -250,14 +250,14 @@ function Chat({ socket }) {
                       <GrFormPrevious className={`text-2xl ml-3 mr-1`}></GrFormPrevious>
                     </button>
                     <img
-                    src={seller?.seller_default_image}
+                    src={currentRoom?.seller_image}
                     alt=""
                     className="h-10 w-10 rounded-full bg-yellow-200"
                   />
                   </div>
                   
                   <div className="">
-                    <p className="text-sm">{seller?.seller_name}</p>
+                    <p className="text-sm">{currentRoom?.seller}</p>
                     <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                       Active status
                     </p>
