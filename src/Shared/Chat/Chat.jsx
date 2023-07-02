@@ -1,9 +1,10 @@
+import "./Chat.css";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
 import {
   GrEmoji,
-  GrAttachment,
+  GrFormNext,
   GrSend,
   GrDown,
   GrFormPrevious,
@@ -113,8 +114,8 @@ function Chat({ socket }) {
     });
     if (
       !messageList &&
-      user?.email &&
-      location?.pathname.includes("/products/product")
+      user?.email
+      //  && location?.pathname.includes("/products/product")
     ) {
       console.log("no chat history");
       setMessageList((prevMessageList) => ({
@@ -235,22 +236,19 @@ function Chat({ socket }) {
                 {" "}
                 {/* //! SELLER INFO */}
                 <div
-                  className={`flex w-full items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm
+                  onClick={() => {
+                    setIsSellerListVisible(true);
+                    setCurrentRoom({});
+                  }}
+                  className={`flex w-full cursor-pointer items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm
                  ${isSellerListVisible && "hidden"}
                 `}
                 >
-                  <div className=" flex flex-row items-center justify-between">
-                    <button
-                      onClick={() => {
-                        setIsSellerListVisible(true);
-                        setCurrentRoom({});
-                      }}
-                      className=""
-                    >
-                      <GrFormPrevious
-                        className={`ml-3 mr-1 text-2xl`}
-                      ></GrFormPrevious>
-                    </button>
+                  <div className=" flex  flex-row items-center justify-between">
+                    <GrFormPrevious
+                      className={`ml-3 mr-1 text-lg`}
+                    ></GrFormPrevious>
+
                     <img
                       src={currentRoom?.seller_image}
                       alt=""
@@ -271,16 +269,8 @@ function Chat({ socket }) {
                     !isSellerListVisible && "hidden"
                   } `}
                 >
-                  <div className="mx-4 flex flex-row items-center justify-between">
-                    <button
-                      onClick={() => {
-                        setIsSellerListVisible(true);
-                      }}
-                      className={` ${isSellerListVisible && "hidden"}`}
-                    >
-                      <GrFormPrevious className={`text-lg`}></GrFormPrevious>
-                    </button>
-                    <p className="basis-full  py-2 text-center text-lg  font-medium tracking-wide  text-gray-700  shadow-sm">
+                  <div className="mx-4">
+                    <p className="py-2 text-center text-lg  font-medium tracking-wide  text-gray-700  shadow-sm">
                       Messages
                     </p>
                   </div>
@@ -300,32 +290,35 @@ function Chat({ socket }) {
                         } 
                         `}
                       >
-                        <div className="flex items-center justify-start gap-x-2 ">
-                          <img
-                            src={
-                              seller?.seller_image ||
-                              "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
-                            }
-                            alt=""
-                            className="h-10 w-10 rounded-full bg-yellow-200"
-                          />
-                          <div>
-                            <p className=" text-sm font-thin tracking-wider text-gray-600">
-                              {seller?.seller}
-                            </p>
-                            <div className="flex text-xs font-thin tracking-wider text-gray-400">
-                              <p className="">
-                                {seller?.messages.author === user?.email ? (
-                                  <span className="mr-1">You:</span>
-                                ) : (
-                                  ""
-                                )}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-center gap-x-2">
+                            <img
+                              src={
+                                seller?.seller_image ||
+                                "https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-256.png"
+                              }
+                              alt=""
+                              className="h-10 w-10 rounded-full bg-yellow-200"
+                            />
+                            <div>
+                              <p className=" text-sm font-thin tracking-wider text-gray-600">
+                                {seller?.seller}
                               </p>
-                              <p className="w-24 truncate ">
-                                {seller?.messages?.message}
-                              </p>
+                              <div className="flex text-xs font-thin tracking-wider text-gray-400">
+                                <p className="">
+                                  {seller?.messages.author === user?.email ? (
+                                    <span className="mr-1">You:</span>
+                                  ) : (
+                                    ""
+                                  )}
+                                </p>
+                                <p className="w-24 truncate ">
+                                  {seller?.messages?.message}
+                                </p>
+                              </div>
                             </div>
                           </div>
+                          <GrFormNext className="text-lg"></GrFormNext>
                         </div>
                       </div>
                     ))
@@ -352,10 +345,14 @@ function Chat({ socket }) {
                 <ScrollToBottom
                   className={`${
                     isSellerListVisible && "hidden"
-                  } mx-auto mb-auto  w-full  translate-x-0 transform overflow-scroll pb-3 transition-transform duration-500 ease-in-out `}
+                  } mx-auto mb-auto  w-full  translate-x-0 transform overflow-scroll pb-3 transition-transform duration-500 ease-in-out 
+                 
+                  `}
                 >
                   {messageList?.messages?.map((messageContent, idx) => (
-                    <div key={idx} className={`px-3`}>
+                    <div key={idx} className={`px-3
+                    ${ !isSellerListVisible && "animate-left"}
+                    `}>
                       <div
                         className={`w-fit ${
                           user?.email === messageContent?.author
@@ -405,7 +402,11 @@ function Chat({ socket }) {
                   ))}
                 </ScrollToBottom>
                 {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
-                <div className="sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color ">
+                <div
+                  className={`sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color 
+                ${Object.keys(currentRoom).length === 0 && "hidden"}
+                `}
+                >
                   <div className="flex items-center justify-center ">
                     <input
                       type={"text"}

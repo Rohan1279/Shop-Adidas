@@ -51,7 +51,7 @@ export default function Messages() {
     staleTime: Infinity,
     refetchOnWindowFocus: "always",
   });
-  console.log("currentRoom", currentRoom?.room);
+  // console.log("currentRoom", currentRoom?.room);
   useEffect(() => {
     socket.on("receive_message", (data) => {
       console.log("receive_message", data?.room);
@@ -68,13 +68,14 @@ export default function Messages() {
 
   const joinroom = (buyer) => {
     if (user?.email && buyer?.room) {
-      setIsChatLoading(true)
+      setIsChatLoading(true);
       setCurrentRoom(buyer);
       setCurrentBuyer({});
       socket.emit("join_room/seller", { room: buyer?.room });
       socket.on("chat_history/seller", (chats) => {
+        // console.log(chats[0]);
         setMessageList(chats[0]);
-        setIsChatLoading(false)
+        setIsChatLoading(false);
       });
     }
   };
