@@ -219,7 +219,7 @@ function Chat({ socket }) {
           leaveTo="translate-y-5  opacity-0"
         >
           <div
-            className={` absolute bottom-20 right-0 h-96  w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
+            className={` absolute bottom-20 right-0 h-[26rem]  w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
           >
             {!user && !user?.uid ? (
               <button
