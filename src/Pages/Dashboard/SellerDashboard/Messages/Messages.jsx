@@ -51,17 +51,22 @@ export default function Messages() {
     staleTime: Infinity,
     refetchOnWindowFocus: "always",
   });
-  // console.log("currentRoom", currentRoom?.room);
   useEffect(() => {
+    console.log(messageList?.messages?.length);
+    socket.on("chat_history/seller", (chats) => {
+      // console.log(chats[0]);
+      setMessageList(chats[0]);
+      setIsChatLoading(false);
+    });
     socket.on("receive_message", (data) => {
-      console.log("receive_message", data?.room);
+      // console.log("receive_message", data?.room);
       refetch();
       if (data?.room === currentRoom?.room) {
         setMessageList(data);
       }
     });
     return () => socket.off("receive_message");
-  }, []);
+  }, [messageList]);
   useEffect(() => {
     setIsDropdownOpen(false);
   }, [currentRoom]);
@@ -72,11 +77,11 @@ export default function Messages() {
       setCurrentRoom(buyer);
       setCurrentBuyer({});
       socket.emit("join_room/seller", { room: buyer?.room });
-      socket.on("chat_history/seller", (chats) => {
-        // console.log(chats[0]);
-        setMessageList(chats[0]);
-        setIsChatLoading(false);
-      });
+      // socket.on("chat_history/seller", (chats) => {
+      //   // console.log(chats[0]);
+      //   setMessageList(chats[0]);
+      //   setIsChatLoading(false);
+      // });
     }
   };
   const sendMessage = async () => {
@@ -92,7 +97,7 @@ export default function Messages() {
       };
       setMessageList(updatedMessageList);
       await socket.emit("send_message", updatedMessageList);
-      console.log(updatedMessageList);
+      // console.log(updatedMessageList);
       setCurrentMessage("");
     }
   };
@@ -105,7 +110,7 @@ export default function Messages() {
     toast.success("Conversation cleared successfully!");
   };
   const handleViewBuyer = () => {
-    console.log(currentRoom?.buyer);
+    // console.log(currentRoom?.buyer);
     fetch(
       `${import.meta.env.VITE_SERVER_URL}/seller/buyerDetail?email=${
         currentRoom?.buyer

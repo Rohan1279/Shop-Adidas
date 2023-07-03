@@ -9,6 +9,7 @@ import {
   GrDown,
   GrFormPrevious,
 } from "react-icons/gr";
+import { TbMailOff } from "react-icons/tb";
 import { IoIosAttach } from "react-icons/io";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { Transition } from "@headlessui/react";
@@ -25,6 +26,7 @@ function formatAMPM(date) {
   var strTime = hours + ":" + minutes + " " + ampm;
   return strTime;
 }
+
 function Chat({ socket }) {
   const { authInfo } = useContext(Context);
   const { user, isBuyer, isSeller, userRole } = authInfo;
@@ -101,8 +103,10 @@ function Chat({ socket }) {
 
   useEffect(() => {
     // console.log(messageList);
+    // if (!user?.email) {
+    //   setMessageList([]);
+    // }
     console.log(currentRoom);
-
     socket.on("chat_history/buyer", (chats) => {
       // console.log("chat_history", chats.length);
       setMessageList(chats[0]);
@@ -215,7 +219,7 @@ function Chat({ socket }) {
           leaveTo="translate-y-5  opacity-0"
         >
           <div
-            className={` absolute bottom-20 right-0 h-[32rem] w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
+            className={` absolute bottom-20 right-0 h-96  w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
           >
             {!user && !user?.uid ? (
               <button
@@ -248,7 +252,6 @@ function Chat({ socket }) {
                     <GrFormPrevious
                       className={`ml-3 mr-1 text-lg`}
                     ></GrFormPrevious>
-
                     <img
                       src={currentRoom?.seller_image}
                       alt=""
@@ -270,7 +273,7 @@ function Chat({ socket }) {
                   } `}
                 >
                   <div className="mx-4">
-                    <p className="py-2 text-center text-lg  font-medium tracking-wide  text-gray-700  shadow-sm">
+                    <p className="py-2 text-center text-lg  font-medium tracking-wide  text-gray-600  shadow-sm">
                       Messages
                     </p>
                   </div>
@@ -325,9 +328,12 @@ function Chat({ socket }) {
                   ) : (
                     <div
                       onClick={() => navigate("/login")}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md "
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md p-3"
                     >
-                      You have no messages
+                      <TbMailOff className="mx-auto mb-4 text-4xl text-zinc-600"></TbMailOff>
+                      <p className="text-center text-sm  font-medium tracking-wide  text-gray-700">
+                        You have no messages
+                      </p>
                     </div>
                   )}
                 </div>
@@ -350,9 +356,12 @@ function Chat({ socket }) {
                   `}
                 >
                   {messageList?.messages?.map((messageContent, idx) => (
-                    <div key={idx} className={`px-3
-                    ${ !isSellerListVisible && "animate-left"}
-                    `}>
+                    <div
+                      key={idx}
+                      className={`px-3
+                    ${!isSellerListVisible && "animate-left"}
+                    `}
+                    >
                       <div
                         className={`w-fit ${
                           user?.email === messageContent?.author
@@ -368,7 +377,7 @@ function Chat({ socket }) {
                           }`}
                         >
                           <img
-                            src={seller?.seller_default_image}
+                            src={currentRoom?.seller_image}
                             alt=""
                             className={`h-4 w-4 rounded-full bg-yellow-200 ${
                               user?.email !== messageContent?.author
