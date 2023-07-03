@@ -1,12 +1,18 @@
-import React, { Suspense, createContext, lazy, useContext, useState } from "react";
+import React, {
+  Suspense,
+  createContext,
+  lazy,
+  useContext,
+  useState,
+} from "react";
 import { Outlet } from "react-router-dom";
 import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
 import { dataLoader } from "../utils/dataLoader";
 import { getStoredCart } from "../utils/fakeDB";
 import Footer from "../Shared/Footer";
-// const Chat = lazy(() => import("../Shared/Chat/Chat"));
-import Chat from "../Shared/Chat/Chat";
+const Chat = lazy(() => import("../Shared/Chat/Chat"));
+// import Chat from "../Shared/Chat/Chat";
 import { io } from "socket.io-client";
 import Loader from "../components/Loader/Loader";
 // import Chat from "../Shared/Chat/Chat";
@@ -30,7 +36,7 @@ const Main = () => {
   }
   // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);
-
+  const [contactSeller, setContactSeller] = useState({});
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
       <div className="relative h-fit bg-secondary-color  ">
@@ -46,11 +52,15 @@ const Main = () => {
           <div
             className={`z-0 w-screen  overflow-x-scroll transition-all duration-300 ease-in-out`}
           >
-            <Outlet />
+            <Outlet context={[contactSeller, setContactSeller]} />
           </div>
         </Suspense>
         {/* <Outlet /> */}
-        <Chat socket={socket} />
+        <Chat
+          socket={socket}
+          contactSeller={contactSeller}
+          setContactSeller={setContactSeller}
+        />
       </div>
     </CartContext.Provider>
   );

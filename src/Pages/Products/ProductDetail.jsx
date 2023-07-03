@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
@@ -8,15 +8,16 @@ import { addToDb } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 const ProductDetail = () => {
+  const [contactSeller, setContactSeller] = useOutletContext();
+  console.log(contactSeller);
   const [cart, setCart] = useContext(CartContext);
-  // console.log(cart);
   const { state } = useLocation();
   let navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [prevSize, setPrevSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
-  // console.log(state);
+  console.log(state);
   // console.log(prevSize?.innerText);
   const handleAddToCart = (selectedProduct) => {
     // const productId = selectedProduct.id;
@@ -123,15 +124,20 @@ const ProductDetail = () => {
               >
                 In stock
               </p>
-              <button className="col-span-2 ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset">
+              <button
+              onClick={()=> setContactSeller()}
+              className="sm:w-full mt-2 md:mt-0 col-span-2 md:ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset px-2">
                 <img
                   src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
                   className="h-7 w-7"
                   alt=""
                 />
-                <p 
-                // onClick={()=> set} //! showChat enables
-                className="ml-2 text-lg text-gray-700">Contact Seller</p>
+                <p
+                  // onClick={()=> set} //! showChat enables
+                  className="ml-2 text-sm text-gray-700"
+                >
+                  Contact Seller
+                </p>
               </button>
             </div>
             <div className="my-4 flex items-center justify-start gap-x-2">

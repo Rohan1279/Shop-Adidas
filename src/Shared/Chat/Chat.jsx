@@ -116,6 +116,7 @@ function Chat({ socket }) {
       setMessageList(data);
       console.log(data);
     });
+    //* sets messageList for non existing user  
     if (
       !messageList &&
       user?.email
@@ -219,7 +220,10 @@ function Chat({ socket }) {
           leaveTo="translate-y-5  opacity-0"
         >
           <div
-            className={` absolute bottom-20 right-0 h-[26rem]  w-96 overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
+            className={`absolute 
+            bottom-20 md:bottom-20 -right-1/2 md:-right-0    
+            h-[26rem]  w-96
+             overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
           >
             {!user && !user?.uid ? (
               <button
