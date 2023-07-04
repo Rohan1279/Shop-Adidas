@@ -36,6 +36,7 @@ const Main = () => {
       initialCart.push(foundProduct);
     }
   }
+  const demoArrayFuntion = (arr) => {}
   // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);
   const [contactSeller, setContactSeller] = useState({});
@@ -47,7 +48,7 @@ const Main = () => {
     }
   }, [location]);
  
-  
+  //
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
       <div className="relative h-fit bg-secondary-color  ">
