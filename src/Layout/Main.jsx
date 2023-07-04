@@ -36,7 +36,7 @@ const Main = () => {
       initialCart.push(foundProduct);
     }
   }
-  const demoArrayFuntion = (arr) => {}
+  // a function to calculate time spent from now
   // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);
   const [contactSeller, setContactSeller] = useState({});
@@ -79,3 +79,5 @@ const Main = () => {
 };
 
 export default Main;
+
+

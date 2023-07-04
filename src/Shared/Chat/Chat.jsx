@@ -48,7 +48,6 @@ function Chat({ socket, contactSeller, setContactSeller }) {
   let [messageList, setMessageList] = useState({});
   const [currentRoom, setCurrentRoom] = useState({});
   const [isSellerListVisible, setIsSellerListVisible] = useState(true);
-
   window.addEventListener("keydown", function (event) {
     if (showChat && event?.key === "Escape") {
       setShowChat(!showChat);
@@ -185,7 +184,9 @@ function Chat({ socket, contactSeller, setContactSeller }) {
 
   return (
     <div
-      className={`fixed bottom-8 right-8  ${
+      className={` 
+      fixed top-full right-0 z-50
+      md:top-auto md:bottom-8 md:right-8  ${
         user
           ? "block"
           : location?.pathname.includes("/products/product")
@@ -193,7 +194,7 @@ function Chat({ socket, contactSeller, setContactSeller }) {
           : "hidden"
       }`}
     >
-      <div className="chat-box relative">
+      <div className="chat-box relative ">
         {/* //! CHAT BUTTON */}
         <div
           onClick={() => setShowChat((prev) => !prev)}
@@ -238,10 +239,10 @@ function Chat({ socket, contactSeller, setContactSeller }) {
           leaveTo="translate-y-5  opacity-0"
         >
           <div
-            className={`absolute 
-            bottom-20 -right-1/2 h-[26rem] w-96    
-            overflow-hidden  rounded-xl
-             bg-primary-color   shadow-nm  md:bottom-20 md:-right-0 `}
+            className={`absolute bottom-0 
+            right-0 h-screen   w-screen  -translate-y-12 
+            overflow-hidden  rounded-xl  bg-secondary-color shadow-nm 
+            md:bottom-20 md:-right-0 md:h-[26rem] md:w-96 md:translate-y-0`}
           >
             {!user && !user?.uid ? (
               <button
@@ -262,15 +263,17 @@ function Chat({ socket, contactSeller, setContactSeller }) {
                 {" "}
                 {/* //! SELLER INFO */}
                 <div
-                  onClick={() => {
-                    setIsSellerListVisible(true);
-                    setCurrentRoom({});
-                  }}
-                  className={`flex w-full cursor-pointer items-center justify-start gap-x-2  bg-primary-color pl-2 pt-2 pb-2 shadow-sm
+                  className={` flex w-full  items-center justify-start gap-x-2  bg-red-500 pl-2 pt-2 pb-2 shadow-sm
                  ${isSellerListVisible && "hidden"}
                 `}
                 >
-                  <div className=" flex  flex-row items-center justify-between">
+                  <div
+                    onClick={() => {
+                      setIsSellerListVisible(true);
+                      setCurrentRoom({});
+                    }}
+                    className=" flex cursor-pointer flex-row items-center justify-between"
+                  >
                     <GrFormPrevious
                       className={`ml-3 mr-1 text-lg`}
                     ></GrFormPrevious>
@@ -287,6 +290,10 @@ function Chat({ socket, contactSeller, setContactSeller }) {
                       Active status
                     </p>
                   </div>
+                  <GrDown
+                    onClick={() => setShowChat(false)}
+                    className="ml-auto mr-3"
+                  ></GrDown>
                 </div>
                 {/* //! SELLER LIST */}
                 <div
@@ -294,11 +301,17 @@ function Chat({ socket, contactSeller, setContactSeller }) {
                     !isSellerListVisible && "hidden"
                   } `}
                 >
-                  <div className="mx-4">
-                    <p className="py-2 text-center text-lg  font-medium tracking-wide  text-gray-600  shadow-sm">
+                  {/* <div className="mx-4"> */}
+                  <div className="flex items-center justify-evenly  py-2 shadow-sm">
+                    <p className="basis-full bg-primary-color text-center  text-lg font-medium  tracking-wide text-gray-600">
                       Messages
                     </p>
+                    <GrDown
+                      onClick={() => setShowChat(false)}
+                      className="absolute right-3 text-lg"
+                    ></GrDown>
                   </div>
+                  {/* </div> */}
                   {sellerList?.length !== 0 ? (
                     sellerList?.map((seller, idx) => (
                       <div

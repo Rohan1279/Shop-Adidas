@@ -138,7 +138,7 @@ const ProductDetail = () => {
               </p>
               <button
               onClick={()=> setContactSeller(seller)}
-              className="sm:w-full mt-2 md:mt-0 col-span-2 md:ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset px-2">
+              className="w-full mt-2 md:mt-0 col-span-2 md:ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset px-2">
                 <img
                   src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
                   className="h-7 w-7"
@@ -146,7 +146,7 @@ const ProductDetail = () => {
                 />
                 <p
                   // onClick={()=> set} //! showChat enables
-                  className="ml-2 text-sm text-gray-700"
+                  className="ml-2 text-sm text-gray-700 "
                 >
                   Contact Seller
                 </p>

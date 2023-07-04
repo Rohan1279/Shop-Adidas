@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const [active, setActive] = useState(false);
   return (
-    <nav className="fixed top-0 z-50 w-full bg-secondary-color ">
+    <nav className="fixed top-0 z-40 w-full bg-secondary-color ">
       <div className="relative z-30 mx-auto max-w-7xl px-2  sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* <!-- Mobile menu button--> */}
