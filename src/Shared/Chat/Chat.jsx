@@ -9,7 +9,7 @@ import {
   GrDown,
   GrFormPrevious,
 } from "react-icons/gr";
-import { TbMailOff } from "react-icons/tb";
+import { TbCloudFog, TbMailOff } from "react-icons/tb";
 import { IoIosAttach } from "react-icons/io";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { Transition } from "@headlessui/react";
@@ -27,12 +27,13 @@ function formatAMPM(date) {
   return strTime;
 }
 
-function Chat({ socket }) {
+function Chat({ socket, contactSeller, setContactSeller }) {
   const { authInfo } = useContext(Context);
   const { user, isBuyer, isSeller, userRole } = authInfo;
   const location = useLocation();
   const navigate = useNavigate();
   const product = location?.state;
+
   const seller = {
     seller: product?.seller,
     seller_default_image: product?.seller_default_image,
@@ -79,13 +80,18 @@ function Chat({ socket }) {
     refetchOnWindowFocus: "always",
   });
 
+  const handleContactSeller = () => {
+    // console.log(object);
+    console.log(contactSeller);
+  };
+
   //! JOIN ROOM
   const joinroom = (seller) => {
     // if (location?.pathname.includes("/products/product") && showChat) {
     //   console.log(messageList);8
     // }
 
-    // console.log(seller);
+    console.log(seller);
     setIsSellerListVisible(false);
     if (user.email) {
       if (seller?.room) {
@@ -100,13 +106,22 @@ function Chat({ socket }) {
       }
     }
   };
+  useEffect(() => {
+    if (Object.keys(contactSeller).length !== 0) {
+      setShowChat(true);
+      setCurrentRoom(contactSeller);
+      setIsSellerListVisible(false);
+      // add seller to sellerList
+      joinroom(contactSeller);
+    }
+  }, [contactSeller]);
 
   useEffect(() => {
     // console.log(messageList);
     // if (!user?.email) {
     //   setMessageList([]);
     // }
-    console.log(currentRoom);
+    // console.log(currentRoom);
     socket.on("chat_history/buyer", (chats) => {
       // console.log("chat_history", chats.length);
       setMessageList(chats[0]);
@@ -116,7 +131,7 @@ function Chat({ socket }) {
       setMessageList(data);
       console.log(data);
     });
-    //* sets messageList for non existing user  
+    //* sets messageList for new user
     if (
       !messageList &&
       user?.email
@@ -221,9 +236,9 @@ function Chat({ socket }) {
         >
           <div
             className={`absolute 
-            bottom-20 md:bottom-20 -right-1/2 md:-right-0    
-            h-[26rem]  w-96
-             overflow-hidden   rounded-xl  bg-primary-color shadow-nm `}
+            bottom-20 -right-1/2 h-[26rem] w-96    
+            overflow-hidden  rounded-xl
+             bg-primary-color   shadow-nm  md:bottom-20 md:-right-0 `}
           >
             {!user && !user?.uid ? (
               <button

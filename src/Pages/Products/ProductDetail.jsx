@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
@@ -9,7 +9,7 @@ import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
-  console.log(contactSeller);
+  // console.log(contactSeller);
   const [cart, setCart] = useContext(CartContext);
   const { state } = useLocation();
   let navigate = useNavigate();
@@ -17,7 +17,19 @@ const ProductDetail = () => {
   const [prevSize, setPrevSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
-  console.log(state);
+  // console.log(state);
+  const seller = {
+    seller: state?.seller,
+    seller_default_image: state?.seller_default_image,
+    seller_email: state?.seller_email, //replace with seller_id
+    seller_id: state?.seller_id,
+    seller_name: state?.seller_name,
+    seller_phone: state?.seller_phone,
+  };
+  // useEffect(() => {
+  //   setContactSeller({})
+  // }, [location])
+  
   // console.log(prevSize?.innerText);
   const handleAddToCart = (selectedProduct) => {
     // const productId = selectedProduct.id;
@@ -125,7 +137,7 @@ const ProductDetail = () => {
                 In stock
               </p>
               <button
-              onClick={()=> setContactSeller()}
+              onClick={()=> setContactSeller(seller)}
               className="sm:w-full mt-2 md:mt-0 col-span-2 md:ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset px-2">
                 <img
                   src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"

@@ -3,9 +3,10 @@ import React, {
   createContext,
   lazy,
   useContext,
+  useEffect,
   useState,
 } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
 import { dataLoader } from "../utils/dataLoader";
@@ -21,6 +22,7 @@ export const CartContext = createContext();
 // console.log(import.meta.env.VITE_SERVER_URL);
 const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
 const Main = () => {
+  const location = useLocation();
   const { products } = dataLoader();
   // console.log(products);
   const storedProducts = getStoredCart(); //! products with id
@@ -37,6 +39,15 @@ const Main = () => {
   // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);
   const [contactSeller, setContactSeller] = useState({});
+  // console.log(contactSeller);
+  useEffect(() => {
+    if (!location?.pathname.includes("/products/product")) {
+      setContactSeller({});
+      console.log("not in detail page");
+    }
+  }, [location]);
+ 
+  
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
       <div className="relative h-fit bg-secondary-color  ">
