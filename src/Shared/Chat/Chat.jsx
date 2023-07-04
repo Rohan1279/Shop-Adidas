@@ -113,6 +113,9 @@ function Chat({ socket, contactSeller, setContactSeller }) {
       setIsSellerListVisible(false);
       // add seller to sellerList
       joinroom(contactSeller);
+    } else {
+      setCurrentRoom({});
+      setIsSellerListVisible(true);
     }
   }, [contactSeller]);
 
