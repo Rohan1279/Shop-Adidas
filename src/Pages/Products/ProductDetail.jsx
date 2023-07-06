@@ -18,7 +18,7 @@ const ProductDetail = () => {
   // console.log(contactSeller);
   const [cart, setCart] = useContext(CartContext);
   const { state } = useLocation();
-  console.log(JSON.parse(Cookies.get('selectedProduct')));
+  // console.log(JSON.parse(Cookies.get('selectedProduct')));
   let navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [prevSize, setPrevSize] = useState(null);

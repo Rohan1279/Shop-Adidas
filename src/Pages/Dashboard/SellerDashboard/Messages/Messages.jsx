@@ -11,6 +11,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
 import Loader from "../../../../components/Loader/Loader";
+import Cookies from "js-cookie";
 const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
 
 function formatAMPM(date) {
@@ -117,7 +118,7 @@ export default function Messages() {
       }`,
       {
         headers: {
-          authorization: `bearer ${localStorage.getItem("shop-adidas-token")}`,
+          authorization: `bearer ${Cookies.get('shop-adidas-token')}`,
         },
       }
     )

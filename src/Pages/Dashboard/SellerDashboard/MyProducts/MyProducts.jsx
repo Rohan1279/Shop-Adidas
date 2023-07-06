@@ -19,6 +19,7 @@ import { toast } from "react-hot-toast";
 import DropDownMenu from "../../../../components/DropDownMenu/DropDownMenu";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Switch } from "@headlessui/react";
+import Cookies from "js-cookie";
 
 const MyProducts = () => {
   const [isImageEnabled, setisImageEnabled] = useState(false);
@@ -61,9 +62,7 @@ const MyProducts = () => {
         )}&dateOrder=${dateOrder}&priceOrder=${priceOrder}&ratingsOrder=${ratingsOrder}&search=${search}`,
         {
           headers: {
-            authorization: `bearer ${localStorage.getItem(
-              "shop-adidas-token"
-            )}`,
+            authorization: `bearer ${Cookies.get('shop-adidas-token')}`,
           },
         }
       ).then((res) => res.json()),
@@ -105,9 +104,7 @@ const MyProducts = () => {
         {
           headers: {
             "content-type": "application/json",
-            authorization: `bearer ${localStorage.getItem(
-              "shop-adidas-token"
-            )}`,
+            authorization: `bearer ${Cookies.get('shop-adidas-token')}`,
           },
         }
       );

@@ -50,7 +50,7 @@ const Products = () => {
     const selectedProduct = products?.find((product) => product._id === id);
     // console.log(selectedProduct);
     // localStorage.setItem("selectedProduct", JSON.stringify(selectedProduct));
-    Cookies.set('selectedProduct', JSON.stringify(selectedProduct));
+    Cookies.set("selectedProduct", JSON.stringify(selectedProduct));
     navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (

@@ -14,6 +14,7 @@ import { memo } from "react";
 import Button from "../../../../components/Button/Button";
 import { toast } from "react-hot-toast";
 import { dataLoader } from "../../../../utils/dataLoader";
+import Cookies from "js-cookie";
 const productColors = [
   { id: 0, name: "Beige", hex: "#F5F5DC" },
   { id: 1, name: "Black", hex: "#000000" },
@@ -320,9 +321,7 @@ const AddProduct = () => {
               method: "POST",
               headers: {
                 "content-type": "application/json",
-                authorization: `bearer ${localStorage.getItem(
-                  "shop-adidas-token"
-                )}`,
+                authorization: `bearer ${Cookies.get("shop-adidas-token")}`,
               },
               body: JSON.stringify({ ...product }),
             })

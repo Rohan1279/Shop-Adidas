@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export const setAuthToken = (user, logOut) => {
   let currentUser = {
     email: user?.email,
@@ -15,7 +17,8 @@ export const setAuthToken = (user, logOut) => {
     .then((data) => {
       // save token in localstorage
       if (data?.token) {
-        localStorage.setItem("shop-adidas-token", data?.token);
+        // localStorage.setItem("shop-adidas-token", data?.token);
+        Cookies.set("shop-adidas-token", data?.token, { expires: 7 });
         return data?.token;
       } else {
         console.log(data?.message);

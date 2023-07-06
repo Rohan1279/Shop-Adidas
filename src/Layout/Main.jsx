@@ -16,6 +16,7 @@ const Chat = lazy(() => import("../Shared/Chat/Chat"));
 // import Chat from "../Shared/Chat/Chat";
 import { io } from "socket.io-client";
 import Loader from "../components/Loader/Loader";
+import Cookies from "js-cookie";
 // import Chat from "../Shared/Chat/Chat";
 
 export const CartContext = createContext();
@@ -36,6 +37,7 @@ const Main = () => {
       initialCart.push(foundProduct);
     }
   }
+  // console.log(JSON.parse(Cookies.get('shop-adidas-token')));
   // a function to calculate time spent from now
   // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);

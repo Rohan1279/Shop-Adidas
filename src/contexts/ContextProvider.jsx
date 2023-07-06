@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import { dataLoader } from "../utils/dataLoader";
 import useRole from "../hooks/useRole";
+import Cookies from "js-cookie";
 
 export const Context = createContext();
 const auth = getAuth(app);
@@ -49,7 +50,9 @@ const ContextProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   };
   const logOut = () => {
-    localStorage.removeItem("shop-adidas-token");
+    // localStorage.removeItem("shop-adidas-token");
+    Cookies.remove('shop-adidas-token');
+
     return signOut(auth);
   };
   useEffect(() => {
