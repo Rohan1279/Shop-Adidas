@@ -10,6 +10,7 @@ import { Transition } from "@headlessui/react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import Loader from "../../components/Loader/Loader";
 import { dataLoader } from "../../utils/dataLoader";
+import Cookies from "js-cookie";
 
 //! add pagination feature
 const Products = () => {
@@ -48,6 +49,8 @@ const Products = () => {
   const handleBrowseProduct = (id) => {
     const selectedProduct = products?.find((product) => product._id === id);
     // console.log(selectedProduct);
+    // localStorage.setItem("selectedProduct", JSON.stringify(selectedProduct));
+    Cookies.set('selectedProduct', JSON.stringify(selectedProduct));
     navigate(`/products/product/${id}`, { state: selectedProduct });
   };
   return (

@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate, useOutletContext } from "react-router-dom";
+import {
+  NavLink,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
@@ -7,11 +12,13 @@ import { Context } from "../../contexts/ContextProvider";
 import { addToDb } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
+import Cookies from "js-cookie";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
   // console.log(contactSeller);
   const [cart, setCart] = useContext(CartContext);
   const { state } = useLocation();
+  console.log(JSON.parse(Cookies.get('selectedProduct')));
   let navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [prevSize, setPrevSize] = useState(null);
@@ -19,17 +26,29 @@ const ProductDetail = () => {
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   // console.log(state);
   const seller = {
-    seller: state?.seller,
-    seller_default_image: state?.seller_default_image,
-    seller_email: state?.seller_email, //replace with seller_id
-    seller_id: state?.seller_id,
-    seller_name: state?.seller_name,
-    seller_phone: state?.seller_phone,
+    seller:
+      state?.seller ||
+      JSON.parse(Cookies.get('selectedProduct'))?.seller,
+    seller_default_image:
+      state?.seller_default_image ||
+      JSON.parse(Cookies.get('selectedProduct'))?.seller_default_image,
+    seller_email:
+      state?.seller_email ||
+      JSON.parse(Cookies.get('selectedProduct'))?.seller_email, //replace with seller_id
+    seller_id:
+      state?.seller_id ||
+      JSON.parse(Cookies.get('selectedProduct'))?.seller_id,
+    seller_name:
+      state?.seller_name ||
+      JSON.parse(Cookies.get('selectedProduct'))?.seller_name,
+    seller_phone:
+      state?.seller_phone ||
+      JSON.parse(Cookies.get('selectedProduct'))?.seller_phone,
   };
   // useEffect(() => {
   //   setContactSeller({})
   // }, [location])
-  
+
   // console.log(prevSize?.innerText);
   const handleAddToCart = (selectedProduct) => {
     // const productId = selectedProduct.id;
@@ -137,8 +156,9 @@ const ProductDetail = () => {
                 In stock
               </p>
               <button
-              onClick={()=> setContactSeller(seller)}
-              className="w-full mt-2 md:mt-0 col-span-2 md:ml-2 flex h-10 items-center justify-center rounded-md border border-zinc-300 transition-all active:shadow-nm-inset px-2">
+                onClick={() => setContactSeller(seller)}
+                className="col-span-2 mt-2 flex h-10 w-full items-center justify-center rounded-md border border-zinc-300 px-2 transition-all active:shadow-nm-inset md:mt-0 md:ml-2"
+              >
                 <img
                   src="https://cdn0.iconfinder.com/data/icons/3d-online-shop/256/icbsv2_7.png"
                   className="h-7 w-7"

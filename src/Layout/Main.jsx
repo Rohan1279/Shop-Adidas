@@ -47,14 +47,14 @@ const Main = () => {
       console.log("not in detail page");
     }
   }, [location]);
- 
+
   //
   return (
     <CartContext.Provider value={[cart, setCart, initialCart]}>
       <div className="relative h-fit bg-secondary-color  ">
         <Navbar />
 
-        <Suspense
+        {/* <Suspense
           fallback={
             <div className="flex h-screen w-full items-center">
               <Loader></Loader>
@@ -66,8 +66,9 @@ const Main = () => {
           >
             <Outlet context={[contactSeller, setContactSeller]} />
           </div>
-        </Suspense>
-        {/* <Outlet /> */}
+        </Suspense> */}
+        <Outlet context={[contactSeller, setContactSeller]} />
+
         <Chat
           socket={socket}
           contactSeller={contactSeller}
@@ -80,4 +81,7 @@ const Main = () => {
 
 export default Main;
 
-
+// q; what is ssl certificate?
+// a: ssl certificate is a digital certificate that authenticates the identity of a website and encrypts information sent to the server using SSL technology. Encryption is the process of scrambling data into an undecipherable format that can only be returned to a readable format with the proper decryption key.
+// q: what is ssl?
+// a: SSL stands for Secure Sockets Layer, a global standard security technology that enables encrypted communication between a web browser and a web server. It is utilized by millions1 of online businesses and individuals to decrease the risk of sensitive information (e.g., credit card numbers, usernames, passwords, emails, etc.) from being stolen or tampered with by hackers and identity thieves. In essence, SSL allows for a private “conversation” just between the two intended parties.
