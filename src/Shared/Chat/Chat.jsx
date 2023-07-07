@@ -1,5 +1,5 @@
 import "./Chat.css";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../../contexts/ContextProvider";
 import {
@@ -14,6 +14,7 @@ import { IoIosAttach } from "react-icons/io";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { Transition } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
+import Loader from "../../components/Loader/Loader";
 const ChatBox = lazy(() => import("../Chat/ChatBox"));
 
 // const socket = io.connect("http://localhost:5001");
@@ -60,7 +61,7 @@ function Chat({ socket, contactSeller, setContactSeller }) {
       return;
     } else {
       // when clicked outside
-      setShowChat(false);
+      // setShowChat(false);
     }
   });
   const { data: sellerList = [], refetch } = useQuery({
@@ -184,22 +185,22 @@ function Chat({ socket, contactSeller, setContactSeller }) {
   // console.log(messageList);
 
   return (
-    <div
-      className={` 
-      fixed top-full right-0 z-50
-      md:top-auto md:bottom-8 md:right-8  ${
+    <div>
+      <div
+        className={`chat-button
+      fixed bottom-5 right-5
+      md:top-auto   ${
         user
           ? "block"
           : location?.pathname.includes("/products/product")
           ? "block"
           : "hidden"
       }`}
-    >
-      <div className="chat-box relative ">
+        onClick={() => setShowChat(!showChat)}
+      >
         {/* //! CHAT BUTTON */}
         <div
-          onClick={() => setShowChat((prev) => !prev)}
-          className={`chat-button realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
+          className={`md:realtive h-12 w-12 select-none overflow-hidden rounded-full  bg-primary-color p-2 shadow-nm active:shadow-nm-inset`}
         >
           <Transition
             show={!showChat}
@@ -229,26 +230,39 @@ function Chat({ socket, contactSeller, setContactSeller }) {
             <GrDown className="absolute translate-x-1/2 translate-y-1/2"></GrDown>
           </Transition>
         </div>
-        <ChatBox
-          showChat={showChat}
-          setShowChat={setShowChat}
-          user={user}
-          isSellerListVisible={isSellerListVisible}
-          setIsSellerListVisible={setIsSellerListVisible}
-          sellerList={sellerList}
-          joinroom={joinroom}
-          currentRoom={currentRoom}
-          setCurrentRoom={setCurrentRoom}
-          messageList={messageList}
-          setMessageList={setMessageList}
-          sendMessage={sendMessage}
-          currentMessage={currentMessage}
-          setCurrentMessage={setCurrentMessage}
-          contactSeller={contactSeller}
-          setContactSeller={setContactSeller}
-          socket={socket}
-        ></ChatBox>
       </div>
+      <Suspense
+        className
+        fallback={
+          <div className="flex h-screen w-full items-center">
+            <Loader></Loader>
+          </div>
+        }
+      >
+        <div className="chat-box fixed
+        top-0  z-50
+        md:top-auto md:bottom-20 md:right-5 z">
+          <ChatBox
+            showChat={showChat}
+            setShowChat={setShowChat}
+            user={user}
+            isSellerListVisible={isSellerListVisible}
+            setIsSellerListVisible={setIsSellerListVisible}
+            sellerList={sellerList}
+            joinroom={joinroom}
+            currentRoom={currentRoom}
+            setCurrentRoom={setCurrentRoom}
+            messageList={messageList}
+            setMessageList={setMessageList}
+            sendMessage={sendMessage}
+            currentMessage={currentMessage}
+            setCurrentMessage={setCurrentMessage}
+            contactSeller={contactSeller}
+            setContactSeller={setContactSeller}
+            socket={socket}
+          ></ChatBox>
+        </div>
+      </Suspense>
     </div>
   );
 }

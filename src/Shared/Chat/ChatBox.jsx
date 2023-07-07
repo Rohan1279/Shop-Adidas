@@ -1,26 +1,37 @@
 import { Transition } from "@headlessui/react";
-import { GrDown, GrEmoji, GrFormNext, GrFormPrevious, GrSend } from "react-icons/gr";
+import {
+  GrDown,
+  GrEmoji,
+  GrFormNext,
+  GrFormPrevious,
+  GrSend,
+} from "react-icons/gr";
 import { IoIosAttach } from "react-icons/io";
 import { TbMailOff } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-export default function ChatBox({showChat, setShowChat, user,isSellerListVisible,
-    setIsSellerListVisible,
-    sellerList,
-    joinroom,
-    currentRoom,
-    setCurrentRoom,
-    messageList,
-    setMessageList,
-    sendMessage,
-    currentMessage,
-    setCurrentMessage,
-    contactSeller,
-    setContactSeller}) {
-    const navigate = useNavigate();
+export default function ChatBox({
+  showChat,
+  setShowChat,
+  user,
+  isSellerListVisible,
+  setIsSellerListVisible,
+  sellerList,
+  joinroom,
+  currentRoom,
+  setCurrentRoom,
+  messageList,
+  setMessageList,
+  sendMessage,
+  currentMessage,
+  setCurrentMessage,
+  contactSeller,
+  setContactSeller,
+}) {
+  const navigate = useNavigate();
   return (
-    <div>
+    <div className="">
       {/* //! CHAT BOX */}
       <Transition
         show={showChat}
@@ -32,10 +43,13 @@ export default function ChatBox({showChat, setShowChat, user,isSellerListVisible
         leaveTo="translate-y-5  opacity-0"
       >
         <div
-          className={`absolute bottom-0 
-        right-0 h-screen   w-screen  -translate-y-12 
-        overflow-hidden  rounded-xl  bg-secondary-color shadow-nm 
-        md:bottom-20 md:-right-0 md:h-[26rem] md:w-96 md:translate-y-0`}
+          //   className={`
+          // h-screen
+          //  w-screen   -translate-y-12  overflow-hidden
+          // rounded-xl  bg-secondary-color  shadow-nm md:absolute
+          // md:bottom-20 md:-right-0 md:h-[26rem] md:w-96 md:translate-y-0`}
+          className="h-screen  w-screen  overflow-hidden rounded-xl bg-secondary-color shadow-nm
+          md:h-[26rem] md:w-96"
         >
           {!user && !user?.uid ? (
             <button
@@ -56,7 +70,7 @@ export default function ChatBox({showChat, setShowChat, user,isSellerListVisible
               {" "}
               {/* //! SELLER INFO */}
               <div
-                className={` flex w-full  items-center justify-start gap-x-2  bg-red-500 pl-2 pt-2 pb-2 shadow-sm
+                className={` flex w-full  items-center justify-start gap-x-2 bg-primary-color pl-2 pt-2 pb-2 shadow-sm
              ${isSellerListVisible && "hidden"}
             `}
               >
@@ -239,7 +253,7 @@ export default function ChatBox({showChat, setShowChat, user,isSellerListVisible
               </ScrollToBottom>
               {/* <div className="mx-auto mb-3 w-[95%] rounded-full border  border-gray-300 py-2 px-2 text-sm  focus:shadow-nm-inset disabled:placeholder:text-gray-300"> */}
               <div
-                className={`sticky bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color 
+                className={`fixed bottom-4 left-2 mx-auto mb-3 w-[95%] rounded-full border border-gray-300 bg-secondary-color md:sticky 
             ${Object.keys(currentRoom).length === 0 && "hidden"}
             `}
               >
