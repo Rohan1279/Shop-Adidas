@@ -139,13 +139,13 @@ export default function Messages() {
     }
   });
   return (
-    <div className=" min-h-screen px-10 pt-28 lg:px-32">
+    <div className="h-screen px-4 pt-20 md:px-10 md:py-16 md:pt-28 lg:px-32">
       <div className="flex gap-x-7">
         {/* //! BUYERS' LIST */}
         <div
           className={`
           ${showBuyerList ? "absolute" : "hidden"}
-            z-40 h-[48rem] w-96 flex-col overflow-scroll rounded-lg  bg-secondary-color shadow-nm lg:static lg:flex `}
+            z-40 h-[80vh] md:h-auto  max-w-[18rem] md:w-96 flex-col overflow-scroll rounded-lg  bg-secondary-color shadow-nm lg:static lg:flex `}
         >
           {/* //! SEARCH BOX */}
           <form
@@ -154,7 +154,7 @@ export default function Messages() {
           >
             <input
               type={"text"}
-              placeholder={"search a product"}
+              placeholder={"enter buyer's name"}
               className=" w-full rounded-full border border-zinc-300 bg-secondary-color p-2 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
             />
             <button
@@ -204,7 +204,7 @@ export default function Messages() {
           ))}
         </div>
 
-        <ScrollToBottom className="relative h-[48rem] w-full min-w-[20rem] overflow-hidden rounded-lg pb-16  shadow-nm">
+        <ScrollToBottom className="relative h-[80vh] md:h-[48rem] w-full min-w-[20rem] overflow-hidden rounded-lg pb-16  shadow-nm">
           {/* //! CHAT BOX */}
           <div className="absolute top-0 z-30 flex w-full items-center justify-between  bg-sky-300 p-2 pl-2 shadow-sm">
             <div className="flex  items-center justify-start gap-x-2">
