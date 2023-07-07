@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { Context } from "../../../../contexts/ContextProvider";
 import { Fragment, useContext, useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
-import { GrEmoji, GrSend } from "react-icons/gr";
+import { GrAction, GrEmoji, GrSend } from "react-icons/gr";
 import { FiSend, FiMenu } from "react-icons/fi";
 import { FaEllipsisV } from "react-icons/fa";
 import { IoIosAttach } from "react-icons/io";
@@ -12,6 +12,7 @@ import Modal from "../../../../components/Modal/Modal";
 import { toast } from "react-hot-toast";
 import Loader from "../../../../components/Loader/Loader";
 import Cookies from "js-cookie";
+import { HiOutlineXMark } from "react-icons/hi2";
 const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
 
 function formatAMPM(date) {
@@ -37,6 +38,7 @@ export default function Messages() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [currentBuyer, setCurrentBuyer] = useState({});
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [showBuyerList, setShowBuyerList] = useState(false);
   const { data: buyersList = [], refetch } = useQuery({
     queryKey: ["buyersList", user?.email],
     queryFn: () => {
@@ -118,7 +120,7 @@ export default function Messages() {
       }`,
       {
         headers: {
-          authorization: `bearer ${Cookies.get('shop-adidas-token')}`,
+          authorization: `bearer ${Cookies.get("shop-adidas-token")}`,
         },
       }
     )
@@ -132,30 +134,43 @@ export default function Messages() {
     } else {
       // when clicked outside
       if (!e.target.closest(".dropdown-button")) {
-        setIsDropdownOpen(false);
+        // setIsDropdownOpen(false);
       }
     }
   });
   return (
-    <div className=" min-h-screen px-32 pt-28">
+    <div className=" min-h-screen px-10 pt-28 lg:px-32">
       <div className="flex gap-x-7">
         {/* //! BUYERS' LIST */}
-        <div className="h-[48rem] w-96 flex-col overflow-scroll rounded-lg shadow-nm md:hidden lg:flex ">
+        <div
+          className={`
+          ${showBuyerList ? "absolute" : "hidden"}
+            z-40 h-[48rem] w-96 flex-col overflow-scroll rounded-lg  bg-secondary-color shadow-nm lg:static lg:flex `}
+        >
           {/* //! SEARCH BOX */}
           <form
             onSubmit={(e) => e.preventDefault()}
-            className=" flex h-14 items-center bg-primary-color px-2 shadow-sm"
+            className="relative z-40 flex h-14 items-center bg-primary-color px-2 shadow-sm"
           >
             <input
               type={"text"}
               placeholder={"search a product"}
               className=" w-full rounded-full border border-zinc-300 bg-secondary-color p-2 text-center text-sm focus:shadow-nm-inset focus:outline-none disabled:placeholder:text-gray-300 "
             />
+            <button
+              onClick={() => setShowBuyerList(false)}
+              className="ml-2 h-6 w-6 rounded-full border border-zinc-300 active:shadow-nm-inset md:hidden"
+            >
+              <HiOutlineXMark className="mx-auto text-lg text-zinc-500"></HiOutlineXMark>
+            </button>
           </form>
           {buyersList?.map((buyer, idx) => (
             <div
               key={idx}
-              onClick={() => joinroom(buyer)}
+              onClick={() => {
+                joinroom(buyer);
+                setShowBuyerList(false);
+              }}
               className={`w-full cursor-pointer px-4 py-3  hover:bg-zinc-300 ${
                 currentRoom?.room === buyer?.room ? "bg-zinc-300" : ""
               } `}
@@ -170,7 +185,7 @@ export default function Messages() {
                   className="h-8 w-8 rounded-full "
                 />
                 <div>
-                  <p className=" text-sm font-thin tracking-wider text-gray-600">
+                  <p className="truncate text-sm font-thin tracking-wider text-gray-600">
                     {buyer?.buyer}
                   </p>
                   <div className="flex text-xs font-thin tracking-wider text-gray-400">
@@ -189,12 +204,15 @@ export default function Messages() {
           ))}
         </div>
 
-        <ScrollToBottom className="relative h-[48rem] w-full overflow-hidden rounded-lg pb-16  shadow-nm">
+        <ScrollToBottom className="relative h-[48rem] w-full min-w-[20rem] overflow-hidden rounded-lg pb-16  shadow-nm">
           {/* //! CHAT BOX */}
-          <div className="absolute top-0 z-50 flex w-full items-center justify-between  bg-sky-300 p-2 pl-2 shadow-sm">
+          <div className="absolute top-0 z-30 flex w-full items-center justify-between  bg-sky-300 p-2 pl-2 shadow-sm">
             <div className="flex  items-center justify-start gap-x-2">
               <button>
-                <FiMenu className="hover:text-gray-600 active:text-gray-600 md:hidden lg:block"></FiMenu>
+                <FiMenu
+                  onClick={() => setShowBuyerList((prev) => !prev)}
+                  className="static hover:text-gray-600 active:text-gray-600 lg:hidden"
+                ></FiMenu>
               </button>
               <img
                 src={
@@ -232,7 +250,7 @@ export default function Messages() {
             >
               <div className="dropdown absolute  right-0 z-50 mt-4 w-48 select-none overflow-hidden rounded-lg bg-secondary-color shadow-lg">
                 {/* //! VIEW CONTACT MODAL STARTS*/}
-                <Transition appear show={isDetailModalOpen} as={Fragment}>
+                <Transition show={isDetailModalOpen} as={Fragment}>
                   <Dialog
                     open={isDetailModalOpen}
                     className="relative z-10"
@@ -270,8 +288,10 @@ export default function Messages() {
                                 <p className="text-center text-xs font-thin tracking-wider text-gray-500 ">
                                   Active Status
                                 </p>
-                                <button className="h-6 w-6 rounded-full text-gray-500 shadow-nm">
-                                  X
+                                <button
+                                onClick={() => setIsDetailModalOpen(false)}
+                                className="h-6 w-6 rounded-full text-gray-500 shadow-nm active:shadow-nm-inset">
+                                  <HiOutlineXMark className="mx-auto text-lg text-zinc-500"></HiOutlineXMark>
                                 </button>
                               </div>
                               <img
@@ -326,7 +346,7 @@ export default function Messages() {
                 {/* //! VIEW CONTACT MODAL ENDS*/}
                 <button
                   onClick={() => {
-                    setIsDetailModalOpen(!isDetailModalOpen);
+                    setIsDetailModalOpen(true);
                     handleViewBuyer();
                   }}
                   className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
@@ -411,7 +431,7 @@ export default function Messages() {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0 "
                 >
-                  <div className={`X px-3`}>
+                  <div className={` px-3`}>
                     <div
                       className={`w-fit ${
                         user?.email === messageContent?.author

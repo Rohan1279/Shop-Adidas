@@ -24,9 +24,9 @@ const Cart = () => {
     // toast.warning("Product removed", { autoClose: 500 });
   };
   return (
-    <div className="h-screen md:flex justify-center gap-x-36 mt-10 pt-20">
+    <div className="mt-10 h-screen justify-center gap-x-36 pt-20 md:flex">
       <div className="overflow-scroll ">
-        <h2 className="text-3xl font-extrabold text-center lg:text-left">
+        <h2 className="text-center text-3xl font-extrabold lg:text-left">
           Your Cart
         </h2>
         <Transition
@@ -49,15 +49,15 @@ const Cart = () => {
             ></CartItem>
           ))}
           {cart?.length === 0 && (
-            <div className="text-center space-y-2 ">
-              <BsCartX className="text-4xl mx-auto lg:ml-0"></BsCartX>
+            <div className="space-y-2 text-center ">
+              <BsCartX className="mx-auto text-4xl lg:ml-0"></BsCartX>
               <p>Looks like your cart is empty. Add something in your cart.</p>
             </div>
           )}
         </Transition>
       </div>
-      <div className=" lg:w-96 mx-2">
-        <h2 className="text-3xl font-extrabold mb-5 text-black text-center lg:text-left">
+      <div className=" mx-2 lg:w-96">
+        <h2 className="mb-5 text-center text-3xl font-extrabold text-black lg:text-left">
           Order Summary
         </h2>
         <div className="leading-7 ">
@@ -71,11 +71,11 @@ const Cart = () => {
           <p className="flex justify-between">
             Delivery: <span className="text-gray-500">$0</span>
           </p>
-          <hr className="border-gray-400 my-3" />
+          <hr className="my-3 border-gray-400" />
           <p className="flex justify-between">
             Total: <span className="text-gray-500">${totalPrice}</span>
           </p>
-          <hr className="border-gray-400 my-3" />
+          <hr className="my-3 border-gray-400" />
         </div>
       </div>
     </div>

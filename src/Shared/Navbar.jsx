@@ -81,7 +81,7 @@ const Navbar = () => {
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
                         <div className="relative grid gap-8 bg-white lg:grid-cols-2 ">
                           <div className="z-20 h-fit bg-secondary-color sm:hidden">
-                            <div className="space-y-1 px-2 pt-2 pb-3 z-50">
+                            <div className="z-50 space-y-1 px-2 pt-2 pb-3">
                               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                               <NavLink
                                 onClick={() => setActive(!active)}
@@ -167,12 +167,12 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-x-2 lg:flex-1">
             <img
-              className="block h-10 w-auto lg:hidden rounded-lg bg-sky-300/70"
+              className="block h-10 w-auto rounded-lg bg-sky-300/70 lg:hidden"
               src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
               alt="Your Company"
             />
             <img
-              className="hidden h-10 w-auto lg:block rounded-lg bg-sky-300/70"
+              className="hidden h-10 w-auto rounded-lg bg-sky-300/70 lg:block"
               src="https://i.ibb.co/9bsFzZ2/fashion-6807362-5600842.webp"
               alt="Your Company"
             />

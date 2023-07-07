@@ -26,24 +26,21 @@ const ProductDetail = () => {
   const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
   // console.log(state);
   const seller = {
-    seller:
-      state?.seller ||
-      JSON.parse(Cookies.get('selectedProduct'))?.seller,
+    seller: state?.seller || JSON.parse(Cookies.get("selectedProduct"))?.seller,
     seller_default_image:
       state?.seller_default_image ||
-      JSON.parse(Cookies.get('selectedProduct'))?.seller_default_image,
+      JSON.parse(Cookies.get("selectedProduct"))?.seller_default_image,
     seller_email:
       state?.seller_email ||
-      JSON.parse(Cookies.get('selectedProduct'))?.seller_email, //replace with seller_id
+      JSON.parse(Cookies.get("selectedProduct"))?.seller_email, //replace with seller_id
     seller_id:
-      state?.seller_id ||
-      JSON.parse(Cookies.get('selectedProduct'))?.seller_id,
+      state?.seller_id || JSON.parse(Cookies.get("selectedProduct"))?.seller_id,
     seller_name:
       state?.seller_name ||
-      JSON.parse(Cookies.get('selectedProduct'))?.seller_name,
+      JSON.parse(Cookies.get("selectedProduct"))?.seller_name,
     seller_phone:
       state?.seller_phone ||
-      JSON.parse(Cookies.get('selectedProduct'))?.seller_phone,
+      JSON.parse(Cookies.get("selectedProduct"))?.seller_phone,
   };
   // useEffect(() => {
   //   setContactSeller({})
