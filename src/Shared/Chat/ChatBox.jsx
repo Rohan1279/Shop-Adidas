@@ -48,7 +48,7 @@ export default function ChatBox({
           //  w-screen   -translate-y-12  overflow-hidden
           // rounded-xl  bg-secondary-color  shadow-nm md:absolute
           // md:bottom-20 md:-right-0 md:h-[26rem] md:w-96 md:translate-y-0`}
-          className="h-screen  w-screen  overflow-hidden rounded-xl bg-secondary-color shadow-nm
+          className="h-screen w-screen overflow-hidden rounded-xl bg-secondary-color shadow-nm
           md:h-[26rem] md:w-96"
         >
           {!user && !user?.uid ? (

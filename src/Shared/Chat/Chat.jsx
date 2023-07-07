@@ -61,7 +61,7 @@ function Chat({ socket, contactSeller, setContactSeller }) {
       return;
     } else {
       // when clicked outside
-      // setShowChat(false);
+      setShowChat(false);
     }
   });
   const { data: sellerList = [], refetch } = useQuery({
@@ -108,6 +108,7 @@ function Chat({ socket, contactSeller, setContactSeller }) {
     }
   };
   useEffect(() => {
+    refetch();
     if (Object.keys(contactSeller).length !== 0) {
       setShowChat(true);
       setCurrentRoom(contactSeller);
@@ -187,7 +188,7 @@ function Chat({ socket, contactSeller, setContactSeller }) {
   return (
     <div>
       <div
-        className={`chat-button
+        className={`chat-box
       fixed bottom-5 right-5
       md:top-auto   ${
         user
@@ -239,9 +240,11 @@ function Chat({ socket, contactSeller, setContactSeller }) {
           </div>
         }
       >
-        <div className="chat-box fixed
-        top-0  z-50
-        md:top-auto md:bottom-20 md:right-5 z">
+        <div
+          className="chat-box
+        fixed top-0
+        z-50 md:top-auto md:bottom-20 md:right-5"
+        >
           <ChatBox
             showChat={showChat}
             setShowChat={setShowChat}
