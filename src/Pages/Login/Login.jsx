@@ -1,4 +1,4 @@
-import { GoogleAuthProvider } from "firebase/auth";
+import { FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import useRole from "../../hooks/useRole";
 import { toast } from "react-hot-toast";
 
 const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 const Login = () => {
   const { authInfo } = useContext(Context);
@@ -109,7 +110,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        // toast.error(err.message); hi 
+        // toast.error(err.message); hi
       });
   };
   return (
@@ -195,6 +196,7 @@ const Login = () => {
               className="h-12 w-12 rounded-full bg-secondary-color p-2 shadow-nm active:shadow-nm-inset"
             />
             <img
+              onClick={() => handleAuthenticate(facebookProvider)}
               src="https://cdn3.iconfinder.com/data/icons/3d-applications/256/app_icons_social_media___facebook_logo_social_network_media_online.png"
               alt=""
               className="h-12 w-12 rounded-full bg-secondary-color p-2 shadow-nm active:shadow-nm-inset"

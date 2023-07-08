@@ -53,7 +53,10 @@ export default function ChatBox({
         >
           {!user && !user?.uid ? (
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => {
+                navigate("/login");
+                setShowChat(false);
+              }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
             >
               Login/Register
