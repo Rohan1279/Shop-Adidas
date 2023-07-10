@@ -94,7 +94,6 @@ function Chat({ socket, contactSeller, setContactSeller }) {
 
     console.log(seller);
     setIsSellerListVisible(false);
-    if (user.email) {
       if (seller?.room) {
         setCurrentRoom(seller);
         // setCurrentBuyer({});
@@ -105,7 +104,6 @@ function Chat({ socket, contactSeller, setContactSeller }) {
           room: room,
         });
       }
-    }
   };
   useEffect(() => {
     refetch();
