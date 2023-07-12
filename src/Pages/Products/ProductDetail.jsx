@@ -48,8 +48,10 @@ const ProductDetail = () => {
       ...selectedProduct,
       size: prevSize?.innerText,
     };
-    const { setCart } = useCart();
+    const { cart, setCart } = useCart();
     setCart(selectedProductWithSize);
+    // console.log(cart);
+
     //! PREVIOUS CODE STARTS
     // let newCart = [];
     // const exists = cart?.find(

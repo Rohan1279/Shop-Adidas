@@ -3,17 +3,16 @@ import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Context } from "../../contexts/ContextProvider";
 import { CartContext } from "../../Layout/Main";
-import { removeFromDb } from "../../utils/fakeDB";
+import { removeFromDb, useCart } from "../../utils/fakeDB";
 import CartItem from "./CartItem";
 import { BsCartX } from "react-icons/bs";
 import { dataLoader } from "../../utils/dataLoader";
 const Cart = () => {
-  const [cart, setCart] = useContext(CartContext);
-  console.log(cart);
-  // const { products, categories } = useContext(Context);
+  // const [cart, setCart] = useContext(CartContext);
+  const { cart, setCart } = useCart();
+
+  // console.log(cart);
   const { products, categories, isSuccess, isFetching } = dataLoader();
-  // const [remainingCart, setRemainingCart] = useState(cart);
-  console.log(cart);
   let totalPrice = cart
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);

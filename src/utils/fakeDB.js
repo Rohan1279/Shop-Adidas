@@ -33,18 +33,20 @@ const addToDb = (cart) => {
   // console.log(shoppingCart);
   Cookies.set("shopping-cart", JSON.stringify(cart));
 };
-const useCart = () => {
+const useCart = (products) => {
+  // console.log(products);
   const getCart = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    // console.log(cart);
-    return cart;
+    const storedCart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
+
+    const foundProducts = storedCart?.map((item) => {
+      const product = products?.find((product) => product._id === item._id);
+      return { ...product, size: item.size, quantity: item.quantity };
+    });
+    // console.log(foundProducts);
+    return foundProducts;
   };
-
-  // const setCart = (cart) => {};
-
   const setCart = (selectedProduct) => {
     const cart = getCart();
-    console.log(cart);
     let updatedCart;
 
     // Check if the product already exists in the cart
@@ -60,10 +62,14 @@ const useCart = () => {
       updatedCart = [...cart];
     } else {
       // Product doesn't exist in the cart
-      const productWithQuantity = { ...selectedProduct, quantity: 1 };
+      const productWithQuantity = {
+        _id: selectedProduct?._id,
+        size: selectedProduct?.size,
+        quantity: 1,
+      };
       updatedCart = [...cart, productWithQuantity];
     }
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    localStorage.setItem("shopping-cart", JSON.stringify(updatedCart));
   };
 
   return { cart: getCart(), setCart };
