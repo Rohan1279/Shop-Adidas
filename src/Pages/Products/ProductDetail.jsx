@@ -9,14 +9,13 @@ import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
 import { Context } from "../../contexts/ContextProvider";
-import { addToDb, useCart } from "../../utils/fakeDB";
+import {useCart } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 import Cookies from "js-cookie";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
   // console.log(contactSeller);
-  const [cart, setCart] = useContext(CartContext);
   const { state } = useLocation();
   // console.log(JSON.parse(Cookies.get('selectedProduct')));
   let navigate = useNavigate();

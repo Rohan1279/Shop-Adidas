@@ -8,10 +8,9 @@ import CartItem from "./CartItem";
 import { BsCartX } from "react-icons/bs";
 import { dataLoader } from "../../utils/dataLoader";
 const Cart = () => {
-  // const [cart, setCart] = useContext(CartContext);
-  const { cart, setCart } = useCart();
+  const { cart, setCart } = useContext(CartContext);
 
-  // console.log(cart);
+  console.log(cart);
   const { products, categories, isSuccess, isFetching } = dataLoader();
   let totalPrice = cart
     .map((product) => product?.price * product?.quantity)

@@ -10,7 +10,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Context } from "../contexts/ContextProvider";
 import Navbar from "../Shared/Navbar";
 import { dataLoader } from "../utils/dataLoader";
-import { getStoredCart, useCart } from "../utils/fakeDB";
+import { useCart } from "../utils/fakeDB";
 import Footer from "../Shared/Footer";
 const Chat = lazy(() => import("../Shared/Chat/Chat"));
 // import Chat from "../Shared/Chat/Chat";
@@ -27,7 +27,6 @@ const Main = () => {
   const { products } = dataLoader();
 
   const { cart, setCart } = useCart(products);
-  console.log(cart);
 
   const [contactSeller, setContactSeller] = useState({});
   useEffect(() => {
@@ -39,7 +38,7 @@ const Main = () => {
 
   //
   return (
-    <CartContext.Provider value={[cart, setCart]}>
+    <CartContext.Provider value={{ cart, setCart }}>
       <div className="relative h-fit bg-secondary-color  ">
         <Navbar />
 

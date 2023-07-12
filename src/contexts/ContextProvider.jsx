@@ -79,21 +79,6 @@ const ContextProvider = ({ children }) => {
     userRole,
     setUserRole,
   };
-
-  // const storedProducts = getStoredCart(); //! products with id
-  // const initialCart = [];
-  // for (const _id in storedProducts) {
-  //   const foundProduct = products?.find((product) => product._id === _id);
-  //   if (foundProduct) {
-  //     foundProduct.quantity = storedProducts[_id];
-  //     initialCart.push(foundProduct);
-  //   }
-  // }
-  // const [cart, setCart] = useState(initialCart);
-
-  // if (isLoading) {
-  //   return <h2 className="text-4xl text-center rotating-dots">Loading</h2>;
-  // } else
     return (
       <Context.Provider
         value={{
