@@ -9,7 +9,7 @@ import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
 import { Context } from "../../contexts/ContextProvider";
-import { addToDb } from "../../utils/fakeDB";
+import { addToDb, useCart } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 import Cookies from "js-cookie";
@@ -42,55 +42,42 @@ const ProductDetail = () => {
       state?.seller_phone ||
       JSON.parse(Cookies.get("selectedProduct"))?.seller_phone,
   };
-  // useEffect(() => {
-  //   setContactSeller({})
-  // }, [location])
 
-  // console.log(prevSize?.innerText);
   const handleAddToCart = (selectedProduct) => {
-    // const productId = selectedProduct.id;
-    // const existingCartItemIndex = cart.find(
-    //   (item) => item.productId === productId
+    const selectedProductWithSize = {
+      ...selectedProduct,
+      size: prevSize?.innerText,
+    };
+    const { setCart } = useCart();
+    setCart(selectedProductWithSize);
+    //! PREVIOUS CODE STARTS
+    // let newCart = [];
+    // const exists = cart?.find(
+    //   (existingProduct) =>
+    //     existingProduct._id === selectedProduct._id &&
+    //     existingProduct.size === prevSize?.innerText
     // );
-    // if (existingCartItemIndex !== -1) {
-    //   const updatedCart = [...cart];
-    //   updatedCart[existingCartItemIndex] = {
-    //     productId,
-    //     stock: updatedCart[existingCartItemIndex]?.stock + 1,
-    //     size: prevSize?.innerText,
-    //   };
-    //   setCart(updatedCart);
-    //   addToDb(selectedProduct._id);
+    // if (exists) {
+    //   exists.quantity += 1;
+    //   const rest = cart.filter(
+    //     (existingPrduct) => existingPrduct._id !== selectedProduct._id
+    //   );
+    //   newCart = [...rest, exists];
     // } else {
-    //   const updatedCart = [
-    //     ...cart,
-    //     { productId, stock: 1, size: prevSize?.innerText },
-    //   ];
-    //   setCart(updatedCart);
-    // addToDb(selectedProduct._id, prevSize?.innerText);
-
+    //   selectedProduct.quantity = 1;
+    //   selectedProduct.size = prevSize?.innerText;
+    //   newCart = [...cart, selectedProduct];
     // }
-    let newCart = [];
-    const exists = cart?.find(
-      (existingProduct) =>
-        existingProduct._id === selectedProduct._id &&
-        existingProduct.size === prevSize?.innerText
-    );
-    if (exists) {
-      exists.stock += 1;
-      const rest = cart.filter(
-        (existingPrduct) => existingPrduct._id !== selectedProduct._id
-      );
-      newCart = [...rest, exists];
-    } else {
-      selectedProduct.stock = 1;
-      selectedProduct.size = prevSize?.innerText;
-      newCart = [...cart, selectedProduct];
-    }
-    console.log(newCart);
-    setCart(newCart);
-    // ! check in addToDb if product of same
-    addToDb(selectedProduct._id, prevSize?.innerText);
+    // console.log(newCart);
+    // setCart(newCart);
+    // // ! check in addToDb if product of same size exists
+    // // addToDb(
+    // //   selectedProduct._id,
+    // //   selectedProduct?.size,
+    // //   selectedProduct?.quantity
+    // // );
+    // addToDb(newCart);
+    // //! PREVIOUS CODE ENDS
   };
 
   // console.log(cart);

@@ -1,26 +1,72 @@
+import Cookies from "js-cookie";
+import { useState } from "react";
+
 // use local storage to manage cart data
-const addToDb = (_id, prevSize) => {
-  let shoppingCart = {};
-  //get the shopping cart from local storage
-  const storedCart = localStorage.getItem("shopping-cart");
-  if (storedCart) {
-    shoppingCart = JSON.parse(storedCart);
-  }
+const addToDb = (cart) => {
+  // ! PREVIOUS CODE STARTS
+  // let shoppingCart = {};
+  // //get the shopping cart from local storage
+  // const storedCart = localStorage.getItem("shopping-cart");
+  // if (storedCart) {
+  //   shoppingCart = JSON.parse(storedCart);
+  // }
+  // // console.log(shoppingCart);
+  // // add quantity
+  // const product = shoppingCart[_id];
+  // // const quantity = product[0];
+  // // const size = product[1];
+  // if (product && shoppingCart[_id][1] === prevSize) {
+  //   console.log(product);
+  //   const newQuantity = product[0] + 1;
+  //   shoppingCart[_id][0] = newQuantity;
+  // } else {
+  //   const newProductId = _id;
+  //   shoppingCart[newProductId] = [1, prevSize];
+  //   // console.log(shoppingCart);
+  // }
+  // localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
+  // ! PREVIOUS CODE ENDS
+  // let shoppingCart = [];
+  // const selectedProduct = { _id, size, quantity };
+  // shoppingCart.push(selectedProduct);
+  // localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
   // console.log(shoppingCart);
-  // add quantity
-  const product = shoppingCart[_id];
-  // const quantity = product[0];
-  // const size = product[1];
-  if (product && shoppingCart[_id][1] === prevSize) {
-    console.log(product);
-    const newQuantity = product[0] + 1;
-    shoppingCart[_id][0] = newQuantity;
-  } else {
-    const newProductId = _id;
-    shoppingCart[newProductId] = [1, prevSize];
-    // console.log(shoppingCart);
-  }
-  localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
+  Cookies.set("shopping-cart", JSON.stringify(cart));
+};
+const useCart = () => {
+  const getCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    // console.log(cart);
+    return cart;
+  };
+
+  // const setCart = (cart) => {};
+
+  const setCart = (selectedProduct) => {
+    const cart = getCart();
+    console.log(cart);
+    let updatedCart;
+
+    // Check if the product already exists in the cart
+    const existingProductIndex = cart.findIndex(
+      (item) =>
+        item._id === selectedProduct._id && item.size === selectedProduct.size
+    );
+
+    if (existingProductIndex !== -1) {
+      // Product already exists in the cart
+      const existingProduct = cart[existingProductIndex];
+      existingProduct.quantity += 1;
+      updatedCart = [...cart];
+    } else {
+      // Product doesn't exist in the cart
+      const productWithQuantity = { ...selectedProduct, quantity: 1 };
+      updatedCart = [...cart, productWithQuantity];
+    }
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  return { cart: getCart(), setCart };
 };
 
 const getStoredCart = () => {
@@ -48,4 +94,4 @@ const deleteShoppingCart = () => {
   localStorage.removeItem("shopping-cart");
 };
 
-export { addToDb, getStoredCart, removeFromDb, deleteShoppingCart };
+export { addToDb, getStoredCart, removeFromDb, deleteShoppingCart, useCart };

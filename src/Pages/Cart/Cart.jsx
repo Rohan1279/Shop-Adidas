@@ -9,6 +9,7 @@ import { BsCartX } from "react-icons/bs";
 import { dataLoader } from "../../utils/dataLoader";
 const Cart = () => {
   const [cart, setCart] = useContext(CartContext);
+  console.log(cart);
   // const { products, categories } = useContext(Context);
   const { products, categories, isSuccess, isFetching } = dataLoader();
   // const [remainingCart, setRemainingCart] = useState(cart);
@@ -16,12 +17,12 @@ const Cart = () => {
   let totalPrice = cart
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
-  const handleRemoveItem = (_id) => {
-    const remaining = cart?.filter((product) => product._id !== _id);
+  const handleRemoveItem = (_id, size) => {
+    const remaining = cart?.filter((product) => {
+      product._id !== _id && product.size !== size;
+    });
     setCart(remaining);
-    // setRemainingCart(remaining);
     removeFromDb(_id);
-    // toast.warning("Product removed", { autoClose: 500 });
   };
   return (
     <div className="mt-10 h-screen justify-center gap-x-36 pt-20 md:flex">
@@ -39,9 +40,9 @@ const Cart = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          {cart?.map((product) => (
+          {cart?.map((product, idx) => (
             <CartItem
-              key={product._id}
+              key={idx}
               product={product}
               handleRemoveItem={handleRemoveItem}
               cart={cart}

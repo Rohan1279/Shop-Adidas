@@ -25,9 +25,9 @@ const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
 const Main = () => {
   const location = useLocation();
   const { products } = dataLoader();
-  // console.log(products);
+
+
   const storedProducts = getStoredCart(); //! products with id
-  // console.log(storedProducts);
   const initialCart = [];
   for (const _id in storedProducts) {
     const foundProduct = products?.find((product) => product._id === _id);
@@ -37,12 +37,10 @@ const Main = () => {
       initialCart.push(foundProduct);
     }
   }
-  // console.log(JSON.parse(Cookies.get('shop-adidas-token')));
-  // a function to calculate time spent from now
   // console.log(initialCart);
   const [cart, setCart] = useState(initialCart);
+
   const [contactSeller, setContactSeller] = useState({});
-  // console.log(contactSeller);
   useEffect(() => {
     if (!location?.pathname.includes("/products/product")) {
       setContactSeller({});
