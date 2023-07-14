@@ -22,7 +22,7 @@ const Cart = () => {
     addToCart(remaining);
   };
   return (
-    <div className="mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
+    <div className="relative mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
       <div className="">
         <h2 className="text-center text-3xl font-extrabold lg:text-left">
           Your Cart
@@ -37,7 +37,7 @@ const Cart = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="max-h-[44rem] overflow-scroll border ">
+          <div className="max-h-[36rem] md:max-h-[44rem] overflow-scroll border ">
             {getStoredCart()?.map((product, idx) => (
               <CartItem
                 key={idx}
@@ -58,8 +58,12 @@ const Cart = () => {
           </div>
         </Transition>
       </div>
-      <div className=" mx-2 lg:w-96">
-        <h2 className="mb-5 text-center text-3xl font-extrabold text-black lg:text-left">
+      <div
+        className=" absolute bottom-0
+      w-screen bg-primary-color px-2 md:static 
+      md:mx-2 md:w-96 md:bg-secondary-color  md:px-0 pb-16 md:pb-0"
+      >
+        <h2 className=" text-center text-3xl font-extrabold text-black md:mb-5 lg:text-left">
           Order Summary
         </h2>
         <div className="leading-7 ">
@@ -73,11 +77,11 @@ const Cart = () => {
           <p className="flex justify-between">
             Delivery: <span className="text-gray-500">$0</span>
           </p>
-          <hr className="my-3 border-gray-400" />
+          <hr className="my-3  border-gray-400 md:block" />
           <p className="flex justify-between">
             Total: <span className="text-gray-500">${totalPrice}</span>
           </p>
-          <hr className="my-3 border-gray-400" />
+          <hr className="my-3 hidden border-gray-400 md:block" />
         </div>
       </div>
     </div>

@@ -16,9 +16,9 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
       leaveFrom="opacity-100 -translate-y-0"
       leaveTo="opacity-0 -translate-y-14"
     >
-      <div className="">
+      <div className="md:w-[36rem] px-5 md:px-0">
         <div
-          className={`relative my-5 mx-auto flex w-[36rem] border border-gray-300 bg-primary-color text-lg `}
+          className={`relative my-5 mx-auto flex  border border-gray-300 bg-primary-color text-lg `}
         >
           <img src={img} alt="" className="w-48" />
           <div className="flex-1 p-4">
@@ -44,7 +44,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
               className="absolute bottom-3 right-3 flex  items-center space-x-1 bg-gray-300 px-2 py-1 "
               onClick={() => {
                 setIsVisible(false);
-                // handleRemoveItem(_id, size);
+                handleRemoveItem(_id, size);
               }}
             >
               <svg
