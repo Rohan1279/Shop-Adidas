@@ -26,19 +26,28 @@ const Main = () => {
   const location = useLocation();
   const { products } = dataLoader();
 
-  const { cart, setCart } = useCart(products);
+  const { addToCart, getStoredCart } = useCart(products);
+  const [cart, setCart] = useState(getStoredCart());
+  // const [cart, setCart] = useState(storedCart);
+  // useEffect(() => {
+  //   setCart(storedCart);
+  //   //causing an infinte loop
+  // }, []);
+  // useEffect(() => {
+  //   console.log("cart changed");
+  // }, [cart]);
 
   const [contactSeller, setContactSeller] = useState({});
   useEffect(() => {
     if (!location?.pathname.includes("/products/product")) {
       setContactSeller({});
-      console.log("not in detail page");
+      // console.log("not in detail page");
     }
   }, [location]);
 
   //
   return (
-    <CartContext.Provider value={{ cart, setCart }}>
+    <CartContext.Provider value={{ cart, setCart, getStoredCart, addToCart }}>
       <div className="relative h-fit bg-secondary-color  ">
         <Navbar />
 

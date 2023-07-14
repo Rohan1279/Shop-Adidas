@@ -8,19 +8,26 @@ import CartItem from "./CartItem";
 import { BsCartX } from "react-icons/bs";
 import { dataLoader } from "../../utils/dataLoader";
 const Cart = () => {
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
 
-  console.log(cart);
+  // console.log(cart);
   const { products, categories, isSuccess, isFetching } = dataLoader();
-  let totalPrice = cart
+  let totalPrice = getStoredCart()
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
+  // console.log("cart", cart);
   const handleRemoveItem = (_id, size) => {
-    const remaining = cart?.filter((product) => {
-      product._id !== _id && product.size !== size;
-    });
+    // console.log(_id, size);
+    // console.log(cart);
+    const remaining = getStoredCart()?.filter(
+      (product) => product._id !== _id || product.size !== size
+    );
+    // console.log("remaining", remaining);
+    // localStorage.setItem("shopping-cart", JSON.stringify(remaining));
+
     setCart(remaining);
-    removeFromDb(_id);
+    addToCart(remaining);
+    // removeFromDb(_id, size);
   };
   return (
     <div className="mt-10 h-screen justify-center gap-x-36 pt-20 md:flex">
@@ -38,16 +45,16 @@ const Cart = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          {cart?.map((product, idx) => (
+          {getStoredCart()?.map((product, idx) => (
             <CartItem
               key={idx}
               product={product}
               handleRemoveItem={handleRemoveItem}
-              cart={cart}
+              cart={getStoredCart()}
               // isShowing={isShowing}
             ></CartItem>
           ))}
-          {cart?.length === 0 && (
+          {getStoredCart()?.length === 0 && (
             <div className="space-y-2 text-center ">
               <BsCartX className="mx-auto text-4xl lg:ml-0"></BsCartX>
               <p>Looks like your cart is empty. Add something in your cart.</p>
@@ -62,7 +69,7 @@ const Cart = () => {
         <div className="leading-7 ">
           <p className="flex justify-between">
             Total Products:{" "}
-            <span className="text-gray-500">{cart?.length}</span>{" "}
+            <span className="text-gray-500">{getStoredCart()?.length}</span>{" "}
           </p>
           <p className="flex justify-between">
             Subtotal: <span className="text-gray-500">${totalPrice}</span>

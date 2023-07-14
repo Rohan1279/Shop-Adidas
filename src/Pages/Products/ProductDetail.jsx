@@ -9,12 +9,16 @@ import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
 import { Context } from "../../contexts/ContextProvider";
-import {useCart } from "../../utils/fakeDB";
+import { useCart } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 import Cookies from "js-cookie";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
+
+  const { cart, setCart, getStoredCart, addToCart } = useCart();
+  // console.log(cart);
+
   // console.log(contactSeller);
   const { state } = useLocation();
   // console.log(JSON.parse(Cookies.get('selectedProduct')));
@@ -47,9 +51,7 @@ const ProductDetail = () => {
       ...selectedProduct,
       size: prevSize?.innerText,
     };
-    const { cart, setCart } = useCart();
-    setCart(selectedProductWithSize);
-    // console.log(cart);
+    addToCart(selectedProductWithSize);
 
     //! PREVIOUS CODE STARTS
     // let newCart = [];

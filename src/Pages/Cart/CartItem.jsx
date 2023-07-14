@@ -54,7 +54,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
             type="button"
             className="ml-auto mr-0  flex items-center space-x-1 px-2 py-1 pl-0"
             onClick={() => {
-              setIsShowing(!isShowing);
+              // setIsShowing(!isShowing);
               handleRemoveItem(_id, size);
             }}
           >

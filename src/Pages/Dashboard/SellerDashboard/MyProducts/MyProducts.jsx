@@ -62,7 +62,7 @@ const MyProducts = () => {
         )}&dateOrder=${dateOrder}&priceOrder=${priceOrder}&ratingsOrder=${ratingsOrder}&search=${search}`,
         {
           headers: {
-            authorization: `bearer ${Cookies.get('shop-adidas-token')}`,
+            authorization: `bearer ${Cookies.get("shop-adidas-token")}`,
           },
         }
       ).then((res) => res.json()),
@@ -87,12 +87,11 @@ const MyProducts = () => {
   // useEffect(() => {
   //   setCurrentPage(0);
   // }, [limit, priceOrder, dateOrder]);
-  console.log("isFetching", isFetching);
+  // console.log("isFetching", isFetching);
   // console.log(products);
-  console.log("dateOrder", parseInt(dateOrder));
-  console.log("priceOrder", parseInt(priceOrder));
-  console.log("ratingsOrder", parseInt(ratingsOrder));
-
+  // console.log("dateOrder", parseInt(dateOrder));
+  // console.log("priceOrder", parseInt(priceOrder));
+  // console.log("ratingsOrder", parseInt(ratingsOrder));
   const confirmModal = async () => {
     setIsOpen(false);
     try {
@@ -104,7 +103,7 @@ const MyProducts = () => {
         {
           headers: {
             "content-type": "application/json",
-            authorization: `bearer ${Cookies.get('shop-adidas-token')}`,
+            authorization: `bearer ${Cookies.get("shop-adidas-token")}`,
           },
         }
       );
@@ -143,7 +142,7 @@ const MyProducts = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 px-5  transition-all duration-300 ease-in-out">
+    <div className="min-h-screen px-5 pt-20  transition-all duration-300 ease-in-out">
       <div
         className={`mx-auto mt-5 flex max-w-7xl flex-col ${
           location.pathname.includes("/dashboard/myproducts/edit/") && "hidden"
@@ -534,6 +533,7 @@ const MyProducts = () => {
                               navigate(`/products/product/${product._id}`, {
                                 state: product,
                               });
+                              console.log(product);
                             }}
                             className="active: h-8 w-8 cursor-pointer rounded-md bg-secondary-color p-2  shadow-nm transition-all hover:brightness-95 active:shadow-nm-inset"
                           >
