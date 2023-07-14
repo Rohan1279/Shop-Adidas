@@ -10,28 +10,20 @@ import { dataLoader } from "../../utils/dataLoader";
 const Cart = () => {
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
 
-  // console.log(cart);
   const { products, categories, isSuccess, isFetching } = dataLoader();
   let totalPrice = getStoredCart()
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
-  // console.log("cart", cart);
   const handleRemoveItem = (_id, size) => {
-    // console.log(_id, size);
-    // console.log(cart);
     const remaining = getStoredCart()?.filter(
       (product) => product._id !== _id || product.size !== size
     );
-    // console.log("remaining", remaining);
-    // localStorage.setItem("shopping-cart", JSON.stringify(remaining));
-
     setCart(remaining);
     addToCart(remaining);
-    // removeFromDb(_id, size);
   };
   return (
-    <div className="mt-10 h-screen justify-center gap-x-36 pt-20 md:flex">
-      <div className="overflow-scroll ">
+    <div className="mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
+      <div className="">
         <h2 className="text-center text-3xl font-extrabold lg:text-left">
           Your Cart
         </h2>
@@ -45,21 +37,25 @@ const Cart = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          {getStoredCart()?.map((product, idx) => (
-            <CartItem
-              key={idx}
-              product={product}
-              handleRemoveItem={handleRemoveItem}
-              cart={getStoredCart()}
-              // isShowing={isShowing}
-            ></CartItem>
-          ))}
-          {getStoredCart()?.length === 0 && (
-            <div className="space-y-2 text-center ">
-              <BsCartX className="mx-auto text-4xl lg:ml-0"></BsCartX>
-              <p>Looks like your cart is empty. Add something in your cart.</p>
-            </div>
-          )}
+          <div className="max-h-[44rem] overflow-scroll border ">
+            {getStoredCart()?.map((product, idx) => (
+              <CartItem
+                key={idx}
+                product={product}
+                handleRemoveItem={handleRemoveItem}
+                cart={getStoredCart()}
+                // isShowing={isShowing}
+              ></CartItem>
+            ))}
+            {getStoredCart()?.length === 0 && (
+              <div className="space-y-2 text-center ">
+                <BsCartX className="mx-auto text-4xl lg:ml-0"></BsCartX>
+                <p>
+                  Looks like your cart is empty. Add something in your cart.
+                </p>
+              </div>
+            )}
+          </div>
         </Transition>
       </div>
       <div className=" mx-2 lg:w-96">

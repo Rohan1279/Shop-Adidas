@@ -29,10 +29,24 @@ module.exports = {
           "90%": { transform: "translate(1px, 1px) " },
           "100%": { transform: "translate(1px, -1px)" },
         },
+        fadeOutTop: {
+          "0%": {
+            // -webkit-transform: translateY(0);
+            transform: "translateY(0)",
+            opacity: 1,
+          },
+          "100%": {
+            // -webkit-transform: translateY(-50px);
+            transform: "translateY(-50px)",
+            opacity: 0,
+            visibility: "hidden"
+          },
+        },
       },
       animation: {
         wiggle: "wiggle 1s ease-in-out ",
         shake: "shake .5s ease-in-out ",
+        fadeOutTop: "fadeOutTop 1s ease-in-out",
       },
     },
   },
