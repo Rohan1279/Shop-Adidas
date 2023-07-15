@@ -79,11 +79,12 @@ const Cart = () => {
             Delivery: <span className="text-gray-500">$0</span>
           </p>
           <hr className="my-3  border-gray-400 md:block" />
-          <p className="flex justify-between">
-            Total: <span className="text-gray-500">${totalPrice}</span>
+          <p className="flex justify-between font-bold text-gray-700">
+            Total: <span className="">${totalPrice}</span>
           </p>
           <hr className="my-3 hidden border-gray-400 md:block" />
         </div>
+        <div></div>
       </div>
     </div>
   );

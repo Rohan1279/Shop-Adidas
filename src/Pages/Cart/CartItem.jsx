@@ -1,10 +1,13 @@
 import { Transition } from "@headlessui/react";
 import React, { useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useNavigate } from "react-router-dom";
 
 const CartItem = ({ product, handleRemoveItem, cart }) => {
   const { _id, name, price, quantity, img, size, color } = product;
   const [isVisible, setIsVisible] = useState(true);
-  // console.log(product);
+  const navigate = useNavigate();
+
   return (
     <Transition
       appear={true}
@@ -16,11 +19,20 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
       leaveFrom="opacity-100 -translate-y-0"
       leaveTo="opacity-0 -translate-y-14"
     >
-      <div className="px-5 md:w-[36rem] md:px-0  mx-4 ">
+      <div className="px-5 md:h-[] md:w-[36rem]  md:px-0">
         <div
-          className={`relative rounded-md overflow-hidden my-5 mx-auto flex  border border-gray-300 bg-primary-color text-lg `}
+          className={`relative my-5 mx-auto flex overflow-hidden rounded-md border  border-gray-300 bg-primary-color text-lg md:h-[12rem] `}
         >
-          <img src={img} alt="" className="w-48" />
+          <LazyLoadImage
+            src={img}
+            alt=""
+            className="w-48 cursor-pointer"
+            effect="blur"
+            onClick={() => {
+              navigate(`/products/product/${_id}`, { state: product });
+            }}
+          ></LazyLoadImage>
+          <img />
           <div className="flex-1 p-4">
             <h2 className="text-lg font-semibold tracking-wider  text-gray-700 ">
               {name}

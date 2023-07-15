@@ -15,14 +15,12 @@ export default function AddToCartModal({
 }) {
   let [isOpen, setIsOpen] = useState(false);
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
-  // console.log(data);
   let totalPrice = getStoredCart()
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
   let quantity = getStoredCart().filter(
     (product) => product._id === data._id && product.size === prevSize
   )[0]?.quantity;
-  console.log(quantity);
 
   return (
     <>
