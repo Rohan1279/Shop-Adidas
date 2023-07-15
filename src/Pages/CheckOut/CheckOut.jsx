@@ -17,7 +17,7 @@ export default function CheckOut() {
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
   const navigate = useNavigate();
-  console.log(errors.email);
+  console.log(errors.name);
   const handleAddProduct = (data) => {};
   return (
     <div className="relative mx-auto min-h-screen max-w-7xl justify-between gap-x-36 py-24 md:flex">
@@ -57,7 +57,7 @@ export default function CheckOut() {
             </div>
             <div className="mb-5">
               <InputField
-                pattern={/^[a-zA-Z ]+$/}
+                pattern={/^[a-zA-Z]+ [a-zA-Z]+$/}
                 fieldName={"Full Name"}
                 register={register}
                 placeholder={"your name"}
@@ -77,9 +77,9 @@ export default function CheckOut() {
                   Should be more than 6 characters
                 </p>
               )}
-              {errors.name?.pattern === "pattern" && (
+              {errors.name?.type === "pattern" && (
                 <p role="alert" className="text-sm text-red-400">
-                  Name should only contain letters
+                  Name must contain letters and spaces
                 </p>
               )}
             </div>
@@ -112,7 +112,7 @@ export default function CheckOut() {
         </span>
         <div className="overflow-y-scroll rounded-md border bg-primary-color p-2">
           {getStoredCart()?.map((product, idx) => (
-            <div className="px-5 md:h-[]   md:px-0">
+            <div key={idx} className="px-5 md:h-[]   md:px-0">
               <div
                 className={`relative my-1 mx-auto flex items-center gap-x-2 overflow-hidden rounded-md border  border-gray-300 bg-primary-color px-2 text-lg md:h-[7rem] `}
               >
