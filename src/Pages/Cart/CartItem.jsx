@@ -10,7 +10,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
 
   return (
     <Transition
-      appear={true}
+      // appear={true}
       show={isVisible}
       enter="transition-all duration-[400ms]"
       enterFrom="opacity-0 "

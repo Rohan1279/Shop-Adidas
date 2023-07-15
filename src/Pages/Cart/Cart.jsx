@@ -7,6 +7,8 @@ import { removeFromDb, useCart } from "../../utils/fakeDB";
 import CartItem from "./CartItem";
 import { BsCartX } from "react-icons/bs";
 import { dataLoader } from "../../utils/dataLoader";
+import { HiArrowRight } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
 
@@ -21,15 +23,12 @@ const Cart = () => {
     setCart(remaining);
     addToCart(remaining);
   };
-  console.log(getStoredCart());
+  const navigate = useNavigate();
   return (
     <div className="relative mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
       <div className="">
-        <h2 className="text-center text-3xl font-extrabold lg:text-left">
-          Your Cart
-        </h2>
         <Transition
-          appear={true}
+          // appear={true}
           show={true}
           enter="transition-all duration-[400ms]"
           enterFrom="opacity-0 "
@@ -84,7 +83,19 @@ const Cart = () => {
           </p>
           <hr className="my-3 hidden border-gray-400 md:block" />
         </div>
-        <div></div>
+        <div>
+          <h3 className="text-xs font-medium tracking-wider  text-gray-600">
+            *Delivery charge and taxes will be calculated after an address is
+            provided.
+          </h3>{" "}
+          <button
+            onClick={() => navigate("/cart/checkout")}
+            type="button"
+            className="mt-10 w-full rounded-md  border border-gray-300 bg-secondary-color py-3  text-sm font-medium tracking-wider text-gray-700 transition-all active:shadow-nm-inset"
+          >
+            Checkout <HiArrowRight className="ml-2 inline-block"></HiArrowRight>
+          </button>
+        </div>
       </div>
     </div>
   );
