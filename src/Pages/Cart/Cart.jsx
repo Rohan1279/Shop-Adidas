@@ -27,6 +27,9 @@ const Cart = () => {
   return (
     <div className="relative mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
       <div className="">
+        <h2 className="text-center text-3xl font-extrabold lg:text-left">
+          Your Cart
+        </h2>
         <Transition
           // appear={true}
           show={true}
@@ -72,21 +75,47 @@ const Cart = () => {
             <span className="text-gray-500">{getStoredCart()?.length}</span>{" "}
           </p>
           <p className="flex justify-between">
-            Subtotal: <span className="text-gray-500">${totalPrice}</span>
+            Subtotal:{" "}
+            <span className="">
+              {isNaN(totalPrice) ? (
+                <p className="ml-1 inline text-xs font-thin tracking-wide text-gray-500">
+                  calculating
+                </p>
+              ) : (
+                <p className="inline"> ${totalPrice}</p>
+              )}
+            </span>
           </p>
           <p className="flex justify-between">
-            Delivery: <span className="text-gray-500">$0</span>
+            Delivery:{" "}
+            <span className="">
+              {isNaN(totalPrice) ? (
+                <p className="inline text-xs font-thin tracking-wide text-gray-500 ">
+                  calculating
+                </p>
+              ) : (
+                <p>$0</p>
+              )}
+            </span>
           </p>
-          <hr className="my-3  border-gray-400 md:block" />
+          <hr className="my-3  border-gray-400 md:block border-dashed" />
           <p className="flex justify-between font-bold text-gray-700">
-            Total: <span className="">${totalPrice}</span>
+            Total:{" "}
+            <span className="">
+              {isNaN(totalPrice) ? (
+                <p className="ml-1 inline text-xs font-thin tracking-wide text-gray-500">
+                  calculating
+                </p>
+              ) : (
+                <p className="inline"> ${totalPrice}</p>
+              )}
+            </span>
           </p>
-          <hr className="my-3 hidden border-gray-400 md:block" />
+          <hr className="my-3 hidden border-gray-400 md:block border-dashed" />
         </div>
         <div>
           <h3 className="text-xs font-medium tracking-wider  text-gray-600">
-            *Delivery charge and taxes will be calculated after an address is
-            provided.
+            *Delivery and taxes will be calculated after an address is provided.
           </h3>{" "}
           <button
             onClick={() => navigate("/cart/checkout")}

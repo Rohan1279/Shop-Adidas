@@ -1,21 +1,14 @@
 import { useContext } from "react";
-import CartItem from "../Cart/CartItem";
 import { CartContext } from "../../Layout/Main";
-import { HiArrowRight } from "react-icons/hi2";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckOut() {
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
   let totalPrice = getStoredCart()
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
-  const handleRemoveItem = (_id, size) => {
-    const remaining = getStoredCart()?.filter(
-      (product) => product._id !== _id || product.size !== size
-    );
-    setCart(remaining);
-    addToCart(remaining);
-  };
+  const navigate = useNavigate();
   return (
     <div className="relative mx-auto min-h-screen max-w-7xl justify-between gap-x-36 py-24 md:flex">
       <div className="">
@@ -47,10 +40,18 @@ export default function CheckOut() {
       w-screen bg-primary-color px-2 pb-16 
       md:static md:mx-2 md:w-[28rem]  md:bg-secondary-color md:px-0 md:pb-0"
       >
-        <h2 className=" text-center text-3xl font-extrabold text-black md:mb-5 lg:text-left">
-          Order Summary
-        </h2>
-        <div className="overflow-y-scroll border bg-primary-color">
+        <span className="flex items-center justify-between">
+          <h2 className=" text-center text-3xl font-extrabold text-black md:mb-5 lg:text-left">
+            Order Summary
+          </h2>
+          <p
+            onClick={() => navigate("/cart")}
+            className="text-sm font-thin tracking-wide  text-gray-500 hover:cursor-pointer hover:underline"
+          >
+            Modify Order
+          </p>
+        </span>
+        <div className="overflow-y-scroll rounded-md border bg-primary-color p-2">
           {getStoredCart()?.map((product, idx) => (
             <div className="px-5 md:h-[]   md:px-0">
               <div
@@ -59,7 +60,7 @@ export default function CheckOut() {
                 <LazyLoadImage
                   src={product?.img}
                   alt=""
-                  className=" h-24 w-24 cursor-pointer"
+                  className=" h-24 w-24 "
                   effect="blur"
                 ></LazyLoadImage>
                 <img />
@@ -78,8 +79,18 @@ export default function CheckOut() {
                       Quantity: {product?.quantity}
                     </h2>
                     <h2 className="text-right text-sm font-semibold tracking-wider  text-gray-700 ">
-                      {/* Total: */}$
-                      {(product?.price * product?.quantity).toFixed(2)}
+                      {/* Total: */}
+                      {isNaN(
+                        (product?.price * product?.quantity).toFixed(2)
+                      ) ? (
+                        <p className="inline text-xs font-thin tracking-wide text-gray-500 ">
+                          calculating
+                        </p>
+                      ) : (
+                        <p>
+                          ${(product?.price * product?.quantity).toFixed(2)}
+                        </p>
+                      )}
                     </h2>
                   </span>
                 </div>
@@ -93,14 +104,35 @@ export default function CheckOut() {
             </div>
           )}
           <div className="my-4 px-4">
-          <hr className="my-4 hidden border-gray-400 md:block" />
+            <hr className="my-4 hidden border-gray-400 md:block border-dashed" />
             <p className="flex justify-between text-base font-semibold tracking-wider  text-gray-700">
-              Delivery : <span className="">$0</span>
+              Delivery :{" "}
+              <span className="">
+                {" "}
+                <span className="">
+                  {isNaN(totalPrice) ? (
+                    <p className="inline text-xs font-thin tracking-wide text-gray-500 ">
+                      calculating
+                    </p>
+                  ) : (
+                    <p>$0</p>
+                  )}
+                </span>
+              </span>
             </p>
             <p className="flex justify-between text-base font-semibold tracking-wider  text-gray-700">
-              Total: <span className="">${totalPrice}</span>
+              Total:{" "}
+              <span className="">
+                {isNaN(totalPrice) ? (
+                  <p className="inline text-xs font-thin tracking-wide text-gray-500 ">
+                    calculating
+                  </p>
+                ) : (
+                  <p>${totalPrice}</p>
+                )}
+              </span>
             </p>
-            <h3 className="text-xs font-medium tracking-wider  text-gray-600 mt-1">
+            <h3 className="mt-1 text-xs font-medium  tracking-wider text-gray-600">
               *Delivery charge and taxes will be calculated after an address is
               provided.
             </h3>{" "}

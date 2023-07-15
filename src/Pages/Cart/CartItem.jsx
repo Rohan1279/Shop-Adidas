@@ -48,7 +48,16 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
                 Quantity: {quantity}
               </h2>
               <h2 className="text-sm font-medium tracking-wider  text-gray-700 ">
-                Total: ${(price * quantity).toFixed(2)}
+                Total:
+                <span className="">
+                  {isNaN((price * quantity).toFixed(2)) ? (
+                    <p className="ml-1 inline text-xs font-thin tracking-wide text-gray-500">
+                      calculating
+                    </p>
+                  ) : (
+                    <p className="inline"> ${(price * quantity).toFixed(2)}</p>
+                  )}
+                </span>
               </h2>
             </span>
             <button
