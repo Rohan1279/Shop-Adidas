@@ -44,7 +44,11 @@ const InputField = ({
         {...register(`${inputName}`, {
           required: required,
           minLength: `${minLength}`,
-          pattern: `${pattern ?? null}`,
+          // pattern: `${pattern ?? null}`,
+          pattern: {
+            value: pattern ?? null,
+            message: "invalid pattern",
+          },
           min: `${min}`,
         })}
         aria-invalid={aria_invalid}

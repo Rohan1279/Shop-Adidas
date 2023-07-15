@@ -20,6 +20,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
       leaveTo="opacity-0 -translate-y-14"
     >
       <div className="px-5 md:h-[] md:w-[36rem]  md:px-0">
+        
         <div
           className={`relative my-5 mx-auto flex overflow-hidden rounded-md border  border-gray-300 bg-primary-color text-lg md:h-[12rem] `}
         >

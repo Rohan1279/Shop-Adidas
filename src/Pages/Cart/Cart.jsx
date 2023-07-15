@@ -72,7 +72,7 @@ const Cart = () => {
         <div className="leading-7 ">
           <p className="flex justify-between">
             Total Products:{" "}
-            <span className="text-gray-500">{getStoredCart()?.length}</span>{" "}
+            <span className="">{getStoredCart()?.length}</span>{" "}
           </p>
           <p className="flex justify-between">
             Subtotal:{" "}
