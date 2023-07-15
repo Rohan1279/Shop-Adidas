@@ -21,6 +21,7 @@ const Cart = () => {
     setCart(remaining);
     addToCart(remaining);
   };
+  console.log(getStoredCart());
   return (
     <div className="relative mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
       <div className="">
@@ -37,7 +38,7 @@ const Cart = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="max-h-[36rem] md:max-h-[44rem] overflow-scroll border ">
+          <div className="max-h-[36rem] overflow-y-scroll  border md:max-h-[44rem] ">
             {getStoredCart()?.map((product, idx) => (
               <CartItem
                 key={idx}
@@ -60,8 +61,8 @@ const Cart = () => {
       </div>
       <div
         className=" absolute bottom-0
-      w-screen bg-primary-color px-2 md:static 
-      md:mx-2 md:w-96 md:bg-secondary-color  md:px-0 pb-16 md:pb-0"
+      w-screen bg-primary-color px-2 pb-16 
+      md:static md:mx-2 md:w-96  md:bg-secondary-color md:px-0 md:pb-0"
       >
         <h2 className=" text-center text-3xl font-extrabold text-black md:mb-5 lg:text-left">
           Order Summary

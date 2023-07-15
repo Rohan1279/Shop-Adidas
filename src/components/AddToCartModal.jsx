@@ -1,7 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { HiOutlineXMark } from "react-icons/hi2";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useCart } from "../utils/fakeDB";
+import { CartContext } from "../Layout/Main";
 
 export default function AddToCartModal({
   modalButtonText,
@@ -12,7 +14,15 @@ export default function AddToCartModal({
   handleAddToCart,
 }) {
   let [isOpen, setIsOpen] = useState(false);
+  const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
   // console.log(data);
+  let totalPrice = getStoredCart()
+    .map((product) => product?.price * product?.quantity)
+    .reduce((a, b) => a + b, 0);
+  let quantity = getStoredCart().filter(
+    (product) => product._id === data._id && product.size === prevSize
+  )[0]?.quantity;
+  console.log(quantity);
 
   return (
     <>
@@ -90,28 +100,30 @@ export default function AddToCartModal({
                         <p className="text-base font-bold">
                           Price: ${data?.price}
                         </p>
-                        <p className="text-base">Quantity: 1</p>
+                        <p className="text-base">Quantity: {quantity}</p>
                       </div>
                     </div>
                     {/* <hr className="border border-red-400 w" /> */}
                     <div className="leading-relaxed">
                       <div className="flex justify-between ">
                         <p>Your Cart: </p>
-                        <p className="ml-4 font-semibold">7 items</p>
+                        <p className="ml-4 font-semibold">
+                          {getStoredCart()?.length} items
+                        </p>
                       </div>
                       <div className="flex justify-between ">
                         <p>Total Product Cost: </p>
-                        <p className="ml-4 font-semibold">$123</p>
+                        <p className="ml-4 font-semibold">${totalPrice}</p>
                       </div>
                       <div className="flex justify-between ">
                         <p>Total Delivery Cost: </p>
-                        <p className="ml-4 font-semibold">$435</p>
+                        <p className="ml-4 font-semibold">$0</p>
                       </div>
 
                       <hr className="my-2" />
                       <div className="flex justify-between">
                         <p>Total: </p>
-                        <p className="font-semibold">$432</p>
+                        <p className="font-semibold">${parseInt(totalPrice)}</p>
                       </div>
                     </div>
                   </div>

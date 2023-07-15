@@ -7,7 +7,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
   // console.log(product);
   return (
     <Transition
-      // appear={true}
+      appear={true}
       show={isVisible}
       enter="transition-all duration-[400ms]"
       enterFrom="opacity-0 "
@@ -16,9 +16,9 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
       leaveFrom="opacity-100 -translate-y-0"
       leaveTo="opacity-0 -translate-y-14"
     >
-      <div className="md:w-[36rem] px-5 md:px-0">
+      <div className="px-5 md:w-[36rem] md:px-0  mx-4 ">
         <div
-          className={`relative my-5 mx-auto flex  border border-gray-300 bg-primary-color text-lg `}
+          className={`relative rounded-md overflow-hidden my-5 mx-auto flex  border border-gray-300 bg-primary-color text-lg `}
         >
           <img src={img} alt="" className="w-48" />
           <div className="flex-1 p-4">
@@ -26,14 +26,14 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
               {name}
             </h2>
             <h2 className="text-base  font-medium tracking-wider  text-gray-700">
-              {color}
+              {color ? color : "No color informtaion"}
             </h2>
             <span>
               <h2 className="text-sm font-medium tracking-wider  text-gray-700">
-                Quantity: {quantity}
+                Size: {product?.size}
               </h2>
               <h2 className="text-sm font-medium tracking-wider  text-gray-700">
-                Size: {product?.size}
+                Quantity: {quantity}
               </h2>
               <h2 className="text-sm font-medium tracking-wider  text-gray-700 ">
                 Total: ${(price * quantity).toFixed(2)}
@@ -43,7 +43,7 @@ const CartItem = ({ product, handleRemoveItem, cart }) => {
               type="button"
               className="absolute bottom-3 right-3 flex  items-center space-x-1 bg-gray-300 px-2 py-1 "
               onClick={() => {
-                setIsVisible(false);
+                // setIsVisible(false);
                 handleRemoveItem(_id, size);
               }}
             >
