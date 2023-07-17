@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 
 export const CartContext = createContext();
 // console.log(import.meta.env.VITE_SERVER_URL);
-const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
+const socket = io.connect(`${import.meta.env.VITE_WEBSOCKET_URL}`);
 const Main = () => {
   const location = useLocation();
   const { products } = dataLoader();

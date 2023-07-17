@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 import Loader from "../../../../components/Loader/Loader";
 import Cookies from "js-cookie";
 import { HiOutlineXMark } from "react-icons/hi2";
-const socket = io.connect(`${import.meta.env.VITE_SERVER_URL}`);
+const socket = io.connect(`${import.meta.env.VITE_WEBSOCKET_URL}`);
 
 function formatAMPM(date) {
   var hours = date.getHours();

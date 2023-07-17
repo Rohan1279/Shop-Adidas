@@ -25,7 +25,7 @@ const Cart = () => {
   };
   const navigate = useNavigate();
   return (
-    <div className="relative mx-auto h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
+    <div className="relative mx-auto min-h-screen max-w-7xl justify-between gap-x-36 pt-24 md:flex">
       <div className="">
         <h2 className="text-center text-3xl font-extrabold lg:text-left">
           Your Cart
@@ -71,8 +71,7 @@ const Cart = () => {
         </h2>
         <div className="leading-7 ">
           <p className="flex justify-between">
-            Total Products:{" "}
-            <span className="">{getStoredCart()?.length}</span>{" "}
+            Total Products: <span className="">{getStoredCart()?.length}</span>{" "}
           </p>
           <p className="flex justify-between">
             Subtotal:{" "}
@@ -98,7 +97,7 @@ const Cart = () => {
               )}
             </span>
           </p>
-          <hr className="my-3  border-gray-400 md:block border-dashed" />
+          <hr className="my-3  border-dashed border-gray-400 md:block" />
           <p className="flex justify-between font-bold text-gray-700">
             Total:{" "}
             <span className="">
@@ -111,19 +110,22 @@ const Cart = () => {
               )}
             </span>
           </p>
-          <hr className="my-3 hidden border-gray-400 md:block border-dashed" />
+          <hr className="my-3 hidden border-dashed border-gray-400 md:block" />
         </div>
         <div>
           <h3 className="text-xs font-medium tracking-wider  text-gray-600">
             *Delivery and taxes will be calculated after an address is provided.
           </h3>{" "}
-          <button
-            onClick={() => navigate("/cart/checkout")}
-            type="button"
-            className="mt-10 w-full rounded-md  border border-gray-300 bg-secondary-color py-3  text-sm font-medium tracking-wider text-gray-700 transition-all active:shadow-nm-inset"
-          >
-            Checkout <HiArrowRight className="ml-2 inline-block"></HiArrowRight>
-          </button>
+          {getStoredCart()?.length > 0 && (
+            <button
+              onClick={() => navigate("/cart/checkout")}
+              type="button"
+              className="mt-10 w-full rounded-md  border border-gray-300 bg-secondary-color py-3  text-sm font-medium tracking-wider text-gray-700 transition-all active:shadow-nm-inset"
+            >
+              Checkout{" "}
+              <HiArrowRight className="ml-2 inline-block"></HiArrowRight>
+            </button>
+          )}
         </div>
       </div>
     </div>

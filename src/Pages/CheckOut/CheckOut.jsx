@@ -1,12 +1,36 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../Layout/Main";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import { useForm } from "react-hook-form";
+import DropDownMenu from "../../components/DropDownMenu/DropDownMenu";
+const userCountry = [
+  { id: 0, name: "United States" },
+  { id: 1, name: "Canada" },
+  { id: 2, name: "United Kingdom" },
+  { id: 3, name: "Germany" },
+  { id: 4, name: "France" },
+  { id: 5, name: "Japan" },
+  { id: 6, name: "Australia" },
+  { id: 7, name: "Brazil" },
+  { id: 8, name: "India" },
+  { id: 9, name: "South Africa" },
+  { id: 10, name: "China" },
+  { id: 11, name: "Russia" },
+  { id: 12, name: "Mexico" },
+  { id: 13, name: "Italy" },
+  { id: 14, name: "Spain" },
+  { id: 15, name: "South Korea" },
+  { id: 16, name: "Saudi Arabia" },
+  { id: 17, name: "Turkey" },
+  { id: 18, name: "Argentina" },
+  { id: 19, name: "Egypt" },
+];
 
 export default function CheckOut() {
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
+  const [selectedCountry, setSelectedCountry] = useState("");
   const {
     register,
     handleSubmit,
@@ -29,10 +53,11 @@ export default function CheckOut() {
           onSubmit={handleSubmit(handleAddProduct)}
           className=" mx-auto mt-10 max-w-7xl "
         >
-          <fieldset className=" rounded-md border border-gray-400/50 p-5">
-            <legend className="rounded-md bg-secondary-color  px-2">
+          <fieldset className="rounded-md border border-gray-400/50 p-5 ">
+            <legend className="rounded-md bg-secondary-color px-2 text-lg font-bold">
               Billing details
             </legend>
+            {/* //! EMAIL ADDRESS */}
             <div className="mb-5">
               <InputField
                 pattern={/^\S+@\S+\.\S+$/}
@@ -45,19 +70,26 @@ export default function CheckOut() {
                 required={true}
               ></InputField>
               {errors.email?.type === "required" && (
-                <p role="alert" className="text-sm text-red-400">
+                <p
+                  role="alert"
+                  className="text-xs font-thin tracking-wide text-red-400 "
+                >
                   Email must be included
                 </p>
               )}
               {errors.email?.type === "pattern" && (
-                <p role="alert" className="text-sm text-red-400">
+                <p
+                  role="alert"
+                  className="text-xs font-thin tracking-wide text-red-400 "
+                >
                   Enter a valid email address
                 </p>
               )}
             </div>
+            {/* //! NAME */}
             <div className="mb-5">
               <InputField
-                pattern={/^[a-zA-Z]+ [a-zA-Z]+$/}
+                pattern={/^[a-zA-Z ]+$/}
                 fieldName={"Full Name"}
                 register={register}
                 placeholder={"your name"}
@@ -68,28 +100,150 @@ export default function CheckOut() {
                 required={true}
               ></InputField>
               {errors.name?.type === "required" && (
-                <p role="alert" className="text-sm text-red-400">
+                <p
+                  role="alert"
+                  className=" text-xs font-thin tracking-wide text-red-400 "
+                >
                   Name must be included
                 </p>
               )}
               {errors.name?.type === "minLength" && (
-                <p role="alert" className="text-sm text-red-400">
+                <p
+                  role="alert"
+                  className=" text-xs font-thin tracking-wide text-red-400 "
+                >
                   Should be more than 6 characters
                 </p>
               )}
               {errors.name?.type === "pattern" && (
-                <p role="alert" className="text-sm text-red-400">
+                <p
+                  role="alert"
+                  className=" text-xs font-thin tracking-wide text-red-400 "
+                >
                   Name must contain letters and spaces
                 </p>
               )}
             </div>
+            <div className="flex justify-between gap-x-5">
+              {/* //! COUNTRY */}
+              <div className="mb-5 flex-1">
+                <div className="col-span-1  flex items-center rounded-md border border-gray-300 bg-gray-300/60   pl-2">
+                  <span className="mr-3  text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Country
+                  </span>
+                  <div className="h-11 w-full border-l border-l-gray-300">
+                    <DropDownMenu
+                      selectedData={selectedCountry}
+                      setSelectedData={setSelectedCountry}
+                      array={userCountry}
+                      // setError={setError}
+                    ></DropDownMenu>
+                  </div>
+                </div>
+              </div>
+              {/* //! STATE */}
+              <div className="mb-5">
+                <InputField
+                  fieldName={"State"}
+                  register={register}
+                  placeholder={"state name"}
+                  inputName={"state"}
+                  maxLength={100}
+                  type={""}
+                  required={true}
+                ></InputField>
+                {errors.state?.type === "required" && (
+                  <p
+                    role="alert"
+                    className=" text-xs font-thin tracking-wide text-red-400 "
+                  >
+                    State name must be included
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex justify-between gap-x-5">
+              {/* //! City */}
+              <div className="mb-5">
+                <InputField
+                  fieldName={"City/Town"}
+                  register={register}
+                  placeholder={"enter a name"}
+                  inputName={"city"}
+                  maxLength={100}
+                  type={"text"}
+                  required={true}
+                ></InputField>
+                {errors.city?.type === "required" && (
+                  <p
+                    role="alert"
+                    className=" text-xs font-thin tracking-wide text-red-400 "
+                  >
+                    City name must be included
+                  </p>
+                )}
+              </div>
+              {/* //! Zipcode */}
+              <div className="mb-5">
+                <InputField
+                  fieldName={"Zip/postal code"}
+                  register={register}
+                  placeholder={"zip code"}
+                  inputName={"zip"}
+                  maxLength={100}
+                  type={""}
+                  required={true}
+                ></InputField>
+                {errors.zip?.type === "required" && (
+                  <p
+                    role="alert"
+                    className=" text-xs font-thin tracking-wide text-red-400 "
+                  >
+                    Zip code must be included
+                  </p>
+                )}
+              </div>
+            </div>
+            {/* //! PHONE NUMBER */}
+            <div className="">
+              <InputField
+                pattern={/^[0-9]+$/}
+                fieldName={"phone number"}
+                register={register}
+                placeholder={"enter your number"}
+                inputName={"phone"}
+                maxLength={100}
+                type={"text"}
+                required={true}
+              ></InputField>
+              {errors.phone?.type === "required" && (
+                <p
+                  role="alert"
+                  className=" text-xs font-thin tracking-wide text-red-400 "
+                >
+                  Phone number must be included
+                </p>
+              )}
+              {errors.phone?.type === "pattern" && (
+                <p
+                  role="alert"
+                  className=" text-xs font-thin tracking-wide text-red-400 "
+                >
+                  Phone number must contain only numbers
+                </p>
+              )}
+            </div>
+          </fieldset>
+          <fieldset className="rounded-md border border-gray-400/50 p-5 mt-5">
+            <legend className="rounded-md bg-secondary-color px-2 text-lg font-bold">
+              Payment Method
+            </legend>
           </fieldset>
           <input
             // disabled={error || selectedProductSize.length === 0 }
-
             type="submit"
             value="Submit"
-            className="mx-auto block w-2/3 cursor-pointer rounded-md  bg-blue-400 p-3 text-white shadow-md shadow-blue-300 transition-all active:scale-95 active:text-black disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
+            className=" mt-5 mx-auto block w-2/3 cursor-pointer rounded-md  bg-blue-400 p-3 text-white shadow-md shadow-blue-300 transition-all active:scale-95 active:text-black disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
           />
         </form>
       </div>
@@ -123,8 +277,8 @@ export default function CheckOut() {
                   effect="blur"
                 ></LazyLoadImage>
                 <img />
-                <div className="flex-1 ">
-                  <h2 className="text-base font-semibold tracking-wider  text-gray-700 ">
+                <div className="py- flex-1">
+                  <h2 className="text-sm font-semibold tracking-wider  text-gray-700 ">
                     {product?.name}
                   </h2>
                   <h2 className="text-sm  font-medium tracking-wider  text-gray-700">
@@ -165,7 +319,7 @@ export default function CheckOut() {
           <div className="my-4 px-4">
             <hr className="my-4 hidden border-dashed border-gray-400 md:block" />
             <p className="flex justify-between text-base font-semibold tracking-wider  text-gray-700">
-              Delivery :{" "}
+              Delivery :
               <span className="">
                 {" "}
                 <span className="">
@@ -180,7 +334,7 @@ export default function CheckOut() {
               </span>
             </p>
             <p className="flex justify-between text-base font-semibold tracking-wider  text-gray-700">
-              Total:{" "}
+              Total :
               <span className="">
                 {isNaN(totalPrice) ? (
                   <p className="inline text-xs font-thin tracking-wide text-gray-500 ">
