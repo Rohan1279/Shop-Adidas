@@ -8,7 +8,12 @@ const useCart = (products) => {
 
     const foundProducts = storedCart?.map((item) => {
       const product = products?.find((product) => product._id === item._id);
-      return { ...product, size: item.size, quantity: item.quantity };
+      return {
+        ...product,
+        _id: item._id,
+        size: item.size,
+        quantity: item.quantity,
+      };
     });
     // console.log("storedCart", storedCart);
     // console.log("foundProducts", foundProducts);

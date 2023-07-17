@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import { useForm } from "react-hook-form";
 import DropDownMenu from "../../components/DropDownMenu/DropDownMenu";
+import { RadioGroup } from "@headlessui/react";
+import { HiCheckCircle } from "react-icons/hi";
+import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
+
 const userCountry = [
   { id: 0, name: "United States" },
   { id: 1, name: "Canada" },
@@ -30,6 +35,8 @@ const userCountry = [
 
 export default function CheckOut() {
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
+  let [paymentMethod, setPaymentMethod] = useState("");
+  // console.log(paymentMethod);
   const [selectedCountry, setSelectedCountry] = useState("");
   const {
     register,
@@ -41,8 +48,38 @@ export default function CheckOut() {
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
   const navigate = useNavigate();
-  console.log(errors.name);
-  const handleAddProduct = (data) => {};
+  // ! change this function name
+  const handleAddProduct = (data) => {
+    console.log("cart", getStoredCart());
+    const order = {
+      products: cart,
+      email: data?.email,
+      name: data?.name,
+      country: selectedCountry.name,
+      state: data?.state,
+      city: data?.city,
+      zip: data?.zip,
+      phone: data?.phone,
+    };
+    fetch(`${import.meta.env.VITE_SERVER_URL}/buyer/order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: Cookies.get("shop-adidas-token"),
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        window.location.replace(data?.url);
+        // if (data?.acknowledged) {
+        //   toast.success("Order placed successfully");
+        //   // setCart([]);
+        //   // navigate("/cart/checkout/success");
+        //   //! reset the form
+        // }
+      });
+  };
   return (
     <div className="relative mx-auto min-h-screen max-w-7xl justify-between gap-x-36 py-24 md:flex">
       <div className="flex-1">
@@ -234,16 +271,64 @@ export default function CheckOut() {
               )}
             </div>
           </fieldset>
-          <fieldset className="rounded-md border border-gray-400/50 p-5 mt-5">
+          {/* //! PAYMENT METHOD */}
+          <fieldset className="mt-5 rounded-md border border-gray-400/50 p-5">
             <legend className="rounded-md bg-secondary-color px-2 text-lg font-bold">
               Payment Method
             </legend>
+            <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
+              {/* <RadioGroup.Label>Plan</RadioGroup.Label> */}
+              <RadioGroup.Option value="credit cart">
+                {({ checked }) => (
+                  <div
+                    className={
+                      checked
+                        ? "flex cursor-pointer bg-blue-200 "
+                        : "flex cursor-pointer pl-6"
+                    }
+                  >
+                    {checked && (
+                      <div className="">
+                        <HiCheckCircle className="h-6 w-6" />
+                      </div>
+                    )}
+                    <div className="flex w-full justify-between ">
+                      <p>Credit Card</p>
+                      <img
+                        className="h-6 opacity-80"
+                        src="https://i.ibb.co/Lk4ZqkV/Credit-Card-Logos.jpg"
+                        alt="Credit-Card-Logos"
+                        border="0"
+                      ></img>
+                    </div>
+                  </div>
+                )}
+              </RadioGroup.Option>
+              <RadioGroup.Option value="business">
+                {({ checked }) => (
+                  <div
+                    className={
+                      checked
+                        ? "flex cursor-pointer bg-blue-200"
+                        : "flex cursor-pointer px-6"
+                    }
+                  >
+                    {checked && (
+                      <div className="shrink-0 text-white">
+                        <HiCheckCircle className="h-6 w-6" />
+                      </div>
+                    )}
+                    <p>Cash on delivery</p>
+                  </div>
+                )}
+              </RadioGroup.Option>
+            </RadioGroup>
           </fieldset>
           <input
             // disabled={error || selectedProductSize.length === 0 }
             type="submit"
             value="Submit"
-            className=" mt-5 mx-auto block w-2/3 cursor-pointer rounded-md  bg-blue-400 p-3 text-white shadow-md shadow-blue-300 transition-all active:scale-95 active:text-black disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
+            className=" mx-auto mt-5 block w-2/3 cursor-pointer rounded-md  bg-blue-400 p-3 text-white shadow-md shadow-blue-300 transition-all active:scale-95 active:text-black disabled:bg-gray-300 disabled:shadow-none disabled:active:scale-100"
           />
         </form>
       </div>

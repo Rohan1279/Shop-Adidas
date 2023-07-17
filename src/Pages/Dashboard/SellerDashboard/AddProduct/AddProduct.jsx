@@ -284,37 +284,6 @@ const AddProduct = () => {
             inStock: false,
           };
           console.log(product);
-          // setIsLoading(false)
-          // fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
-          //   method: "POST",
-          //   headers: {
-          //     "content-type": "application/json",
-          //     authorization: `bearer ${localStorage.getItem(
-          //       "shop-adidas-token"
-          //     )}`,
-          //   },
-          //   body: JSON.stringify({ ...product }),
-          // })
-          //   .then((res) => {
-          //     if (!res.ok) {
-          //       setIsLoading(false);
-          //       setUploadError(true);
-          //       throw new Error(res.statusText);
-          //     }
-          //     return res.json();
-          //   })
-          //   .then((result) => {
-          //     if (result.acknowledged) {
-          //       setUploadError(false);
-
-          //       // toast.success("Product Added successfully!");
-
-          //       form.reset();
-          //       setIsLoading(false);
-          //       navigate("/dashboard/myproducts");
-          //     }
-          //   })
-          //   .catch((err) => toast.error(err))
           // ! post using toast
           toast.promise(
             fetch(`${import.meta.env.VITE_SERVER_URL}/products`, {
