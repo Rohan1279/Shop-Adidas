@@ -29,6 +29,7 @@ import MyBuyers from "../Pages/Dashboard/SellerDashboard/MyBuyers/MyBuyers";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Loader from "../components/Loader/Loader";
 import CheckOut from "../Pages/CheckOut/CheckOut";
+import PaymentSuccess from "../Pages/CheckOut/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Register />,
       },
+     {
+      path: "/payment/success",
+      element: <PaymentSuccess />,
+     }
     ],
   },
   {

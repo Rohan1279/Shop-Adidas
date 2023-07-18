@@ -112,17 +112,6 @@ const AddProduct = () => {
   const fileTypes = ["JPG", "WEBP"];
   const error = !selectedCategory;
   const getDate = () => {
-    // const date = new Date();
-    // let day = date.getDate();
-    // let month = date.getMonth() + 1;
-    // let year = date.getFullYear();
-
-    // let hour = date.getHours();
-    // let minute = date.getMinutes();
-    // let second = date.getSeconds();
-
-    // console.log(posted_on);
-
     const now = new Date();
     const year = now.getFullYear();
     const month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -131,7 +120,6 @@ const AddProduct = () => {
     const minute = ("0" + now.getMinutes()).slice(-2);
     const second = ("0" + now.getSeconds()).slice(-2);
     let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
-
     return posted_on;
   };
   useEffect(() => {

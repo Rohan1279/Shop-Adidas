@@ -48,6 +48,17 @@ export default function CheckOut() {
     .map((product) => product?.price * product?.quantity)
     .reduce((a, b) => a + b, 0);
   const navigate = useNavigate();
+  const getDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = ("0" + (now.getMonth() + 1)).slice(-2);
+    const day = ("0" + now.getDate()).slice(-2);
+    const hour = ("0" + now.getHours()).slice(-2);
+    const minute = ("0" + now.getMinutes()).slice(-2);
+    const second = ("0" + now.getSeconds()).slice(-2);
+    let posted_on = `${day}-${month}-${year} ${hour}:${minute}:${second}`;
+    return posted_on;
+  };
   // ! change this function name
   const handleAddProduct = (data) => {
     console.log("cart", getStoredCart());
@@ -60,25 +71,28 @@ export default function CheckOut() {
       city: data?.city,
       zip: data?.zip,
       phone: data?.phone,
+      orderDate: getDate(),
     };
-    fetch(`${import.meta.env.VITE_SERVER_URL}/buyer/order`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: Cookies.get("shop-adidas-token"),
-      },
-      body: JSON.stringify(order),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        window.location.replace(data?.url);
-        // if (data?.acknowledged) {
-        //   toast.success("Order placed successfully");
-        //   // setCart([]);
-        //   // navigate("/cart/checkout/success");
-        //   //! reset the form
-        // }
-      });
+    if (paymentMethod === "sslcommerz") {
+      fetch(`${import.meta.env.VITE_SERVER_URL}/buyer/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Cookies.get("shop-adidas-token"),
+        },
+        body: JSON.stringify(order),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          window.location.replace(data?.url);
+          // if (data?.acknowledged) {
+          //   toast.success("Order placed successfully");
+          //   // setCart([]);
+          //   // navigate("/cart/checkout/success");
+          //   //! reset the form
+          // }
+        });
+    }
   };
   return (
     <div className="relative mx-auto min-h-screen max-w-7xl justify-between gap-x-36 py-24 md:flex">
@@ -298,6 +312,32 @@ export default function CheckOut() {
                         className="h-6 opacity-80"
                         src="https://i.ibb.co/Lk4ZqkV/Credit-Card-Logos.jpg"
                         alt="Credit-Card-Logos"
+                        border="0"
+                      ></img>
+                    </div>
+                  </div>
+                )}
+              </RadioGroup.Option>
+              <RadioGroup.Option value="sslcommerz">
+                {({ checked }) => (
+                  <div
+                    className={
+                      checked
+                        ? "flex cursor-pointer bg-blue-200 "
+                        : "flex cursor-pointer pl-6"
+                    }
+                  >
+                    {checked && (
+                      <div className="">
+                        <HiCheckCircle className="h-6 w-6" />
+                      </div>
+                    )}
+                    <div className="flex w-full items-start justify-between">
+                      <p>SSLCOMMERZ</p>
+                      <img
+                        className=" h-6 opacity-80"
+                        src="https://i.ibb.co/YDDQb0M/sslcommerz-cropped.png"
+                        alt="sslcommerz-Logos"
                         border="0"
                       ></img>
                     </div>
