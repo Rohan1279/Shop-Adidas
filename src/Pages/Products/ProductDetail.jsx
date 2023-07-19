@@ -15,19 +15,14 @@ import AddToCartModal from "../../components/AddToCartModal";
 import Cookies from "js-cookie";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
-
   const { cart, setCart, getStoredCart, addToCart } = useCart();
-  // console.log(cart);
-
-  // console.log(contactSeller);
   const { state } = useLocation();
-  // console.log(JSON.parse(Cookies.get('selectedProduct')));
+  const { sizes } = state;
   let navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [prevSize, setPrevSize] = useState(null);
+  console.log(state);
   const [sizeError, setSizeError] = useState(false);
-  const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
-  // console.log(state);
   const seller = {
     seller: state?.seller || JSON.parse(Cookies.get("selectedProduct"))?.seller,
     seller_default_image:
@@ -52,35 +47,6 @@ const ProductDetail = () => {
       size: prevSize?.innerText,
     };
     addToCart(selectedProductWithSize);
-
-    //! PREVIOUS CODE STARTS
-    // let newCart = [];
-    // const exists = cart?.find(
-    //   (existingProduct) =>
-    //     existingProduct._id === selectedProduct._id &&
-    //     existingProduct.size === prevSize?.innerText
-    // );
-    // if (exists) {
-    //   exists.quantity += 1;
-    //   const rest = cart.filter(
-    //     (existingPrduct) => existingPrduct._id !== selectedProduct._id
-    //   );
-    //   newCart = [...rest, exists];
-    // } else {
-    //   selectedProduct.quantity = 1;
-    //   selectedProduct.size = prevSize?.innerText;
-    //   newCart = [...cart, selectedProduct];
-    // }
-    // console.log(newCart);
-    // setCart(newCart);
-    // // ! check in addToDb if product of same size exists
-    // // addToDb(
-    // //   selectedProduct._id,
-    // //   selectedProduct?.size,
-    // //   selectedProduct?.quantity
-    // // );
-    // addToDb(newCart);
-    // //! PREVIOUS CODE ENDS
   };
 
   // console.log(cart);
@@ -184,8 +150,8 @@ const ProductDetail = () => {
                 sizeError && "animate-shake"
               } mt-2  flex flex-wrap duration-100`}
             >
-              {sizes.map((size) => (
-                <div key={size}>
+              {sizes?.map((size, id) => (
+                <div key={id}>
                   <button
                     className={`rounded- w-16 border border-zinc-300 py-2 text-sm font-medium text-gray-500 transition-all `}
                     onClick={(e) => {
@@ -194,7 +160,7 @@ const ProductDetail = () => {
 
                     // handler={handleCurrentSize}
                   >
-                    {size}
+                    {size?.name}
                   </button>
                 </div>
               ))}

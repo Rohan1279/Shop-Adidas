@@ -94,16 +94,16 @@ function Chat({ socket, contactSeller, setContactSeller }) {
 
     console.log(seller);
     setIsSellerListVisible(false);
-      if (seller?.room) {
-        setCurrentRoom(seller);
-        // setCurrentBuyer({});
-        socket.emit("join_room/buyer", { room: seller?.room });
-      } else {
-        const room = seller?.seller_email + "+" + user?.email;
-        socket.emit("join_room/buyer", {
-          room: room,
-        });
-      }
+    if (seller?.room) {
+      setCurrentRoom(seller);
+      // setCurrentBuyer({});
+      socket.emit("join_room/buyer", { room: seller?.room });
+    } else {
+      const room = seller?.seller_email + "+" + user?.email;
+      socket.emit("join_room/buyer", {
+        room: room,
+      });
+    }
   };
   useEffect(() => {
     refetch();
@@ -226,7 +226,7 @@ function Chat({ socket, contactSeller, setContactSeller }) {
             leaveFrom="translate-y-0"
             leaveTo="translate-y-10"
           >
-            <GrDown className="absolute translate-x-1/2 translate-y-1/2"></GrDown>
+            <GrDown className="absolute translate-x-1/2 translate-y-1/2 transition-all active:scale-95"></GrDown>
           </Transition>
         </div>
       </div>

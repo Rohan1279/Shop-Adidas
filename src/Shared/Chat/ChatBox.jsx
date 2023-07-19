@@ -102,7 +102,7 @@ export default function ChatBox({
                 </div>
                 <GrDown
                   onClick={() => setShowChat(false)}
-                  className="ml-auto mr-3"
+                  className="ml-auto mr-3 transition-all active:scale-95"
                 ></GrDown>
               </div>
               {/* //! SELLER LIST */}
