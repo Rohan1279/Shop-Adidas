@@ -354,7 +354,7 @@ export default function CheckOut() {
                     }
                   >
                     {checked && (
-                      <div className="shrink-0 text-white">
+                      <div className="">
                         <HiCheckCircle className="h-6 w-6" />
                       </div>
                     )}

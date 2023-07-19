@@ -8,6 +8,7 @@ export default function PaymentSuccess() {
   console.log(transactionId);
   //   /orders/by-transaction-id
   const [order, setOrder] = useState({});
+
   useEffect(() => {
     fetch(
       `${
@@ -20,7 +21,9 @@ export default function PaymentSuccess() {
         setOrder(data);
       });
   }, [transactionId]);
-
+  if (!order?._id) {
+    return <div className="min-h-screen pt-24">No order found</div>;
+  }
   return (
     <div className="min-h-screen pt-24">
       <div className="container mx-auto">
@@ -46,7 +49,6 @@ export default function PaymentSuccess() {
                 </label>
                 <p className="text-base text-gray-700">{order.price}</p>
               </div>
-              
             </div>
           </div>
         </div>

@@ -30,6 +30,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Loader from "../components/Loader/Loader";
 import CheckOut from "../Pages/CheckOut/CheckOut";
 import PaymentSuccess from "../Pages/CheckOut/PaymentSuccess";
+import PaymentFail from "../Pages/CheckOut/PaymentFail";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,14 @@ const router = createBrowserRouter([
         element: <CheckOut />,
       },
       {
+        path: "/payment/success",
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "/payment/fail",
+        element: <PaymentFail />,
+      },
+      {
         path: "/categories/:id",
         element: <CategoryPorducts />,
       },
@@ -77,10 +86,6 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Register />,
       },
-     {
-      path: "/payment/success",
-      element: <PaymentSuccess />,
-     }
     ],
   },
   {
