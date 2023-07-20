@@ -20,8 +20,9 @@ const ProductDetail = () => {
   const { sizes } = state;
   let navigate = useNavigate();
   const [open, setOpen] = useState(true);
+  // console.log(open);
   const [prevSize, setPrevSize] = useState(null);
-  console.log(state);
+  // console.log(state);
   const [sizeError, setSizeError] = useState(false);
   const seller = {
     seller: state?.seller || JSON.parse(Cookies.get("selectedProduct"))?.seller,
@@ -42,6 +43,7 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = (selectedProduct) => {
+    console.log("here");
     const selectedProductWithSize = {
       ...selectedProduct,
       size: prevSize?.innerText,
@@ -145,30 +147,36 @@ const ProductDetail = () => {
               />
               <p className="text-base font-light">Sizes</p>
             </div>
-            <div
-              className={`${
-                sizeError && "animate-shake"
-              } mt-2  flex flex-wrap duration-100`}
-            >
-              {sizes?.map((size, id) => (
-                <div key={id}>
-                  <button
-                    className={`rounded- w-16 border border-zinc-300 py-2 text-sm font-medium text-gray-500 transition-all `}
-                    onClick={(e) => {
-                      handleCurrentSize(e);
-                    }}
+            {sizes ? (
+              <div
+                className={`${
+                  sizeError && "animate-shake"
+                } mt-2  flex flex-wrap duration-100`}
+              >
+                {sizes?.map((size, id) => (
+                  <>
+                    <div key={id}>
+                      <button
+                        className={`rounded- w-16 border border-zinc-300 py-2 text-sm font-medium text-gray-500 transition-all `}
+                        onClick={(e) => {
+                          handleCurrentSize(e);
+                        }}
 
-                    // handler={handleCurrentSize}
-                  >
-                    {size?.name}
-                  </button>
-                </div>
-              ))}
-            </div>
-            {sizeError === true ? (
-              <p className="text-sm text-red-500">Please select a size.</p>
+                        // handler={handleCurrentSize}
+                      >
+                        {size?.name}
+                      </button>
+                    </div>
+                  </>
+                ))}
+                {sizeError === true ? (
+                  <p className="text-sm text-red-500">Please select a size.</p>
+                ) : (
+                  ""
+                )}
+              </div>
             ) : (
-              ""
+              <p className="inline text-sm text-gray-500">No sizes available</p>
             )}
 
             <hr className="my-5 border border-gray-300" />
@@ -208,6 +216,7 @@ const ProductDetail = () => {
               sizeError={sizeError}
               setSizeError={setSizeError}
               handleAddToCart={handleAddToCart}
+              sizes={sizes}
             ></AddToCartModal>
           </section>
         </div>

@@ -12,6 +12,7 @@ export default function AddToCartModal({
   sizeError,
   setSizeError,
   handleAddToCart,
+  sizes,
 }) {
   let [isOpen, setIsOpen] = useState(false);
   const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
@@ -29,7 +30,8 @@ export default function AddToCartModal({
           type="button"
           onClick={() => {
             prevSize && handleAddToCart(data);
-            !prevSize ? setSizeError(true) : setIsOpen(!isOpen);
+            (!prevSize && sizes) ? setSizeError(true) : setIsOpen(!isOpen);
+            !sizes && handleAddToCart(data);
           }}
           className={`mx-auto mt-3 block w-1/2 rounded-md border border-zinc-300  py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800 active:shadow-nm-inset disabled:bg-gray-300`}
         >
