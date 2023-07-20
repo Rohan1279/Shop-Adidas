@@ -7,6 +7,7 @@ import { Context } from "../../contexts/ContextProvider";
 import { setAuthToken } from "../../hooks/setAuthToken";
 import useRole from "../../hooks/useRole";
 import { useToken } from "../../hooks/useToken";
+import { toast } from "react-hot-toast";
 const googleProvider = new GoogleAuthProvider();
 // const githubProvider = new GithubAuthProvider();
 const Register = () => {
@@ -83,14 +84,17 @@ const Register = () => {
         // saveUser(name, email, userRole);
 
         setAuthToken(user);
-        verifyEmail().then(() => {
-          console.log(
-            "%Email sent for verification",
-            "color: yellow; font-size: 24px;"
-          );
-          // navigate(from, { replace: true });
-          navigate("/");
-        });
+        toast.success("Account created successfully");
+        navigate("/products");
+        // verifyEmail().then(() => {
+        //   console.log(
+        //     "%Email sent for verification",
+        //     "color: yellow; font-size: 24px;"
+        //   );
+        //   // navigate(from, { replace: true });
+        // });
+        // toast.success("Account created successfully");
+        // navigate("/products");
         // setCreatedUserEmail(user?.email);
         //   })
         //   .catch((err) => console.log(err));
@@ -308,7 +312,7 @@ const Register = () => {
     );
   } else
     return (
-      <div className=" h-screen text-center">
+      <div className=" min-h-screen pt-24 text-center">
         <p className="my-auto">Want to create a new account?</p>
         <p className="my-auto">
           Please{" "}
