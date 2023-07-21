@@ -114,7 +114,7 @@ const Login = () => {
       });
   };
   return (
-    <div className="h-screen pt-36">
+    <div className="min-h-screen pt-36">
       <form
         onSubmit={handleLogin}
         className="relative mx-auto min-w-fit max-w-sm rounded-xl shadow-nm"
