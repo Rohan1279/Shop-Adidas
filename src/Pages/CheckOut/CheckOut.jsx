@@ -291,25 +291,24 @@ export default function CheckOut() {
               Payment Method
             </legend>
             <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
-              {/* <RadioGroup.Label>Plan</RadioGroup.Label> */}
               <RadioGroup.Option value="credit cart">
-                {({ checked }) => (
+                {({ checked,active }) => (
                   <div
                     className={
-                      checked
-                        ? "flex cursor-pointer bg-blue-200 "
-                        : "flex cursor-pointer pl-6"
+                      active
+                        ? "flex cursor-pointer  py-3 my-1 rounded-md border border-zinc-300 bg-primary-color shadow-nm-inset"
+                        : "flex cursor-pointer pl-8 py-3 my-1 rounded-md border border-zinc-300 bg-primary-color "
                     }
                   >
-                    {checked && (
+                    {active && (
                       <div className="">
-                        <HiCheckCircle className="h-6 w-6" />
+                        <HiCheckCircle className="h-6 w-8 text-gray-600" />
                       </div>
                     )}
                     <div className="flex w-full justify-between ">
                       <p>Credit Card</p>
                       <img
-                        className="h-6 opacity-80"
+                        className="h-6 opacity-80 mr-2"
                         src="https://i.ibb.co/Lk4ZqkV/Credit-Card-Logos.jpg"
                         alt="Credit-Card-Logos"
                         border="0"
@@ -319,23 +318,23 @@ export default function CheckOut() {
                 )}
               </RadioGroup.Option>
               <RadioGroup.Option value="sslcommerz">
-                {({ checked }) => (
+                {({ checked,active }) => (
                   <div
                     className={
-                      checked
-                        ? "flex cursor-pointer bg-blue-200 "
-                        : "flex cursor-pointer pl-6"
+                      active
+                        ? "flex cursor-pointer   py-3 my-1 rounded-md border border-zinc-300 bg-primary-color shadow-nm-inset"
+                        : "flex cursor-pointer pl-8 py-3 my-1 rounded-md border border-zinc-300 bg-primary-color "
                     }
                   >
-                    {checked && (
+                    {active && (
                       <div className="">
-                        <HiCheckCircle className="h-6 w-6" />
+                        <HiCheckCircle className="h-6 w-8 text-gray-600" />
                       </div>
                     )}
                     <div className="flex w-full items-start justify-between">
                       <p>SSLCOMMERZ</p>
                       <img
-                        className=" h-6 opacity-80"
+                        className=" h-6 opacity-80 mr-2"
                         src="https://i.ibb.co/YDDQb0M/sslcommerz-cropped.png"
                         alt="sslcommerz-Logos"
                         border="0"
@@ -345,17 +344,17 @@ export default function CheckOut() {
                 )}
               </RadioGroup.Option>
               <RadioGroup.Option value="business">
-                {({ checked }) => (
+                {({ checked,active }) => (
                   <div
                     className={
-                      checked
-                        ? "flex cursor-pointer bg-blue-200"
-                        : "flex cursor-pointer px-6"
+                      active
+                        ? "flex cursor-pointer  py-3 my-1 rounded-md border border-zinc-300 bg-primary-color shadow-nm-inset"
+                        : "flex cursor-pointer pl-8 py-3 my-1 rounded-md border border-zinc-300 bg-primary-color "
                     }
                   >
-                    {checked && (
+                    {active && (
                       <div className="">
-                        <HiCheckCircle className="h-6 w-6" />
+                        <HiCheckCircle className="h-6 w-8 text-gray-600" />
                       </div>
                     )}
                     <p>Cash on delivery</p>
