@@ -170,7 +170,7 @@ const ProductDetail = () => {
                   </>
                 ))}
                 {sizeError === true ? (
-                  <p className="text-sm text-red-500">Please select a size.</p>
+                  <p className="text-sm text-red-500 block w-full">Please select a size.</p>
                 ) : (
                   ""
                 )}

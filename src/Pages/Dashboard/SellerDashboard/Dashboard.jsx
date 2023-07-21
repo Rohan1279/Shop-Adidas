@@ -144,9 +144,9 @@ const Dashboard = () => {
         `}
       </style>
       <h3 className="text-center text-3xl ">Dashboard Page</h3>
-      <div class="conic bg-blue-400">
+      {/* <div class="conic bg-blue-400">
         <div className="h-10 w-10 bg-red-500"></div>
-      </div>
+      </div> */}
       {/* <div class="conic conic-demo"></div> */}
     </div>
   );

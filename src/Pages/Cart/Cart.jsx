@@ -10,7 +10,7 @@ import { dataLoader } from "../../utils/dataLoader";
 import { HiArrowRight } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 const Cart = () => {
-  const { cart, setCart, getStoredCart, addToCart } = useContext(CartContext);
+  const { setCart, getStoredCart, addToCart } = useContext(CartContext);
 
   const { products, categories, isSuccess, isFetching } = dataLoader();
   let totalPrice = getStoredCart()

@@ -30,6 +30,7 @@ export default function ChatBox({
   setContactSeller,
 }) {
   const navigate = useNavigate();
+  console.log(currentRoom);
   return (
     <div className="">
       {/* //! CHAT BOX */}
@@ -95,7 +96,7 @@ export default function ChatBox({
                 </div>
 
                 <div className="">
-                  <p className="text-sm">{currentRoom?.seller}</p>
+                  <p className="text-sm">{currentRoom?.seller_email}</p>
                   <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                     Active status
                   </p>
