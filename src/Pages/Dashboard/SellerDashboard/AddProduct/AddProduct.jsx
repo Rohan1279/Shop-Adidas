@@ -182,7 +182,7 @@ const AddProduct = () => {
     setIsImgDropped(true);
   };
   // console.log("selectedProductSize", selectedProductSize);
-
+  //! HANDLE ADD PRODUCT
   const handleAddProduct = async (data, e) => {
     // e.preventDefault();
     if (!imgFile) {
@@ -206,6 +206,7 @@ const AddProduct = () => {
         },
       ];
     }, []);
+    
     if (imgFile && imgURL && data && selectedCategory) {
       setIsLoading(true);
 

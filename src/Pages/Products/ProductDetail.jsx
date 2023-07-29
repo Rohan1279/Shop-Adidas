@@ -13,6 +13,7 @@ import { useCart } from "../../utils/fakeDB";
 import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 import Cookies from "js-cookie";
+import ProductCard from "../../components/ProductCard/ProductCard";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
   const { cart, setCart, getStoredCart, addToCart } = useCart();
@@ -20,6 +21,7 @@ const ProductDetail = () => {
   const { sizes } = state;
   let navigate = useNavigate();
   const [open, setOpen] = useState(true);
+  const [similarProducts, setSimilarProducts] = useState([]);
   // console.log(open);
   const [prevSize, setPrevSize] = useState(null);
   // console.log(state);
@@ -41,6 +43,20 @@ const ProductDetail = () => {
       state?.seller_phone ||
       JSON.parse(Cookies.get("selectedProduct"))?.seller_phone,
   };
+  console.log(state);
+  useEffect(() => {
+    //fetch products of same category
+    fetch(
+      `${import.meta.env.VITE_SERVER_URL}/categories/${
+        state?.category_id
+      }?limit=4`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.slice(1, 15));
+        setSimilarProducts(data.slice(1, 15));
+      });
+  }, []);
 
   const handleAddToCart = (selectedProduct) => {
     console.log("here");
@@ -69,7 +85,7 @@ const ProductDetail = () => {
         <img
           src={state?.img}
           alt=""
-          className="  col-span-4 mb-5 w-full"
+          className="col-span-4 mb-5 w-full"
           loading="lazy"
         />
         <div
@@ -83,7 +99,6 @@ const ProductDetail = () => {
           <section className="">
             <h2 className="mb-5 text-4xl font-extrabold ">{state?.name}</h2>
             <p className="mb-2 font-bold">${state?.price}</p>
-
             <div className="mb-2 flex justify-between">
               <p className=" text-lg font-medium tracking-wider  text-gray-700">
                 {state?.category}
@@ -170,7 +185,9 @@ const ProductDetail = () => {
                   </>
                 ))}
                 {sizeError === true ? (
-                  <p className="text-sm text-red-500 block w-full">Please select a size.</p>
+                  <p className="block w-full text-sm text-red-500">
+                    Please select a size.
+                  </p>
                 ) : (
                   ""
                 )}
@@ -221,6 +238,19 @@ const ProductDetail = () => {
           </section>
         </div>
       </div>
+      <section className="w-full h-">
+        <h2 className="mb-5 text-2xl font-extrabold text-gray-700">
+          Similar Products for you
+        </h2>
+        {/* <div className="grid grid-cols-1 gap-1 transition-all md:grid-cols-3 lg:grid-cols-4 grid-rows-1 overflow-scroll"> */}
+        <div className="flex overflow-scroll">
+          {similarProducts?.map((product, idx) => (
+            <>
+              <ProductCard data={product}  />
+            </>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
