@@ -5,7 +5,13 @@ import {
   useNavigate,
   useOutletContext,
 } from "react-router-dom";
-import { HiArrowDown, HiArrowUp, HiChevronDown, HiStar } from "react-icons/hi2";
+import {
+  HiArrowDown,
+  HiArrowLeft,
+  HiArrowUp,
+  HiChevronDown,
+  HiStar,
+} from "react-icons/hi2";
 import { Disclosure, Transition } from "@headlessui/react";
 import BackButton from "../../components/BackButton/BackButton";
 import { Context } from "../../contexts/ContextProvider";
@@ -14,6 +20,7 @@ import { CartContext } from "../../Layout/Main";
 import AddToCartModal from "../../components/AddToCartModal";
 import Cookies from "js-cookie";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import Carousel from "../../components/Carousal/Carousal";
 const ProductDetail = () => {
   const [contactSeller, setContactSeller] = useOutletContext();
   const { cart, setCart, getStoredCart, addToCart } = useCart();
@@ -43,7 +50,7 @@ const ProductDetail = () => {
       state?.seller_phone ||
       JSON.parse(Cookies.get("selectedProduct"))?.seller_phone,
   };
-  console.log(state);
+  // console.log(state);
   useEffect(() => {
     //fetch products of same category
     fetch(
@@ -53,7 +60,7 @@ const ProductDetail = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.slice(1, 15));
+        // console.log(data.slice(1, 15));
         setSimilarProducts(data.slice(1, 15));
       });
   }, []);
@@ -238,17 +245,25 @@ const ProductDetail = () => {
           </section>
         </div>
       </div>
-      <section className="w-full h-">
+      <section className="h- w-full">
         <h2 className="mb-5 text-2xl font-extrabold text-gray-700">
           Similar Products for you
         </h2>
-        {/* <div className="grid grid-cols-1 gap-1 transition-all md:grid-cols-3 lg:grid-cols-4 grid-rows-1 overflow-scroll"> */}
-        <div className="flex overflow-scroll">
-          {similarProducts?.map((product, idx) => (
-            <>
-              <ProductCard data={product}  />
-            </>
-          ))}
+
+        {/* <div className="relative overflow-scroll bg-blue-400">
+          <div className="sticky left-0 top-0 z-50 h-full w-24  bg-red-500 transition-all duration-500 hover:backdrop-blur-sm ">
+            <HiArrowLeft className=" my-auto  h-5  w-5"></HiArrowLeft>
+          </div>
+          <div className="flex space-x-2 opacity-10">
+            {similarProducts?.map((product, idx) => (
+              <ProductCard data={product} />
+            ))}
+          </div>
+        </div> */}
+        <div className="min-w-screen">
+          {similarProducts.length > 0 && (
+            <Carousel data={similarProducts} text={"lol"}></Carousel>
+          )}
         </div>
       </section>
     </div>
