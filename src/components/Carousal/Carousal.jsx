@@ -1,9 +1,19 @@
 import React, { useEffect } from "react";
 import Glide from "@glidejs/glide";
 import ProductCard from "../ProductCard/ProductCard";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function Carousel({ data, text }) {
-  console.log(data);
+  const navigate = useNavigate();
+  const handleBrowseProduct = (id) => {
+    const selectedProduct = data?.find((product) => product._id === id);
+    // console.log(selectedProduct);
+    // localStorage.setItem("selectedProduct", JSON.stringify(selectedProduct));
+    Cookies.set("selectedProduct", JSON.stringify(selectedProduct));
+    navigate(`/products/product/${id}`, { state: selectedProduct });
+  };
+
   useEffect(() => {
     // const slider = new Glide(".glide-01", {
     //   type: "carousel",
@@ -61,10 +71,10 @@ export default function Carousel({ data, text }) {
       <div className="glide-01 relative w-full">
         {/*    <!-- Slides --> */}
         <div className="overflow-hidden" data-glide-el="track">
-          <ul className="whitespace-no-wrap flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
+          <ul className="whitespace-no-wrap flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex  w-full overflow-hidden p-0">
             {data?.map((product, idx) => (
               <li>
-                <ProductCard data={product} />
+                <ProductCard data={product} handler={handleBrowseProduct} />
               </li>
             ))}
           </ul>

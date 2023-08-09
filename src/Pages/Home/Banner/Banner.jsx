@@ -48,7 +48,7 @@ const Banner = () => {
             className="relative opacity-50"
           />
           <div className="absolute inset-y-0 inset-x-0 mx-auto my-auto  h-fit w-3/4 text-center font-extrabold   md:text-left ">
-            <h2 className="mb-4 w-full text-3xl drop-shadow-2xl sm:text-5xl text-[#333533]">
+            <h2 className="mb-4 w-full text-3xl text-[#333533] drop-shadow-2xl sm:text-5xl">
               We are Shop Adidas{" "}
             </h2>
             <p className="text-black ">Elevate Your Style with Confidence!</p>
