@@ -245,7 +245,7 @@ const ProductDetail = () => {
           </section>
         </div>
       </div>
-      <section className="h- w-full">
+      <section className="h- mt-5 w-full">
         <h2 className="mb-5 text-2xl font-extrabold text-gray-700">
           Similar Products for you
         </h2>
@@ -260,11 +260,14 @@ const ProductDetail = () => {
             ))}
           </div>
         </div> */}
-        <div className="min-w-screen">
-          {similarProducts.length > 0 && (
-            <Carousel data={similarProducts} text={"lol"}></Carousel>
-          )}
-        </div>
+        <div className="min-w-screen"></div>
+        {similarProducts.length > 0 && (
+          <Carousel
+            data={similarProducts}
+            text={"lol"}
+            component={<ProductCard />}
+          ></Carousel>
+        )}
       </section>
     </div>
   );
