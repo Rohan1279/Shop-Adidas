@@ -27,7 +27,7 @@ const Products = () => {
   useEffect(() => {
     setCategoryProducts(products?.slice(0, 10));
   }, [products]);
-
+  console.log(categoryProducts);
   const handleFilterProducts = (e, id) => {
     setPrevCategory(e);
     e.target?.classList?.add("shadow-nm-inset");

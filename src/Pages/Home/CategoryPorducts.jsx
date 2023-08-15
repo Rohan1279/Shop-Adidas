@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BannerCard from "../../components/BannerCard/BannerCard";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 const CategoryPorducts = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  console.log(state);
 
   const handleBrowseProduct = (id) => {
     const selectedProduct = state.find((product) => product._id === id);
@@ -13,14 +15,14 @@ const CategoryPorducts = () => {
   };
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 transition-all">
+      <div className="grid grid-cols-1 gap-2  pt-24 transition-all sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {state?.map((product) => (
-          <BannerCard
+          <ProductCard
             handler={handleBrowseProduct}
             key={product._id}
             data={product}
             classes={"text-lg"}
-          ></BannerCard>
+          ></ProductCard>
         ))}
       </div>
     </div>
