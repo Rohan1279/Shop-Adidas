@@ -39,13 +39,35 @@ export default function Carousel({ data, text }) {
     //   },
     // }).mount();
     const slider = new Glide(".glide-01", {
+      // type: "carousel",
+      // focusAt: "center",
+      // perView: 3,
+      // autoplay: 2000,
+      // animationDuration: 700,
+      // gap: 24,
+      // classNames: {
+      //   nav: {
+      //     active: "[&>*]:bg-wuiSlate-700",
+      //   },
+      // },
+      // breakpoints: {
+      //   1024: {
+      //     perView: 2,
+      //   },
+      //   640: {
+      //     perView: 1,
+      //   },
+      // },
+
       type: "carousel",
       focusAt: "center",
+      animationDuration: 3000,
+      autoplay: 4500,
+      autoplay: true,
+      rewind: true,
       perView: 3,
-      autoplay: 2000,
-      animationDuration: 700,
-      gap: 24,
-      classNames: {
+      gap: 10,
+      classes: {
         nav: {
           active: "[&>*]:bg-wuiSlate-700",
         },
