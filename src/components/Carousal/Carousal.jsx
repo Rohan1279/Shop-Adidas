@@ -61,9 +61,10 @@ export default function Carousel({ data, text }) {
 
       type: "carousel",
       focusAt: "center",
-      animationDuration: 3000,
+      animationDuration: 4000,
+      // animationTimingFunc: "",
       autoplay: 4500,
-      autoplay: true,
+      autoplay: true, // autplay
       rewind: true,
       perView: 3,
       gap: 10,

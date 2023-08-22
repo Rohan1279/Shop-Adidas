@@ -27,7 +27,7 @@ const Main = () => {
   const { products } = dataLoader();
 
   const { addToCart, getStoredCart } = useCart(products);
-  const [cart, setCart] = useState(getStoredCart());
+  const [cart, setCart] = useState(getStoredCart() || []);
   // const [cart, setCart] = useState(storedCart);
   // useEffect(() => {
   //   setCart(storedCart);

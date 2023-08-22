@@ -10,6 +10,7 @@ import DelayedFadeInComponent from "../../../components/DelayedComponent/Delayed
 import { Context } from "../../../contexts/ContextProvider";
 import "./Banner.css";
 import { dataLoader } from "../../../utils/dataLoader";
+import Carousel from "../../../components/Carousal/Carousal";
 const Banner = () => {
   const [isHovered, setIsHovered] = useState(false);
   const { categories, products, isLoading } = useContext(Context);
@@ -80,6 +81,7 @@ const Banner = () => {
               handler={handleBrowseCategory}
             />
           ))}
+          {/* {categories && <Carousel data={categories} />} */}
         </div>
       </div>
     </LazyLoadComponent>

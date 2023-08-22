@@ -25,7 +25,7 @@ const ProductCard = ({ classes, data, handler }) => {
       <LazyLoadImage
         effect="opacity"
         src={data.img}
-        className={` inset-0 h-full w-full object-cover opacity-90  group-hover:opacity-75 ${
+        className={`absolute inset-0 h-full w-full object-cover opacity-90  group-hover:opacity-75 ${
           isHovered && "scale-110 "
         } transition-all duration-700`}
       ></LazyLoadImage>
