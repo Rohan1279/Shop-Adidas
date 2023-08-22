@@ -23,7 +23,9 @@ function Featured() {
   console.log(featuredProducts);
   return (
     <div>
-      <h1>Featured</h1>
+      <h2 className="mb-4 text-3xl text-[#333533] drop-shadow-2xl sm:text-5xl">
+        Featured{" "}
+      </h2>
       {featuredProducts.length > 0 && <Carousel data={featuredProducts} />}
     </div>
   );
