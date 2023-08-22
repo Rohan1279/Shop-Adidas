@@ -24,7 +24,7 @@ function Featured() {
   return (
     <div>
       <h1>Featured</h1>
-      <Carousel data={featuredProducts} />
+      {featuredProducts.length > 0 && <Carousel data={featuredProducts} />}
     </div>
   );
 }
