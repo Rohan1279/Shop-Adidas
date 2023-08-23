@@ -1,30 +1,28 @@
 import Carousel from "../../../components/Carousal/Carousal";
 import { dataLoader } from "../../../utils/dataLoader";
 
-const ExtraSection = () => {
+const Promotional = () => {
   const { products } = dataLoader();
-  const qualityAndComfortProducts = products
+  const promotionalProducts = products
     ?.filter((product) => product?.category === "Outdoor & Hiking")
-    .slice(1, 12);
+    .slice(1, 5);
   console.log("====================================");
-  console.log(qualityAndComfortProducts);
+  console.log(promotionalProducts);
   console.log("====================================");
 
   return (
     <div className="mt-12 ">
       <h2 className="mb-4 w-full text-right text-3xl font-extrabold text-[#333533] drop-shadow-2xl sm:text-5xl">
-        Quality & Comfort
+        Promotional
       </h2>
       <div className="">
-        {qualityAndComfortProducts && (
+        {promotionalProducts && (
           <Carousel
-            data={qualityAndComfortProducts}
-            animationDuration={500}
-            // autoplay={false}
-            gap={10}
-            perView={4}
+            data={promotionalProducts}
+            animationDuration={3000}
+            autoplay={true}
             rewind={true}
-            // focusAt={"center"}
+            perView={1}
           />
         )}
       </div>
@@ -32,4 +30,4 @@ const ExtraSection = () => {
   );
 };
 
-export default ExtraSection;
+export default Promotional;

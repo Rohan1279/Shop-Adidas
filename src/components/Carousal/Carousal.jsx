@@ -4,7 +4,16 @@ import ProductCard from "../ProductCard/ProductCard";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-export default function Carousel({ data, text }) {
+export default function Carousel({
+  data,
+  text,
+  animationDuration,
+  autoplay,
+  rewind,
+  perView,
+  gap,
+  focusAt,
+}) {
   const navigate = useNavigate();
   const handleBrowseProduct = (id) => {
     const selectedProduct = data?.find((product) => product._id === id);
@@ -15,59 +24,16 @@ export default function Carousel({ data, text }) {
   };
 
   useEffect(() => {
-    // const slider = new Glide(".glide-01", {
-    //   type: "carousel",
-    //   focusAt: "center",
-    //   animationDuration: 4000,
-    //   autoplay: 4500,
-    //   // autoplay: true,
-    //   // rewind: true,
-    //   perView: 3,
-    //   gap: 24,
-    //   classes: {
-    //     nav: {
-    //       active: "[&>*]:bg-wuiSlate-700",
-    //     },
-    //   },
-    //   breakpoints: {
-    //     1024: {
-    //       perView: 2,
-    //     },
-    //     640: {
-    //       perView: 1,
-    //     },
-    //   },
-    // }).mount();
     const slider = new Glide(".glide-01", {
-      // type: "carousel",
-      // focusAt: "center",
-      // perView: 3,
-      // autoplay: 2000,
-      // animationDuration: 700,
-      // gap: 24,
-      // classNames: {
-      //   nav: {
-      //     active: "[&>*]:bg-wuiSlate-700",
-      //   },
-      // },
-      // breakpoints: {
-      //   1024: {
-      //     perView: 2,
-      //   },
-      //   640: {
-      //     perView: 1,
-      //   },
-      // },
-
       type: "carousel",
-      focusAt: "center",
-      animationDuration: 4000,
+      focusAt: focusAt,
+      animationDuration: animationDuration,
       // animationTimingFunc: "",
       // autoplay: 4500,
-      autoplay: true, // autplay
-      rewind: true,
-      perView: 3,
-      gap: 10,
+      autoplay: autoplay || false,
+      rewind: rewind || true,
+      perView: perView,
+      gap: gap,
       classes: {
         nav: {
           active: "[&>*]:bg-wuiSlate-700",
