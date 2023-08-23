@@ -598,6 +598,7 @@ const MyProducts = () => {
                 "border-zinc-200 text-sky-200/50 active:shadow-none"
               }`}
             />
+            {/* <div> */}
             {[...Array(pages ? pages : 0).keys()].map((number) => (
               <button
                 key={number}
@@ -611,6 +612,7 @@ const MyProducts = () => {
                 {number + 1}
               </button>
             ))}
+            {/* </div> */}
             <IoCaretForward
               onClick={() => {
                 if (currentPage < pages - 1) {
