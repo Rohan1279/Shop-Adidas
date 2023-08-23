@@ -26,7 +26,9 @@ function Featured() {
       <h2 className="mb-4 w-full text-3xl font-extrabold text-[#333533] drop-shadow-2xl sm:text-5xl">
         Featured
       </h2>
-      {featuredProducts.length > 0 && <Carousel data={featuredProducts} />}
+      <div className="">
+        {featuredProducts.length > 0 && <Carousel data={featuredProducts} />}
+      </div>
     </div>
   );
 }

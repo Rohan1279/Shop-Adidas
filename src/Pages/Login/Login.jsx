@@ -139,8 +139,9 @@ const Login = () => {
               // onBlur={(e) => setUserEmail(e?.target?.value)}
               type="email"
               placeholder="your email"
+              defaultValue={"adidas@adidas.com"}
               name="email"
-              className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2 focus:shadow-nm-inset focus:outline-none"
+              className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2  font-medium    tracking-wider text-gray-500 focus:shadow-nm-inset focus:outline-none"
               // required
             />
           </div>
@@ -157,7 +158,8 @@ const Login = () => {
               type="password"
               name="password"
               placeholder="password"
-              className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2 focus:shadow-nm-inset focus:outline-none"
+              defaultValue={"adidas@adidas.com"}
+              className="w-full rounded-r-full border-l border-l-gray-300 bg-secondary-color p-2 font-medium uppercase  tracking-wider text-gray-500 focus:shadow-nm-inset focus:outline-none"
               required
             />
           </div>
