@@ -53,15 +53,21 @@ export default function ChatBox({
           md:h-[26rem] md:w-96"
         >
           {!user && !user?.uid ? (
-            <button
-              onClick={() => {
-                navigate("/login");
-                setShowChat(false);
-              }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
-            >
-              Login/Register
-            </button>
+            <div className="bg-gray-300/80 py-3">
+              <GrDown
+                onClick={() => setShowChat(false)}
+                className="ml-auto mr-3 transition-all active:scale-95"
+              ></GrDown>
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setShowChat(false);
+                }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md px-3 py-2 shadow-nm active:shadow-nm-inset"
+              >
+                Login/Register
+              </button>
+            </div>
           ) : (
             <div
               style={{
