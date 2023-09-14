@@ -30,7 +30,7 @@ export default function AddToCartModal({
           type="button"
           onClick={() => {
             prevSize && handleAddToCart(data);
-            (!prevSize && sizes) ? setSizeError(true) : setIsOpen(!isOpen);
+            !prevSize && sizes ? setSizeError(true) : setIsOpen(!isOpen);
             !sizes && handleAddToCart(data);
           }}
           className={`mx-auto mt-3 block w-1/2 rounded-md border border-zinc-300  py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-800 active:shadow-nm-inset disabled:bg-gray-300`}
@@ -54,7 +54,7 @@ export default function AddToCartModal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0  bg-black bg-opacity-25" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -87,7 +87,7 @@ export default function AddToCartModal({
                     </div>
                   </div>
                   <div className="mt-2 justify-between gap-x-4  md:flex ">
-                    <div className="items-ce flex border-r border-zinc-500">
+                    <div className="items-ce flex border-r border-zinc-500 ">
                       <LazyLoadImage
                         src={data?.img}
                         width={130}
@@ -106,24 +106,26 @@ export default function AddToCartModal({
                     {/* <hr className="border border-red-400 w" /> */}
                     <div className="leading-relaxed">
                       <div className="flex justify-between ">
-                        <p>Your Cart: </p>
-                        <p className="ml-4 font-semibold">
+                        <p className="">Your Cart: </p>
+                        <p className="ml-4 font-semibold ">
                           {getStoredCart()?.length} items
                         </p>
                       </div>
                       <div className="flex justify-between ">
-                        <p>Total Product Cost: </p>
-                        <p className="ml-4 font-semibold">${totalPrice}</p>
+                        <p className="">Total Product Cost: </p>
+                        <p className="ml-4 font-semibold ">${totalPrice}</p>
                       </div>
                       <div className="flex justify-between ">
-                        <p>Total Delivery Cost: </p>
-                        <p className="ml-4 font-semibold">$0</p>
+                        <p className="">Total Delivery Cost: </p>
+                        <p className="ml-4 font-semibold ">$0</p>
                       </div>
 
-                      <hr className="my-2" />
+                      <hr className="my-2 border-dashed border-gray-400" />
                       <div className="flex justify-between">
-                        <p>Total: </p>
-                        <p className="font-semibold">${parseInt(totalPrice)}</p>
+                        <p className="">Total: </p>
+                        <p className="font-semibold ">
+                          ${parseInt(totalPrice)}
+                        </p>
                       </div>
                     </div>
                   </div>
